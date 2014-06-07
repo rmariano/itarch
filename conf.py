@@ -55,7 +55,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/index.html", "Tags"),
         ("https://github.com/rmariano", "Github"),
-        ("/stories/about.html", "About"),
+        ("/stories/about-this-blog.html", "About"),
         ("/rss.xml", "RSS"),
     ),
 }
