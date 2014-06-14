@@ -142,29 +142,29 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <pre class="code python literal-block">
-<span class="ln">1 </span><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c"># with the correct params and file name</span>
+<span class="ln">1 </span><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c"># with the correct parameters and file name</span>
 <span class="ln">2 </span><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
 <span class="ln">3 </span>    <span class="k">pass</span>  <span class="c"># process as required...</span>
 </pre>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
-<p>Therefore, the developer should catch the exception, by doing something like the following:</p>
+<p>Therefore, the developer should catch the exception or avoid the corner case,
+by doing something like the following:</p>
 <pre class="code python literal-block">
 <span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
-<p>That could be "coding defensive", making sure that the program will not fail under
-most conditions. I actually agree with defensive programming, but I think it is better
-if the library itself has a more correct behaviour, respecting
+<p>That could be a case of "coding defensively", making sure that the program will not fail under
+most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
+perhaps, but that is a different topic). I actually agree with defensive programming,
+but I think it is better if the library itself has a more correct behaviour, respecting
 the interface (that is: if you are going to return a dictionary, and there is not content,
 then the logical assumption is to expect an empty dictionary).
 This must be the default behaviour, not something to be set by parameters.</p>
-<p>On a general way, this is an instance of a problem that occurs when some function
+<p>This could be thought as an instance of a more general problem that occurs when some function
 is intended to return "X or Y". In my opinion, if X and Y do not share the same interface,
 there is a potential bug (in the Object-Oriented paradigm we would say that there
-is no polymorphism).</p>
-<p>This is an example of a bad practice, that I wanted to highlight, because
-it drives to potential issues, so it is better to keep this concept in mind.
-It might help you to write cleaner code.</p>
+is no polymorphism, or maybe that the "contract" is not being respected).</p>
+<p>This is an example that I wanted to highlight, because it might help you to write cleaner code.</p>
     </div>
     <aside class="postpromonav">
     <nav>
