@@ -1,7 +1,7 @@
 .. title: On returning consistent data types
 .. slug: python-functions-return-values-consistency
 .. date: 2014-06-08 15:46:09 UTC-03:00
-.. tags: best-practices,python,development,yaml,draft
+.. tags: best-practices,python,development,yaml
 .. link:
 .. description:
 .. type: text
@@ -19,7 +19,7 @@ What if I want to use the result? I cannot do it safely, for example:
 .. code-block:: python
    :number-lines:
 
-   content = yaml.load(...)  # with the correct params and file name
+   content = yaml.load(...)  # with the correct parameters and file name
    for tag, values in content.items():
        pass  # process as required...
 
@@ -28,7 +28,8 @@ What if I want to use the result? I cannot do it safely, for example:
 If content is ``None``, it will raise an ``AttributeError`` saying that None has no
 attribute called "items" (which is true).
 
-Therefore, the developer should catch the exception, by doing something like the following:
+Therefore, the developer should catch the exception or avoid the corner case,
+by doing something like the following:
 
 .. code-block:: python
 
@@ -36,18 +37,17 @@ Therefore, the developer should catch the exception, by doing something like the
 
 
 
-That could be "coding defensive", making sure that the program will not fail under
-most conditions. I actually agree with defensive programming, but I think it is better
-if the library itself has a more correct behaviour, respecting
+That could be a case of "coding defensively", making sure that the program will not fail under
+most conditions (it would also require to add an ``assert`` or to raise an exception
+perhaps, but that is a different topic). I actually agree with defensive programming,
+but I think it is better if the library itself has a more correct behaviour, respecting
 the interface (that is: if you are going to return a dictionary, and there is not content,
 then the logical assumption is to expect an empty dictionary).
 This must be the default behaviour, not something to be set by parameters.
 
-On a general way, this is an instance of a problem that occurs when some function
+This could be thought as an instance of a more general problem that occurs when some function
 is intended to return "X or Y". In my opinion, if X and Y do not share the same interface,
 there is a potential bug (in the Object-Oriented paradigm we would say that there
-is no polymorphism).
+is no polymorphism, or maybe that the "contract" is not being respected).
 
-This is an example of a bad practice, that I wanted to highlight, because
-it drives to potential issues, so it is better to keep this concept in mind.
-It might help you to write cleaner code.
+This is an example that I wanted to highlight, because it might help you to write cleaner code.
