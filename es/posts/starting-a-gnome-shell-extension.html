@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>On returning consistent data types | IT Arch</title>
+    <title>Starting a gnome-shell extension | IT Arch</title>
 
     
             <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -16,7 +16,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/es/posts/python-functions-return-values-consistency.html">
+      <link rel="canonical" href="http://rmariano.github.io/es/posts/starting-a-gnome-shell-extension.html">
 
 
 
@@ -30,17 +30,19 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="On returning consistent data types">
-        <meta name="og:url" content="http://rmariano.github.io/es/posts/python-functions-return-values-consistency.html">
-            <meta name="og:description" content="This post is inspired on an issue I once found, while I was using a well-known library in Python for
-parsing YAML files. The problem was that when it was loading the content of the file, the result wa">
+        <meta name="og:title" content="Starting a gnome-shell extension">
+        <meta name="og:url" content="http://rmariano.github.io/es/posts/starting-a-gnome-shell-extension.html">
+            <meta name="og:description" content="Since I moved from Ubuntu to Fedora early this year, I changed my desktop
+environment from unity to Gnome Shell.
+I must say it is a great experience. At the beginning I was thinking on
+what was better">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
     
 
     
-                <link rel="alternate" hreflang="en" href="../../posts/python-functions-return-values-consistency.html">
+                <link rel="alternate" hreflang="en" href="../../posts/starting-a-gnome-shell-extension.html">
 
 
 
@@ -96,7 +98,7 @@ parsing YAML files. The problem was that when it was loading the content of the 
                 
                     
     <li>
-    <a href="../.././es/posts/python-functions-return-values-consistency.rst" id="sourcelink">Código</a>
+    <a href="../.././es/posts/starting-a-gnome-shell-extension.rst" id="sourcelink">Código</a>
     </li>
 
                 
@@ -119,69 +121,59 @@ parsing YAML files. The problem was that when it was loading the content of the 
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">On returning consistent data types</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Starting a gnome-shell extension</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-06-08T15:46:09-03:00" itemprop="datePublished" title="Fecha de publicación">2014-06-08 15:46</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-06-21T21:15:50-03:00" itemprop="datePublished" title="Fecha de publicación">2014-06-21 21:15</time></a></p>
             
-        <p class="sourceline"><a href="../.././es/posts/python-functions-return-values-consistency.rst" id="sourcelink">Código</a></p>
+        <p class="sourceline"><a href="../.././es/posts/starting-a-gnome-shell-extension.rst" id="sourcelink">Código</a></p>
 
         </div>
         
         <div class="metadata posttranslations translations">
             <h3 class="posttranslations-intro">También disponible en:</h3>
-                <p><a href="../../posts/python-functions-return-values-consistency.html" rel="alternate" hreflang="en">English</a></p>
+                <p><a href="../../posts/starting-a-gnome-shell-extension.html" rel="alternate" hreflang="en">English</a></p>
         </div>
 
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>This post is inspired on an issue I once found, while I was using a well-known library in Python for
-parsing YAML files. The problem was that when it was loading the content of the file, the result was
-not coherent, because sometimes it returned the content as a python <strong>dict</strong>, but if the file was empty, the
-return value was <strong>None</strong>.</p>
-<p>Do you notice something odd here?</p>
-<p>What if I want to use the result? I cannot do it safely, for example:</p>
-<pre class="code python literal-block">
-<span class="ln">1 </span><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c"># with the correct parameters and file name</span>
-<span class="ln">2 </span><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="ln">3 </span>    <span class="k">pass</span>  <span class="c"># process as required...</span>
-</pre>
-<p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
-attribute called "items" (which is true).</p>
-<p>Therefore, the developer should catch the exception or avoid the corner case,
-by doing something like the following:</p>
-<pre class="code python literal-block">
-<span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
-</pre>
-<p>That could be a case of "coding defensively", making sure that the program will not fail under
-most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
-perhaps, but that is a different topic). I actually agree with defensive programming,
-but I think it is better if the library itself has a more correct behaviour, respecting
-the interface (that is: if you are going to return a dictionary, and there is not content,
-then the logical assumption is to expect an empty dictionary).
-This must be the default behaviour, not something to be set by parameters.</p>
-<p>This could be thought as an instance of a more general problem that occurs when some function
-is intended to return "X or Y". In my opinion, if X and Y do not share the same interface,
-there is a potential bug (in the Object-Oriented paradigm we would say that there
-is no polymorphism, or maybe that the "contract" is not being respected).</p>
-<p>This is an example that I wanted to highlight, because it might help you to write cleaner code.</p>
+    <p>Since I moved from Ubuntu to Fedora early this year, I changed my desktop
+environment from unity to Gnome Shell.</p>
+<p>I must say it is a great experience. At the beginning I was thinking on
+what was better compared to unity (because I did not like Unity). Regarding this
+comparison I found a more stable and usable window manager. I still prefer something
+simpler perhaps, but it works good and it is nice.</p>
+<p>Just out of curiosity, one day I started managing some extensions. Oh, by the way,
+you will probably be installing some extensions for Gnome shell, some of them are
+useful and some others make it more usable. That drove me to the extensions developer API,
+which turned out to be quite simple and interesting.</p>
+<p>Having played a little bit, I decided to code a (very) simple extension that does just one
+single thing. I called it "simple-name" and it is available at: <a class="reference external" href="https://extensions.gnome.org/extension/807/simple-name/">Simple-Name-Extension</a></p>
+<p>It remembers some little detail I was missing from some previous window managers that I have
+used along the years, which is to display the username of the currently logged-in user.</p>
+<p>I must say that, I code it just for the sake of learning and experimenting with and API
+and a bit of JavaScript.
+In addition I found very interesting to see front-end related technologies like JavaScript or CSS
+used in the desktop environment (not that is something new, but still funny).</p>
+<p>To sum up, I wanted to highlight that is interesting to learn new technologies, even with little and
+simple steps like a new API, library, etc. It is not for the technology itself, but for the sake of
+learning :)</p>
     </div>
     <aside class="postpromonav">
     <nav>
     
         <ul itemprop="keywords" class="tags">
-           <li><a class="tag p-category" href="../categories/best-practices.html" rel="tag">best-practices</a></li>
-           <li><a class="tag p-category" href="../categories/development.html" rel="tag">development</a></li>
-           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
-           <li><a class="tag p-category" href="../categories/yaml.html" rel="tag">yaml</a></li>
+           <li><a class="tag p-category" href="../categories/gnome-shell.html" rel="tag">gnome-shell</a></li>
+           <li><a class="tag p-category" href="../categories/javascript.html" rel="tag">javascript</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
         </ul>
 
     
         <ul class="pager">
-            <li class="next">
-                <a href="starting-a-gnome-shell-extension.html" rel="next" title="Starting a gnome-shell extension">Siguiente post</a>
+            <li class="previous">
+                <a href="python-functions-return-values-consistency.html" rel="prev" title="On returning consistent data types">Post anterior</a>
             </li>
         </ul>
 
