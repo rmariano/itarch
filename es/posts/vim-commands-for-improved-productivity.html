@@ -2,9 +2,8 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
     <head>
     <meta charset="utf-8">
-    <meta name="description" content="A post that shows one of the many errors that many Python developers fall into.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Default arguments in Python functions | IT Arch</title>
+    <title>Vim commands for improved productivity | IT Arch</title>
 
     
             <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -17,7 +16,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/es/posts/default-arguments-in-python-functions.html">
+      <link rel="canonical" href="http://rmariano.github.io/es/posts/vim-commands-for-improved-productivity.html">
 
 
 
@@ -31,16 +30,18 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="Default arguments in Python functions">
-        <meta name="og:url" content="http://rmariano.github.io/es/posts/default-arguments-in-python-functions.html">
-            <meta name="og:description" content="A post that shows one of the many errors that many Python developers fall into.">
+        <meta name="og:title" content="Vim commands for improved productivity">
+        <meta name="og:url" content="http://rmariano.github.io/es/posts/vim-commands-for-improved-productivity.html">
+            <meta name="og:description" content="I would like to describe my favourite Vim commands that I use on a daily basis,
+in order to share some tips that could help you if you are new in this editor, or
+to improve your experience even if you">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
     
 
     
-                <link rel="alternate" hreflang="en" href="../../posts/default-arguments-in-python-functions.html">
+                <link rel="alternate" hreflang="en" href="../../posts/vim-commands-for-improved-productivity.html">
 
 
 
@@ -96,7 +97,7 @@
                 
                     
     <li>
-    <a href="../.././es/posts/default-arguments-in-python-functions.rst" id="sourcelink">Código</a>
+    <a href="../.././es/posts/vim-commands-for-improved-productivity.rst" id="sourcelink">Código</a>
     </li>
 
                 
@@ -119,112 +120,86 @@
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Default arguments in Python functions</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Vim commands for improved productivity</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-06-28T16:59:41-03:00" itemprop="datePublished" title="Fecha de publicación">2014-06-28 16:59</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-07-20T20:59:56-03:00" itemprop="datePublished" title="Fecha de publicación">2014-07-20 20:59</time></a></p>
             
-        <p class="sourceline"><a href="../.././es/posts/default-arguments-in-python-functions.rst" id="sourcelink">Código</a></p>
+        <p class="sourceline"><a href="../.././es/posts/vim-commands-for-improved-productivity.rst" id="sourcelink">Código</a></p>
 
-                <meta name="description" itemprop="description" content="A post that shows one of the many errors that many Python developers fall into.">
         </div>
         
         <div class="metadata posttranslations translations">
             <h3 class="posttranslations-intro">También disponible en:</h3>
-                <p><a href="../../posts/default-arguments-in-python-functions.html" rel="alternate" hreflang="en">English</a></p>
+                <p><a href="../../posts/vim-commands-for-improved-productivity.html" rel="alternate" hreflang="en">English</a></p>
         </div>
 
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>This post is based on a gist I wrote a while ago, about why is
-not a good idea to pass default mutable objects as parameters
-in python function definitions.</p>
-<p>While the gist is explained through an example that uses lists, the
-principle is applicable to all sorts of objects (dictionaries, sets, etc.).</p>
-<script src="https://gist.github.com/7593536.js"></script><noscript>
-<pre class="literal-block">
-[![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
-#\#Python - How to pass empty lists as default argument
-
-
-On this gist I would like to point out an aspect of Python that might present
-some issues if it is not implemented correctly.
-
-Suppose we have a function and we need to define that some of its parameters
-take an empty list as a default argument. Something like the following, for
-example, might be a typical implementation:
-
-```python
-
-    def process_list(a, b=[]):
-        b.extend(a)
-        print(b)
-```
-
-Here the first line with `b=[]` presents a problem.
-Under this definition, if we run the following:
-
-```python
-    process_list([1,2,3])
-    process_list([4,5], [0])
-    process_list([7,8,9])
-```
-
-This is what you get, compared to what you would expect.
-
-
-
-Expected | Obtained
----------|---------------
-[1, 2, 3]| [1, 2, 3]
-[0, 4, 5]| [0, 4, 5]
-[7, 8, 9]| [1,2,3,7,8,9]
-
-
-The problem is that the second time that you try to use `b` (on the third
-function call), Python has already defined it, so it will keep the value that
-had the first time it was declared (when it parsed the function definition).
-
-To avoid this, you should give the parameter a different value (usually called
-_sentinel_, and assign the default value manually, for example:
-
-```python
-    def process_list(a, b=None):
-        b = b or []
-        b.extend(a)
-        print(b)
-```
-
-This time, it will work properly.
-
-To sum up, please bear in mind this when defining a function of this kind
-in Python, and also take into consideration that the same applies not only for
-lists but for sets, or dictionaries as well.
-
-</pre>
-</noscript>
-<p>If you are an experienced python developer, you probably knew this caveat,
-nevertheless is something interesting to show to new python developers, and
-to remember even if you have been writing code in Python for years.</p>
+    <p>I would like to describe my favourite Vim commands that I use on a daily basis,
+in order to share some tips that could help you if you are new in this editor, or
+to improve your experience even if you use it.</p>
+<ul class="simple">
+<li>
+<tt class="docutils literal">J</tt> : Useful when organizing code, this will join the line below to the current one.</li>
+<li>
+<tt class="docutils literal">ci)</tt> ("change inside ')'): Actually, the closing bracket could be changed by any other thing
+(like ']', '}', etc.). This will erase everything within the brackets and set you in insert mode
+(the <tt class="docutils literal">c</tt> could also be changed for <tt class="docutils literal">d</tt> for example if you just want to delete). Again, this is
+very useful when refactoring code, if you want to change the parameters of a function definition, or
+whatever is in a block, etc.</li>
+<li>(select some code with visual mode and then) <tt class="docutils literal">zf</tt> : will fold the selected code. <tt class="docutils literal">zd</tt> for unfolding.</li>
+<li>
+<tt class="docutils literal">%</tt> : alone or along with some other operator, is useful for operating with matching
+brackets in the code. It will match the closing bracket of the one you have the cursor in.</li>
+<li>
+<tt class="docutils literal">C</tt> or <tt class="docutils literal">D</tt> : if you want to change or delete from the current position
+up to the end of the line, respectively.</li>
+<li>
+<tt class="docutils literal">t,</tt> (or any other character instead of comma) will point you un<strong>t</strong>il that character.
+The good about this, is that is possible to chain it with other commands, for example:
+"<tt class="docutils literal">ct,</tt>" will change all the content until the next comma.</li>
+<li>
+<tt class="docutils literal">&lt;</tt> or <tt class="docutils literal">&gt;</tt> will indent the code following the "arrow" direction
+(according to what is set in <tt class="docutils literal">shiftwidth</tt>).</li>
+<li>
+<tt class="docutils literal">=</tt> Automatically indents code (useful when highlighting code in visual mode).</li>
+<li>
+<tt class="docutils literal">w</tt>, <tt class="docutils literal">e</tt> or <tt class="docutils literal">b</tt> will point you to the next <strong>w</strong>ord, to the <strong>e</strong>nd of the word, or
+<strong>b</strong>ack to the previous word, respectively. The nice thing about these operators is when they work
+combined with others, for example:<ul>
+<li>
+<tt class="docutils literal">cw</tt> will <strong>change</strong> the next <strong>word</strong>.</li>
+<li>
+<tt class="docutils literal">db</tt> will delete the previous word.</li>
+</ul>
+</li>
+<li>
+<tt class="docutils literal">{</tt> or <tt class="docutils literal">}</tt> for moving up or down through paragraphs, respectively.</li>
+</ul>
+<p>In addition, note that you do not need to know <em>all</em> possible commands, just
+those that will help you with your normal activities. This means that is could be enough with a small
+subset of all the features (the list I wrote is very short indeed).
+And this is precisely the idea behind this post: to show how
+some few commands applied in the right context, might make you edit faster.</p>
+<p>All in all, Vim is a great editor, full of amazing features. Learning it is actually worth it,
+in the sense that you will get an amazing productivity in return (you'll type and edit
+code faster).</p>
     </div>
     <aside class="postpromonav">
     <nav>
     
         <ul itemprop="keywords" class="tags">
-           <li><a class="tag p-category" href="../categories/best-practices.html" rel="tag">best-practices</a></li>
-           <li><a class="tag p-category" href="../categories/development.html" rel="tag">development</a></li>
-           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
+           <li><a class="tag p-category" href="../categories/vim.html" rel="tag">vim</a></li>
         </ul>
 
     
         <ul class="pager">
             <li class="previous">
-                <a href="starting-a-gnome-shell-extension.html" rel="prev" title="Starting a gnome-shell extension">Post anterior</a>
-            </li>
-            <li class="next">
-                <a href="vim-commands-for-improved-productivity.html" rel="next" title="Vim commands for improved productivity">Siguiente post</a>
+                <a href="default-arguments-in-python-functions.html" rel="prev" title="Default arguments in Python functions">Post anterior</a>
             </li>
         </ul>
 
