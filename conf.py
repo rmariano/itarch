@@ -18,10 +18,10 @@ BLOG_AUTHOR = "Mariano Anaya"  # (translatable)
 BLOG_TITLE = "IT Arch"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link
-SITE_URL = "http://rmariano.github.io/itarch"
+SITE_URL = "http://rmariano.github.io/itarch/"
 # This is the URL where nikola's output will be deployed.
 # If not set, defaults to SITE_URL
-# BASE_URL = "http://rmariano.github.io/itarch"
+BASE_URL = "http://rmariano.github.io/itarch/"
 BLOG_EMAIL = "marianoanaya@gmail.com"
 BLOG_DESCRIPTION = "A blog about software engineering, technology and ideas."  # (translatable)
 
@@ -89,6 +89,9 @@ TIMEZONE = "America/Argentina/Buenos_Aires"
 # python's locales will accept in your OS, by example
 # "en_US.utf8" in unix-like OS, "English_United States" in Windows.
 # LOCALES = dict mapping language --> explicit locale for the languages
+LOCALES = {
+    'en': 'en_GB.utf8',
+}
 # in TRANSLATIONS. You can ommit one or more keys.
 # LOCALE_FALLBACK = locale to use when an explicit locale is unavailable
 # LOCALE_DEFAULT = locale to use for languages not mentioned in LOCALES; if
@@ -683,7 +686,7 @@ UNSLUGIFY_TITLES = True
 # }
 
 # If webassets is installed, bundle JS and CSS to make site loading faster
-# USE_BUNDLES = True
+USE_BUNDLES = True
 
 # Plugins you don't want to use. Be careful :-)
 # DISABLED_PLUGINS = ["render_galleries"]
