@@ -1,0 +1,50 @@
+.. title: Do not import *
+.. slug: do-not-import
+.. date: 2015-01-05 20:10:10 UTC-03:00
+.. tags: python,best-practices,draft
+.. link: 
+.. description: 
+.. type: text
+
+It is well-known among Python developers (or at least, it should be), that is a bad idea to import everything
+from a module, for example by doing ``from <module> import *``.
+
+The idea on this post, is to highlight and gather the reasons why this is a bad practice, in order to collectively
+identify many undesired effects. However, without losing pragmatism, in case there are some odd reasons why this
+might be acceptable, I will also mention them, if any. Let's see where we get.
+
+
+1. You do not know what you get
+    An arbitrary Python script may contain any code, and most of it will be executed when 
+    performing the ``import *`` part (you cannot rely on how ``__name__`` is handled).
+    The interface is totally unclear: you do not know what computations performs, what objects will import, 
+    or what is actually going on in that script and how long it may take.
+
+2. Identifiers appear magically
+    In any decently readable Python script, the programmer must be able to locate every definition, which means
+    to identify where does every identifier come from. For example, a variable named ``x`` can either be a parameter
+    of the function in the current scope, a variable already defined (assigned), or a name already imported (``from mod import x``).
+    By performing the incorrect import, this variable might appear out of the blue, meaning that I will have an ``x`` that
+    will not be neither a parameter, nor a definition nor a declared import: it will have arisen from some script. This means, I cannot
+    track the origin or ``x``. The situation gets worse if there are not one but many ``import *`` statements.
+    Debugging becomes a nightmare.
+
+3. Namespaces are one honking great idea -- let's do more of those!
+    Straight from the Python zen [1]_. By importing everything from a module, the benefits of the namespaces
+    are somehow lost. Instead, everything (or a lot of things), might get to be called the same, messing
+    with the current scope. Moreover, new import definitions might override previous ones.
+
+4. Explicit is better than implicit
+    Again, every identifier that we want imported should be done explicitly (the ``*`` is not very declarative).
+
+
+Now, so far these might be some of the main reasons about why importing everything from a Python module
+is usually not a good idea. However, in case the code at stake is just a simple testing script, or
+an inline sentence on ipython, there could be nothing wrong about it.
+One of the things I like the most about Python is that enforces good practices. Therefore, if I read
+an import statement like this, unless there are some very good reasons to do so, I will think that line
+as a code-smell [2]_.
+
+
+.. [1] import this
+.. [2] http://c2.com/cgi/wiki?CodeSmell
