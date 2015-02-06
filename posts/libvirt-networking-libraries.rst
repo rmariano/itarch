@@ -19,6 +19,13 @@ network configuration for my local virtual machines.
    sudo dnf install virt-install libvirt-daemon-config-network
 
 
+In order to reflect the changes and start using the new features, we need to restart its service:
+
+.. code-block:: bash
+
+    systemctl status libvirtd.service
+
+
 After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
 machines faster.
