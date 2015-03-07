@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Alpine email client | IT Arch</title>
+    <title>Checking Python files with Vim | IT Arch</title>
 
     
             <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -12,7 +12,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../es/rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/alpine-email-client.html">
+      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html">
 
 
 
@@ -26,11 +26,11 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="Alpine email client">
-        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/alpine-email-client.html">
-            <meta name="og:description" content="Alpine is a software I definitely recommend for those who like minimalistic applications
-that go straight to the point in order to get the things done. It's an email client, with no GUI,
-which allows ">
+        <meta name="og:title" content="Checking Python files with Vim">
+        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html">
+            <meta name="og:description" content="Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
+trying not ">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
@@ -92,7 +92,7 @@ which allows ">
                 
                     
     <li>
-    <a href="alpine-email-client.rst" id="sourcelink">Source</a>
+    <a href="checking-python-files-with-vim.rst" id="sourcelink">Source</a>
     </li>
 
                 
@@ -115,13 +115,13 @@ which allows ">
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Alpine email client</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Checking Python files with Vim</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-02-05T21:10:45-03:00" itemprop="datePublished" title="Publication date">2015-02-05 21:10</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-07T16:21:49-03:00" itemprop="datePublished" title="Publication date">2015-03-07 16:21</time></a></p>
             
-        <p class="sourceline"><a href="alpine-email-client.rst" id="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="checking-python-files-with-vim.rst" id="sourcelink">Source</a></p>
 
         </div>
         
@@ -132,18 +132,22 @@ which allows ">
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>Alpine is a software I definitely recommend for those who like minimalistic applications
-that go straight to the point in order to get the things done. It's an email client, with no GUI,
-which allows me to read emails better than by means of the web page <a class="footnote-reference" href="alpine-email-client.html#id2" id="id1">[1]</a>
-without any distractions, focusing on what is just important. It is also great that shows only the text (the
-relevant part of the email) and it can follow the links by launching the default browser.</p>
-<p>It is simple, fast and perfectly suitable for checking my old inbox with weekly lists updates.
-It's inherited from an old project, called pine, and in Fedora it can be installed by:</p>
-<pre class="code bash literal-block">
-sudo dnf install alpine
+    <p>Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
+trying not to use many plug-ins (neither packagers like <tt class="docutils literal">Vundle</tt>, etc.).</p>
+<p>However, I do make use of an extension that checks Python files for errors, <tt class="docutils literal">PEP8</tt>,
+among other things: <a class="reference external" href="https://github.com/nvie/vim-flake8">flake8</a>. Because I do not use plug-in platforms for Vim,
+I install just this one manually, by making the command <tt class="docutils literal">flake8</tt> available system-wide <a class="footnote-reference" href="checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p>
+<p>Then the installation is as simple as downloading the project and coying the files into the <tt class="docutils literal"><span class="pre">~/.vim/ftplugin/python</span></tt>
+directory. Make sure you have the following line added on your <tt class="docutils literal"><span class="pre">~/.vimrc</span></tt>:</p>
+<pre class="code vim literal-block">
+<span class="k">filetype</span> plugin indent <span class="k">on</span>
 </pre>
-<p>Then you just need to configure the email account settings (one last time to visit the page,
-but that would be the last :-) and you're ready.</p>
+<p>The features I use are mainly the syntax and <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance checkers. It can also warn you about unused imports,
+and <a class="reference external" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity</a>.</p>
+<p>It is useful because things like <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance help to have a good code quality, and therefore a more readable
+and maintainable code base, specially on large projects with lots of files and modules.</p>
+<p>That's all. For more details and other configuration tips checkout <a class="reference external" href="https://github.com/rmariano/vim-config">my Vim setup</a>.</p>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup>
 <col class="label">
@@ -151,8 +155,10 @@ but that would be the last :-) and you're ready.</p>
 </colgroup>
 <tbody valign="top">
 <tr>
-<td class="label"><a class="fn-backref" href="alpine-email-client.html#id1">[1]</a></td>
-<td>Not for gmail but from another older account I have</td>
+<td class="label"><a class="fn-backref" href="checking-python-files-with-vim.html#id1">[1]</a></td>
+<td>Another option would be to install it on your virtual environment, but then you have to
+make sure to install it once per project. It is actually better, because you are not using the
+global system environment, but for packages like this, it should not be an issue, it's your choice.</td>
 </tr>
 </tbody>
 </table>
@@ -161,18 +167,16 @@ but that would be the last :-) and you're ready.</p>
     <nav>
     
         <ul itemprop="keywords" class="tags">
-           <li><a class="tag p-category" href="../categories/email.html" rel="tag">email</a></li>
+           <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
            <li><a class="tag p-category" href="../categories/productivity.html" rel="tag">productivity</a></li>
-           <li><a class="tag p-category" href="../categories/tools.html" rel="tag">tools</a></li>
+           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+           <li><a class="tag p-category" href="../categories/vim.html" rel="tag">vim</a></li>
         </ul>
 
     
         <ul class="pager">
             <li class="previous">
-                <a href="libvirt-networking-libraries.html" rel="prev" title="Libvirt networking libraries">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="checking-python-files-with-vim.html" rel="next" title="Checking Python files with Vim">Next post</a>
+                <a href="alpine-email-client.html" rel="prev" title="Alpine email client">Previous post</a>
             </li>
         </ul>
 
