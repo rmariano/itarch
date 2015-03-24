@@ -1,5 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch</title><link>http://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><language>en</language><lastBuildDate>Sat, 07 Mar 2015 17:24:05 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Checking Python files with Vim</title><link>http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch</title><link>http://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><language>en</language><lastBuildDate>Tue, 24 Mar 2015 12:03:57 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Find Options</title><link>http://rmariano.github.io/itarch/posts/find-options.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Among the core-utils, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is one of the most useful commands. Though I use the basic functions
+most of the time, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; has a wide range of parameters, and it comes in handy not only for finding
+files, but also for operating a bunch of them at once. Here is a very simple example.&lt;/p&gt;
+&lt;p&gt;Imagine you have to move many files to a directory, but they all call different so a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29"&gt;glob&lt;/a&gt; is no use, and
+manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
+by running &lt;tt class="docutils literal"&gt;ls &lt;span class="pre"&gt;-lrth&lt;/span&gt;&lt;/tt&gt;). Suppose the first one of the batch is called &lt;tt class="docutils literal"&gt;/tmp/checkpoint&lt;/tt&gt; (for this example
+let's assume the files reside at &lt;tt class="docutils literal"&gt;/tmp&lt;/tt&gt;).&lt;/p&gt;
+&lt;p&gt;The command would be:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-type&lt;/span&gt; f&lt;/tt&gt; part is important in order not to move the entire directory (find only the files). Then
+we have the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-anewer&lt;/span&gt;&lt;/tt&gt; that receives a file as a parameter, and it will filter for those files whose
+modification date is greater than the file used as an example (hence, this must be the start of the batch), and
+finally the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-exec&lt;/span&gt;&lt;/tt&gt; part is interesting because as mentioned at the beginning, it allows to perform
+arbitrary operations on the group of files (in this case to move them to another location, but
+other actions such as modifications, &lt;tt class="docutils literal"&gt;sed&lt;/tt&gt;, etc. are also possible).&lt;/p&gt;
+&lt;p&gt;Another trait I like about &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is that presents a secure and well-defined interface, meaning that in
+some cases I can first check the results prior to execute an action. For example, if we would like to check
+for deleting some unnecessary files:&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
+&lt;/pre&gt;
+&lt;p&gt;By issuing this command we list some files to erase. And then we can simply do that by
+appending &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-delete&lt;/span&gt;&lt;/tt&gt; to the very same command.&lt;/p&gt;
+&lt;p&gt;This is just the tip of the iceberg of the things that are possible by means of the &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; command and
+its various options.&lt;/p&gt;</description><category>bash</category><category>linux</category><category>shell</category><guid>http://rmariano.github.io/itarch/posts/find-options.html</guid><pubDate>Tue, 24 Mar 2015 14:29:58 GMT</pubDate></item><item><title>Checking Python files with Vim</title><link>http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
 extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
 trying not to use many plug-ins (neither packagers like &lt;tt class="docutils literal"&gt;Vundle&lt;/tt&gt;, etc.).&lt;/p&gt;
 &lt;p&gt;However, I do make use of an extension that checks Python files for errors, &lt;tt class="docutils literal"&gt;PEP8&lt;/tt&gt;,
@@ -301,33 +327,4 @@ In addition I found very interesting to see front-end related technologies like 
 used in the desktop environment (not that is something new, but still funny).&lt;/p&gt;
 &lt;p&gt;To sum up, I wanted to highlight that is interesting to learn new technologies, even with little and
 simple steps like a new API, library, etc. It is not for the technology itself, but for the sake of
-learning :)&lt;/p&gt;</description><category>gnome-shell</category><category>javascript</category><category>linux</category><guid>http://rmariano.github.io/itarch/posts/starting-a-gnome-shell-extension.html</guid><pubDate>Sun, 22 Jun 2014 00:15:50 GMT</pubDate></item><item><title>On returning consistent data types</title><link>http://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;This post is inspired on an issue I once found, while I was using a well-known library in Python for
-parsing YAML files. The problem was that when it was loading the content of the file, the result was
-not coherent, because sometimes it returned the content as a python &lt;strong&gt;dict&lt;/strong&gt;, but if the file was empty, the
-return value was &lt;strong&gt;None&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Do you notice something odd here?&lt;/p&gt;
-&lt;p&gt;What if I want to use the result? I cannot do it safely, for example:&lt;/p&gt;
-&lt;pre class="code python literal-block"&gt;
-&lt;span class="ln"&gt;1 &lt;/span&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c"&gt;# with the correct parameters and file name&lt;/span&gt;
-&lt;span class="ln"&gt;2 &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;span class="ln"&gt;3 &lt;/span&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;  &lt;span class="c"&gt;# process as required...&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;If content is &lt;tt class="docutils literal"&gt;None&lt;/tt&gt;, it will raise an &lt;tt class="docutils literal"&gt;AttributeError&lt;/tt&gt; saying that None has no
-attribute called "items" (which is true).&lt;/p&gt;
-&lt;p&gt;Therefore, the developer should catch the exception or avoid the corner case,
-by doing something like the following:&lt;/p&gt;
-&lt;pre class="code python literal-block"&gt;
-&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;That could be a case of "coding defensively", making sure that the program will not fail under
-most conditions (it would also require to add an &lt;tt class="docutils literal"&gt;assert&lt;/tt&gt; or to raise an exception
-perhaps, but that is a different topic). I actually agree with defensive programming,
-but I think it is better if the library itself has a more correct behaviour, respecting
-the interface (that is: if you are going to return a dictionary, and there is not content,
-then the logical assumption is to expect an empty dictionary).
-This must be the default behaviour, not something to be set by parameters.&lt;/p&gt;
-&lt;p&gt;This could be thought as an instance of a more general problem that occurs when some function
-is intended to return "X or Y". In my opinion, if X and Y do not share the same interface,
-there is a potential bug (in the Object-Oriented paradigm we would say that there
-is no polymorphism, or maybe that the "contract" is not being respected).&lt;/p&gt;
-&lt;p&gt;This is an example that I wanted to highlight, because it might help you to write cleaner code.&lt;/p&gt;</description><category>best-practices</category><category>development</category><category>python</category><category>yaml</category><guid>http://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html</guid><pubDate>Sun, 08 Jun 2014 18:46:09 GMT</pubDate></item></channel></rss>
+learning :)&lt;/p&gt;</description><category>gnome-shell</category><category>javascript</category><category>linux</category><guid>http://rmariano.github.io/itarch/posts/starting-a-gnome-shell-extension.html</guid><pubDate>Sun, 22 Jun 2014 00:15:50 GMT</pubDate></item></channel></rss>

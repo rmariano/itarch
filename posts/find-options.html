@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Checking Python files with Vim | IT Arch</title>
+    <title>Find Options | IT Arch</title>
 
     
             <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -12,7 +12,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../es/rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html">
+      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/find-options.html">
 
 
 
@@ -26,11 +26,11 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="Checking Python files with Vim">
-        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html">
-            <meta name="og:description" content="Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
-extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
-trying not ">
+        <meta name="og:title" content="Find Options">
+        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/find-options.html">
+            <meta name="og:description" content="Among the core-utils, find is one of the most useful commands. Though I use the basic functions
+most of the time, find has a wide range of parameters, and it comes in handy not only for finding
+files,">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
@@ -92,7 +92,7 @@ trying not ">
                 
                     
     <li>
-    <a href="checking-python-files-with-vim.rst" id="sourcelink">Source</a>
+    <a href="find-options.rst" id="sourcelink">Source</a>
     </li>
 
                 
@@ -115,13 +115,13 @@ trying not ">
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Checking Python files with Vim</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Find Options</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-07T16:21:49-03:00" itemprop="datePublished" title="Publication date">2015-03-07 16:21</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-24T11:29:58-03:00" itemprop="datePublished" title="Publication date">2015-03-24 11:29</time></a></p>
             
-        <p class="sourceline"><a href="checking-python-files-with-vim.rst" id="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="find-options.rst" id="sourcelink">Source</a></p>
 
         </div>
         
@@ -132,54 +132,47 @@ trying not ">
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
-extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
-trying not to use many plug-ins (neither packagers like <tt class="docutils literal">Vundle</tt>, etc.).</p>
-<p>However, I do make use of an extension that checks Python files for errors, <tt class="docutils literal">PEP8</tt>,
-among other things: <a class="reference external" href="https://github.com/nvie/vim-flake8">flake8</a>. Because I do not use plug-in platforms for Vim,
-I install just this one manually, by making the command <tt class="docutils literal">flake8</tt> available system-wide <a class="footnote-reference" href="checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p>
-<p>Then the installation is as simple as downloading the project and coying the files into the <tt class="docutils literal"><span class="pre">~/.vim/ftplugin/python</span></tt>
-directory. Make sure you have the following line added on your <tt class="docutils literal"><span class="pre">~/.vimrc</span></tt>:</p>
-<pre class="code vim literal-block">
-<span class="k">filetype</span> plugin indent <span class="k">on</span>
+    <p>Among the core-utils, <tt class="docutils literal">find</tt> is one of the most useful commands. Though I use the basic functions
+most of the time, <tt class="docutils literal">find</tt> has a wide range of parameters, and it comes in handy not only for finding
+files, but also for operating a bunch of them at once. Here is a very simple example.</p>
+<p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
+manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
+by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
+let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
+<p>The command would be:</p>
+<pre class="code bash literal-block">
+find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
-<p>The features I use are mainly the syntax and <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance checkers. It can also warn you about unused imports,
-and <a class="reference external" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity</a>.</p>
-<p>It is useful because things like <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance help to have a good code quality, and therefore a more readable
-and maintainable code base, specially on large projects with lots of files and modules.</p>
-<p>That's all. For more details and other configuration tips checkout <a class="reference external" href="https://github.com/rmariano/vim-config">my Vim setup</a>.</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top">
-<tr>
-<td class="label"><a class="fn-backref" href="checking-python-files-with-vim.html#id1">[1]</a></td>
-<td>Another option would be to install it on your virtual environment, but then you have to
-make sure to install it once per project. It is actually better, because you are not using the
-global system environment, but for packages like this, it should not be an issue, it's your choice.</td>
-</tr>
-</tbody>
-</table>
+<p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
+we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
+modification date is greater than the file used as an example (hence, this must be the start of the batch), and
+finally the <tt class="docutils literal"><span class="pre">-exec</span></tt> part is interesting because as mentioned at the beginning, it allows to perform
+arbitrary operations on the group of files (in this case to move them to another location, but
+other actions such as modifications, <tt class="docutils literal">sed</tt>, etc. are also possible).</p>
+<p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
+some cases I can first check the results prior to execute an action. For example, if we would like to check
+for deleting some unnecessary files:</p>
+<pre class="code bash literal-block">
+find . -name <span class="s2">"*.pyc"</span>
+</pre>
+<p>By issuing this command we list some files to erase. And then we can simply do that by
+appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>
+<p>This is just the tip of the iceberg of the things that are possible by means of the <tt class="docutils literal">find</tt> command and
+its various options.</p>
     </div>
     <aside class="postpromonav">
     <nav>
     
         <ul itemprop="keywords" class="tags">
+           <li><a class="tag p-category" href="../categories/bash.html" rel="tag">bash</a></li>
            <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="../categories/productivity.html" rel="tag">productivity</a></li>
-           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
-           <li><a class="tag p-category" href="../categories/vim.html" rel="tag">vim</a></li>
+           <li><a class="tag p-category" href="../categories/shell.html" rel="tag">shell</a></li>
         </ul>
 
     
         <ul class="pager">
             <li class="previous">
-                <a href="alpine-email-client.html" rel="prev" title="Alpine email client">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="find-options.html" rel="next" title="Find Options">Next post</a>
+                <a href="checking-python-files-with-vim.html" rel="prev" title="Checking Python files with Vim">Previous post</a>
             </li>
         </ul>
 

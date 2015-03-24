@@ -95,6 +95,44 @@
 <div class="postindex">
     <article class="h-entry post-text">
     <header>
+        <h1 class="p-name entry-title"><a href="posts/find-options.html" class="u-url">Find Options</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
+            <p class="dateline"><a href="posts/find-options.html" rel="bookmark"><time class="published dt-published" datetime="2015-03-24T11:29:58-03:00" itemprop="datePublished" title="Publication date">2015-03-24 11:29</time></a></p>
+        </div>
+    </header>
+    <div class="e-content entry-content">
+    <p>Among the core-utils, <tt class="docutils literal">find</tt> is one of the most useful commands. Though I use the basic functions
+most of the time, <tt class="docutils literal">find</tt> has a wide range of parameters, and it comes in handy not only for finding
+files, but also for operating a bunch of them at once. Here is a very simple example.</p>
+<p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
+manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
+by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
+let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
+<p>The command would be:</p>
+<pre class="code bash literal-block">
+find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
+we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
+modification date is greater than the file used as an example (hence, this must be the start of the batch), and
+finally the <tt class="docutils literal"><span class="pre">-exec</span></tt> part is interesting because as mentioned at the beginning, it allows to perform
+arbitrary operations on the group of files (in this case to move them to another location, but
+other actions such as modifications, <tt class="docutils literal">sed</tt>, etc. are also possible).</p>
+<p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
+some cases I can first check the results prior to execute an action. For example, if we would like to check
+for deleting some unnecessary files:</p>
+<pre class="code bash literal-block">
+find . -name <span class="s2">"*.pyc"</span>
+</pre>
+<p>By issuing this command we list some files to erase. And then we can simply do that by
+appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>
+<p>This is just the tip of the iceberg of the things that are possible by means of the <tt class="docutils literal">find</tt> command and
+its various options.</p>
+    </div>
+    </article>
+    <article class="h-entry post-text">
+    <header>
         <h1 class="p-name entry-title"><a href="posts/checking-python-files-with-vim.html" class="u-url">Checking Python files with Vim</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
@@ -554,49 +592,15 @@ simple steps like a new API, library, etc. It is not for the technology itself, 
 learning :)</p>
     </div>
     </article>
-    <article class="h-entry post-text">
-    <header>
-        <h1 class="p-name entry-title"><a href="posts/python-functions-return-values-consistency.html" class="u-url">On returning consistent data types</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="posts/python-functions-return-values-consistency.html" rel="bookmark"><time class="published dt-published" datetime="2014-06-08T15:46:09-03:00" itemprop="datePublished" title="Publication date">2014-06-08 15:46</time></a></p>
-        </div>
-    </header>
-    <div class="e-content entry-content">
-    <p>This post is inspired on an issue I once found, while I was using a well-known library in Python for
-parsing YAML files. The problem was that when it was loading the content of the file, the result was
-not coherent, because sometimes it returned the content as a python <strong>dict</strong>, but if the file was empty, the
-return value was <strong>None</strong>.</p>
-<p>Do you notice something odd here?</p>
-<p>What if I want to use the result? I cannot do it safely, for example:</p>
-<pre class="code python literal-block">
-<span class="ln">1 </span><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c"># with the correct parameters and file name</span>
-<span class="ln">2 </span><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="ln">3 </span>    <span class="k">pass</span>  <span class="c"># process as required...</span>
-</pre>
-<p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
-attribute called "items" (which is true).</p>
-<p>Therefore, the developer should catch the exception or avoid the corner case,
-by doing something like the following:</p>
-<pre class="code python literal-block">
-<span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
-</pre>
-<p>That could be a case of "coding defensively", making sure that the program will not fail under
-most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
-perhaps, but that is a different topic). I actually agree with defensive programming,
-but I think it is better if the library itself has a more correct behaviour, respecting
-the interface (that is: if you are going to return a dictionary, and there is not content,
-then the logical assumption is to expect an empty dictionary).
-This must be the default behaviour, not something to be set by parameters.</p>
-<p>This could be thought as an instance of a more general problem that occurs when some function
-is intended to return "X or Y". In my opinion, if X and Y do not share the same interface,
-there is a potential bug (in the Object-Oriented paradigm we would say that there
-is no polymorphism, or maybe that the "contract" is not being respected).</p>
-<p>This is an example that I wanted to highlight, because it might help you to write cleaner code.</p>
-    </div>
-    </article>
 </div>
 
+        <nav class="postindexpager">
+        <ul class="pager">
+            <li class="next">
+                <a href="index-1.html" rel="next">Older posts</a>
+            </li>
+        </ul>
+        </nav>
 
 
 
