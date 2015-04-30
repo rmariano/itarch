@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Find Options | IT Arch</title>
+    <title>Running RabbitMQ server on Docker | IT Arch</title>
 
     
             <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -12,7 +12,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../es/rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/find-options.html">
+      <link rel="canonical" href="http://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker.html">
 
 
 
@@ -26,11 +26,11 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="Find Options">
-        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/find-options.html">
-            <meta name="og:description" content="Among the core-utils, find is one of the most useful commands. Though I use the basic functions
-most of the time, find has a wide range of parameters, and it comes in handy not only for finding
-files,">
+        <meta name="og:title" content="Running RabbitMQ server on Docker">
+        <meta name="og:url" content="http://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker.html">
+            <meta name="og:description" content="If you use RabbitMQ for development frequently, sometimes you might have found
+it uses too much resources (it's normal while programming to have
+a lot of queues or tasks being queued and that makes th">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
@@ -92,7 +92,7 @@ files,">
                 
                     
     <li>
-    <a href="find-options.rst" id="sourcelink">Source</a>
+    <a href="running-rabbitmq-server-on-docker.rst" id="sourcelink">Source</a>
     </li>
 
                 
@@ -115,13 +115,13 @@ files,">
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Find Options</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Running RabbitMQ server on Docker</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-24T11:29:58-03:00" itemprop="datePublished" title="Publication date">2015-03-24 11:29</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-04-26T13:58:46-03:00" itemprop="datePublished" title="Publication date">2015-04-26 13:58</time></a></p>
             
-        <p class="sourceline"><a href="find-options.rst" id="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="running-rabbitmq-server-on-docker.rst" id="sourcelink">Source</a></p>
 
         </div>
         
@@ -132,50 +132,63 @@ files,">
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>Among the core-utils, <tt class="docutils literal">find</tt> is one of the most useful commands. Though I use the basic functions
-most of the time, <tt class="docutils literal">find</tt> has a wide range of parameters, and it comes in handy not only for finding
-files, but also for operating a bunch of them at once. Here is a very simple example.</p>
-<p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
-manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
-by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
-let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
-<p>The command would be:</p>
+    <p>If you use RabbitMQ for development frequently, sometimes you might have found
+it uses too much resources (it's normal while programming to have
+a lot of queues or tasks being queued and that makes the CPU usage to spike).</p>
+<p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+on development I'd rather do something different, in order to isolate
+the process. I know I could bound it (for example order it not to start automatically
+as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
+try <code>docker</code> and see how it results.</p>
+<p>It turned out to be just the tool for the work, and so far with a little simple
+configuration it can run as expected.</p>
+<p>There is already a docker image for RabbitMQ, which can be automatically pulled,
+and then run, for example:</p>
 <pre class="code bash literal-block">
-find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+sudo docker pull rabbitmq
+sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
 </pre>
-<p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
-we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
-modification date is greater than the file used as an example (hence, this must be the start of the batch), and
-finally the <tt class="docutils literal"><span class="pre">-exec</span></tt> part is interesting because as mentioned at the beginning, it allows to perform
-arbitrary operations on the group of files (in this case to move them to another location, but
-other actions such as modifications, <tt class="docutils literal">sed</tt>, etc. are also possible).</p>
-<p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
-some cases I can first check the results prior to execute an action. For example, if we would like to check
-for deleting some unnecessary files:</p>
+<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
+passing <code>-e</code> we pass some environment variables (in this case,
+the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
+how to set the name of the node it is starting). Optionally, we can limit the CPU
+usage with the <code>--cpuset</code>, as in this case which sets the process to use the
+second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being created.</p>
+<p>The most important part in this case is the port mapping, made by the <code>-p</code> option which in this case maps the
+port used by RabbitMQ directly (1:1) with the host machine. This makes the docker process to run transparently, as
+the other applications that try to communicate with a RabbitMQ won't notice any difference, making it look like is
+executing an actual RabbitMQ service. Finally there is the name of the docker image to run.</p>
+<p>What I usually do is to manage the docker image by its <cite>instance_id</cite> (a number that is displayed after listing
+the docker images, by doing <code>sudo docker ps -a</code>).
+Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
+<p>There is another command to see the output being generated by the process
+which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
+designated to the image was used instead of the <em>instance_id</em>. In addition
+we can see internal data for the process by running the <code>inspect</code>
+command (again we can use the <cite>instance_id</cite> or the name we assigned).</p>
 <pre class="code bash literal-block">
-find . -name <span class="s2">"*.pyc"</span>
+docker inspect rabbitmq.docker
+sudo docker logs docker.rabbitmq
 </pre>
-<p>By issuing this command we list some files to erase. And then we can simply do that by
-appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>
-<p>This is just the tip of the iceberg of the things that are possible by means of the <tt class="docutils literal">find</tt> command and
-its various options.</p>
+<p>It's important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
+in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
+other limitations and bounds constrained by <code>docker</code>.</p>
+<p>I found this approach to be very versatile for a development environment, and with RabbitMQ being the first pilot,
+I think I can migrate more applications to docker instead of having them installed on the system (as long as possible).</p>
     </div>
     <aside class="postpromonav">
     <nav>
     
         <ul itemprop="keywords" class="tags">
-           <li><a class="tag p-category" href="../categories/bash.html" rel="tag">bash</a></li>
+           <li><a class="tag p-category" href="../categories/docker.html" rel="tag">docker</a></li>
            <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="../categories/shell.html" rel="tag">shell</a></li>
+           <li><a class="tag p-category" href="../categories/rabbitmq.html" rel="tag">rabbitmq</a></li>
         </ul>
 
     
         <ul class="pager">
             <li class="previous">
-                <a href="checking-python-files-with-vim.html" rel="prev" title="Checking Python files with Vim">Previous post</a>
-            </li>
-            <li class="next">
-                <a href="running-rabbitmq-server-on-docker.html" rel="next" title="Running RabbitMQ server on Docker">Next post</a>
+                <a href="find-options.html" rel="prev" title="Find Options">Previous post</a>
             </li>
         </ul>
 
