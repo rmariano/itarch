@@ -1,16 +1,15 @@
 .. title: About this blog
 .. slug: about-this-blog
 .. date: 2014-06-07 15:34:48 UTC-03:00
-.. tags: 
+.. tags: software,engineering
 .. link: 
 .. description: 
 .. type: text
 
-This is a blog about technology related to software engineering. It is
-also a place for sharing knowledge and presenting ideas. Although these are the
-main traits of this page, they are not the only ones. This means that in some
-opportunities there might be posts about other unrelated topics, since it is also
-a general-purpose blog.
 
-To sum up, the majority of the posts are intended to be written in English and
-about technology, but there might be exceptions to these two rules :-).
+The main topic of this blog is architecture in the context of software engineering.
+
+However, other topics are covered such as technical posts in general about
+algorithms, best practices, methodologies, programming languages and techniques, etc.
+
+I post both in English and Spanish.
