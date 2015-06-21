@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Libvirt networking libraries | IT Arch</title>
+    <title>Setting user permissions in KVM | IT Arch</title>
 
     
             <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -12,7 +12,7 @@
                 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
                 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
 
-      <link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html">
+      <link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html">
 
 
 
@@ -26,18 +26,18 @@
 
     <meta name="author" content="Mariano Anaya">
     
-        <meta name="og:title" content="Libvirt networking libraries">
-        <meta name="og:url" content="http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html">
-            <meta name="og:description" content="Fedora 21 workstation seems to come with a lot of virtualization features and most of the
-libvirt libraries installed. I only had to add the KVM virtual-manager which is
-the KVM application I am more ">
+        <meta name="og:title" content="Setting user permissions in KVM">
+        <meta name="og:url" content="http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html">
+            <meta name="og:description" content="In a previous article I mentioned how to install a library in Fedora,
+in order to make KVM virtualization easier, managing the NAT network configuration
+between the guest virtual machine and the host,">
         <meta name="og:site_name" content="IT Arch">
         <meta name="og:type" content="article">
 
     
 
     
-                <link rel="alternate" hreflang="en" href="../../posts/libvirt-networking-libraries.html">
+                <link rel="alternate" hreflang="en" href="../../posts/setting-user-permissions-in-kvm.html">
 
 
 
@@ -93,7 +93,7 @@ the KVM application I am more ">
                 
                     
     <li>
-    <a href="../.././es/posts/libvirt-networking-libraries.rst" id="sourcelink">Código</a>
+    <a href="../.././es/posts/setting-user-permissions-in-kvm.rst" id="sourcelink">Código</a>
     </li>
 
                 
@@ -116,40 +116,38 @@ the KVM application I am more ">
     
     <header>
         
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Libvirt networking libraries</a></h1>
+    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Setting user permissions in KVM</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-01-14T21:06:57-03:00" itemprop="datePublished" title="Fecha de publicación">2015-01-14 21:06</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-06-20T20:46:58-03:00" itemprop="datePublished" title="Fecha de publicación">2015-06-20 20:46</time></a></p>
             
-        <p class="sourceline"><a href="../.././es/posts/libvirt-networking-libraries.rst" id="sourcelink">Código</a></p>
+        <p class="sourceline"><a href="../.././es/posts/setting-user-permissions-in-kvm.rst" id="sourcelink">Código</a></p>
 
         </div>
         
         <div class="metadata posttranslations translations">
             <h3 class="posttranslations-intro">También disponible en:</h3>
-                <p><a href="../../posts/libvirt-networking-libraries.html" rel="alternate" hreflang="en">English</a></p>
+                <p><a href="../../posts/setting-user-permissions-in-kvm.html" rel="alternate" hreflang="en">English</a></p>
         </div>
 
     </header>
 
     <div class="e-content entry-content" itemprop="articleBody text">
-    <p>Fedora 21 workstation seems to come with a lot of virtualization features and most of the
-<tt class="docutils literal">libvirt</tt> libraries installed. I only had to add the <tt class="docutils literal">KVM <span class="pre">virtual-manager</span></tt> which is
-the KVM application I am more familiar with. However, the new version of the <tt class="docutils literal">libvirt*</tt> libraries
-have networking features that are great for the data centre environment, but maybe not the best option
-for a particular workstation, so I added the following packages in order to set up an easier
-network configuration for my local virtual machines.</p>
+    <p>In a <a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html">previous article</a> I mentioned how to install a library in Fedora,
+in order to make <tt class="docutils literal">KVM virtualization</tt> easier, managing the <tt class="docutils literal">NAT</tt> network configuration
+between the guest virtual machine and the host, by means of <tt class="docutils literal">libvirt</tt>.</p>
+<p>Besides that, while using <tt class="docutils literal">KVM</tt> locally for development, I use <tt class="docutils literal"><span class="pre">virt-manager</span></tt>, a helpful
+application that manages the different virtual machines. This application, as well as the
+rest of the commands that interact with <tt class="docutils literal">libvirt</tt> (<tt class="docutils literal">virsh</tt> for example), require super user
+privileges, so it will prompt for the <tt class="docutils literal">sudo</tt> password every time.</p>
+<p>This can be avoided by including the user into the following groups: <tt class="docutils literal">kvm</tt>, and <tt class="docutils literal">libvirt</tt>.</p>
+<p>Therefore, just by running the following command we can skip the password prompt every time.</p>
 <pre class="code bash literal-block">
-sudo dnf install virt-install libvirt-daemon-config-network
+sudo usermod -a -G kvm,libvirt mariano
 </pre>
-<p>In order to reflect the changes and start using the new features, we need to restart its service:</p>
-<pre class="code bash literal-block">
-systemctl restart libvirtd.service
-</pre>
-<p>After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
-manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
-machines faster.</p>
+<p>This is an option I would use only for local development on my machine. Productive environments
+must have an strict permissions management.</p>
     </div>
     <aside class="postpromonav">
     <nav>
@@ -157,17 +155,13 @@ machines faster.</p>
         <ul itemprop="keywords" class="tags">
            <li><a class="tag p-category" href="../categories/infrastructure.html" rel="tag">infrastructure</a></li>
            <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
-           <li><a class="tag p-category" href="../categories/networking.html" rel="tag">networking</a></li>
            <li><a class="tag p-category" href="../categories/virtualization.html" rel="tag">virtualization</a></li>
         </ul>
 
     
         <ul class="pager">
             <li class="previous">
-                <a href="do-not-import.html" rel="prev" title="Do not import *">Post anterior</a>
-            </li>
-            <li class="next">
-                <a href="alpine-email-client.html" rel="next" title="Alpine email client">Siguiente post</a>
+                <a href="notas-sobre-la-arqconf-2015.html" rel="prev" title="Notas sobre la ArqConf 2015">Post anterior</a>
             </li>
         </ul>
 

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch (infrastructure)</title><link>http://rmariano.github.io/itarch/</link><description></description><language>es</language><lastBuildDate>Sun, 03 May 2015 19:10:48 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Libvirt networking libraries</title><link>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Fedora 21 workstation seems to come with a lot of virtualization features and most of the
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch (infrastructure)</title><link>http://rmariano.github.io/itarch/</link><description></description><language>es</language><lastBuildDate>Sun, 21 Jun 2015 20:51:52 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Setting user permissions in KVM</title><link>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;In a &lt;a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html"&gt;previous article&lt;/a&gt; I mentioned how to install a library in Fedora,
+in order to make &lt;tt class="docutils literal"&gt;KVM virtualization&lt;/tt&gt; easier, managing the &lt;tt class="docutils literal"&gt;NAT&lt;/tt&gt; network configuration
+between the guest virtual machine and the host, by means of &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;Besides that, while using &lt;tt class="docutils literal"&gt;KVM&lt;/tt&gt; locally for development, I use &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;virt-manager&lt;/span&gt;&lt;/tt&gt;, a helpful
+application that manages the different virtual machines. This application, as well as the
+rest of the commands that interact with &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt; (&lt;tt class="docutils literal"&gt;virsh&lt;/tt&gt; for example), require super user
+privileges, so it will prompt for the &lt;tt class="docutils literal"&gt;sudo&lt;/tt&gt; password every time.&lt;/p&gt;
+&lt;p&gt;This can be avoided by including the user into the following groups: &lt;tt class="docutils literal"&gt;kvm&lt;/tt&gt;, and &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore, just by running the following command we can skip the password prompt every time.&lt;/p&gt;
+&lt;pre class="code bash literal-block"&gt;
+sudo usermod -a -G kvm,libvirt mariano
+&lt;/pre&gt;
+&lt;p&gt;This is an option I would use only for local development on my machine. Productive environments
+must have an strict permissions management.&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</guid><pubDate>Sat, 20 Jun 2015 23:46:58 GMT</pubDate></item><item><title>Libvirt networking libraries</title><link>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Fedora 21 workstation seems to come with a lot of virtualization features and most of the
 &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt; libraries installed. I only had to add the &lt;tt class="docutils literal"&gt;KVM &lt;span class="pre"&gt;virtual-manager&lt;/span&gt;&lt;/tt&gt; which is
 the KVM application I am more familiar with. However, the new version of the &lt;tt class="docutils literal"&gt;libvirt*&lt;/tt&gt; libraries
 have networking features that are great for the data centre environment, but maybe not the best option
@@ -10,7 +23,7 @@ sudo dnf install virt-install libvirt-daemon-config-network
 &lt;/pre&gt;
 &lt;p&gt;In order to reflect the changes and start using the new features, we need to restart its service:&lt;/p&gt;
 &lt;pre class="code bash literal-block"&gt;
-systemctl status libvirtd.service
+systemctl restart libvirtd.service
 &lt;/pre&gt;
 &lt;p&gt;After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new

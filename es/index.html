@@ -95,6 +95,31 @@
 <div class="postindex">
     <article class="h-entry post-text">
     <header>
+        <h1 class="p-name entry-title"><a href="posts/setting-user-permissions-in-kvm.html" class="u-url">Setting user permissions in KVM</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
+            <p class="dateline"><a href="posts/setting-user-permissions-in-kvm.html" rel="bookmark"><time class="published dt-published" datetime="2015-06-20T20:46:58-03:00" itemprop="datePublished" title="Fecha de publicación">2015-06-20 20:46</time></a></p>
+        </div>
+    </header>
+    <div class="e-content entry-content">
+    <p>In a <a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html">previous article</a> I mentioned how to install a library in Fedora,
+in order to make <tt class="docutils literal">KVM virtualization</tt> easier, managing the <tt class="docutils literal">NAT</tt> network configuration
+between the guest virtual machine and the host, by means of <tt class="docutils literal">libvirt</tt>.</p>
+<p>Besides that, while using <tt class="docutils literal">KVM</tt> locally for development, I use <tt class="docutils literal"><span class="pre">virt-manager</span></tt>, a helpful
+application that manages the different virtual machines. This application, as well as the
+rest of the commands that interact with <tt class="docutils literal">libvirt</tt> (<tt class="docutils literal">virsh</tt> for example), require super user
+privileges, so it will prompt for the <tt class="docutils literal">sudo</tt> password every time.</p>
+<p>This can be avoided by including the user into the following groups: <tt class="docutils literal">kvm</tt>, and <tt class="docutils literal">libvirt</tt>.</p>
+<p>Therefore, just by running the following command we can skip the password prompt every time.</p>
+<pre class="code bash literal-block">
+sudo usermod -a -G kvm,libvirt mariano
+</pre>
+<p>This is an option I would use only for local development on my machine. Productive environments
+must have an strict permissions management.</p>
+    </div>
+    </article>
+    <article class="h-entry post-text">
+    <header>
         <h1 class="p-name entry-title"><a href="posts/notas-sobre-la-arqconf-2015.html" class="u-url">Notas sobre la ArqConf 2015</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
@@ -422,7 +447,7 @@ sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In order to reflect the changes and start using the new features, we need to restart its service:</p>
 <pre class="code bash literal-block">
-systemctl status libvirtd.service
+systemctl restart libvirtd.service
 </pre>
 <p>After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
@@ -612,66 +637,6 @@ but because of the advantages listed. In other words, if we count with developed
 at our disposal, it would be a good idea to use them.</p>
 <p>Here are some simple and basic examples of <a class="reference external" href="http://rmariano.github.io/presentations/">presentations</a> I am working on.
 (DISCLAIMER: they might be in different languages, and the page is in progress).</p>
-    </div>
-    </article>
-    <article class="h-entry post-text">
-    <header>
-        <h1 class="p-name entry-title"><a href="posts/vim-commands-for-improved-productivity.html" class="u-url">Vim commands for improved productivity</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="posts/vim-commands-for-improved-productivity.html" rel="bookmark"><time class="published dt-published" datetime="2014-07-20T20:59:56-03:00" itemprop="datePublished" title="Fecha de publicación">2014-07-20 20:59</time></a></p>
-        </div>
-    </header>
-    <div class="e-content entry-content">
-    <p>I would like to describe my favourite Vim commands that I use on a daily basis,
-in order to share some tips that could help you if you are new in this editor, or
-to improve your experience even if you use it.</p>
-<ul class="simple">
-<li>
-<tt class="docutils literal">J</tt> : Useful when organizing code, this will join the line below to the current one.</li>
-<li>
-<tt class="docutils literal">ci)</tt> ("change inside ')'): Actually, the closing bracket could be changed by any other thing
-(like ']', '}', etc.). This will erase everything within the brackets and set you in insert mode
-(the <tt class="docutils literal">c</tt> could also be changed for <tt class="docutils literal">d</tt> for example if you just want to delete). Again, this is
-very useful when refactoring code, if you want to change the parameters of a function definition, or
-whatever is in a block, etc.</li>
-<li>(select some code with visual mode and then) <tt class="docutils literal">zf</tt> : will fold the selected code. <tt class="docutils literal">zd</tt> for unfolding.</li>
-<li>
-<tt class="docutils literal">%</tt> : alone or along with some other operator, is useful for operating with matching
-brackets in the code. It will match the closing bracket of the one you have the cursor in.</li>
-<li>
-<tt class="docutils literal">C</tt> or <tt class="docutils literal">D</tt> : if you want to change or delete from the current position
-up to the end of the line, respectively.</li>
-<li>
-<tt class="docutils literal">t,</tt> (or any other character instead of comma) will point you un<strong>t</strong>il that character.
-The good about this, is that is possible to chain it with other commands, for example:
-"<tt class="docutils literal">ct,</tt>" will change all the content until the next comma.</li>
-<li>
-<tt class="docutils literal">&lt;</tt> or <tt class="docutils literal">&gt;</tt> will indent the code following the "arrow" direction
-(according to what is set in <tt class="docutils literal">shiftwidth</tt>).</li>
-<li>
-<tt class="docutils literal">=</tt> Automatically indents code (useful when highlighting code in visual mode).</li>
-<li>
-<tt class="docutils literal">w</tt>, <tt class="docutils literal">e</tt> or <tt class="docutils literal">b</tt> will point you to the next <strong>w</strong>ord, to the <strong>e</strong>nd of the word, or
-<strong>b</strong>ack to the previous word, respectively. The nice thing about these operators is when they work
-combined with others, for example:<ul>
-<li>
-<tt class="docutils literal">cw</tt> will <strong>change</strong> the next <strong>word</strong>.</li>
-<li>
-<tt class="docutils literal">db</tt> will delete the previous word.</li>
-</ul>
-</li>
-<li>
-<tt class="docutils literal">{</tt> or <tt class="docutils literal">}</tt> for moving up or down through paragraphs, respectively.</li>
-</ul>
-<p>In addition, note that you do not need to know <em>all</em> possible commands, just
-those that will help you with your normal activities. This means that is could be enough with a small
-subset of all the features (the list I wrote is very short indeed).
-And this is precisely the idea behind this post: to show how
-some few commands applied in the right context, might make you edit faster.</p>
-<p>All in all, Vim is a great editor, full of amazing features. Learning it is actually worth it,
-in the sense that you will get an amazing productivity in return (you'll type and edit
-code faster).</p>
     </div>
     </article>
 </div>
