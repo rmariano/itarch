@@ -1,0 +1,127 @@
+<p>Recently, I've read an interesting article <a class="footnote-reference" href="#id8" id="id1">[1]</a>, explaining why the <code>strncpy</code> function in C is not
+safer than <code>strcpy</code>. The post was very interesting, but what's more, it suggested an alternative
+idiom for copying strings in C, that might probably be the way to go.</p>
+<p>Later, in another article <a class="footnote-reference" href="#id9" id="id2">[2]</a> that compared some functionality in C, Python and Go, one of the comments
+pointed out that very same idiom. That grabbed my attention, so I decided to try it in an example.</p>
+<p>The problem with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
+the sample code provided in the documentation <a class="footnote-reference" href="#id10" id="id3">[3]</a> (that should be just a reference), the break condition
+is up to <code>n</code> characters (the third parameter) or until the source string is exhausted, whatever happens first. This
+should not be a problem, unless <code>n &lt; strlen(source_string)</code>. That parameter would make <code>strncpy</code>
+to finish before it can put a <code>\0</code> character at the end of the target string, leaving
+an invalid array of characters <a class="footnote-reference" href="#id12" id="id4">[5]</a>.</p>
+<p>This is an example.</p>
+<pre class="code c literal-block">
+<span class="ln"> 1 </span><span class="cp">#include &lt;stdio.h&gt;  </span><span class="cm">/* stdout, fprintf */</span><span class="cp">
+</span><span class="ln"> 2 </span><span class="cp">#include &lt;string.h&gt;  </span><span class="cm">/* strncpy, strlen */</span><span class="cp">
+</span><span class="ln"> 3 </span><span class="cp"></span>
+<span class="ln"> 4 </span><span class="cp">#define TARGET 10
+</span><span class="ln"> 5 </span><span class="cp"></span>
+<span class="ln"> 6 </span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<span class="ln"> 7 </span>
+<span class="ln"> 8 </span>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">&quot;Castle&quot;</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<span class="ln"> 9 </span>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;__________&quot;</span><span class="p">;</span>
+<span class="ln">10 </span>
+<span class="ln">11 </span>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="ln">12 </span>
+<span class="ln">13 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<span class="ln">14 </span>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual
+</span><span class="ln">15 </span><span class="cm">    * strlen) */</span>
+<span class="ln">16 </span>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="ln">17 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
+<span class="ln">18 </span>    <span class="cm">/* If I copy the string correctly, by passing the right
+</span><span class="ln">19 </span><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<span class="ln">20 </span>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="ln">21 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<span class="ln">22 </span>
+<span class="ln">23 </span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">24 </span><span class="p">}</span>
+</pre>
+<p>On this example, the target array is represented by the variable <code>dst</code>, and I used a fixed-length string,
+on purpose for the demonstration, simulating what would actually happen. I null-terminated it so the program
+can finish successfully, because otherwise the operations on it would not end until the delimiter is reached,
+and we cannot know when that will happen, considering what's in memory at that time. In addition, the
+unpredictable behaviour will lead to errors, and probably to memory corruption. The underscore,
+should be interpreted as slots: regions or reserved memory that are there, but empty.</p>
+<p>The proposed idiom uses <code>strncat</code> (see <a class="footnote-reference" href="#id11" id="id5">[4]</a>),
+tricking the function by passing it an empty string as the first parameter,
+and then the actual string we need to copy. This call will render the same result,
+but without the previous side effect.
+Let's see an example:</p>
+<pre class="code c literal-block">
+<span class="ln"> 1 </span><span class="cp">#include &lt;stdio.h&gt;  </span><span class="cm">/* stdout, fprintf */</span><span class="cp">
+</span><span class="ln"> 2 </span><span class="cp">#include &lt;string.h&gt;  </span><span class="cm">/* strncat, strlen */</span><span class="cp">
+</span><span class="ln"> 3 </span><span class="cp"></span>
+<span class="ln"> 4 </span><span class="cp">#define TARGET 10
+</span><span class="ln"> 5 </span><span class="cp"></span>
+<span class="ln"> 6 </span><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<span class="ln"> 7 </span>
+<span class="ln"> 8 </span>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">&quot;Castle&quot;</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<span class="ln"> 9 </span>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;__________&quot;</span><span class="p">;</span>
+<span class="ln">10 </span>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="ln">11 </span>
+<span class="ln">12 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<span class="ln">13 </span>    <span class="cm">/* Prepare destination string */</span>
+<span class="ln">14 </span>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="ln">15 </span>    <span class="cm">/* Copy with strncat */</span>
+<span class="ln">16 </span>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="ln">17 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
+<span class="ln">18 </span>    <span class="cm">/* If I copy the string correctly, by passing the right
+</span><span class="ln">19 </span><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<span class="ln">20 </span>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="ln">21 </span>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<span class="ln">22 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<span class="ln">23 </span>    <span class="cm">/* If I try to overrun the buffer */</span>
+<span class="ln">24 </span>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<span class="ln">25 </span>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
+<span class="ln">26 </span>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">&quot;%s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<span class="ln">27 </span>
+<span class="ln">28 </span>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="ln">29 </span><span class="p">}</span>
+</pre>
+<p>Here we see, the error is no longer present, probably because of the difference on the implementation
+(the snippet on the documentation <a class="footnote-reference" href="#id11" id="id6">[4]</a> gives us a hint on what it does, so we can spot the change).</p>
+<p>This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
+point that a new function was developed. The <code>strscpy</code> function is being included in the Kernel
+development for <em>Linux 4.3-rc4</em> <a class="footnote-reference" href="#id13" id="id7">[6]</a> because it <em>is</em> a better interface. Some of the problems mentioned
+in the commit message, that inspired this new version, are the ones described on the previous paragraphs.</p>
+<p>This makes me wonder, if this should be the &quot;correct&quot; way for performing this operation &quot;safely&quot; in C. In all
+cases, the error is the same (not checking the boundaries, and trusting the input), and should be avoided. What I
+mean by this, is that we cannot simply rely on those functions being secure, the security must be in our code,
+so the proper way to handle these situations is to <em>code defensively</em>: do not trust user input, always check the boundaries,
+error codes, memory allocation, status of the pointer (a <code>free</code> for every <code>malloc</code> but not for a <code>NULL</code> pointer, etc.).</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html">http://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">http://blog.surgut.co.uk/2015/08/go-enjoy-python3.html</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://linux.die.net/man/3/strncpy/">strncpy documentation</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><em>(<a class="fn-backref" href="#id5">1</a>, <a class="fn-backref" href="#id6">2</a>)</em> <a class="reference external" href="http://linux.die.net/man/3/strncat/">strncat manual page</a>.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[5]</a></td><td>An array of characters that is not null-terminated, is invalid.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[6]</a></td><td><a class="reference external" href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671">http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671</a>.</td></tr>
+</tbody>
+</table>
