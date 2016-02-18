@@ -1,5 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch</title><link>http://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><language>en</language><lastBuildDate>Mon, 12 Oct 2015 16:50:53 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch</title><link>http://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><language>en</language><lastBuildDate>Wed, 17 Feb 2016 22:13:21 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Deleting commented out code</title><link>http://rmariano.github.io/itarch/posts/deleting-commented-out-code.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;This is a rule I always encourage in software development. Moreover, I consider it to be something that has
+to be included in every coding guideline of a good project.&lt;/p&gt;
+&lt;p&gt;There are several reasons for this, but probably the best explanation can be found in the book "Clean Code"&lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/posts/deleting-commented-out-code.html#id2" id="id1"&gt;[1]&lt;/a&gt; by uncle
+Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
+it makes a place for confusion, leading to an error-prone spot.&lt;/p&gt;
+&lt;p&gt;There are, however, people that seem to find some arguments for commenting out code, or leaving it.
+Some common arguments/reasons usually are:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;"I might need this functionality later.."&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
+the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;"This is temporary disabled... It will be restored later".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
+As you see, there are plenty of better options for solving this scenario.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Code that was left from the fist version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Probably debugging leftovers. No doubt here: seek, locate, destroy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There is, a clear problem with code that is under comment, which is that it is "frozen" in time:
+it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
+might not certainly work (hence it is "rotten"), so un-commenting it is a bad idea because it will probably crash.&lt;/p&gt;
+&lt;p&gt;Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
+in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
+going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
+idea for that code.&lt;/p&gt;
+&lt;p&gt;Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
+mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
+deleting it. Delete commented out code mercilessly: seek, locate and destroy.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="http://rmariano.github.io/itarch/posts/deleting-commented-out-code.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;A book I highly recommend: &lt;a class="reference external" href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"&gt;http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</description><category>best-practices</category><category>clean-code</category><guid>http://rmariano.github.io/itarch/posts/deleting-commented-out-code.html</guid><pubDate>Thu, 18 Feb 2016 01:06:50 GMT</pubDate></item><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
 safer than &lt;code&gt;strcpy&lt;/code&gt;. The post was very interesting, but what's more, it suggested an alternative
 idiom for copying strings in C, that might probably be the way to go.&lt;/p&gt;
 &lt;p&gt;Later, in another article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/posts/copying-strings-in-c.html#id9" id="id2"&gt;[2]&lt;/a&gt; that compared some functionality in C, Python and Go, one of the comments
@@ -452,38 +496,4 @@ as a code-smell &lt;a class="footnote-reference" href="http://rmariano.github.io
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="http://rmariano.github.io/itarch/posts/do-not-import.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="http://c2.com/cgi/wiki?CodeSmell"&gt;http://c2.com/cgi/wiki?CodeSmell&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</description><category>best-practices</category><category>python</category><guid>http://rmariano.github.io/itarch/posts/do-not-import.html</guid><pubDate>Mon, 05 Jan 2015 23:10:10 GMT</pubDate></item><item><title>Writing forward-compatible software in Python</title><link>http://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Python 3 is the future of Python. However there might be a problem in the
-community if both Python 3 and 2 coexist. The former one was great and
-brilliant, but it is time to start writing software in the new version in order
-to move towards new features and improvements.&lt;/p&gt;
-&lt;p&gt;Let's start by the beginning. One of the reasons I always preferred Python over
-the rest of the programming languages is because it is more advanced, meaning
-that included many concepts that other languages did not. For example, think of
-how early Python adopted ideas like lambda functions, dynamic typing,
-duck typing, context managers, metaclasses and so on, while other technologies
-(namely Java, C++ for example &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python.html#id2" id="id1"&gt;[1]&lt;/a&gt;) were still using data structures and calling
-them "objects". Python has always been many steps ahead.&lt;/p&gt;
-&lt;p&gt;Great news are that this is no over: Python is still improving at a fast pace.
-And that is precisely the issue with Python 3. As a result of that
-evolution, the new version of Python must change some of its internals in order
-to properly implement new features, and this is what lead it to be incompatible
-with earlier versions, which should not be a problem. But it seems it is.&lt;/p&gt;
-&lt;p&gt;Some developers do not like the new release, and they are not keen on migrating
-the code base. They argue that Python 3
-"is wrong" because it is not &lt;em&gt;backwards&lt;/em&gt; compatible, but my question here is
-why are we thinking &lt;em&gt;backwards&lt;/em&gt; instead of &lt;em&gt;forwards&lt;/em&gt;.
-A programming language as a model or concept, must evolve, improve, so we
-should be thinking on the future of the language rather that on its
-past. I think they are missing the new ideas, the way Python is changing in
-order to incorporate more efficient mechanisms. Perhaps this time, the leap was
-too big.&lt;/p&gt;
-&lt;p&gt;I think the best for the language is to adopt its new version, and do not think
-of it as a different one. Therefore, when we say "Python", it should be
-understood that we are talking about just one single version.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="http://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;At the time of this writing just the latest version of Java incorporated
-lambda expressions, which have been available in Python for many years.&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</description><category>python</category><guid>http://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python.html</guid><pubDate>Fri, 29 Aug 2014 00:14:43 GMT</pubDate></item></channel></rss>
+&lt;/table&gt;</description><category>best-practices</category><category>python</category><guid>http://rmariano.github.io/itarch/posts/do-not-import.html</guid><pubDate>Mon, 05 Jan 2015 23:10:10 GMT</pubDate></item></channel></rss>

@@ -1,0 +1,45 @@
+<p>This is a rule I always encourage in software development. Moreover, I consider it to be something that has
+to be included in every coding guideline of a good project.</p>
+<p>There are several reasons for this, but probably the best explanation can be found in the book &quot;Clean Code&quot;<a class="footnote-reference" href="#id2" id="id1">[1]</a> by uncle
+Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
+it makes a place for confusion, leading to an error-prone spot.</p>
+<p>There are, however, people that seem to find some arguments for commenting out code, or leaving it.
+Some common arguments/reasons usually are:</p>
+<blockquote>
+<blockquote>
+<ul class="simple">
+<li>&quot;I might need this functionality later..&quot;</li>
+</ul>
+</blockquote>
+<p>We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
+the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.</p>
+<blockquote>
+<ul class="simple">
+<li>&quot;This is temporary disabled... It will be restored later&quot;.</li>
+</ul>
+</blockquote>
+<p>Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
+As you see, there are plenty of better options for solving this scenario.</p>
+<blockquote>
+<ul class="simple">
+<li>Code that was left from the fist version</li>
+</ul>
+</blockquote>
+<p>Probably debugging leftovers. No doubt here: seek, locate, destroy.</p>
+</blockquote>
+<p>There is, a clear problem with code that is under comment, which is that it is &quot;frozen&quot; in time:
+it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
+might not certainly work (hence it is &quot;rotten&quot;), so un-commenting it is a bad idea because it will probably crash.</p>
+<p>Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
+in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
+going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
+idea for that code.</p>
+<p>Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
+mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
+deleting it. Delete commented out code mercilessly: seek, locate and destroy.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>A book I highly recommend: <a class="reference external" href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a></td></tr>
+</tbody>
+</table>

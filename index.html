@@ -95,6 +95,69 @@
 <div class="postindex">
     <article class="h-entry post-text">
     <header>
+        <h1 class="p-name entry-title"><a href="posts/deleting-commented-out-code.html" class="u-url">Deleting commented out code</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
+            <p class="dateline"><a href="posts/deleting-commented-out-code.html" rel="bookmark"><time class="published dt-published" datetime="2016-02-17T22:06:50-03:00" itemprop="datePublished" title="Publication date">2016-02-17 22:06</time></a></p>
+        </div>
+    </header>
+    <div class="e-content entry-content">
+    <p>This is a rule I always encourage in software development. Moreover, I consider it to be something that has
+to be included in every coding guideline of a good project.</p>
+<p>There are several reasons for this, but probably the best explanation can be found in the book "Clean Code"<a class="footnote-reference" href="posts/deleting-commented-out-code.html#id2" id="id1">[1]</a> by uncle
+Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
+it makes a place for confusion, leading to an error-prone spot.</p>
+<p>There are, however, people that seem to find some arguments for commenting out code, or leaving it.
+Some common arguments/reasons usually are:</p>
+<blockquote>
+<blockquote>
+<ul class="simple">
+<li>"I might need this functionality later.."</li>
+</ul>
+</blockquote>
+<p>We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
+the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.</p>
+<blockquote>
+<ul class="simple">
+<li>"This is temporary disabled... It will be restored later".</li>
+</ul>
+</blockquote>
+<p>Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
+As you see, there are plenty of better options for solving this scenario.</p>
+<blockquote>
+<ul class="simple">
+<li>Code that was left from the fist version</li>
+</ul>
+</blockquote>
+<p>Probably debugging leftovers. No doubt here: seek, locate, destroy.</p>
+</blockquote>
+<p>There is, a clear problem with code that is under comment, which is that it is "frozen" in time:
+it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
+might not certainly work (hence it is "rotten"), so un-commenting it is a bad idea because it will probably crash.</p>
+<p>Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
+in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
+going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
+idea for that code.</p>
+<p>Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
+mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
+deleting it. Delete commented out code mercilessly: seek, locate and destroy.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top">
+<tr>
+<td class="label"><a class="fn-backref" href="posts/deleting-commented-out-code.html#id1">[1]</a></td>
+<td>A book I highly recommend: <a class="reference external" href="http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a>
+</td>
+</tr>
+</tbody>
+</table>
+    </div>
+    </article>
+    <article class="h-entry post-text">
+    <header>
         <h1 class="p-name entry-title"><a href="posts/copying-strings-in-c.html" class="u-url">strncpy and strncat for copying strings in C</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
@@ -727,58 +790,6 @@ as a code-smell <a class="footnote-reference" href="posts/do-not-import.html#id4
 </table>
     </div>
     </article>
-    <article class="h-entry post-text">
-    <header>
-        <h1 class="p-name entry-title"><a href="posts/writing-forward-compatible-software-in-python.html" class="u-url">Writing forward-compatible software in Python</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="posts/writing-forward-compatible-software-in-python.html" rel="bookmark"><time class="published dt-published" datetime="2014-08-28T21:14:43-03:00" itemprop="datePublished" title="Publication date">2014-08-28 21:14</time></a></p>
-        </div>
-    </header>
-    <div class="e-content entry-content">
-    <p>Python 3 is the future of Python. However there might be a problem in the
-community if both Python 3 and 2 coexist. The former one was great and
-brilliant, but it is time to start writing software in the new version in order
-to move towards new features and improvements.</p>
-<p>Let's start by the beginning. One of the reasons I always preferred Python over
-the rest of the programming languages is because it is more advanced, meaning
-that included many concepts that other languages did not. For example, think of
-how early Python adopted ideas like lambda functions, dynamic typing,
-duck typing, context managers, metaclasses and so on, while other technologies
-(namely Java, C++ for example <a class="footnote-reference" href="posts/writing-forward-compatible-software-in-python.html#id2" id="id1">[1]</a>) were still using data structures and calling
-them "objects". Python has always been many steps ahead.</p>
-<p>Great news are that this is no over: Python is still improving at a fast pace.
-And that is precisely the issue with Python 3. As a result of that
-evolution, the new version of Python must change some of its internals in order
-to properly implement new features, and this is what lead it to be incompatible
-with earlier versions, which should not be a problem. But it seems it is.</p>
-<p>Some developers do not like the new release, and they are not keen on migrating
-the code base. They argue that Python 3
-"is wrong" because it is not <em>backwards</em> compatible, but my question here is
-why are we thinking <em>backwards</em> instead of <em>forwards</em>.
-A programming language as a model or concept, must evolve, improve, so we
-should be thinking on the future of the language rather that on its
-past. I think they are missing the new ideas, the way Python is changing in
-order to incorporate more efficient mechanisms. Perhaps this time, the leap was
-too big.</p>
-<p>I think the best for the language is to adopt its new version, and do not think
-of it as a different one. Therefore, when we say "Python", it should be
-understood that we are talking about just one single version.</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top">
-<tr>
-<td class="label"><a class="fn-backref" href="posts/writing-forward-compatible-software-in-python.html#id1">[1]</a></td>
-<td>At the time of this writing just the latest version of Java incorporated
-lambda expressions, which have been available in Python for many years.</td>
-</tr>
-</tbody>
-</table>
-    </div>
-    </article>
 </div>
 
         <nav class="postindexpager">
@@ -798,7 +809,7 @@ lambda expressions, which have been available in Python for many years.</td>
         <!--End of body content-->
 
         <footer>
-            Contents © 2015         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2016         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
     </div>
