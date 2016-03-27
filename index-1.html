@@ -95,6 +95,33 @@
 <div class="postindex">
     <article class="h-entry post-text">
     <header>
+        <h1 class="p-name entry-title"><a href="posts/libvirt-networking-libraries.html" class="u-url">Libvirt networking libraries</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
+            <p class="dateline"><a href="posts/libvirt-networking-libraries.html" rel="bookmark"><time class="published dt-published" datetime="2015-01-14T21:06:57-03:00" itemprop="datePublished" title="Publication date">Wed Jan 14, 2015 - 21:06</time></a></p>
+        </div>
+    </header>
+    <div class="e-content entry-content">
+    <p>Fedora 21 workstation seems to come with a lot of virtualization features and most of the
+<tt class="docutils literal">libvirt</tt> libraries installed. I only had to add the <tt class="docutils literal">KVM <span class="pre">virtual-manager</span></tt> which is
+the KVM application I am more familiar with. However, the new version of the <tt class="docutils literal">libvirt*</tt> libraries
+have networking features that are great for the data centre environment, but maybe not the best option
+for a particular workstation, so I added the following packages in order to set up an easier
+network configuration for my local virtual machines.</p>
+<pre class="code bash literal-block">
+sudo dnf install virt-install libvirt-daemon-config-network
+</pre>
+<p>In order to reflect the changes and start using the new features, we need to restart its service:</p>
+<pre class="code bash literal-block">
+systemctl restart libvirtd.service
+</pre>
+<p>After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
+manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
+machines faster.</p>
+    </div>
+    </article>
+    <article class="h-entry post-text">
+    <header>
         <h1 class="p-name entry-title"><a href="posts/do-not-import.html" class="u-url">Do not import *</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
