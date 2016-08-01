@@ -1,71 +1,56 @@
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Writing forward-compatible software in Python | IT Arch</title>
-
-    
-            <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
-
-    
-                <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-                <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
-
-      <link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/writing-forward-compatible-software-in-python.html">
-
-
-
-    
-        <!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]-->
-
-    
-
-
-    
-
-    <meta name="author" content="Mariano Anaya">
-    
-        <meta name="og:title" content="Writing forward-compatible software in Python">
-        <meta name="og:url" content="http://rmariano.github.io/itarch/es/posts/writing-forward-compatible-software-in-python.html">
-            <meta name="og:description" content="Python 3 is the future of Python. However there might be a problem in the
+<head>
+<meta charset="utf-8">
+<base href="http://rmariano.github.io/itarch/es/posts/writing-forward-compatible-software-in-python.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing forward-compatible software in Python | IT Arch</title>
+<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
+<link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/writing-forward-compatible-software-in-python.html">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="presentations-with-revealjs.html" title="Presentations with reveal.js" type="text/html">
+<link rel="next" href="do-not-import.html" title="Do not import *" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Writing forward-compatible software in Python">
+<meta property="og:url" content="http://rmariano.github.io/itarch/es/posts/writing-forward-compatible-software-in-python.html">
+<meta property="og:description" content="Python 3 is the future of Python. However there might be a problem in the
 community if both Python 3 and 2 coexist. The former one was great and
 brilliant, but it is time to start writing software in ">
-        <meta name="og:site_name" content="IT Arch">
-        <meta name="og:type" content="article">
-
-    
-
-    
-                <link rel="alternate" hreflang="en" href="../../posts/writing-forward-compatible-software-in-python.html">
-
-
-
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2014-08-28T21:14:43-03:00">
+<meta property="article:tag" content="python">
+<link rel="alternate" hreflang="en" href="../../posts/writing-forward-compatible-software-in-python.html">
 </head>
 <body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
 
 <!-- Menubar -->
 
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
 <!-- This keeps the margins nice -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://rmariano.github.io/itarch/">
+            <a class="navbar-brand" href="http://rmariano.github.io/itarch/es/">
 
                 <span id="blog-title">IT Arch</span>
             </a>
         </div>
 <!-- /.navbar-header -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
             <ul class="nav navbar-nav">
-                
-                <li>
+<li>
 <a href="../../archive.html">Archive</a>
                 </li>
 <li>
@@ -83,58 +68,45 @@ brilliant, but it is time to start writing software in ">
                 
             </li>
 </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                
-                    <li>
+<ul class="nav navbar-nav navbar-right">
+<li>
             </li>
-<li><a href="../../index.html" rel="alternate" hreflang="en">English</a></li>
+<li><a href="http://rmariano.github.io/itarch/" rel="alternate" hreflang="en">English</a></li>
 
                 
                     
     <li>
-    <a href="../.././es/posts/writing-forward-compatible-software-in-python.rst" id="sourcelink">Código</a>
+    <a href="writing-forward-compatible-software-in-python.rst" id="sourcelink">Código fuente</a>
     </li>
 
                 
             </ul>
-        </div>
+</div>
 <!-- /.navbar-collapse -->
     </div>
 <!-- /.container -->
-</nav>
-
-<!-- End of Menubar -->
-
-<div class="container">
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
     <div class="body-content">
         <!--Body content-->
         <div class="row">
             
             
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article">
-    
-    <header>
-        
-    <h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Writing forward-compatible software in Python</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Writing forward-compatible software in Python</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">Mariano Anaya</span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-08-28T21:14:43-03:00" itemprop="datePublished" title="Fecha de publicación">Thu Aug 28, 2014 - 21:14</time></a></p>
+            <p class="byline author vcard"><span class="byline-name fn">
+                    <a href="../authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-08-28T21:14:43-03:00" itemprop="datePublished" title="jue ago 28, 2014 - 21:14">jue ago 28, 2014 - 21:14</time></a></p>
             
-        <p class="sourceline"><a href="../.././es/posts/writing-forward-compatible-software-in-python.rst" id="sourcelink">Código</a></p>
+        <p class="sourceline"><a href="writing-forward-compatible-software-in-python.rst" id="sourcelink">Código fuente</a></p>
 
         </div>
         
-        <div class="metadata posttranslations translations">
-            <h3 class="posttranslations-intro">También disponible en:</h3>
-                <p><a href="../../posts/writing-forward-compatible-software-in-python.html" rel="alternate" hreflang="en">English</a></p>
-        </div>
 
-    </header>
-
-    <div class="e-content entry-content" itemprop="articleBody text">
-    <p>Python 3 is the future of Python. However there might be a problem in the
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>Python 3 is the future of Python. However there might be a problem in the
 community if both Python 3 and 2 coexist. The former one was great and
 brilliant, but it is time to start writing software in the new version in order
 to move towards new features and improvements.</p>
@@ -167,80 +139,40 @@ understood that we are talking about just one single version.</p>
 <col class="label">
 <col>
 </colgroup>
-<tbody valign="top">
-<tr>
+<tbody valign="top"><tr>
 <td class="label"><a class="fn-backref" href="writing-forward-compatible-software-in-python.html#id1">[1]</a></td>
 <td>At the time of this writing just the latest version of Java incorporated
 lambda expressions, which have been available in Python for many years.</td>
-</tr>
-</tbody>
+</tr></tbody>
 </table>
+</div>
     </div>
-    <aside class="postpromonav">
-    <nav>
-    
-        <ul itemprop="keywords" class="tags">
-           <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
         </ul>
-
-    
-        <ul class="pager">
-            <li class="previous">
-                <a href="presentations-with-revealjs.html" rel="prev" title="Presentations with reveal.js">Post anterior</a>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="presentations-with-revealjs.html" rel="prev" title="Presentations with reveal.js">Publicación anterior</a>
             </li>
             <li class="next">
-                <a href="do-not-import.html" rel="next" title="Do not import *">Siguiente post</a>
+                <a href="do-not-import.html" rel="next" title="Do not import *">Siguiente publicación</a>
             </li>
-        </ul>
-
-    </nav>
-    </aside>
-    
-
-</article>
-
-
-
-        </div>
+        </ul></nav></aside></article>
+</div>
         <!--End of body content-->
 
-        <footer>
+        <footer id="footer">
             Contents © 2016         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
-    </div>
+</div>
 </div>
 
 
-            <script src="../../assets/js/all-nocdn.js"></script>
-        <script src="../../assets/js/colorbox-i18n/jquery.colorbox-es.js"></script>
-    
-<!-- Social buttons -->
-<div id="addthisbox" class="addthis_toolbox addthis_peekaboo_style addthis_default_style addthis_label_style addthis_32x32_style">
-<a class="addthis_button_more">Share</a>
-<ul>
-<li>
-<a class="addthis_button_facebook"></a>
-</li>
-<li>
-<a class="addthis_button_google_plusone_share"></a>
-</li>
-<li>
-<a class="addthis_button_linkedin"></a>
-</li>
-<li>
-<a class="addthis_button_twitter"></a>
-</li>
-</ul>
-</div>
-<script src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4f7088a56bb93798"></script>
-<!-- End of social buttons -->
-
-
-    <script>jQuery("a.image-reference").colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script>
-    
-
-<script>
+            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/moment-with-locales.min.js"></script><script src="../../assets/js/fancydates.js"></script><script src="../../assets/js/jquery.colorbox-min.js"></script><script src="../../assets/js/colorbox-i18n/jquery.colorbox-es.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -250,7 +182,5 @@ lambda expressions, which have been available in Python for many years.</td>
   ga('send', 'pageview');
 
 </script>
-
-
 </body>
 </html>

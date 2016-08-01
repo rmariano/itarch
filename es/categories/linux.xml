@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch (linux)</title><link>http://rmariano.github.io/itarch/</link><description></description><language>es</language><lastBuildDate>Sun, 27 Mar 2016 20:53:11 GMT</lastBuildDate><generator>http://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch (linux)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link href="http://rmariano.github.io/itarch/es/categories/linux.xml" rel="self" type="application/rss+xml"></atom:link><language>es</language><lastBuildDate>Mon, 01 Aug 2016 00:28:36 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
 safer than &lt;code&gt;strcpy&lt;/code&gt;. The post was very interesting, but what's more, it suggested an alternative
 idiom for copying strings in C, that might probably be the way to go.&lt;/p&gt;
 &lt;p&gt;Later, in another article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id9" id="id2"&gt;[2]&lt;/a&gt; that compared some functionality in C, Python and Go, one of the comments
@@ -11,33 +11,54 @@ should not be a problem, unless &lt;code&gt;n &amp;lt; strlen(source_string)&lt;
 to finish before it can put a &lt;code&gt;\0&lt;/code&gt; character at the end of the target string, leaving
 an invalid array of characters &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id12" id="id4"&gt;[5]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This is an example.&lt;/p&gt;
-&lt;pre class="code c literal-block"&gt;
-&lt;span class="ln"&gt; 1 &lt;/span&gt;&lt;span class="cp"&gt;#include &amp;lt;stdio.h&amp;gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;span class="ln"&gt; 2 &lt;/span&gt;&lt;span class="cp"&gt;#include &amp;lt;string.h&amp;gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* strncpy, strlen */&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;span class="ln"&gt; 3 &lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;span class="ln"&gt; 4 &lt;/span&gt;&lt;span class="cp"&gt;#define TARGET 10
-&lt;/span&gt;&lt;span class="ln"&gt; 5 &lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;span class="ln"&gt; 6 &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;span class="ln"&gt; 7 &lt;/span&gt;
-&lt;span class="ln"&gt; 8 &lt;/span&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
-&lt;span class="ln"&gt; 9 &lt;/span&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;10 &lt;/span&gt;
-&lt;span class="ln"&gt;11 &lt;/span&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;12 &lt;/span&gt;
-&lt;span class="ln"&gt;13 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
-&lt;span class="ln"&gt;14 &lt;/span&gt;    &lt;span class="cm"&gt;/* What happens if I pass a wrong length (lower than the actual
-&lt;/span&gt;&lt;span class="ln"&gt;15 &lt;/span&gt;&lt;span class="cm"&gt;    * strlen) */&lt;/span&gt;
-&lt;span class="ln"&gt;16 &lt;/span&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="ln"&gt;17 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas______' */&lt;/span&gt;
-&lt;span class="ln"&gt;18 &lt;/span&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right
-&lt;/span&gt;&lt;span class="ln"&gt;19 &lt;/span&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
-&lt;span class="ln"&gt;20 &lt;/span&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="ln"&gt;21 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;span class="ln"&gt;22 &lt;/span&gt;
-&lt;span class="ln"&gt;23 &lt;/span&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;24 &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;On this example, the target array is represented by the variable &lt;code&gt;dst&lt;/code&gt;, and I used a fixed-length string,
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-1"&gt; 1&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-2"&gt; 2&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-3"&gt; 3&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-4"&gt; 4&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-5"&gt; 5&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-6"&gt; 6&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-7"&gt; 7&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-8"&gt; 8&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-9"&gt; 9&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-10"&gt;10&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-11"&gt;11&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-12"&gt;12&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-13"&gt;13&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-14"&gt;14&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-15"&gt;15&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-16"&gt;16&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-17"&gt;17&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-18"&gt;18&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-19"&gt;19&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-20"&gt;20&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-21"&gt;21&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-22"&gt;22&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-23"&gt;23&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_f251a015a18944a89f44f6c560043498-24"&gt;24&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncpy, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-5"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-10"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-11"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-13"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-14"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* What happens if I pass a wrong length (lower than the actual&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-15"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * strlen) */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas______' */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-22"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-23"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_f251a015a18944a89f44f6c560043498-24"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;On this example, the target array is represented by the variable &lt;code&gt;dst&lt;/code&gt;, and I used a fixed-length string,
 on purpose for the demonstration, simulating what would actually happen. I null-terminated it so the program
 can finish successfully, because otherwise the operations on it would not end until the delimiter is reached,
 and we cannot know when that will happen, considering what's in memory at that time. In addition, the
@@ -48,38 +69,64 @@ tricking the function by passing it an empty string as the first parameter,
 and then the actual string we need to copy. This call will render the same result,
 but without the previous side effect.
 Let's see an example:&lt;/p&gt;
-&lt;pre class="code c literal-block"&gt;
-&lt;span class="ln"&gt; 1 &lt;/span&gt;&lt;span class="cp"&gt;#include &amp;lt;stdio.h&amp;gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;span class="ln"&gt; 2 &lt;/span&gt;&lt;span class="cp"&gt;#include &amp;lt;string.h&amp;gt;  &lt;/span&gt;&lt;span class="cm"&gt;/* strncat, strlen */&lt;/span&gt;&lt;span class="cp"&gt;
-&lt;/span&gt;&lt;span class="ln"&gt; 3 &lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;span class="ln"&gt; 4 &lt;/span&gt;&lt;span class="cp"&gt;#define TARGET 10
-&lt;/span&gt;&lt;span class="ln"&gt; 5 &lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;span class="ln"&gt; 6 &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;span class="ln"&gt; 7 &lt;/span&gt;
-&lt;span class="ln"&gt; 8 &lt;/span&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
-&lt;span class="ln"&gt; 9 &lt;/span&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;10 &lt;/span&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;11 &lt;/span&gt;
-&lt;span class="ln"&gt;12 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
-&lt;span class="ln"&gt;13 &lt;/span&gt;    &lt;span class="cm"&gt;/* Prepare destination string */&lt;/span&gt;
-&lt;span class="ln"&gt;14 &lt;/span&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;15 &lt;/span&gt;    &lt;span class="cm"&gt;/* Copy with strncat */&lt;/span&gt;
-&lt;span class="ln"&gt;16 &lt;/span&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="ln"&gt;17 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas' */&lt;/span&gt;
-&lt;span class="ln"&gt;18 &lt;/span&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right
-&lt;/span&gt;&lt;span class="ln"&gt;19 &lt;/span&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
-&lt;span class="ln"&gt;20 &lt;/span&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;21 &lt;/span&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="ln"&gt;22 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;span class="ln"&gt;23 &lt;/span&gt;    &lt;span class="cm"&gt;/* If I try to overrun the buffer */&lt;/span&gt;
-&lt;span class="ln"&gt;24 &lt;/span&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;25 &lt;/span&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="ln"&gt;26 &lt;/span&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;span class="ln"&gt;27 &lt;/span&gt;
-&lt;span class="ln"&gt;28 &lt;/span&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="ln"&gt;29 &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;Here we see, the error is no longer present, probably because of the difference on the implementation
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-1"&gt; 1&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-2"&gt; 2&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-3"&gt; 3&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-4"&gt; 4&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-5"&gt; 5&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-6"&gt; 6&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-7"&gt; 7&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-8"&gt; 8&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-9"&gt; 9&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-10"&gt;10&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-11"&gt;11&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-12"&gt;12&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-13"&gt;13&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-14"&gt;14&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-15"&gt;15&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-16"&gt;16&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-17"&gt;17&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-18"&gt;18&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-19"&gt;19&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-20"&gt;20&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-21"&gt;21&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-22"&gt;22&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-23"&gt;23&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-24"&gt;24&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-25"&gt;25&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-26"&gt;26&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-27"&gt;27&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-28"&gt;28&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-29"&gt;29&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncat, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-5"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-10"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-11"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-12"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-13"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Prepare destination string */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-14"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-15"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Copy with strncat */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas' */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-22"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-23"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I try to overrun the buffer */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-24"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-25"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-26"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-27"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-28"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd9365dfe2d54df1a321a75b3fdc7ae5-29"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;Here we see, the error is no longer present, probably because of the difference on the implementation
 (the snippet on the documentation &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id11" id="id6"&gt;[4]&lt;/a&gt; gives us a hint on what it does, so we can spot the change).&lt;/p&gt;
 &lt;p&gt;This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
 point that a new function was developed. The &lt;code&gt;strscpy&lt;/code&gt; function is being included in the Kernel
@@ -125,7 +172,7 @@ error codes, memory allocation, status of the pointer (a &lt;code&gt;free&lt;/co
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id7"&gt;[6]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671"&gt;http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671&lt;/a&gt;.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</guid><pubDate>Sun, 27 Sep 2015 21:34:44 GMT</pubDate></item><item><title>Setting user permissions in KVM</title><link>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;In a &lt;a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html"&gt;previous article&lt;/a&gt; I mentioned how to install a library in Fedora,
+&lt;/table&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</guid><pubDate>Sun, 27 Sep 2015 21:34:44 GMT</pubDate></item><item><title>Setting user permissions in KVM</title><link>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In a &lt;a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html"&gt;previous article&lt;/a&gt; I mentioned how to install a library in Fedora,
 in order to make &lt;tt class="docutils literal"&gt;KVM virtualization&lt;/tt&gt; easier, managing the &lt;tt class="docutils literal"&gt;NAT&lt;/tt&gt; network configuration
 between the guest virtual machine and the host, by means of &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt;.&lt;/p&gt;
 &lt;p&gt;Besides that, while using &lt;tt class="docutils literal"&gt;KVM&lt;/tt&gt; locally for development, I use &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;virt-manager&lt;/span&gt;&lt;/tt&gt;, a helpful
@@ -134,11 +181,9 @@ rest of the commands that interact with &lt;tt class="docutils literal"&gt;libvi
 privileges, so it will prompt for the &lt;tt class="docutils literal"&gt;sudo&lt;/tt&gt; password every time.&lt;/p&gt;
 &lt;p&gt;This can be avoided by including the user into the following groups: &lt;tt class="docutils literal"&gt;kvm&lt;/tt&gt;, and &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt;.&lt;/p&gt;
 &lt;p&gt;Therefore, just by running the following command we can skip the password prompt every time.&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-sudo usermod -a -G kvm,libvirt mariano
-&lt;/pre&gt;
-&lt;p&gt;This is an option I would use only for local development on my machine. Productive environments
-must have an strict permissions management.&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</guid><pubDate>Sat, 20 Jun 2015 23:46:58 GMT</pubDate></item><item><title>Running RabbitMQ server on Docker</title><link>http://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;If you use RabbitMQ for development frequently, sometimes you might have found
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_d7c16a84cb034c85b625bd4bff4b39b8-1"&gt;&lt;/a&gt;sudo usermod -a -G kvm,libvirt mariano
+&lt;/pre&gt;&lt;p&gt;This is an option I would use only for local development on my machine. Productive environments
+must have an strict permissions management.&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</guid><pubDate>Sat, 20 Jun 2015 23:46:58 GMT</pubDate></item><item><title>Running RabbitMQ server on Docker</title><link>http://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;If you use RabbitMQ for development frequently, sometimes you might have found
 it uses too much resources (it's normal while programming to have
 a lot of queues or tasks being queued and that makes the CPU usage to spike).&lt;/p&gt;
 &lt;p&gt;Having RabbitMQ installed on the OS seems the perfect approach for production, but
@@ -150,11 +195,9 @@ try &lt;code&gt;docker&lt;/code&gt; and see how it results.&lt;/p&gt;
 configuration it can run as expected.&lt;/p&gt;
 &lt;p&gt;There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-sudo docker pull rabbitmq
-sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
-&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option indicates the process to start &lt;em&gt;detached&lt;/em&gt;, then by
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_a24584523524475cbec8e882217b4db9-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
+&lt;a name="rest_code_a24584523524475cbec8e882217b4db9-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+&lt;/pre&gt;&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option indicates the process to start &lt;em&gt;detached&lt;/em&gt;, then by
 passing &lt;code&gt;-e&lt;/code&gt; we pass some environment variables (in this case,
 the &lt;code&gt;RABBITMQ_NODENAME&lt;/code&gt; is a particular variable for rabbit indicating
 how to set the name of the node it is starting). Optionally, we can limit the CPU
@@ -172,15 +215,13 @@ which is &lt;code&gt;docker logs rabbitmq.docker&lt;/code&gt;. Notice in this ca
 designated to the image was used instead of the &lt;em&gt;instance_id&lt;/em&gt;. In addition
 we can see internal data for the process by running the &lt;code&gt;inspect&lt;/code&gt;
 command (again we can use the &lt;cite&gt;instance_id&lt;/cite&gt; or the name we assigned).&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-docker inspect rabbitmq.docker
-sudo docker logs docker.rabbitmq
-&lt;/pre&gt;
-&lt;p&gt;It's important to notice that docker is actually &lt;em&gt;not a virtualization platform&lt;/em&gt;, but a mechanism that runs processes
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_48096849b8774f84af42d3e65d824af6-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
+&lt;a name="rest_code_48096849b8774f84af42d3e65d824af6-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
+&lt;/pre&gt;&lt;p&gt;It's important to notice that docker is actually &lt;em&gt;not a virtualization platform&lt;/em&gt;, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by &lt;code&gt;docker&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;I found this approach to be very versatile for a development environment, and with RabbitMQ being the first pilot,
-I think I can migrate more applications to docker instead of having them installed on the system (as long as possible).&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html</guid><pubDate>Sun, 26 Apr 2015 16:58:46 GMT</pubDate></item><item><title>Find Options</title><link>http://rmariano.github.io/itarch/es/posts/find-options.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Among the core-utils, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is one of the most useful commands. Though I use the basic functions
+I think I can migrate more applications to docker instead of having them installed on the system (as long as possible).&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html</guid><pubDate>Sun, 26 Apr 2015 16:58:46 GMT</pubDate></item><item><title>Find Options</title><link>http://rmariano.github.io/itarch/es/posts/find-options.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Among the core-utils, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is one of the most useful commands. Though I use the basic functions
 most of the time, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; has a wide range of parameters, and it comes in handy not only for finding
 files, but also for operating a bunch of them at once. Here is a very simple example.&lt;/p&gt;
 &lt;p&gt;Imagine you have to move many files to a directory, but they all call different so a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29"&gt;glob&lt;/a&gt; is no use, and
@@ -188,10 +229,8 @@ manually moving all of them is not an option. A possible approach would be to lo
 by running &lt;tt class="docutils literal"&gt;ls &lt;span class="pre"&gt;-lrth&lt;/span&gt;&lt;/tt&gt;). Suppose the first one of the batch is called &lt;tt class="docutils literal"&gt;/tmp/checkpoint&lt;/tt&gt; (for this example
 let's assume the files reside at &lt;tt class="docutils literal"&gt;/tmp&lt;/tt&gt;).&lt;/p&gt;
 &lt;p&gt;The command would be:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-type&lt;/span&gt; f&lt;/tt&gt; part is important in order not to move the entire directory (find only the files). Then
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_b01f978934ba437f945a0d2c75293228-1"&gt;&lt;/a&gt;find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-type&lt;/span&gt; f&lt;/tt&gt; part is important in order not to move the entire directory (find only the files). Then
 we have the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-anewer&lt;/span&gt;&lt;/tt&gt; that receives a file as a parameter, and it will filter for those files whose
 modification date is greater than the file used as an example (hence, this must be the start of the batch), and
 finally the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-exec&lt;/span&gt;&lt;/tt&gt; part is interesting because as mentioned at the beginning, it allows to perform
@@ -200,13 +239,11 @@ other actions such as modifications, &lt;tt class="docutils literal"&gt;sed&lt;/
 &lt;p&gt;Another trait I like about &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary files:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;By issuing this command we list some files to erase. And then we can simply do that by
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_93d13b8238354db1b75df5481c8651a5-1"&gt;&lt;/a&gt;find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;By issuing this command we list some files to erase. And then we can simply do that by
 appending &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-delete&lt;/span&gt;&lt;/tt&gt; to the very same command.&lt;/p&gt;
 &lt;p&gt;This is just the tip of the iceberg of the things that are possible by means of the &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; command and
-its various options.&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/find-options.html</guid><pubDate>Tue, 24 Mar 2015 14:29:58 GMT</pubDate></item><item><title>Checking Python files with Vim</title><link>http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+its various options.&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/find-options.html</guid><pubDate>Tue, 24 Mar 2015 14:29:58 GMT</pubDate></item><item><title>Checking Python files with Vim</title><link>http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
 extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
 trying not to use many plug-ins (neither packagers like &lt;tt class="docutils literal"&gt;Vundle&lt;/tt&gt;, etc.).&lt;/p&gt;
 &lt;p&gt;However, I do make use of an extension that checks Python files for errors, &lt;tt class="docutils literal"&gt;PEP8&lt;/tt&gt;,
@@ -214,10 +251,8 @@ among other things: &lt;a class="reference external" href="https://github.com/nv
 I install just this one manually, by making the command &lt;tt class="docutils literal"&gt;flake8&lt;/tt&gt; available system-wide &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html#id2" id="id1"&gt;[1]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Then the installation is as simple as downloading the project and coying the files into the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vim/ftplugin/python&lt;/span&gt;&lt;/tt&gt;
 directory. Make sure you have the following line added on your &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/tt&gt;:&lt;/p&gt;
-&lt;pre class="code vim literal-block"&gt;
-&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
-&lt;/pre&gt;
-&lt;p&gt;The features I use are mainly the syntax and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance checkers. It can also warn you about unused imports,
+&lt;pre class="code vim"&gt;&lt;a name="rest_code_82473e4a30b2431cb5dfb947ff22c679-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The features I use are mainly the syntax and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance checkers. It can also warn you about unused imports,
 and &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"&gt;cyclomatic complexity&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It is useful because things like &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance help to have a good code quality, and therefore a more readable
 and maintainable code base, specially on large projects with lots of files and modules.&lt;/p&gt;
@@ -229,22 +264,18 @@ and maintainable code base, specially on large projects with lots of files and m
 make sure to install it once per project. It is actually better, because you are not using the
 global system environment, but for packages like this, it should not be an issue, it's your choice.&lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;
-&lt;/table&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html</guid><pubDate>Sat, 07 Mar 2015 19:21:49 GMT</pubDate></item><item><title>Libvirt networking libraries</title><link>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Fedora 21 workstation seems to come with a lot of virtualization features and most of the
+&lt;/table&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html</guid><pubDate>Sat, 07 Mar 2015 19:21:49 GMT</pubDate></item><item><title>Libvirt networking libraries</title><link>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Fedora 21 workstation seems to come with a lot of virtualization features and most of the
 &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt; libraries installed. I only had to add the &lt;tt class="docutils literal"&gt;KVM &lt;span class="pre"&gt;virtual-manager&lt;/span&gt;&lt;/tt&gt; which is
 the KVM application I am more familiar with. However, the new version of the &lt;tt class="docutils literal"&gt;libvirt*&lt;/tt&gt; libraries
 have networking features that are great for the data centre environment, but maybe not the best option
 for a particular workstation, so I added the following packages in order to set up an easier
 network configuration for my local virtual machines.&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-sudo dnf install virt-install libvirt-daemon-config-network
-&lt;/pre&gt;
-&lt;p&gt;In order to reflect the changes and start using the new features, we need to restart its service:&lt;/p&gt;
-&lt;pre class="code bash literal-block"&gt;
-systemctl restart libvirtd.service
-&lt;/pre&gt;
-&lt;p&gt;After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_83287c066731463185eb92a9c48549e1-1"&gt;&lt;/a&gt;sudo dnf install virt-install libvirt-daemon-config-network
+&lt;/pre&gt;&lt;p&gt;In order to reflect the changes and start using the new features, we need to restart its service:&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_8aba0b937d874c9cb2243e6a6db93079-1"&gt;&lt;/a&gt;systemctl restart libvirtd.service
+&lt;/pre&gt;&lt;p&gt;After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
-machines faster.&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</guid><pubDate>Thu, 15 Jan 2015 00:06:57 GMT</pubDate></item><item><title>Vim commands for improved productivity</title><link>http://rmariano.github.io/itarch/es/posts/vim-commands-for-improved-productivity.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;I would like to describe my favourite Vim commands that I use on a daily basis,
+machines faster.&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</guid><pubDate>Thu, 15 Jan 2015 00:06:57 GMT</pubDate></item><item><title>Vim commands for improved productivity</title><link>http://rmariano.github.io/itarch/es/posts/vim-commands-for-improved-productivity.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;I would like to describe my favourite Vim commands that I use on a daily basis,
 in order to share some tips that could help you if you are new in this editor, or
 to improve your experience even if you use it.&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -281,7 +312,7 @@ And this is precisely the idea behind this post: to show how
 some few commands applied in the right context, might make you edit faster.&lt;/p&gt;
 &lt;p&gt;All in all, Vim is a great editor, full of amazing features. Learning it is actually worth it,
 in the sense that you will get an amazing productivity in return (you'll type and edit
-code faster).&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/vim-commands-for-improved-productivity.html</guid><pubDate>Sun, 20 Jul 2014 23:59:56 GMT</pubDate></item><item><title>Starting a gnome-shell extension</title><link>http://rmariano.github.io/itarch/es/posts/starting-a-gnome-shell-extension.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;p&gt;Since I moved from Ubuntu to Fedora early this year, I changed my desktop
+code faster).&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/vim-commands-for-improved-productivity.html</guid><pubDate>Sun, 20 Jul 2014 23:59:56 GMT</pubDate></item><item><title>Starting a gnome-shell extension</title><link>http://rmariano.github.io/itarch/es/posts/starting-a-gnome-shell-extension.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Since I moved from Ubuntu to Fedora early this year, I changed my desktop
 environment from unity to Gnome Shell.&lt;/p&gt;
 &lt;p&gt;I must say it is a great experience. At the beginning I was thinking on
 what was better compared to unity (because I did not like Unity). Regarding this
@@ -301,4 +332,4 @@ In addition I found very interesting to see front-end related technologies like 
 used in the desktop environment (not that is something new, but still funny).&lt;/p&gt;
 &lt;p&gt;To sum up, I wanted to highlight that is interesting to learn new technologies, even with little and
 simple steps like a new API, library, etc. It is not for the technology itself, but for the sake of
-learning :)&lt;/p&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/starting-a-gnome-shell-extension.html</guid><pubDate>Sun, 22 Jun 2014 00:15:50 GMT</pubDate></item></channel></rss>
+learning :)&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/starting-a-gnome-shell-extension.html</guid><pubDate>Sun, 22 Jun 2014 00:15:50 GMT</pubDate></item></channel></rss>
