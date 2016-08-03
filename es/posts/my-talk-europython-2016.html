@@ -2,9 +2,9 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
 <head>
 <meta charset="utf-8">
-<base href="http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html">
+<base href="http://rmariano.github.io/itarch/es/posts/my-talk-europython-2016.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Setting user permissions in KVM | IT Arch</title>
+<title>My talk @ EuroPython 2016 | IT Arch</title>
 <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
@@ -13,22 +13,21 @@
 <meta content="#5670d4" name="theme-color">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
-<link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html">
+<link rel="canonical" href="http://rmariano.github.io/itarch/es/posts/my-talk-europython-2016.html">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
-<link rel="prev" href="notas-sobre-la-arqconf-2015.html" title="Notas sobre la ArqConf 2015" type="text/html">
-<link rel="next" href="copying-strings-in-c.html" title="strncpy and strncat for copying strings in C" type="text/html">
+<link rel="prev" href="europython-2016-remarks.html" title="EuroPython 2016 remarks" type="text/html">
 <meta property="og:site_name" content="IT Arch">
-<meta property="og:title" content="Setting user permissions in KVM">
-<meta property="og:url" content="http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html">
-<meta property="og:description" content="In a previous article I mentioned how to install a library in Fedora,
-in order to make KVM virtualization easier, managing the NAT network configuration
-between the guest virtual machine and the host,">
+<meta property="og:title" content="My talk @ EuroPython 2016">
+<meta property="og:url" content="http://rmariano.github.io/itarch/es/posts/my-talk-europython-2016.html">
+<meta property="og:description" content='I had the great experience of presenting at EuroPython 2016. My talk entitled "Clean code in Python",
+was about good development practices, down to low-level design (with code examples), for Python. T'>
 <meta property="og:type" content="article">
-<meta property="article:published_time" content="2015-06-20T20:46:58-03:00">
-<meta property="article:tag" content="infrastructure">
-<meta property="article:tag" content="linux">
-<meta property="article:tag" content="virtualization">
-<link rel="alternate" hreflang="en" href="../../posts/setting-user-permissions-in-kvm.html">
+<meta property="article:published_time" content="2016-08-02T21:22:53-03:00">
+<meta property="article:tag" content="conferences">
+<meta property="article:tag" content="EuroPython">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="talks">
+<link rel="alternate" hreflang="en" href="../../posts/my-talk-europython-2016.html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
@@ -78,7 +77,7 @@ between the guest virtual machine and the host,">
                 
                     
     <li>
-    <a href="setting-user-permissions-in-kvm.rst" id="sourcelink">Código fuente</a>
+    <a href="my-talk-europython-2016.rst" id="sourcelink">Código fuente</a>
     </li>
 
                 
@@ -93,47 +92,51 @@ between the guest virtual machine and the host,">
         <div class="row">
             
             
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Setting user permissions in KVM</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">My talk @ EuroPython 2016</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                     <a href="../authors/mariano-anaya.html">Mariano Anaya</a>
             </span></p>
-            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-06-20T20:46:58-03:00" itemprop="datePublished" title="sáb jun 20, 2015 - 20:46">sáb jun 20, 2015 - 20:46</time></a></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2016-08-02T21:22:53-03:00" itemprop="datePublished" title="mar ago 02, 2016 - 21:22">mar ago 02, 2016 - 21:22</time></a></p>
             
-        <p class="sourceline"><a href="setting-user-permissions-in-kvm.rst" id="sourcelink">Código fuente</a></p>
+        <p class="sourceline"><a href="my-talk-europython-2016.rst" id="sourcelink">Código fuente</a></p>
 
         </div>
         
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>In a <a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html">previous article</a> I mentioned how to install a library in Fedora,
-in order to make <tt class="docutils literal">KVM virtualization</tt> easier, managing the <tt class="docutils literal">NAT</tt> network configuration
-between the guest virtual machine and the host, by means of <tt class="docutils literal">libvirt</tt>.</p>
-<p>Besides that, while using <tt class="docutils literal">KVM</tt> locally for development, I use <tt class="docutils literal"><span class="pre">virt-manager</span></tt>, a helpful
-application that manages the different virtual machines. This application, as well as the
-rest of the commands that interact with <tt class="docutils literal">libvirt</tt> (<tt class="docutils literal">virsh</tt> for example), require super user
-privileges, so it will prompt for the <tt class="docutils literal">sudo</tt> password every time.</p>
-<p>This can be avoided by including the user into the following groups: <tt class="docutils literal">kvm</tt>, and <tt class="docutils literal">libvirt</tt>.</p>
-<p>Therefore, just by running the following command we can skip the password prompt every time.</p>
-<pre class="code bash"><a name="rest_code_58db1d235b3c42d79ce1b98b753c83cb-1"></a>sudo usermod -a -G kvm,libvirt mariano
-</pre>
-<p>This is an option I would use only for local development on my machine. Productive environments
-must have an strict permissions management.</p>
+<p>I had the great experience of presenting at EuroPython 2016. My talk entitled "Clean code in Python",
+was about good development practices, down to low-level design (with code examples), for Python. The idea
+of the talk, was to present the "pythonic" approach for writing code, and how do general concepts of
+clean code apply to Python.</p>
+<p>These examples might be useful for beginners, developers experienced in other languages coming to Python,
+and people using Python for scientific applications. The examples could also be helpful for senior
+developers, because they remind real situations that might appear in pull requests, while doing a code review.</p>
+<p>Here is the video in YouTube:</p>
+<div class="youtube-video align-center">
+<iframe width="425" height="344" src="https://www.youtube.com/embed/VRCzCMJngtU?rel=0&amp;hd=1&amp;wmode=transparent"></iframe>
+</div>
+<p>And the slides (which I also made available along with the source code, <a class="reference external" href="https://twitter.com/rmarianoa/status/755808691996200960">shortly after the presentation
+finished</a>).</p>
+<script async class="speakerdeck-embed" data-id="8e5af9b4d3a14204a700458cebfda1d7" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script><p>The presentation was well received: some attendees
+told me they liked it (even asked for the slides and code), and I got good advices.
+The following days of the conference, more people told me that they liked the presentation, and some others
+mentioned (something I did not think at the beginning, but that it makes perfect sense), that these ideas
+are really useful for people using Python in scientific environments.</p>
+<p>I am glad it was useful for the community.</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
-<li><a class="tag p-category" href="../categories/infrastructure.html" rel="tag">infrastructure</a></li>
-            <li><a class="tag p-category" href="../categories/linux.html" rel="tag">linux</a></li>
-            <li><a class="tag p-category" href="../categories/virtualization.html" rel="tag">virtualization</a></li>
+<li><a class="tag p-category" href="../categories/conferences.html" rel="tag">conferences</a></li>
+            <li><a class="tag p-category" href="../categories/europython.html" rel="tag">EuroPython</a></li>
+            <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+            <li><a class="tag p-category" href="../categories/talks.html" rel="tag">talks</a></li>
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="notas-sobre-la-arqconf-2015.html" rel="prev" title="Notas sobre la ArqConf 2015">Publicación anterior</a>
-            </li>
-            <li class="next">
-                <a href="copying-strings-in-c.html" rel="next" title="strncpy and strncat for copying strings in C">Siguiente publicación</a>
+                <a href="europython-2016-remarks.html" rel="prev" title="EuroPython 2016 remarks">Publicación anterior</a>
             </li>
         </ul></nav></aside></article>
 </div>

@@ -80,7 +80,45 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/alpine-email-client.html" class="u-url">Alpine email client</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/checking-python-files-with-vim.html" class="u-url">Checking Python files with Vim</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/checking-python-files-with-vim.html" rel="bookmark"><time class="published dt-published" datetime="2015-03-07T16:21:49-03:00" title="sáb mar 07, 2015 - 16:21">sáb mar 07, 2015 - 16:21</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
+trying not to use many plug-ins (neither packagers like <tt class="docutils literal">Vundle</tt>, etc.).</p>
+<p>However, I do make use of an extension that checks Python files for errors, <tt class="docutils literal">PEP8</tt>,
+among other things: <a class="reference external" href="https://github.com/nvie/vim-flake8">flake8</a>. Because I do not use plug-in platforms for Vim,
+I install just this one manually, by making the command <tt class="docutils literal">flake8</tt> available system-wide <a class="footnote-reference" href="posts/checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p>
+<p>Then the installation is as simple as downloading the project and coying the files into the <tt class="docutils literal"><span class="pre">~/.vim/ftplugin/python</span></tt>
+directory. Make sure you have the following line added on your <tt class="docutils literal"><span class="pre">~/.vimrc</span></tt>:</p>
+<pre class="code vim"><a name="rest_code_02e8321f91ef4b39aa158396c50f60cb-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
+</pre>
+<p>The features I use are mainly the syntax and <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance checkers. It can also warn you about unused imports,
+and <a class="reference external" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity</a>.</p>
+<p>It is useful because things like <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance help to have a good code quality, and therefore a more readable
+and maintainable code base, specially on large projects with lots of files and modules.</p>
+<p>That's all. For more details and other configuration tips checkout <a class="reference external" href="https://github.com/rmariano/vim-config">my Vim setup</a>.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/checking-python-files-with-vim.html#id1">[1]</a></td>
+<td>Another option would be to install it on your virtual environment, but then you have to
+make sure to install it once per project. It is actually better, because you are not using the
+global system environment, but for packages like this, it should not be an issue, it's your choice.</td>
+</tr></tbody>
+</table>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/alpine-email-client.html" class="u-url">Alpine email client</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -96,7 +134,7 @@ without any distractions, focusing on what is just important. It is also great t
 relevant part of the email) and it can follow the links by launching the default browser.</p>
 <p>It is simple, fast and perfectly suitable for checking my old inbox with weekly lists updates.
 It's inherited from an old project, called pine, and in Fedora it can be installed by:</p>
-<pre class="code bash"><a name="rest_code_6b5adff960bd4d308e45d61088228a6c-1"></a>sudo dnf install alpine
+<pre class="code bash"><a name="rest_code_cc8b1cd300fb464b84397d623f532687-1"></a>sudo dnf install alpine
 </pre>
 <p>Then you just need to configure the email account settings (one last time to visit the page,
 but that would be the last :-) and you're ready.</p>
@@ -127,10 +165,10 @@ the KVM application I am more familiar with. However, the new version of the <tt
 have networking features that are great for the data centre environment, but maybe not the best option
 for a particular workstation, so I added the following packages in order to set up an easier
 network configuration for my local virtual machines.</p>
-<pre class="code bash"><a name="rest_code_83287c066731463185eb92a9c48549e1-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
+<pre class="code bash"><a name="rest_code_c38e721f64484a8d9f41e66c3c632822-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In order to reflect the changes and start using the new features, we need to restart its service:</p>
-<pre class="code bash"><a name="rest_code_8aba0b937d874c9cb2243e6a6db93079-1"></a>systemctl restart libvirtd.service
+<pre class="code bash"><a name="rest_code_3b6c84566f3d4213ad4a0074722e48b8-1"></a>systemctl restart libvirtd.service
 </pre>
 <p>After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
@@ -497,19 +535,19 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_0c024454d677452e8fc8324d6ce0379c-1">1</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_0c024454d677452e8fc8324d6ce0379c-2">2</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_0c024454d677452e8fc8324d6ce0379c-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_0c024454d677452e8fc8324d6ce0379c-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_0c024454d677452e8fc8324d6ce0379c-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_0c024454d677452e8fc8324d6ce0379c-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_5762146495d141d293aa8f518787c5d4-1">1</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_5762146495d141d293aa8f518787c5d4-2">2</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_5762146495d141d293aa8f518787c5d4-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_5762146495d141d293aa8f518787c5d4-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_5762146495d141d293aa8f518787c5d4-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_5762146495d141d293aa8f518787c5d4-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
 <p>Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:</p>
-<pre class="code python"><a name="rest_code_4978bc7e72c942a38bbd84f31bfd5c5a-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<pre class="code python"><a name="rest_code_9ea42da03cec4beda02d97b2883a2600-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
