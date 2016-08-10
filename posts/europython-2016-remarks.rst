@@ -22,6 +22,13 @@ on my talk on Wednesday, so I felt really glad about that. I took an oath (very 
 (it was really good actually). I had a great time helping other developers, exchanging ideas and experiences during lunch,
 solving problems, and getting a first glimpse on what the conference was going to be like.
 
+
+.. figure:: ../ep2016-beginners-mentor-oath.png
+   :align: center
+
+   The moment of the oath for becoming a mentor, and earning the badge.
+
+
 After the workshop finished, I walked to the main venue, and gave a hand packing the bags of the conference. After that, time to
 see around Bilbao.
 
@@ -40,8 +47,8 @@ The rest of the afternoon, I attended several talks. At the end, there were, of 
 
 Tuesday started with the keynote by P. Hildebrant, presenting how Disney uses several technologies, including Python,
 as support for movies and productions. It was very good and enlightening to see an endeavour of such extent with Python.
-After that, during morning I attended a workshop about Async web development, with several Python technologies
-for doing asynchronous computation.
+After that, during morning I attended a workshop about Async web development, `with several Python technologies
+for doing asynchronous computation <https://github.com/rmariano/async-web-dev>`_.
 
 During the afternoon, I watched several great talks, including "Protect you users with Circuit Breakers", and
 several other good ones, closing with the lightning talks.

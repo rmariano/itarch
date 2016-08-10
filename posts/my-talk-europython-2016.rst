@@ -18,10 +18,10 @@ and people using Python for scientific applications. The examples could also be 
 developers, because they remind real situations that might appear in pull requests, while doing a code review.
 
 
-Here is the video in YouTube:
+Here is the video on YouTube:
 
 
-.. youtube:: VRCzCMJngtU
+.. youtube:: 7ADbOHW1dTA
    :align: center
 
 

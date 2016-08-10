@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>IT Arch (rabbitmq)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" rel="self" href="http://rmariano.github.io/itarch/categories/rabbitmq.xml"></atom:link><language>en</language><lastBuildDate>Wed, 03 Aug 2016 01:39:00 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running RabbitMQ server on Docker</title><link>http://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;If you use RabbitMQ for development frequently, sometimes you might have found
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>IT Arch (rabbitmq)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" rel="self" href="http://rmariano.github.io/itarch/categories/rabbitmq.xml"></atom:link><language>en</language><lastBuildDate>Wed, 10 Aug 2016 01:03:36 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running RabbitMQ server on Docker</title><link>http://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;If you use RabbitMQ for development frequently, sometimes you might have found
 it uses too much resources (it's normal while programming to have
 a lot of queues or tasks being queued and that makes the CPU usage to spike).&lt;/p&gt;
 &lt;p&gt;Having RabbitMQ installed on the OS seems the perfect approach for production, but
@@ -11,8 +11,8 @@ try &lt;code&gt;docker&lt;/code&gt; and see how it results.&lt;/p&gt;
 configuration it can run as expected.&lt;/p&gt;
 &lt;p&gt;There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_d4d9a3fc82e2477fbf492a275ad05390-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
-&lt;a name="rest_code_d4d9a3fc82e2477fbf492a275ad05390-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_5910fc27a5dd46a796146d3cd89963e1-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
+&lt;a name="rest_code_5910fc27a5dd46a796146d3cd89963e1-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
 &lt;/pre&gt;&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option indicates the process to start &lt;em&gt;detached&lt;/em&gt;, then by
 passing &lt;code&gt;-e&lt;/code&gt; we pass some environment variables (in this case,
 the &lt;code&gt;RABBITMQ_NODENAME&lt;/code&gt; is a particular variable for rabbit indicating
@@ -31,8 +31,8 @@ which is &lt;code&gt;docker logs rabbitmq.docker&lt;/code&gt;. Notice in this ca
 designated to the image was used instead of the &lt;em&gt;instance_id&lt;/em&gt;. In addition
 we can see internal data for the process by running the &lt;code&gt;inspect&lt;/code&gt;
 command (again we can use the &lt;cite&gt;instance_id&lt;/cite&gt; or the name we assigned).&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_9ff40231550b424c93764d3d5d136d5a-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
-&lt;a name="rest_code_9ff40231550b424c93764d3d5d136d5a-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_234e3fbcaa304507998a3d410037a6b0-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
+&lt;a name="rest_code_234e3fbcaa304507998a3d410037a6b0-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
 &lt;/pre&gt;&lt;p&gt;It's important to notice that docker is actually &lt;em&gt;not a virtualization platform&lt;/em&gt;, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by &lt;code&gt;docker&lt;/code&gt;.&lt;/p&gt;
