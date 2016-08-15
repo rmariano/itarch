@@ -2,10 +2,10 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
 <head>
 <meta charset="utf-8">
-<base href="http://rmariano.github.io/itarch/es/archive.html">
+<base href="http://rmariano.github.io/itarch/es/index-2.html">
 <meta name="description" content="A blog about software engineering, technology and ideas.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Archivo | IT Arch</title>
+<title>IT Arch (publicaciones antiguas, página 2) | IT Arch</title>
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <link href="../assets/css/rst.css" rel="stylesheet" type="text/css">
 <link href="../assets/css/code.css" rel="stylesheet" type="text/css">
@@ -14,7 +14,9 @@
 <meta content="#5670d4" name="theme-color">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="rss.xml">
-<link rel="canonical" href="http://rmariano.github.io/itarch/es/archive.html">
+<link rel="canonical" href="http://rmariano.github.io/itarch/es/index-2.html">
+<link rel="prev" href="index.html" type="text/html">
+<link rel="next" href="index-1.html" type="text/html">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
 </head>
 <body>
@@ -76,21 +78,56 @@
         <div class="row">
             
             
-<article class="listpage"><header><h1>Archivo</h1>
-    </header><ul class="postlist">
-<li>
-<a href="2016/index.html">2016</a>
-            (6)
-        </li>
-<li>
-<a href="2015/index.html">2015</a>
-            (9)
-        </li>
-<li>
-<a href="2014/index.html">2014</a>
-            (6)
-    </li>
-</ul></article>
+
+    
+<div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/find-options.html" class="u-url">Find Options</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/find-options.html" rel="bookmark"><time class="published dt-published" datetime="2015-03-24T11:29:58-03:00" title="mar mar 24, 2015 - 11:29">mar mar 24, 2015 - 11:29</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>Among the core-utils, <tt class="docutils literal">find</tt> is one of the most useful commands. Though I use the basic functions
+most of the time, <tt class="docutils literal">find</tt> has a wide range of parameters, and it comes in handy not only for finding
+files, but also for operating a bunch of them at once. Here is a very simple example.</p>
+<p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
+manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
+by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
+let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
+<p>The command would be:</p>
+<pre class="code bash"><a name="rest_code_22352084c1ad44e9b0162680f788d956-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
+we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
+modification date is greater than the file used as an example (hence, this must be the start of the batch), and
+finally the <tt class="docutils literal"><span class="pre">-exec</span></tt> part is interesting because as mentioned at the beginning, it allows to perform
+arbitrary operations on the group of files (in this case to move them to another location, but
+other actions such as modifications, <tt class="docutils literal">sed</tt>, etc. are also possible).</p>
+<p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
+some cases I can first check the results prior to execute an action. For example, if we would like to check
+for deleting some unnecessary files:</p>
+<pre class="code bash"><a name="rest_code_7d023f7803984be6bfc9047a75709e60-1"></a>find . -name <span class="s2">"*.pyc"</span>
+</pre>
+<p>By issuing this command we list some files to erase. And then we can simply do that by
+appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>
+<p>This is just the tip of the iceberg of the things that are possible by means of the <tt class="docutils literal">find</tt> command and
+its various options.</p>
+</div>
+    </div>
+    </article>
+</div>
+
+        <nav class="postindexpager"><ul class="pager">
+<li class="previous">
+                <a href="index.html" rel="prev">Publicaciones posteriores</a>
+            </li>
+            <li class="next">
+                <a href="index-1.html" rel="next">Publicaciones anteriores</a>
+            </li>
+        </ul></nav>
 </div>
         <!--End of body content-->
 

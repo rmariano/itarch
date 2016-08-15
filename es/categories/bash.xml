@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>IT Arch (bash)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" rel="self" href="http://rmariano.github.io/itarch/es/categories/bash.xml"></atom:link><language>es</language><lastBuildDate>Wed, 10 Aug 2016 01:03:36 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Find Options</title><link>http://rmariano.github.io/itarch/es/posts/find-options.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Among the core-utils, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is one of the most useful commands. Though I use the basic functions
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>IT Arch (bash)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="http://rmariano.github.io/itarch/es/categories/bash.xml" rel="self"></atom:link><language>es</language><lastBuildDate>Mon, 15 Aug 2016 22:34:12 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Find Options</title><link>http://rmariano.github.io/itarch/es/posts/find-options.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Among the core-utils, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is one of the most useful commands. Though I use the basic functions
 most of the time, &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; has a wide range of parameters, and it comes in handy not only for finding
 files, but also for operating a bunch of them at once. Here is a very simple example.&lt;/p&gt;
 &lt;p&gt;Imagine you have to move many files to a directory, but they all call different so a &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Glob_%28programming%29"&gt;glob&lt;/a&gt; is no use, and
@@ -7,7 +7,7 @@ manually moving all of them is not an option. A possible approach would be to lo
 by running &lt;tt class="docutils literal"&gt;ls &lt;span class="pre"&gt;-lrth&lt;/span&gt;&lt;/tt&gt;). Suppose the first one of the batch is called &lt;tt class="docutils literal"&gt;/tmp/checkpoint&lt;/tt&gt; (for this example
 let's assume the files reside at &lt;tt class="docutils literal"&gt;/tmp&lt;/tt&gt;).&lt;/p&gt;
 &lt;p&gt;The command would be:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_9e8fe6b997fa4adf9fee43114cf87b71-1"&gt;&lt;/a&gt;find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_22352084c1ad44e9b0162680f788d956-1"&gt;&lt;/a&gt;find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-type&lt;/span&gt; f&lt;/tt&gt; part is important in order not to move the entire directory (find only the files). Then
 we have the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-anewer&lt;/span&gt;&lt;/tt&gt; that receives a file as a parameter, and it will filter for those files whose
 modification date is greater than the file used as an example (hence, this must be the start of the batch), and
@@ -17,7 +17,7 @@ other actions such as modifications, &lt;tt class="docutils literal"&gt;sed&lt;/
 &lt;p&gt;Another trait I like about &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary files:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_6ffcd4d820b8427a839520f088788aad-1"&gt;&lt;/a&gt;find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_7d023f7803984be6bfc9047a75709e60-1"&gt;&lt;/a&gt;find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;By issuing this command we list some files to erase. And then we can simply do that by
 appending &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-delete&lt;/span&gt;&lt;/tt&gt; to the very same command.&lt;/p&gt;
 &lt;p&gt;This is just the tip of the iceberg of the things that are possible by means of the &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; command and
