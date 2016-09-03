@@ -16,7 +16,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="es/rss.xml">
 <link rel="canonical" href="http://rmariano.github.io/itarch/index.html">
 <link rel="next" href="index-2.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/returning-data-in-postgresql.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/oncoming-events-of-python-and-architecture-in-september.html" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -80,7 +80,53 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/returning-data-in-postgresql.html" class="u-url">Returning data in PostgreSQL</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/oncoming-events-of-python-and-architecture-in-september.html" class="u-url">Oncoming events of Python and Architecture in September</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/oncoming-events-of-python-and-architecture-in-september.html" rel="bookmark"><time class="published dt-published" datetime="2016-09-03T16:20:47-03:00" title="Sat Sep 03, 2016 - 16:20">Sat Sep 03, 2016 - 16:20</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>The next Saturday 10 of September, I will be presenting my talk "Clean Code in Python", as presented
+in the previous EuroPython 2016, at a local Python event in Córdoba, Argentina <a class="footnote-reference" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id4" id="id1">[1]</a> <a class="footnote-reference" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id5" id="id2">[2]</a>.</p>
+<p>The following week, I will be attending a local architecture meetup (arqconf), on which a talk <a class="footnote-reference" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id6" id="id3">[3]</a> about
+OpenStack will be hosted, explaining how they work in a distributed fashion.</p>
+<p>I look forward to enjoying both events!</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id1">[1]</a></td>
+<td><a class="reference external" href="http://www.meetup.com/Cordoba-Python-Meetup/events/233741709/">http://www.meetup.com/Cordoba-Python-Meetup/events/233741709/</a></td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id2">[2]</a></td>
+<td><a class="reference external" href="https://medium.com/@toniabdala/juntada-python-c%C3%B3rdoba-septiembre-db4abe5c4858#.yo0x1mqe3">https://medium.com/@toniabdala/juntada-python-c%C3%B3rdoba-septiembre-db4abe5c4858#.yo0x1mqe3</a></td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/oncoming-events-of-python-and-architecture-in-september.html#id3">[3]</a></td>
+<td><a class="reference external" href="http://www.meetup.com/ArquitecturaDeSoftware/events/233824352/">http://www.meetup.com/ArquitecturaDeSoftware/events/233824352/</a></td>
+</tr></tbody>
+</table>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/returning-data-in-postgresql.html" class="u-url">Returning data in PostgreSQL</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -101,19 +147,19 @@ I ran code like that one in production, to which I answered no: the code is enti
 for the mere purposes of the examples, so I just needed an excuse for a task that could be done in two SQL statements,
 so the example with the decorator can be shown.</p>
 <p>The code of the example follows:</p>
-<pre class="code SQL"><a name="rest_code_c11a7b583a204471b6e4c9cfd78e7f78-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_c11a7b583a204471b6e4c9cfd78e7f78-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_c11a7b583a204471b6e4c9cfd78e7f78-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_c11a7b583a204471b6e4c9cfd78e7f78-4"></a>
-<a name="rest_code_c11a7b583a204471b6e4c9cfd78e7f78-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_bf90a0ff3b7a4d6ca2f2d0015c7e6d6d-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_bf90a0ff3b7a4d6ca2f2d0015c7e6d6d-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_bf90a0ff3b7a4d6ca2f2d0015c7e6d6d-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_bf90a0ff3b7a4d6ca2f2d0015c7e6d6d-4"></a>
+<a name="rest_code_bf90a0ff3b7a4d6ca2f2d0015c7e6d6d-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that there is another way of writing that sort of statements, with the "returning" sentence of PostgreSQL.</p>
 <p>It would be re-written like:</p>
-<pre class="code SQL"><a name="rest_code_c140102ce34c483cba7ba07e903a10fa-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_c140102ce34c483cba7ba07e903a10fa-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_c140102ce34c483cba7ba07e903a10fa-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_c140102ce34c483cba7ba07e903a10fa-4"></a><span class="p">)</span>
-<a name="rest_code_c140102ce34c483cba7ba07e903a10fa-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_573949a838094c28a453a208d3da923e-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_573949a838094c28a453a208d3da923e-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_573949a838094c28a453a208d3da923e-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_573949a838094c28a453a208d3da923e-4"></a><span class="p">)</span>
+<a name="rest_code_573949a838094c28a453a208d3da923e-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
 <p>The interesting point here, is that it entails a single command, instead of two. So this can be done with a single
 call to the database, saving an extra round trip.</p>
@@ -121,35 +167,35 @@ call to the database, saving an extra round trip.</p>
 (as well as the rest of the statements, INSERT, UPDATE, for instance), can be specified to return the data they affect,
 and this can be used in an intermediate table to pipe it to another statement.</p>
 <p>By default, if you run the delete statement, it should return the number of affected rows, like:</p>
-<pre class="code SQL"><a name="rest_code_b67782a9e1d946ef898aa1a0b6a23f26-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_c370ed2991c348d7a2a327c36727dcce-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_df87a63d989a4565a6a3a0ba8c3ac21b-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_369303a2ffb4445293231bb5e4526e39-1"></a>DELETE 4
 </pre>
 <p>But, we can make it to return the rows themselves:</p>
-<pre class="code SQL"><a name="rest_code_5a50cece5da548e5b0e8c856e92d85ba-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_f8776ab0ba17459d8bbaaf5827d6e7cb-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_32321fe3c3964a249ce98a21257be3e5-1"></a>id|   description    |     order_date
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-2"></a>----+------------------+---------------------
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-7"></a>(4 rows)
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-8"></a>
-<a name="rest_code_32321fe3c3964a249ce98a21257be3e5-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-1"></a>id|   description    |     order_date
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-2"></a>----+------------------+---------------------
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-7"></a>(4 rows)
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-8"></a>
+<a name="rest_code_f131cbd387504994b59b3f026a7d9d5c-9"></a>DELETE 4
 </pre>
 <p>Or, specific columns if we select them:</p>
-<pre class="code SQL"><a name="rest_code_c47a4e0b173a4c6b854b7b70f48cb374-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_f4542797d4b946ce852dc9827be125db-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_56d703b18b5c406b9580f076031db2f9-1"></a>id |   description
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-2"></a>----+------------------
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-3"></a>4 | to be archived
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-4"></a>5 | First sale order
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-5"></a>6 | First sale order
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-6"></a>7 | First sale order
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-7"></a>(4 rows)
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-8"></a>
-<a name="rest_code_56d703b18b5c406b9580f076031db2f9-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_59757633384d47078446b47dd81ee6eb-1"></a>id |   description
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-2"></a>----+------------------
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-3"></a>4 | to be archived
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-4"></a>5 | First sale order
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-5"></a>6 | First sale order
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-6"></a>7 | First sale order
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-7"></a>(4 rows)
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-8"></a>
+<a name="rest_code_59757633384d47078446b47dd81ee6eb-9"></a>DELETE 4
 </pre>
 <p>So, we can use the "returning" feature of PostgreSQL, to do in a single command what we usually would do in two or more,
 and in some cases, it might be something worth exploring. It was great learning things like this one, and getting tips
@@ -426,54 +472,54 @@ to finish before it can put a <code>\0</code> character at the end of the target
 an invalid array of characters <a class="footnote-reference" href="posts/copying-strings-in-c.html#id12" id="id4">[5]</a>.</p>
 <p>This is an example.</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_53e56125fa1b42f69a753a5837e0802b-24">24</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_53e56125fa1b42f69a753a5837e0802b-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncpy, strlen */</span><span class="cp"></span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-3"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-5"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-7"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-10"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-11"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-12"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-13"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-14"></a>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-15"></a><span class="cm">    * strlen) */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-16"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-20"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-21"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-22"></a>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_53e56125fa1b42f69a753a5837e0802b-24"></a><span class="p">}</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-1"> 1</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-2"> 2</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-3"> 3</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-4"> 4</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-5"> 5</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-6"> 6</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-7"> 7</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-8"> 8</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-9"> 9</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-10">10</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-11">11</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-12">12</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-13">13</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-14">14</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-15">15</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-16">16</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-17">17</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-18">18</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-19">19</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-20">20</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-21">21</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-22">22</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-23">23</a>
+<a href="posts/copying-strings-in-c.html#rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-24">24</a></pre></div></td>
+<td class="code"><pre class="code c"><a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncpy, strlen */</span><span class="cp"></span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-3"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-4"></a><span class="cp">#define TARGET 10</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-5"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-7"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-10"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-11"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-12"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-13"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-14"></a>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-15"></a><span class="cm">    * strlen) */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-16"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-20"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-21"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-22"></a>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_efec1a1b1e1949b5ba1d6ab4aecad961-24"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
 <p>On this example, the target array is represented by the variable <code>dst</code>, and I used a fixed-length string,
@@ -488,64 +534,64 @@ and then the actual string we need to copy. This call will render the same resul
 but without the previous side effect.
 Let's see an example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-24">24</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-25">25</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-26">26</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-27">27</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-28">28</a>
-<a href="posts/copying-strings-in-c.html#rest_code_8a5f8d6375124b03974f3bd282798d0e-29">29</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncat, strlen */</span><span class="cp"></span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-3"></a>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-5"></a>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-7"></a>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-10"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-11"></a>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-12"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-13"></a>    <span class="cm">/* Prepare destination string */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-14"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-15"></a>    <span class="cm">/* Copy with strncat */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-16"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-20"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-21"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-22"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-23"></a>    <span class="cm">/* If I try to overrun the buffer */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-24"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-25"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-26"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-27"></a>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-28"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_8a5f8d6375124b03974f3bd282798d0e-29"></a><span class="p">}</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-1"> 1</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-2"> 2</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-3"> 3</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-4"> 4</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-5"> 5</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-6"> 6</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-7"> 7</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-8"> 8</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-9"> 9</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-10">10</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-11">11</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-12">12</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-13">13</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-14">14</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-15">15</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-16">16</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-17">17</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-18">18</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-19">19</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-20">20</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-21">21</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-22">22</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-23">23</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-24">24</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-25">25</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-26">26</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-27">27</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-28">28</a>
+<a href="posts/copying-strings-in-c.html#rest_code_9bd6788443bd42159047c79505e7ff0e-29">29</a></pre></div></td>
+<td class="code"><pre class="code c"><a name="rest_code_9bd6788443bd42159047c79505e7ff0e-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncat, strlen */</span><span class="cp"></span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-3"></a>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-4"></a><span class="cp">#define TARGET 10</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-5"></a>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-7"></a>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-10"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-11"></a>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-12"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-13"></a>    <span class="cm">/* Prepare destination string */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-14"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-15"></a>    <span class="cm">/* Copy with strncat */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-16"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-20"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-21"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-22"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-23"></a>    <span class="cm">/* If I try to overrun the buffer */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-24"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-25"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-26"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-27"></a>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-28"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_9bd6788443bd42159047c79505e7ff0e-29"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
 <p>Here we see, the error is no longer present, probably because of the difference on the implementation
@@ -644,7 +690,7 @@ rest of the commands that interact with <tt class="docutils literal">libvirt</tt
 privileges, so it will prompt for the <tt class="docutils literal">sudo</tt> password every time.</p>
 <p>This can be avoided by including the user into the following groups: <tt class="docutils literal">kvm</tt>, and <tt class="docutils literal">libvirt</tt>.</p>
 <p>Therefore, just by running the following command we can skip the password prompt every time.</p>
-<pre class="code bash"><a name="rest_code_1ad8e406e4f941d7aa86a140d9d7bb4e-1"></a>sudo usermod -a -G kvm,libvirt mariano
+<pre class="code bash"><a name="rest_code_7bcaff8fea934811bea705151fc92a5d-1"></a>sudo usermod -a -G kvm,libvirt mariano
 </pre>
 <p>This is an option I would use only for local development on my machine. Productive environments
 must have an strict permissions management.</p>
@@ -789,58 +835,6 @@ hizo que la transición entre temas tuviera una continuidad notable.</p>
 profesional de todos (disertantes, organizadores y concurrentes), benefician a la comunidad de
 arquitectos.</p>
 </div>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/running-rabbitmq-server-on-docker.html" class="u-url">Running RabbitMQ server on Docker</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
-            </span></p>
-            <p class="dateline"><a href="posts/running-rabbitmq-server-on-docker.html" rel="bookmark"><time class="published dt-published" datetime="2015-04-26T13:58:46-03:00" title="Sun Apr 26, 2015 - 13:58">Sun Apr 26, 2015 - 13:58</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>If you use RabbitMQ for development frequently, sometimes you might have found
-it uses too much resources (it's normal while programming to have
-a lot of queues or tasks being queued and that makes the CPU usage to spike).</p>
-<p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
-on development I'd rather do something different, in order to isolate
-the process. I know I could bound it (for example order it not to start automatically
-as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
-try <code>docker</code> and see how it results.</p>
-<p>It turned out to be just the tool for the work, and so far with a little simple
-configuration it can run as expected.</p>
-<p>There is already a docker image for RabbitMQ, which can be automatically pulled,
-and then run, for example:</p>
-<pre class="code bash"><a name="rest_code_cb422a947f27457699d43bbdc7855372-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_cb422a947f27457699d43bbdc7855372-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
-</pre>
-<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
-passing <code>-e</code> we pass some environment variables (in this case,
-the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
-how to set the name of the node it is starting). Optionally, we can limit the CPU
-usage with the <code>--cpuset</code>, as in this case which sets the process to use the
-second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being created.</p>
-<p>The most important part in this case is the port mapping, made by the <code>-p</code> option which in this case maps the
-port used by RabbitMQ directly (1:1) with the host machine. This makes the docker process to run transparently, as
-the other applications that try to communicate with a RabbitMQ won't notice any difference, making it look like is
-executing an actual RabbitMQ service. Finally there is the name of the docker image to run.</p>
-<p>What I usually do is to manage the docker image by its <cite>instance_id</cite> (a number that is displayed after listing
-the docker images, by doing <code>sudo docker ps -a</code>).
-Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
-<p>There is another command to see the output being generated by the process
-which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
-designated to the image was used instead of the <em>instance_id</em>. In addition
-we can see internal data for the process by running the <code>inspect</code>
-command (again we can use the <cite>instance_id</cite> or the name we assigned).</p>
-<pre class="code bash"><a name="rest_code_22edb9218d344756a81b7da1323667c3-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_22edb9218d344756a81b7da1323667c3-2"></a>sudo docker logs docker.rabbitmq
-</pre>
-<p>It's important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
-in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
-other limitations and bounds constrained by <code>docker</code>.</p>
-<p>I found this approach to be very versatile for a development environment, and with RabbitMQ being the first pilot,
-I think I can migrate more applications to docker instead of having them installed on the system (as long as possible).</p>
 </div>
     </div>
     </article>
