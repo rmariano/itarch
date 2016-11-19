@@ -114,19 +114,19 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_67ee3655f83d44d48f160a794142722e-1">1</a>
-<a href="python-functions-return-values-consistency.html#rest_code_67ee3655f83d44d48f160a794142722e-2">2</a>
-<a href="python-functions-return-values-consistency.html#rest_code_67ee3655f83d44d48f160a794142722e-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_67ee3655f83d44d48f160a794142722e-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_67ee3655f83d44d48f160a794142722e-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_67ee3655f83d44d48f160a794142722e-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_28ffac2d719c44889e72ad90c94edde0-1">1</a>
+<a href="python-functions-return-values-consistency.html#rest_code_28ffac2d719c44889e72ad90c94edde0-2">2</a>
+<a href="python-functions-return-values-consistency.html#rest_code_28ffac2d719c44889e72ad90c94edde0-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_28ffac2d719c44889e72ad90c94edde0-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_28ffac2d719c44889e72ad90c94edde0-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_28ffac2d719c44889e72ad90c94edde0-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
 <p>Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:</p>
-<pre class="code python"><a name="rest_code_0fab643137f84cbcb619b87b5cbe73ba-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<pre class="code python"><a name="rest_code_2b07f4c5ed14456a8da25eb7ab89382e-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
