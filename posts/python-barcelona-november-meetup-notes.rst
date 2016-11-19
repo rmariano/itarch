@@ -1,4 +1,4 @@
-.. title: Python Barcelona november meetup notes
+.. title: Python Barcelona November meetup notes
 .. slug: python-barcelona-november-meetup-notes
 .. date: 2016-11-19 18:42:18 UTC+01:00
 .. tags: python
