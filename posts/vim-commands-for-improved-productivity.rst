@@ -9,7 +9,7 @@
 Introduction
 ============
 
-I would like to describe my favourite Vim commands that I use on a daily basis, 
+I would like to describe my favourite Vim commands that I use on a daily basis,
 in order to share some tips that could help you if you are new in this editor, or
 to improve your experience even if you use it.
 
@@ -34,7 +34,7 @@ to improve your experience even if you use it.
   The good about this, is that is possible to chain it with other commands, for example:
   "``ct,``" will change all the content until the next comma.
 
-- ``<`` or ``>`` will indent the code following the "arrow" direction 
+- ``<`` or ``>`` will indent the code following the "arrow" direction
   (according to what is set in ``shiftwidth``).
 
 - ``=`` Automatically indents code (useful when highlighting code in visual mode).
