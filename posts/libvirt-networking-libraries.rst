@@ -2,8 +2,8 @@
 .. slug: libvirt-networking-libraries
 .. date: 2015-01-14 21:06:57 UTC-03:00
 .. tags: networking,linux,virtualization,infrastructure
-.. link: 
-.. description: 
+.. link:
+.. description:
 .. type: text
 
 

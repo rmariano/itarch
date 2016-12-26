@@ -81,7 +81,31 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/notas-sobre-la-arqconf-2015.html" class="u-url">Notas sobre la ArqConf 2015</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/setting-user-permissions-in-kvm.html" class="u-url">Setting user permissions in KVM</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/setting-user-permissions-in-kvm.html" rel="bookmark"><time class="published dt-published" datetime="2015-06-20T20:46:58-03:00" title="Sat Jun 20, 2015 - 20:46">Sat Jun 20, 2015 - 20:46</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>In a <a class="reference external" href="http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html">previous article</a> I mentioned how to install a library in Fedora,
+in order to make <tt class="docutils literal">KVM virtualization</tt> easier, managing the <tt class="docutils literal">NAT</tt> network configuration
+between the guest virtual machine and the host, by means of <tt class="docutils literal">libvirt</tt>.</p>
+<p>Besides that, while using <tt class="docutils literal">KVM</tt> locally for development, I use <tt class="docutils literal"><span class="pre">virt-manager</span></tt>, a helpful
+application that manages the different virtual machines. This application, as well as the
+rest of the commands that interact with <tt class="docutils literal">libvirt</tt> (<tt class="docutils literal">virsh</tt> for example), require super user
+privileges, so it will prompt for the <tt class="docutils literal">sudo</tt> password every time.</p>
+<p>This can be avoided by including the user into the following groups: <tt class="docutils literal">kvm</tt>, and <tt class="docutils literal">libvirt</tt>.</p>
+<p>Therefore, just by running the following command we can skip the password prompt every time.</p>
+<pre class="code bash"><a name="rest_code_ba02eddcb3d341c1b9be60a224022b54-1"></a>sudo usermod -a -G kvm,libvirt mariano
+</pre>
+<p>This is an option I would use only for local development on my machine. Productive environments
+must have an strict permissions management.</p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/notas-sobre-la-arqconf-2015.html" class="u-url">Notas sobre la ArqConf 2015</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -243,8 +267,8 @@ try <code>docker</code> and see how it results.</p>
 configuration it can run as expected.</p>
 <p>There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:</p>
-<pre class="code bash"><a name="rest_code_ddebc54ad850471c917a133e750307a9-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_ddebc54ad850471c917a133e750307a9-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+<pre class="code bash"><a name="rest_code_a7bb71ef78fa46d4ad5ca364e82f335a-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_a7bb71ef78fa46d4ad5ca364e82f335a-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
 passing <code>-e</code> we pass some environment variables (in this case,
@@ -264,8 +288,8 @@ which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we assigned).</p>
-<pre class="code bash"><a name="rest_code_db96fdbb3f38440e93309a8ae5da1f51-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_db96fdbb3f38440e93309a8ae5da1f51-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_b2466a10b612422da57fab1230a81921-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_b2466a10b612422da57fab1230a81921-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It's important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
@@ -291,7 +315,7 @@ manually moving all of them is not an option. A possible approach would be to lo
 by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
 let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
 <p>The command would be:</p>
-<pre class="code bash"><a name="rest_code_9001ed262c9645e0b8f8443f753c4f18-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+<pre class="code bash"><a name="rest_code_54ffc245d40d4a5394cb999654a02c63-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
 <p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
 we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
@@ -302,7 +326,7 @@ other actions such as modifications, <tt class="docutils literal">sed</tt>, etc.
 <p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary files:</p>
-<pre class="code bash"><a name="rest_code_40e88b0af6334a259980f1411c0a40b6-1"></a>find . -name <span class="s2">"*.pyc"</span>
+<pre class="code bash"><a name="rest_code_c446194c0909459ab1b6763ca9b8db0b-1"></a>find . -name <span class="s2">"*.pyc"</span>
 </pre>
 <p>By issuing this command we list some files to erase. And then we can simply do that by
 appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>

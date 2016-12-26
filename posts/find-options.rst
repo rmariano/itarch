@@ -19,7 +19,7 @@ The command would be:
 
 
 .. code-block:: bash
-    
+
     find /tmp -type f -anewer /tmp/checkpoint -exec mv '{}' <target_directory> \;
 
 

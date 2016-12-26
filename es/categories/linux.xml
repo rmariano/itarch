@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (linux)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link rel="self" type="application/rss+xml" href="http://rmariano.github.io/itarch/es/categories/linux.xml"></atom:link><language>es</language><lastBuildDate>Sat, 19 Nov 2016 18:23:49 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (linux)</title><link>http://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" rel="self" href="http://rmariano.github.io/itarch/es/categories/linux.xml"></atom:link><language>es</language><lastBuildDate>Mon, 26 Dec 2016 16:58:30 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>strncpy and strncat for copying strings in C</title><link>http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Recently, I've read an interesting article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id8" id="id1"&gt;[1]&lt;/a&gt;, explaining why the &lt;code&gt;strncpy&lt;/code&gt; function in C is not
 safer than &lt;code&gt;strcpy&lt;/code&gt;. The post was very interesting, but what's more, it suggested an alternative
 idiom for copying strings in C, that might probably be the way to go.&lt;/p&gt;
 &lt;p&gt;Later, in another article &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id9" id="id2"&gt;[2]&lt;/a&gt; that compared some functionality in C, Python and Go, one of the comments
@@ -11,53 +11,53 @@ should not be a problem, unless &lt;code&gt;n &amp;lt; strlen(source_string)&lt;
 to finish before it can put a &lt;code&gt;\0&lt;/code&gt; character at the end of the target string, leaving
 an invalid array of characters &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id12" id="id4"&gt;[5]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This is an example.&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-1"&gt; 1&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-2"&gt; 2&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-3"&gt; 3&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-4"&gt; 4&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-5"&gt; 5&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-6"&gt; 6&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-7"&gt; 7&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-8"&gt; 8&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-9"&gt; 9&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-10"&gt;10&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-11"&gt;11&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-12"&gt;12&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-13"&gt;13&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-14"&gt;14&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-15"&gt;15&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-16"&gt;16&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-17"&gt;17&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-18"&gt;18&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-19"&gt;19&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-20"&gt;20&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-21"&gt;21&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-22"&gt;22&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-23"&gt;23&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_1884427379944a52ad9ff768015d38ab-24"&gt;24&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncpy, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-5"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-7"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-10"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-11"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-12"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-13"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-14"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* What happens if I pass a wrong length (lower than the actual&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-15"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * strlen) */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas______' */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-22"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-23"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_1884427379944a52ad9ff768015d38ab-24"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-1"&gt; 1&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-2"&gt; 2&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-3"&gt; 3&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-4"&gt; 4&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-5"&gt; 5&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-6"&gt; 6&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-7"&gt; 7&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-8"&gt; 8&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-9"&gt; 9&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-10"&gt;10&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-11"&gt;11&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-12"&gt;12&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-13"&gt;13&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-14"&gt;14&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-15"&gt;15&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-16"&gt;16&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-17"&gt;17&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-18"&gt;18&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-19"&gt;19&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-20"&gt;20&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-21"&gt;21&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-22"&gt;22&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-23"&gt;23&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-24"&gt;24&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncpy, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-5"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-10"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-11"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-12"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-13"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-14"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* What happens if I pass a wrong length (lower than the actual&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-15"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * strlen) */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas______' */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncpy&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-22"&gt;&lt;/a&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-23"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_7bbba5b3dc554c34bcb80601ecba6aa5-24"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;On this example, the target array is represented by the variable &lt;code&gt;dst&lt;/code&gt;, and I used a fixed-length string,
 on purpose for the demonstration, simulating what would actually happen. I null-terminated it so the program
 can finish successfully, because otherwise the operations on it would not end until the delimiter is reached,
@@ -69,63 +69,63 @@ tricking the function by passing it an empty string as the first parameter,
 and then the actual string we need to copy. This call will render the same result,
 but without the previous side effect.
 Let's see an example:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-1"&gt; 1&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-2"&gt; 2&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-3"&gt; 3&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-4"&gt; 4&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-5"&gt; 5&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-6"&gt; 6&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-7"&gt; 7&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-8"&gt; 8&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-9"&gt; 9&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-10"&gt;10&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-11"&gt;11&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-12"&gt;12&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-13"&gt;13&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-14"&gt;14&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-15"&gt;15&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-16"&gt;16&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-17"&gt;17&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-18"&gt;18&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-19"&gt;19&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-20"&gt;20&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-21"&gt;21&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-22"&gt;22&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-23"&gt;23&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-24"&gt;24&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-25"&gt;25&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-26"&gt;26&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-27"&gt;27&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-28"&gt;28&lt;/a&gt;
-&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_37c4a7fd0c20466d9d3b5656930032f2-29"&gt;29&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncat, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-5"&gt;&lt;/a&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-7"&gt;&lt;/a&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-10"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-11"&gt;&lt;/a&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-12"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-13"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Prepare destination string */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-14"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-15"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Copy with strncat */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas' */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-22"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-23"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I try to overrun the buffer */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-24"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-25"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-26"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-27"&gt;&lt;/a&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-28"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_37c4a7fd0c20466d9d3b5656930032f2-29"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-1"&gt; 1&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-2"&gt; 2&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-3"&gt; 3&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-4"&gt; 4&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-5"&gt; 5&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-6"&gt; 6&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-7"&gt; 7&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-8"&gt; 8&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-9"&gt; 9&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-10"&gt;10&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-11"&gt;11&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-12"&gt;12&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-13"&gt;13&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-14"&gt;14&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-15"&gt;15&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-16"&gt;16&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-17"&gt;17&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-18"&gt;18&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-19"&gt;19&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-20"&gt;20&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-21"&gt;21&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-22"&gt;22&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-23"&gt;23&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-24"&gt;24&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-25"&gt;25&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-26"&gt;26&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-27"&gt;27&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-28"&gt;28&lt;/a&gt;
+&lt;a href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#rest_code_2053dfc2f70f4b38b8358672ca77add4-29"&gt;29&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code c"&gt;&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-1"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;stdio.h&amp;gt;  /* stdout, fprintf */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-2"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#include&lt;/span&gt; &lt;span class="cpf"&gt;&amp;lt;string.h&amp;gt;  /* strncat, strlen */&lt;/span&gt;&lt;span class="cp"&gt;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-4"&gt;&lt;/a&gt;&lt;span class="cp"&gt;#define TARGET 10&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-5"&gt;&lt;/a&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-6"&gt;&lt;/a&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;char&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-7"&gt;&lt;/a&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-8"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"Castle"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;  &lt;span class="cm"&gt;/* 6 chars long */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-9"&gt;&lt;/a&gt;    &lt;span class="kt"&gt;char&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"__________"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-10"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;TARGET&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-11"&gt;&lt;/a&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-12"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: '_________' */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-13"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Prepare destination string */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-14"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-15"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* Copy with strncat */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-16"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-17"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Cas' */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-18"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I copy the string correctly, by passing the right&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-19"&gt;&lt;/a&gt;&lt;span class="cm"&gt;    * length, then strcnpy behaves as expected */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-20"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-21"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-22"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-23"&gt;&lt;/a&gt;    &lt;span class="cm"&gt;/* If I try to overrun the buffer */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-24"&gt;&lt;/a&gt;    &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sc"&gt;'\0'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-25"&gt;&lt;/a&gt;    &lt;span class="n"&gt;strncat&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;strlen&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-26"&gt;&lt;/a&gt;    &lt;span class="n"&gt;fprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"%s&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s"&gt;"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;   &lt;span class="cm"&gt;/* must be: 'Castle' */&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-27"&gt;&lt;/a&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-28"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_2053dfc2f70f4b38b8358672ca77add4-29"&gt;&lt;/a&gt;&lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;Here we see, the error is no longer present, probably because of the difference on the implementation
 (the snippet on the documentation &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/copying-strings-in-c.html#id11" id="id6"&gt;[4]&lt;/a&gt; gives us a hint on what it does, so we can spot the change).&lt;/p&gt;
 &lt;p&gt;This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
@@ -181,7 +181,7 @@ rest of the commands that interact with &lt;tt class="docutils literal"&gt;libvi
 privileges, so it will prompt for the &lt;tt class="docutils literal"&gt;sudo&lt;/tt&gt; password every time.&lt;/p&gt;
 &lt;p&gt;This can be avoided by including the user into the following groups: &lt;tt class="docutils literal"&gt;kvm&lt;/tt&gt;, and &lt;tt class="docutils literal"&gt;libvirt&lt;/tt&gt;.&lt;/p&gt;
 &lt;p&gt;Therefore, just by running the following command we can skip the password prompt every time.&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_179d057e3e7f4cb18c889dda65ce982f-1"&gt;&lt;/a&gt;sudo usermod -a -G kvm,libvirt mariano
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_ba02eddcb3d341c1b9be60a224022b54-1"&gt;&lt;/a&gt;sudo usermod -a -G kvm,libvirt mariano
 &lt;/pre&gt;&lt;p&gt;This is an option I would use only for local development on my machine. Productive environments
 must have an strict permissions management.&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/setting-user-permissions-in-kvm.html</guid><pubDate>Sat, 20 Jun 2015 23:46:58 GMT</pubDate></item><item><title>Running RabbitMQ server on Docker</title><link>http://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;If you use RabbitMQ for development frequently, sometimes you might have found
 it uses too much resources (it's normal while programming to have
@@ -195,8 +195,8 @@ try &lt;code&gt;docker&lt;/code&gt; and see how it results.&lt;/p&gt;
 configuration it can run as expected.&lt;/p&gt;
 &lt;p&gt;There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_ddebc54ad850471c917a133e750307a9-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
-&lt;a name="rest_code_ddebc54ad850471c917a133e750307a9-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_a7bb71ef78fa46d4ad5ca364e82f335a-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
+&lt;a name="rest_code_a7bb71ef78fa46d4ad5ca364e82f335a-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
 &lt;/pre&gt;&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option indicates the process to start &lt;em&gt;detached&lt;/em&gt;, then by
 passing &lt;code&gt;-e&lt;/code&gt; we pass some environment variables (in this case,
 the &lt;code&gt;RABBITMQ_NODENAME&lt;/code&gt; is a particular variable for rabbit indicating
@@ -215,8 +215,8 @@ which is &lt;code&gt;docker logs rabbitmq.docker&lt;/code&gt;. Notice in this ca
 designated to the image was used instead of the &lt;em&gt;instance_id&lt;/em&gt;. In addition
 we can see internal data for the process by running the &lt;code&gt;inspect&lt;/code&gt;
 command (again we can use the &lt;cite&gt;instance_id&lt;/cite&gt; or the name we assigned).&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_db96fdbb3f38440e93309a8ae5da1f51-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
-&lt;a name="rest_code_db96fdbb3f38440e93309a8ae5da1f51-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_b2466a10b612422da57fab1230a81921-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
+&lt;a name="rest_code_b2466a10b612422da57fab1230a81921-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
 &lt;/pre&gt;&lt;p&gt;It's important to notice that docker is actually &lt;em&gt;not a virtualization platform&lt;/em&gt;, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by &lt;code&gt;docker&lt;/code&gt;.&lt;/p&gt;
@@ -229,7 +229,7 @@ manually moving all of them is not an option. A possible approach would be to lo
 by running &lt;tt class="docutils literal"&gt;ls &lt;span class="pre"&gt;-lrth&lt;/span&gt;&lt;/tt&gt;). Suppose the first one of the batch is called &lt;tt class="docutils literal"&gt;/tmp/checkpoint&lt;/tt&gt; (for this example
 let's assume the files reside at &lt;tt class="docutils literal"&gt;/tmp&lt;/tt&gt;).&lt;/p&gt;
 &lt;p&gt;The command would be:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_9001ed262c9645e0b8f8443f753c4f18-1"&gt;&lt;/a&gt;find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_54ffc245d40d4a5394cb999654a02c63-1"&gt;&lt;/a&gt;find /tmp -type f -anewer /tmp/checkpoint -exec mv &lt;span class="s1"&gt;'{}'&lt;/span&gt; &amp;lt;target_directory&amp;gt; &lt;span class="se"&gt;\;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-type&lt;/span&gt; f&lt;/tt&gt; part is important in order not to move the entire directory (find only the files). Then
 we have the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-anewer&lt;/span&gt;&lt;/tt&gt; that receives a file as a parameter, and it will filter for those files whose
 modification date is greater than the file used as an example (hence, this must be the start of the batch), and
@@ -239,7 +239,7 @@ other actions such as modifications, &lt;tt class="docutils literal"&gt;sed&lt;/
 &lt;p&gt;Another trait I like about &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary files:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_40e88b0af6334a259980f1411c0a40b6-1"&gt;&lt;/a&gt;find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_c446194c0909459ab1b6763ca9b8db0b-1"&gt;&lt;/a&gt;find . -name &lt;span class="s2"&gt;"*.pyc"&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;By issuing this command we list some files to erase. And then we can simply do that by
 appending &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-delete&lt;/span&gt;&lt;/tt&gt; to the very same command.&lt;/p&gt;
 &lt;p&gt;This is just the tip of the iceberg of the things that are possible by means of the &lt;tt class="docutils literal"&gt;find&lt;/tt&gt; command and
@@ -251,7 +251,7 @@ among other things: &lt;a class="reference external" href="https://github.com/nv
 I install just this one manually, by making the command &lt;tt class="docutils literal"&gt;flake8&lt;/tt&gt; available system-wide &lt;a class="footnote-reference" href="http://rmariano.github.io/itarch/es/posts/checking-python-files-with-vim.html#id2" id="id1"&gt;[1]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Then the installation is as simple as downloading the project and coying the files into the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vim/ftplugin/python&lt;/span&gt;&lt;/tt&gt;
 directory. Make sure you have the following line added on your &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/tt&gt;:&lt;/p&gt;
-&lt;pre class="code vim"&gt;&lt;a name="rest_code_92f81401edad475c95cd79e61d2e0241-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;pre class="code vim"&gt;&lt;a name="rest_code_6ce248df1dd44d3f983f7b7a2060dfae-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The features I use are mainly the syntax and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance checkers. It can also warn you about unused imports,
 and &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"&gt;cyclomatic complexity&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It is useful because things like &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance help to have a good code quality, and therefore a more readable
@@ -270,9 +270,9 @@ the KVM application I am more familiar with. However, the new version of the &lt
 have networking features that are great for the data centre environment, but maybe not the best option
 for a particular workstation, so I added the following packages in order to set up an easier
 network configuration for my local virtual machines.&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_583ac1449ad64ac387666bfa965c06e5-1"&gt;&lt;/a&gt;sudo dnf install virt-install libvirt-daemon-config-network
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_86cd04c6e9aa47e996bce34e6ee20b86-1"&gt;&lt;/a&gt;sudo dnf install virt-install libvirt-daemon-config-network
 &lt;/pre&gt;&lt;p&gt;In order to reflect the changes and start using the new features, we need to restart its service:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_bc68dd8b3f6745c7ac5c6faa5bcf280c-1"&gt;&lt;/a&gt;systemctl restart libvirtd.service
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_a29ee1dc1b90482da36245742546b160-1"&gt;&lt;/a&gt;systemctl restart libvirtd.service
 &lt;/pre&gt;&lt;p&gt;After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
 machines faster.&lt;/p&gt;&lt;/div&gt;</description><guid>http://rmariano.github.io/itarch/es/posts/libvirt-networking-libraries.html</guid><pubDate>Thu, 15 Jan 2015 00:06:57 GMT</pubDate></item><item><title>Vim commands for improved productivity</title><link>http://rmariano.github.io/itarch/es/posts/vim-commands-for-improved-productivity.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;I would like to describe my favourite Vim commands that I use on a daily basis,

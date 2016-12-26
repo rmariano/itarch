@@ -2,8 +2,8 @@
 .. slug: do-not-import
 .. date: 2015-01-05 20:10:10 UTC-03:00
 .. tags: python,best-practices
-.. link: 
-.. description: 
+.. link:
+.. description:
 .. type: text
 
 It is well-known among Python developers (or at least, it should be), that is a bad idea to import everything
@@ -15,7 +15,7 @@ might be acceptable, I will also mention them, if any. Let's see where we get.
 
 
 1. You do not know what you get
-    An arbitrary Python script may contain any code, and most of it will be executed when 
+    An arbitrary Python script may contain any code, and most of it will be executed when
     performing the ``import *`` part (you cannot rely on how ``__name__`` is handled).
     The interface is totally unclear: you do not know what computations performs, what objects will import, etc.
     In general is more efficient to import as few definitions as possible.
