@@ -8,7 +8,7 @@
 
 Alpine is a software I definitely recommend for those who like minimalistic applications
 that go straight to the point in order to get the things done. It's an email client, with no GUI,
-which allows me to read emails better than by means of the web page [1]_ 
+which allows me to read emails better than by means of the web page [1]_
 without any distractions, focusing on what is just important. It is also great that shows only the text (the
 relevant part of the email) and it can follow the links by launching the default browser.
 
