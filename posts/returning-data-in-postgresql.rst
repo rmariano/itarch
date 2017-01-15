@@ -15,7 +15,7 @@ case of RDBM engines, this also means, most of the ORMs will not work.
 Besides that, it could sometimes be worth exploring what we can gain by adapting to the engine.
 
 This is something learnt from the feedback of
-`my talk given at EuroPython 2016 <http://rmariano.github.io/itarch/posts/my-talk-europython-2016.html>`_.
+`my talk given at EuroPython 2016 <https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html>`_.
 After the talk, an attendee told me that he liked it, and asked me about the code portrayed in one of the slides,
 the one about decorators with the example of moving some records from one table to another. He asked me if
 I ran code like that one in production, to which I answered no: the code is entirely fictional, and it was done

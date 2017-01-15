@@ -115,9 +115,9 @@ so the proper way to handle these situations is to *code defensively*: do not tr
 error codes, memory allocation, status of the pointer (a :code:`free` for every :code:`malloc` but not for a :code:`NULL` pointer, etc.).
 
 
-.. [1] http://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html.
-.. [2] http://blog.surgut.co.uk/2015/08/go-enjoy-python3.html.
-.. [3] `strncpy documentation <http://linux.die.net/man/3/strncpy/>`_.
-.. [4] `strncat manual page   <http://linux.die.net/man/3/strncat/>`_.
+.. [1] https://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html.
+.. [2] https://blog.surgut.co.uk/2015/08/go-enjoy-python3.html.
+.. [3] `strncpy documentation <https://linux.die.net/man/3/strncpy/>`_.
+.. [4] `strncat manual page   <https://linux.die.net/man/3/strncat/>`_.
 .. [5] An array of characters that is not null-terminated, is invalid.
-.. [6] http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671.
+.. [6] https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671.

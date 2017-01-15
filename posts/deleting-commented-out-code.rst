@@ -45,4 +45,4 @@ mention a code smell). If you are a seasoned developer, who cares about code qua
 deleting it. Delete commented out code mercilessly: seek, locate and destroy.
 
 
-.. [1] A book I highly recommend: http://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882
+.. [1] A book I highly recommend: https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882

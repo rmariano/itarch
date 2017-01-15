@@ -24,7 +24,7 @@ directory. Make sure you have the following line added on your ``~/.vimrc``:
 
 The features I use are mainly the syntax and ``PEP-8`` compliance checkers. It can also warn you about unused imports,
 and `cyclomatic complexity
-<http://en.wikipedia.org/wiki/Cyclomatic_complexity>`_.
+<https://en.wikipedia.org/wiki/Cyclomatic_complexity>`_.
 
 It is useful because things like ``PEP-8`` compliance help to have a good code quality, and therefore a more readable
 and maintainable code base, specially on large projects with lots of files and modules.

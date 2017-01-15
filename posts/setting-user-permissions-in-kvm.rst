@@ -30,4 +30,4 @@ This is an option I would use only for local development on my machine. Producti
 must have an strict permissions management.
 
 
-.. _previous article: http://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html
+.. _previous article: https://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html
