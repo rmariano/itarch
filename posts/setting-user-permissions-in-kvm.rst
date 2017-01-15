@@ -7,7 +7,7 @@
 .. type: text
 
 
-In a `previous article`_ I mentioned how to install a library in Fedora,
+In a `previous article <link://slug/libvirt-networking-libraries>`_ I mentioned how to install a library in Fedora,
 in order to make ``KVM virtualization`` easier, managing the ``NAT`` network configuration
 between the guest virtual machine and the host, by means of ``libvirt``.
 
@@ -28,6 +28,3 @@ Therefore, just by running the following command we can skip the password prompt
 
 This is an option I would use only for local development on my machine. Productive environments
 must have an strict permissions management.
-
-
-.. _previous article: https://rmariano.github.io/itarch/posts/libvirt-networking-libraries.html
