@@ -8,19 +8,22 @@
 .. type: text
 
 
-In order to get the best performance from our database engine, most of the times, we have to take advantage of
-its exclusive features. This has the disadvantage of getting farther away from standard, ANSI code, and in the
-case of RDBM engines, this also means, most of the ORMs will not work.
+In order to get the best performance from our database engine, most of the
+times, we have to take advantage of its exclusive features. This has the
+disadvantage of getting farther away from standard, ANSI code, and in the case
+of RDBM engines, this also means, most of the ORMs will not work.
 
-Besides that, it could sometimes be worth exploring what we can gain by adapting to the engine.
+Besides that, it could sometimes be worth exploring what we can gain by
+adapting to the engine.
 
-This is something learnt from the feedback of
-`my talk given at EuroPython 2016 <link://slug/my-talk-europython-2016>`_.
-After the talk, an attendee told me that he liked it, and asked me about the code portrayed in one of the slides,
-the one about decorators with the example of moving some records from one table to another. He asked me if
-I ran code like that one in production, to which I answered no: the code is entirely fictional, and it was done
-for the mere purposes of the examples, so I just needed an excuse for a task that could be done in two SQL statements,
-so the example with the decorator can be shown.
+This is something learnt from the feedback of `my talk given at EuroPython 2016
+<link://slug/my-talk-europython-2016>`_.  After the talk, an attendee told me
+that he liked it, and asked me about the code portrayed in one of the slides,
+the one about decorators with the example of moving some records from one table
+to another. He asked me if I ran code like that one in production, to which I
+answered no: the code is entirely fictional, and it was done for the mere
+purposes of the examples, so I just needed an excuse for a task that could be
+done in two SQL statements, so the example with the decorator can be shown.
 
 The code of the example follows:
 
@@ -32,7 +35,8 @@ The code of the example follows:
 
     DELETE from orders WHERE order_date < '2016-01-01';
 
-Then I learnt that there is another way of writing that sort of statements, with the "returning" sentence of PostgreSQL.
+Then I learnt that there is another way of writing that sort of statements,
+with the "returning" sentence of PostgreSQL.
 
 It would be re-written like:
 
@@ -44,14 +48,18 @@ It would be re-written like:
     )
     INSERT INTO archive_orders select * from deleted;
 
-The interesting point here, is that it entails a single command, instead of two. So this can be done with a single
-call to the database, saving an extra round trip.
+The interesting point here, is that it entails a single command, instead of
+two. So this can be done with a single call to the database, saving an extra
+round trip.
 
-The point here is that the `delete statement of PostgreSQL <https://www.postgresql.org/docs/9.5/static/sql-delete.html>`_
-(as well as the rest of the statements, INSERT, UPDATE, for instance), can be specified to return the data they affect,
-and this can be used in an intermediate table to pipe it to another statement.
+The point here is that the `delete statement of PostgreSQL
+<https://www.postgresql.org/docs/9.5/static/sql-delete.html>`_ (as well as the
+rest of the statements, INSERT, UPDATE, for instance), can be specified to
+return the data they affect, and this can be used in an intermediate table to
+pipe it to another statement.
 
-By default, if you run the delete statement, it should return the number of affected rows, like:
+By default, if you run the delete statement, it should return the number of
+affected rows, like:
 
 .. code:: SQL
 
@@ -100,7 +108,9 @@ Or, specific columns if we select them:
     DELETE 4
 
 
-So, we can use the "returning" feature of PostgreSQL, to do in a single command what we usually would do in two or more,
-and in some cases, it might be something worth exploring. It was great learning things like this one, and getting tips
-as a result from the feedback of the talk (it does not change the meaning, and the example could remain the same for the
-aforementioned reasons; it is just an example :-).
+So, we can use the "returning" feature of PostgreSQL, to do in a single command
+what we usually would do in two or more, and in some cases, it might be
+something worth exploring. It was great learning things like this one, and
+getting tips as a result from the feedback of the talk (it does not change the
+meaning, and the example could remain the same for the aforementioned reasons;
+it is just an example :-).
