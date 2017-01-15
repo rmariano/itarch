@@ -46,4 +46,4 @@ This is just the tip of the iceberg of the things that are possible by means of 
 its various options.
 
 
-.. _glob: http://en.wikipedia.org/wiki/Glob_%28programming%29
+.. _glob: https://en.wikipedia.org/wiki/Glob_%28programming%29

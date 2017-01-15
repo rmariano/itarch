@@ -2,7 +2,7 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<base href="http://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
+<base href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>On returning consistent data types | IT Arch</title>
 <link href="../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -13,12 +13,12 @@
 <meta content="#5670d4" name="theme-color">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../es/rss.xml">
-<link rel="canonical" href="http://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
+<link rel="canonical" href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="next" href="starting-a-gnome-shell-extension.html" title="Starting a gnome-shell extension" type="text/html">
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="On returning consistent data types">
-<meta property="og:url" content="http://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
+<meta property="og:url" content="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html">
 <meta property="og:description" content="This post is inspired on an issue I once found, while I was using a well-known library in Python for
 parsing YAML files. The problem was that when it was loading the content of the file, the result wa">
 <meta property="og:type" content="article">
@@ -43,7 +43,7 @@ parsing YAML files. The problem was that when it was loading the content of the 
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="http://rmariano.github.io/itarch/">
+            <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
 
                 <span id="blog-title">IT Arch</span>
             </a>
@@ -72,7 +72,7 @@ parsing YAML files. The problem was that when it was loading the content of the 
 <ul class="nav navbar-nav navbar-right">
 <li>
             </li>
-<li><a href="http://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es">Español</a></li>
+<li><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es">Español</a></li>
 
                 
                     
@@ -114,19 +114,19 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_783446981ebf45e6a28e640683d5677c-1">1</a>
-<a href="python-functions-return-values-consistency.html#rest_code_783446981ebf45e6a28e640683d5677c-2">2</a>
-<a href="python-functions-return-values-consistency.html#rest_code_783446981ebf45e6a28e640683d5677c-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_783446981ebf45e6a28e640683d5677c-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_783446981ebf45e6a28e640683d5677c-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_783446981ebf45e6a28e640683d5677c-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-1">1</a>
+<a href="python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-2">2</a>
+<a href="python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_c19900b1cdea448d989789ce3129f94a-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_c19900b1cdea448d989789ce3129f94a-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_c19900b1cdea448d989789ce3129f94a-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
 <p>Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:</p>
-<pre class="code python"><a name="rest_code_233d0e80c6a04d0f9aa8e2d7121f6a1e-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<pre class="code python"><a name="rest_code_f361cdd48d58482bafec2aacaf9478a7-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
@@ -157,7 +157,7 @@ is no polymorphism, or maybe that the "contract" is not being respected).</p>
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2016         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2017         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
             
         </footer>
 </div>

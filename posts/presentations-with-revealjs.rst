@@ -46,6 +46,6 @@ at our disposal, it would be a good idea to use them.
 Here are some simple and basic examples of presentations_ I am working on.
 (DISCLAIMER: they might be in different languages, and the page is in progress).
 
-.. _reveal.js: http://lab.hakim.se/reveal-js/#/
-.. _presentations: http://rmariano.github.io/presentations/
-.. _WYSIWYG: http://en.wikipedia.org/wiki/WYSIWYG
+.. _reveal.js: https://lab.hakim.se/reveal-js/#/
+.. _presentations: https://rmariano.github.io/presentations/
+.. _WYSIWYG: https://en.wikipedia.org/wiki/WYSIWYG

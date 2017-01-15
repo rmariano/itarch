@@ -52,4 +52,4 @@ as a code-smell [2]_.
 
 
 .. [1] import this
-.. [2] http://c2.com/cgi/wiki?CodeSmell
+.. [2] https://c2.com/cgi/wiki?CodeSmell

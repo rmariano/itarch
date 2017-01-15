@@ -34,7 +34,7 @@ open data, and more transparency. I look forward to seeing more projects in
 Python with open source technologies, at their GitHub account [2]_, in the
 forthcoming months.
 
-The second talk was about `Conda <http://conda.pydata.org/docs/intro.html>`_,
+The second talk was about `Conda <https://conda.pydata.org/docs/intro.html>`_,
 and shortly thereafter a brief introduction, the rest of the presentation was
 mostly a demo (live coding! :-), on which we saw several examples of installing
 packages, exporting the environment, creating a new one from a template, etc. It was
@@ -48,7 +48,7 @@ written in Python, and with its 15-year-old tenure, is the oldest Python
 project (thing that I did not know). It was interesting to learn about its
 high-level architecture, components, and the way they work. Above that, I would
 like to highlight the recap that it was done about many underappreciated `zope
-<http://www.zope.org/>`_
+<https://www.zope.org/>`_
 libraries, that have been available in Python for a long time, doing an amazing
 job. It is now in my list, to review them.
 
