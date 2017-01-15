@@ -18,10 +18,10 @@ BLOG_AUTHOR = "Mariano Anaya"  # (translatable)
 BLOG_TITLE = "IT Arch"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link
-SITE_URL = "http://rmariano.github.io/itarch/"
+SITE_URL = "https://rmariano.github.io/itarch/"
 # This is the URL where nikola's output will be deployed.
 # If not set, defaults to SITE_URL
-BASE_URL = "http://rmariano.github.io/itarch/"
+BASE_URL = "https://rmariano.github.io/itarch/"
 BLOG_EMAIL = "marianoanaya@gmail.com"
 BLOG_DESCRIPTION = "A blog about software engineering, technology and ideas."  # (translatable)
 
@@ -397,7 +397,7 @@ LICENSE = ""
 
 # A small copyright notice for the page footer (in HTML).
 # (translatable)
-CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{author}</a> - Powered by         <a href="http://getnikola.com" rel="nofollow">Nikola</a>         {license}'
+CONTENT_FOOTER = 'Contents &copy; {date}         <a href="mailto:{email}">{author}</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         {license}'
 
 # Things that will be passed to CONTENT_FOOTER.format().  This is done
 # for translatability, as dicts are not formattable.  Nikola will
@@ -453,7 +453,7 @@ COMMENT_SYSTEM_ID = ""
 # INDEX_FILE = "index.html"
 
 # If a link ends in /index.html,  drop the index.html part.
-# http://mysite/foo/bar/index.html => http://mysite/foo/bar/
+# https://mysite/foo/bar/index.html => https://mysite/foo/bar/
 # (Uses the INDEX_FILE setting, so if that is, say, default.html,
 # it will instead /foo/default.html => /foo)
 # (Note: This was briefly STRIP_INDEX_HTML in v 5.4.3 and 5.4.4)
@@ -493,7 +493,7 @@ COMMENT_SYSTEM_ID = ""
 # DEPLOY_DRAFTS = True
 
 # Allows scheduling of posts using the rule specified here (new_post -s)
-# Specify an iCal Recurrence Rule: http://www.kanzaki.com/docs/ical/rrule.html
+# Specify an iCal Recurrence Rule: https://www.kanzaki.com/docs/ical/rrule.html
 # SCHEDULE_RULE = ''
 # If True, use the scheduling rule to all posts by default
 # SCHEDULE_ALL = False
