@@ -1,7 +1,7 @@
 .. title: Returning data in PostgreSQL
 .. slug: returning-data-in-postgresql
 .. date: 2016-08-14 18:41:30 UTC-03:00
-.. tags: data,database
+.. tags: data,database,postgres
 .. category:
 .. link:
 .. description:
@@ -48,9 +48,22 @@ It would be re-written like:
     )
     INSERT INTO archive_orders select * from deleted;
 
+
+Or... the other way around:
+
+.. code:: SQL
+
+    WITH to_delete as(
+        INSERT INTO archive_orders
+        SELECT id, description, order_date FROM orders WHERE order_date < '2016-01-01'
+        RETURNING id
+    )
+    DELETE FROM orders where id in (select id from to_delete);
+
 The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
 round trip.
+
 
 The point here is that the `delete statement of PostgreSQL
 <https://www.postgresql.org/docs/9.5/static/sql-delete.html>`_ (as well as the
