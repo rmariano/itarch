@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts by Mariano Anaya)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="https://rmariano.github.io/itarch/authors/mariano-anaya.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Mon, 23 Jan 2017 20:19:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Interacting with a database, can be a regular task of a developer, and for that
+we would like to ensure that we are developing and testing in situations close
+to a real implementation; therefore, using the same database as in
+production can help detecting issues early.&lt;/p&gt;
+&lt;p&gt;However, setting up an entire database server for development, can be
+cumbersome. Hopefully nowadays, modern operating systems like &lt;tt class="docutils literal"&gt;Linux&lt;/tt&gt; have
+great tools and features that we could take advantage of.&lt;/p&gt;
+&lt;p&gt;In particular, I would like to setup a simple database locally using
+&lt;a class="reference external" href="https://www.docker.com/what-docker"&gt;docker&lt;/a&gt;, and storing the data in memory.&lt;/p&gt;
+&lt;p&gt;The idea is simple: run a docker container with the image for &lt;tt class="docutils literal"&gt;PostgresSQL&lt;/tt&gt;,
+using a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id4" id="id1"&gt;[1]&lt;/a&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id5" id="id2"&gt;[2]&lt;/a&gt; as storage for the database (a &lt;tt class="docutils literal"&gt;ramfs&lt;/tt&gt; could also
+be used).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="procedure"&gt;
+&lt;h2&gt;Procedure&lt;/h2&gt;
+&lt;p&gt;First, we get the image of &lt;tt class="docutils literal"&gt;PostgresSQL&lt;/tt&gt; according to the platform, for
+example:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+docker pull fedora/postgresql
+&lt;/pre&gt;
+&lt;p&gt;Then, I could create a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;, for the data and mount it&lt;/p&gt;
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
+&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
+&lt;/pre&gt;&lt;p&gt;Now we could run the database container using this directory:&lt;/p&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;4&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;5&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;6&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;&lt;/a&gt;    -p 5432:5432 &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;&lt;/a&gt;    fedora/postgresql
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The first line indicates the name for the container we are running (if is not
+specified, docker will put a default one); the second line is the important
+one, since it is what makes the mapping of directories, meaning that will map
+the directory for the &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt; on the host, mounted as &lt;tt class="docutils literal"&gt;/var/lib/pgsql/data&lt;/tt&gt;
+inside the container (the target). The later directory is the one
+&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; uses by default for initializing and storing the data of the
+database.  The &lt;tt class="docutils literal"&gt;Z&lt;/tt&gt; at the end of the mapping is an internal detail for
+flagging that directory in case &lt;tt class="docutils literal"&gt;SELinux&lt;/tt&gt; is enabled, so it will not fail due
+to a permissions errors (because containers run as another user, and we are
+mounting something that might be out of that scope) &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id6" id="id3"&gt;[3]&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The rest of the three lines, are environment variables that docker will use for
+the initialization of the database (they are optional, and defaults will be
+used, in case they are not provided). Then follows the port mapping, which in
+this case indicates to map the port &lt;tt class="docutils literal"&gt;5432&lt;/tt&gt; inside the container to the same
+one on the host. And finally, the name of the &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt; image we will run.&lt;/p&gt;
+&lt;p&gt;Once this is running, it would look like we have an actual instance of
+&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; up and running on our machine (actually we do, but it is inside
+a container :-), so we can connect with any client (even a &lt;tt class="docutils literal"&gt;Python&lt;/tt&gt;
+application, etc.).&lt;/p&gt;
+&lt;p&gt;For example, if we want to use the &lt;tt class="docutils literal"&gt;psql&lt;/tt&gt; client with the container, the
+command would be:&lt;/p&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
+&lt;div class="section" id="applications"&gt;
+&lt;h2&gt;Applications&lt;/h2&gt;
+&lt;p&gt;If we have &lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; installed, we could simply start a new instance as
+our user with the command (&lt;tt class="docutils literal"&gt;postgres ...&lt;/tt&gt;) and pass the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-D&lt;/span&gt;&lt;/tt&gt; parameter with
+the desired path where the database is going to store the data (which will be
+the &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;/&lt;tt class="docutils literal"&gt;ramdisk&lt;/tt&gt;). This would be another way of achieving the same.&lt;/p&gt;
+&lt;p&gt;Regardless the implementations, here are some potential applications:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;Local development without requiring disk storage, and running faster at the
+same time.&lt;/li&gt;
+&lt;li&gt;Unit testing: unit tests should be fast, granted. Sometimes, it makes
+perfect sense to run the tests against an actual database (practicality
+beats purity), even if this makes them "integration/functional" tests. In
+this regard, having a lightweight database container running locally could
+achieve the goal without compromising performance.&lt;/li&gt;
+&lt;li&gt;Isolation: (this only applies for the container approach), running
+&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; in a &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt; container, encapsulates the libraries, tools,
+packages, etc. in &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt;, so the rest of the system does not have to
+maintain much other packages installed. Think of if as a sort of "virtual
+environment" for packages.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;All in all, I think it's an interesting approach, worth considering, at least
+to have alternatives when working in projects that require intense interaction
+with the database.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt"&gt;https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs"&gt;https://en.wikipedia.org/wiki/Tmpfs&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id6" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/"&gt;http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>docker</category><category>linux</category><category>postgres</category><guid>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</guid><pubDate>Sun, 22 Jan 2017 16:09:59 GMT</pubDate></item><item><title>2016 in review</title><link>https://rmariano.github.io/itarch/posts/2016-in-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;A review of the events that took place this year, related to software
+engineering and architecture.&lt;/p&gt;
+&lt;div class="section" id="the-conferences-talks-and-events"&gt;
+&lt;h2&gt;The conferences, talks, and events&lt;/h2&gt;
+&lt;p&gt;These are some of the events I participated in:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;(2 Apr 2016) &lt;tt class="docutils literal"&gt;PROTOSEC&lt;/tt&gt; 2016 &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id9" id="id1"&gt;[1]&lt;/a&gt;: A technical conference about networking,
+protocols, security, and related topics.&lt;/li&gt;
+&lt;li&gt;(July 2016) EuroPython 2016: I attended several talks, trainings, workshops,
+and &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html"&gt;presented a talk&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;(10 Sep 2016) &lt;tt class="docutils literal"&gt;Python Córdoba meetup&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id14" id="id2"&gt;[6]&lt;/a&gt;: interesting meetup where I
+presented my talk at EuroPython and attended the sprints afterwards.&lt;/li&gt;
+&lt;li&gt;(14 Sep 2016) &lt;tt class="docutils literal"&gt;ArqConf&lt;/tt&gt; Meetup &lt;em&gt;¿Cómo es trabajar distribuido globalmente?
+Caso Open Stack&lt;/em&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id13" id="id3"&gt;[5]&lt;/a&gt;: Hosted in the Red Hat's offices in Buenos Aires, this
+talk was a very interesting one, on which I learned about the collaborative
+way of working of the Open Stack team, around the globe.&lt;/li&gt;
+&lt;li&gt;(17 Nov 2016) &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html"&gt;Python Barcelona meetup&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;(9 Dec 2016) Barcelona Spark meetup &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id10" id="id4"&gt;[2]&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;(22 Dec 2016) Python Barcelona December meetup &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id15" id="id5"&gt;[7]&lt;/a&gt;: I presented my talk
+about clean code in Python (yes, again :-), and there were two other
+interesting talks. Mine was the first one of the evening.  The second talk,
+was about &lt;tt class="docutils literal"&gt;zc.buildout&lt;/tt&gt;, an interesting tool for managing packages and
+environments in Python, which I first heard of at
+&lt;tt class="docutils literal"&gt;PyconAr&lt;/tt&gt; (Python Argentina group) 2012.  The third and last talk,
+presented a project named &lt;tt class="docutils literal"&gt;aiocache&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id16" id="id6"&gt;[8]&lt;/a&gt;: a cache system implemented in
+&lt;tt class="docutils literal"&gt;asyncio&lt;/tt&gt;, that supports multiple back-ends. The talk walked us through the
+code, its architecture, and some use cases with demos.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="code-wise"&gt;
+&lt;h2&gt;Code wise&lt;/h2&gt;
+&lt;p&gt;I started with a small contribution to the &lt;tt class="docutils literal"&gt;coala&lt;/tt&gt; project &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id11" id="id7"&gt;[3]&lt;/a&gt;, and during
+the EuroPython sprints I contributed to &lt;tt class="docutils literal"&gt;aiohttp&lt;/tt&gt; with a pull request.&lt;/p&gt;
+&lt;p&gt;There were two new &lt;a class="reference external" href="https://github.com/rmariano/vim-config/releases"&gt;releases of my vim configuration&lt;/a&gt;, versions &lt;tt class="docutils literal"&gt;v0.3&lt;/tt&gt; and
+&lt;tt class="docutils literal"&gt;v0.4&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id12" id="id8"&gt;[4]&lt;/a&gt;, which is great because is the single tool I use every day, and
+it is nice to have several improvements on it.&lt;/p&gt;
+&lt;p&gt;I also enhanced my &lt;a class="reference external" href="https://github.com/rmariano/dotfiles"&gt;dot files&lt;/a&gt;, but
+that is still in beta.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="on-general"&gt;
+&lt;h2&gt;On general&lt;/h2&gt;
+&lt;p&gt;A minor release of &lt;tt class="docutils literal"&gt;Python3.5&lt;/tt&gt;, but most importantly: &lt;tt class="docutils literal"&gt;Python3.6&lt;/tt&gt; was
+recently released!&lt;/p&gt;
+&lt;p&gt;There were two releases of &lt;tt class="docutils literal"&gt;Fedora&lt;/tt&gt;, 24 and 25, and there were lots of
+improvements and changes in the &lt;tt class="docutils literal"&gt;Linux Kernel&lt;/tt&gt;.&lt;/p&gt;
+&lt;p&gt;Regarding information security, there were some issues in the Linux Kernel,
+also in applications (such as dirty COW, etc.), and a massive DDoS attack that
+stroke the Internet on October, due to &lt;tt class="docutils literal"&gt;IoT&lt;/tt&gt; devices being compromised.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-to-look-forward-to-for-the-new-year"&gt;
+&lt;h2&gt;What to look forward to for the new year&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;I still look forward for more contributions to open source, in particular
+with CPython.&lt;/li&gt;
+&lt;li&gt;More functional programming (Scala/Haskell maybe), low-level programming in
+C, and research in the field of &lt;tt class="docutils literal"&gt;infosec&lt;/tt&gt;.&lt;/li&gt;
+&lt;li&gt;Keep on participating on technical conferences.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;And a lot more.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id9" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.protosec.org/en/"&gt;https://www.protosec.org/en/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id10" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id4"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/Spark-Barcelona/events/235763327/"&gt;https://www.meetup.com/Spark-Barcelona/events/235763327/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id11" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id7"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://github.com/coala/coala"&gt;https://github.com/coala/coala&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id12" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id8"&gt;[4]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://github.com/rmariano/vim-config/releases"&gt;https://github.com/rmariano/vim-config/releases&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id13" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id3"&gt;[5]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/es/ArquitecturaDeSoftware/events/233824352/"&gt;https://www.meetup.com/es/ArquitecturaDeSoftware/events/233824352/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id14" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id2"&gt;[6]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/es-ES/Cordoba-Python-Meetup/events/233741709/"&gt;https://www.meetup.com/es-ES/Cordoba-Python-Meetup/events/233741709/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id15" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id5"&gt;[7]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/python-185/events/236196808/"&gt;https://www.meetup.com/python-185/events/236196808/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id16" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/2016-in-review.html#id6"&gt;[8]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://github.com/argaen/aiocache"&gt;https://github.com/argaen/aiocache&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>software engineering</category><guid>https://rmariano.github.io/itarch/posts/2016-in-review.html</guid><pubDate>Sun, 25 Dec 2016 17:02:53 GMT</pubDate></item><item><title>Python Barcelona November meetup notes</title><link>https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Last Thursday November 17, 2016, there was a Python meetup in Barcelona &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id3" id="id1"&gt;[1]&lt;/a&gt;,
+with a set of interesting talks.&lt;/p&gt;
+&lt;p&gt;The first one was hosted by two representatives of the government of Catalunya,
+and Barcelona city, and they presented the technical challenges they are
+facing, and the new stack proposed for oncoming projects. In this regard, it
+was interesting to see how they have lots of legacy applications written in
+J2EE, with Java frameworks, that are outdated, difficult to maintain, and they
+mentioned the idea of migrating them to new, more modern technologies. In this
+sense, there are already projects in progress, and they chose Python + Django
+for the migration and re-implementation of the legacy systems.&lt;/p&gt;
+&lt;p&gt;This was a very interesting in the sense that more than this was actually
+presented. In particular the idea of how the government wants to actually own
+their systems, and therefore they are now choosing open source software. It
+goes beyond than merely using Python and Django: they are also migrating the
+workstation machines to open source software (Ubuntu), and trying to earn more
+contractors that are startups rather than huge multinationals with proprietary
+software. The idea is still the same: they want open data, transparency, and to
+actually own their systems.&lt;/p&gt;
+&lt;p&gt;These sort of initiatives are gaining more and more traction in the European
+Union, as many cities are starting to shift towards an open government, with
+open data, and more transparency. I look forward to seeing more projects in
+Python with open source technologies, at their GitHub account &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id4" id="id2"&gt;[2]&lt;/a&gt;, in the
+forthcoming months.&lt;/p&gt;
+&lt;p&gt;The second talk was about &lt;a class="reference external" href="https://conda.pydata.org/docs/intro.html"&gt;Conda&lt;/a&gt;,
+and shortly thereafter a brief introduction, the rest of the presentation was
+mostly a demo (live coding! :-), on which we saw several examples of installing
+packages, exporting the environment, creating a new one from a template, etc. It was
+useful to see both the strengths and shortcomings of the tool, what can and
+cannot be done with it, and how it can be useful for developers that have to
+deal with several system dependencies.&lt;/p&gt;
+&lt;p&gt;The third and last talk, was about &lt;a class="reference external" href="https://plone.org/"&gt;PLONE&lt;/a&gt;, a
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Content_management_system"&gt;CMS&lt;/a&gt; project
+written in Python, and with its 15-year-old tenure, is the oldest Python
+project (thing that I did not know). It was interesting to learn about its
+high-level architecture, components, and the way they work. Above that, I would
+like to highlight the recap that it was done about many underappreciated &lt;a class="reference external" href="https://www.zope.org/"&gt;zope&lt;/a&gt;
+libraries, that have been available in Python for a long time, doing an amazing
+job. It is now in my list, to review them.&lt;/p&gt;
+&lt;p&gt;All in all, it was a good meetup, and I liked very much the technical
+level of the talks, and the fact that the topics were very diverse, yet
+interesting. I would like to continue attending these meetups, and in the
+future I might even submit a talk.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id3" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/es-ES/python-185/events/235058828/"&gt;https://www.meetup.com/es-ES/python-185/events/235058828/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://github.com/AjuntamentdeBarcelona"&gt;https://github.com/AjuntamentdeBarcelona&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;</description><category>python</category><guid>https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html</guid><pubDate>Sat, 19 Nov 2016 17:42:18 GMT</pubDate></item><item><title>Oncoming events of Python and Architecture in September</title><link>https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;The next Saturday 10 of September, I will be presenting my talk "Clean Code in Python", as presented
+in the previous EuroPython 2016, at a local Python event in Córdoba, Argentina &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id4" id="id1"&gt;[1]&lt;/a&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id5" id="id2"&gt;[2]&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The following week, I will be attending a local architecture meetup (arqconf), on which a talk &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id6" id="id3"&gt;[3]&lt;/a&gt; about
+OpenStack will be hosted, explaining how they work in a distributed fashion.&lt;/p&gt;
+&lt;p&gt;I look forward to enjoying both events!&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/Cordoba-Python-Meetup/events/233741709/"&gt;https://www.meetup.com/Cordoba-Python-Meetup/events/233741709/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://medium.com/@toniabdala/juntada-python-c%C3%B3rdoba-septiembre-db4abe5c4858#.yo0x1mqe3"&gt;https://medium.com/@toniabdala/juntada-python-c%C3%B3rdoba-septiembre-db4abe5c4858#.yo0x1mqe3&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table class="docutils footnote" frame="void" id="id6" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://www.meetup.com/ArquitecturaDeSoftware/events/233824352/"&gt;https://www.meetup.com/ArquitecturaDeSoftware/events/233824352/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;</description><category>architecture</category><category>python</category><category>talks</category><guid>https://rmariano.github.io/itarch/posts/oncoming-events-of-python-and-architecture-in-september.html</guid><pubDate>Sat, 03 Sep 2016 19:20:47 GMT</pubDate></item><item><title>Returning data in PostgreSQL</title><link>https://rmariano.github.io/itarch/posts/returning-data-in-postgresql.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In order to get the best performance from our database engine, most of the
+times, we have to take advantage of its exclusive features. This has the
+disadvantage of getting farther away from standard, ANSI code, and in the case
+of RDBM engines, this also means, most of the ORMs will not work.&lt;/p&gt;
+&lt;p&gt;Besides that, it could sometimes be worth exploring what we can gain by
+adapting to the engine.&lt;/p&gt;
+&lt;p&gt;This is something learnt from the feedback of &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html"&gt;my talk given at EuroPython 2016&lt;/a&gt;.  After the talk, an attendee told me
+that he liked it, and asked me about the code portrayed in one of the slides,
+the one about decorators with the example of moving some records from one table
+to another. He asked me if I ran code like that one in production, to which I
+answered no: the code is entirely fictional, and it was done for the mere
+purposes of the examples, so I just needed an excuse for a task that could be
+done in two SQL statements, so the example with the decorator can be shown.&lt;/p&gt;
+&lt;p&gt;The code of the example follows:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
+&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Then I learnt that there is another way of writing that sort of statements,
+with the "returning" sentence of PostgreSQL.&lt;/p&gt;
+&lt;p&gt;It would be re-written like:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Or... the other way around:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
+&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;The interesting point here, is that it entails a single command, instead of
+two. So this can be done with a single call to the database, saving an extra
+round trip.&lt;/p&gt;
+&lt;p&gt;The point here is that the &lt;a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html"&gt;delete statement of PostgreSQL&lt;/a&gt; (as well as the
+rest of the statements, INSERT, UPDATE, for instance), can be specified to
+return the data they affect, and this can be used in an intermediate table to
+pipe it to another statement.&lt;/p&gt;
+&lt;p&gt;By default, if you run the delete statement, it should return the number of
+affected rows, like:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_9ee7c5d51ee74cd084fd430bac6ef5bb-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_3b4c608839154ebfbd7d9dfbecd9ae59-1"&gt;&lt;/a&gt;DELETE 4
+&lt;/pre&gt;&lt;p&gt;But, we can make it to return the rows themselves:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_21654ea485af4aaca4db3b9abdd4430e-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-1"&gt;&lt;/a&gt;id|   description    |     order_date
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-2"&gt;&lt;/a&gt;----+------------------+---------------------
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-9"&gt;&lt;/a&gt;DELETE 4
+&lt;/pre&gt;&lt;p&gt;Or, specific columns if we select them:&lt;/p&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_d47ac583a49042068b8e57f536d095ba-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-1"&gt;&lt;/a&gt;id |   description
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-2"&gt;&lt;/a&gt;----+------------------
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-3"&gt;&lt;/a&gt;4 | to be archived
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-4"&gt;&lt;/a&gt;5 | First sale order
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-5"&gt;&lt;/a&gt;6 | First sale order
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-6"&gt;&lt;/a&gt;7 | First sale order
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-9"&gt;&lt;/a&gt;DELETE 4
+&lt;/pre&gt;&lt;p&gt;So, we can use the "returning" feature of PostgreSQL, to do in a single command
+what we usually would do in two or more, and in some cases, it might be
+something worth exploring. It was great learning things like this one, and
+getting tips as a result from the feedback of the talk (it does not change the
+meaning, and the example could remain the same for the aforementioned reasons;
+it is just an example :-).&lt;/p&gt;&lt;/div&gt;</description><category>data</category><category>database</category><category>postgres</category><guid>https://rmariano.github.io/itarch/posts/returning-data-in-postgresql.html</guid><pubDate>Sun, 14 Aug 2016 21:41:30 GMT</pubDate></item><item><title>My talk @ EuroPython 2016</title><link>https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;I had the great experience of presenting at EuroPython 2016. My talk entitled "Clean code in Python",
+was about good development practices, down to low-level design (with code examples), for Python. The idea
+of the talk, was to present the "pythonic" approach for writing code, and how do general concepts of
+clean code apply to Python.&lt;/p&gt;
+&lt;p&gt;These examples might be useful for beginners, developers experienced in other languages coming to Python,
+and people using Python for scientific applications. The examples could also be helpful for senior
+developers, because they remind real situations that might appear in pull requests, while doing a code review.&lt;/p&gt;
+&lt;p&gt;Here is the video on YouTube:&lt;/p&gt;
+&lt;div class="youtube-video align-center"&gt;
+&lt;iframe width="425" height="344" src="https://www.youtube.com/embed/7ADbOHW1dTA?rel=0&amp;amp;hd=1&amp;amp;wmode=transparent"&gt;&lt;/iframe&gt;
+&lt;/div&gt;&lt;p&gt;And the slides (which I also made available along with the source code, &lt;a class="reference external" href="https://twitter.com/rmarianoa/status/755808691996200960"&gt;shortly after the presentation
+finished&lt;/a&gt;).&lt;/p&gt;
+&lt;script async class="speakerdeck-embed" data-id="8e5af9b4d3a14204a700458cebfda1d7" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"&gt;&lt;/script&gt;&lt;p&gt;The presentation was well received: some attendees
+told me they liked it (even asked for the slides and code), and I got good advices.
+The following days of the conference, more people told me that they liked the presentation, and some others
+mentioned (something I did not think at the beginning, but that it makes perfect sense), that these ideas
+are really useful for people using Python in scientific environments.&lt;/p&gt;
+&lt;p&gt;I am glad it was useful for the community.&lt;/p&gt;&lt;/div&gt;</description><category>conferences</category><category>EuroPython</category><category>python</category><category>talks</category><guid>https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html</guid><pubDate>Wed, 03 Aug 2016 00:22:53 GMT</pubDate></item><item><title>EuroPython 2016 remarks</title><link>https://rmariano.github.io/itarch/posts/europython-2016-remarks.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Last week, EuroPython 2016 finished, and it was an amazing conference I had the pleasure to attend.
+Here is my review of those days.&lt;/p&gt;
+&lt;div class="section" id="the-conference"&gt;
+&lt;h2&gt;The conference&lt;/h2&gt;
+&lt;p&gt;I arrived on Saturday noon at Bilbao, Spain, the day before the conference, so I had some time to know
+the city, see the venues, etc. The next day, on Sunday, was for two separate workshops: Django girls and
+Beginner's day. I attended the beginner's day as a coach, and helped a group of intermediate developers with
+several exercises aimed at explaining some Python concepts, such as: context managers, decorators,
+magic methods, generators, etc. It was really curious that some of these topics were those I was going to cover
+on my talk on Wednesday, so I felt really glad about that. I took an oath (very funny BTW) for becoming a beginner's mentor, and so I did
+(it was really good actually). I had a great time helping other developers, exchanging ideas and experiences during lunch,
+solving problems, and getting a first glimpse on what the conference was going to be like.&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="../ep2016-beginners-mentor-oath.png" src="https://rmariano.github.io/itarch/ep2016-beginners-mentor-oath.png"&gt;
+&lt;p class="caption"&gt;The moment of the oath for becoming a mentor, and earning the badge.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;After the workshop finished, I walked to the main venue, and gave a hand packing the bags of the conference. After that, time to
+see around Bilbao.&lt;/p&gt;
+&lt;p&gt;From Monday to Friday was the conference itself, with all the talks, and trainings.&lt;/p&gt;
+&lt;p&gt;Monday started with the introduction to the conference, and shortly thereafter, the very first keynote by Rachel Willmer,
+who gave a great presentation, sharing a lot of experience, and interesting ideas.&lt;/p&gt;
+&lt;p&gt;At around noon there was a keynote by N. Tollervey about MicroPython. The presentation was excellent (one of the ones I liked the most),
+and the idea of the project is awesome. On top of that, it was announced that the BBC was
+giving away &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Micro_Bit"&gt;micro:bits&lt;/a&gt; for the attendees of
+the conference, so it was a great surprise to pick up mine at the conference desk. I even started playing around a bit with it (more
+in a future post).&lt;/p&gt;
+&lt;p&gt;The rest of the afternoon, I attended several talks. At the end, there were, of course the lightning talks, which were amazing.&lt;/p&gt;
+&lt;p&gt;Tuesday started with the keynote by P. Hildebrant, presenting how Disney uses several technologies, including Python,
+as support for movies and productions. It was very good and enlightening to see an endeavour of such extent with Python.
+After that, during morning I attended a workshop about Async web development, &lt;a class="reference external" href="https://github.com/rmariano/async-web-dev"&gt;with several Python technologies
+for doing asynchronous computation&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;During the afternoon, I watched several great talks, including "Protect you users with Circuit Breakers", and
+several other good ones, closing with the lightning talks.&lt;/p&gt;
+&lt;p&gt;Wednesday was the day of my talk, so I attended some talks during morning and then, at the afternoon, I presented mine.
+I really liked how it developed. Moreover, it was really good to receive good feedback from some attendees, saying they
+liked it, and that it was useful for them. Shortly thereafter, I published the slides and the source code.&lt;/p&gt;
+&lt;p&gt;On Thursday, there were some talks about async/await and asynchronous programming in Python 3, mocks, and high-availability
+architecture.&lt;/p&gt;
+&lt;p&gt;On Friday, the keynote was about how Python is used by the scientific community. It was very enlightening, and interesting
+to see another use case of Python, and how is becoming the main technology on this area.&lt;/p&gt;
+&lt;p&gt;The talks during morning in this case, were divided among several topics, being the main ones: instrumentation for performance
+metrics, "How to migrate form PostgreSQL to HDF5 and live happily ever after", "Split Up! Fighting the monolith". During the afternoon,
+I joined a workshop about Docker, on which we built an application using Docker-combine, and followed good practices.&lt;/p&gt;
+&lt;p&gt;It is worth mentioning, that on Friday there was an special edition for lightning talks, which was not in the original schedule. After
+making some arrangements, and due to some on-the-fly changes, it was possible to have another session for lightning talks, right before
+the sprints orientation and the closing session.&lt;/p&gt;
+&lt;p&gt;Saturday and Sunday were for sprints (hackathons). On Saturday I joined to sprint on aiohttp, and actually
+submitted a &lt;a class="reference external" href="https://github.com/KeepSafe/aiohttp/pull/991"&gt;pull request&lt;/a&gt;, that
+was merged, whereas on Sunday I wanted to check on a pytest issue.&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;Sprints &lt;a href="https://twitter.com/europython"&gt;@europython&lt;/a&gt;! &lt;a href="https://t.co/PVQZw9rSvV"&gt;pic.twitter.com/PVQZw9rSvV&lt;/a&gt;&lt;/p&gt;— PySS Society (@acpyss) &lt;a href="https://twitter.com/acpyss/status/756825866617950209"&gt;July 23, 2016&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;/div&gt;
+&lt;div class="section" id="my-talk"&gt;
+&lt;h2&gt;My talk&lt;/h2&gt;
+&lt;p&gt;It was great to have the opportunity to present at EuroPython. What was even better, was the positive feedback I got from other attendees,
+and the fact that it was useful and interesting for them (which was, in the end, what I cared most about). I found the experience very
+positive.&lt;/p&gt;
+&lt;p&gt;From the comments, I gathered something I have not noticed when I first envisioned the talk, which is how useful these concepts might
+be for people using Python for scientific applications. It seems, scientists using Python for data processing or computation, do not
+usually have the background of a developer, so concepts like code readability, technical debt, and maintainability, are helpful in order
+to improve the code base. This  gave me the idea of adapting the examples, perhaps adding one related to these areas.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="python-use-cases"&gt;
+&lt;h2&gt;Python use cases&lt;/h2&gt;
+&lt;p&gt;There were people from many countries, industries, and companies with different backgrounds. The trend seems to be now on
+data science, but Python is widely used in many areas.&lt;/p&gt;
+&lt;p&gt;I believe the main areas of focus for Python are: software development, system administration / Dev Ops, and science.&lt;/p&gt;
+&lt;p&gt;There were talks, tracks, sessions, and trainings for all of them, with very technical detail.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="highlights"&gt;
+&lt;h2&gt;Highlights&lt;/h2&gt;
+&lt;p&gt;There were so many great talks and resources that I cannot name each single one of them, so I will point the main
+topics and some of the talks that grabbed my attention the most, but please keep in mind that all were great.&lt;/p&gt;
+&lt;p&gt;Among the many things pending to test and research, are also books. I learned about PYRO4, for managing Python remote
+objects, which seems like a promising technology. I will dive into more detail on conda and the building systems, conda
+channels, etc. The talk "Exploring your Python interpreter" was really interesting, and it was a good introduction, in order
+to become involved with CPython development.&lt;/p&gt;
+&lt;p&gt;I attended many talks about the latest features of Python 3.5, such as asyncIO, coroutines, and all the new functionalities for
+asynchronous programming, and they all were really interesting. In particular "The report of Twisted's Death" was very interesting, and
+(spoiler alert), it looks like still has an interesting future competing with the new libraries and standards.&lt;/p&gt;
+&lt;p&gt;On the lightning talks, it was presented a reverse debugger (revdb), and its demo was amazing.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;After attending many talks, and trainings, talking to many other experience developers, system administrators, and data scientists,
+I can state that the conference has an amazing learning environment, and the outcome was completely positive. It was useful
+for catching up with technology, checking the environment and see how Python is being used or deployed in the wild, learn from
+use cases, experiences, and exchange ideas.&lt;/p&gt;
+&lt;p&gt;The content was really inspiring and open-minding. I have lots of items to check, as points for research, which I will cover in following
+entries.&lt;/p&gt;
+&lt;p&gt;Python 3 is much more widely used than one would expect. It is actually the standard now, and many talks (including mine), were using Python 3
+code, but most importantly, most projects are now in this version, whereas Python 2 looks like the legacy option. Good news :-)&lt;/p&gt;
+&lt;p&gt;All in all, this edition of EuroPython was awesome, and I am looking forward to presenting again next year!&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>conferences</category><category>EuroPython</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/europython-2016-remarks.html</guid><pubDate>Sun, 31 Jul 2016 15:06:56 GMT</pubDate></item><item><title>Upcoming talk at EuroPython 2016</title><link>https://rmariano.github.io/itarch/posts/upcoming-talk-at-europython-2016.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;I am glad to inform that I will be speaking at EuroPython 2016 conference.&lt;/p&gt;
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;I'll speak &lt;a href="https://twitter.com/europython"&gt;@europython&lt;/a&gt; 2016:&lt;br&gt;'Clean code in Python' &lt;a href="https://t.co/e4clWU3aDM"&gt;https://t.co/e4clWU3aDM&lt;/a&gt;&lt;/p&gt;— Mariano (@rmarianoa) &lt;a href="https://twitter.com/rmarianoa/status/714107288567549954"&gt;March 27, 2016&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;p&gt;My submission about clean code in Python was accepted, so in the next edition of EuroPython 2016,
+in Bilbao, Spain, I will talk about clean code principles for Python. Here is the abstract:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;a class="reference external" href="https://ep2016.europython.eu/conference/talks/clean-code-in-python"&gt;https://ep2016.europython.eu/conference/talks/clean-code-in-python&lt;/a&gt;&lt;/blockquote&gt;
+&lt;p&gt;The full list of talks is available at:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;a class="reference external" href="https://ep2016.europython.eu/en/events/sessions/"&gt;https://ep2016.europython.eu/en/events/sessions/&lt;/a&gt;&lt;/blockquote&gt;
+&lt;p&gt;If you are interested, subscribe to the EuroPython blog and Youtube channel. I will include more details
+in a separate post.&lt;/p&gt;&lt;/div&gt;</description><category>best-practices</category><category>clean-code</category><category>python</category><category>talks</category><guid>https://rmariano.github.io/itarch/posts/upcoming-talk-at-europython-2016.html</guid><pubDate>Sun, 27 Mar 2016 19:37:11 GMT</pubDate></item><item><title>Glimpses of a Vim configuration</title><link>https://rmariano.github.io/itarch/posts/glimpses-of-a-vim-configuration.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a while since I started tracking versions of my custom Vim configuration, and making it available as an open source software in &lt;a class="reference external" href="https://github.com/rmariano/vim-config"&gt;Github&lt;/a&gt;.
+The best of this project is, in my opinion, to have it under version control, so I can track changes and releases.&lt;/p&gt;
+&lt;p&gt;Every once in a while, when I find a new setting, or a great new feature, I modify the configuration, so they will become available on the next release.
+Besides the features that are mentioned in the project, and the customizations made, I feel very comfortable with the colour scheme I made.&lt;/p&gt;
+&lt;p&gt;Here are some glimpses of it:&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="../vim-capture1.png" src="https://rmariano.github.io/itarch/vim-capture1.png"&gt;
+&lt;p class="caption"&gt;First capture of colours, and layout&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;The colour scheme is general for the syntax highlighting of all types recognized by Vim. Please note this might also depend on the configuration of your terminal.&lt;/p&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="../vim-capture2.png" src="https://rmariano.github.io/itarch/vim-capture2.png"&gt;
+&lt;p class="caption"&gt;The tabs are also themed according to the menus.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Any suggestions or improvements to the code and configuration can be made on the &lt;a class="reference external" href="https://github.com/rmariano/vim-config"&gt;Github&lt;/a&gt; project.&lt;/p&gt;&lt;/div&gt;</description><category>development</category><category>tools</category><category>vim</category><guid>https://rmariano.github.io/itarch/posts/glimpses-of-a-vim-configuration.html</guid><pubDate>Sat, 27 Feb 2016 16:06:53 GMT</pubDate></item><item><title>Deleting commented out code</title><link>https://rmariano.github.io/itarch/posts/deleting-commented-out-code.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is a rule I always encourage in software development. Moreover, I consider it to be something that has
+to be included in every coding guideline of a good project.&lt;/p&gt;
+&lt;p&gt;There are several reasons for this, but probably the best explanation can be found in the book "Clean Code"&lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/deleting-commented-out-code.html#id2" id="id1"&gt;[1]&lt;/a&gt; by uncle
+Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
+it makes a place for confusion, leading to an error-prone spot.&lt;/p&gt;
+&lt;p&gt;There are, however, people that seem to find some arguments for commenting out code, or leaving it.
+Some common arguments/reasons usually are:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;"I might need this functionality later.."&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
+the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;"This is temporary disabled... It will be restored later".&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
+As you see, there are plenty of better options for solving this scenario.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Code that was left from the fist version&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Probably debugging leftovers. No doubt here: seek, locate, destroy.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;There is, a clear problem with code that is under comment, which is that it is "frozen" in time:
+it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
+might not certainly work (hence it is "rotten"), so un-commenting it is a bad idea because it will probably crash.&lt;/p&gt;
+&lt;p&gt;Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
+in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
+going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
+idea for that code.&lt;/p&gt;
+&lt;p&gt;Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
+mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
+deleting it. Delete commented out code mercilessly: seek, locate and destroy.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/deleting-commented-out-code.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;A book I highly recommend: &lt;a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"&gt;https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;</description><category>best-practices</category><category>clean-code</category><guid>https://rmariano.github.io/itarch/posts/deleting-commented-out-code.html</guid><pubDate>Thu, 18 Feb 2016 01:06:50 GMT</pubDate></item></channel></rss>

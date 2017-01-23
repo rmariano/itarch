@@ -2,7 +2,6 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
 <head>
 <meta charset="utf-8">
-<base href="https://rmariano.github.io/itarch/es/posts/do-not-import.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Do not import * | IT Arch</title>
 <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -10,7 +9,8 @@
 <link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/do-not-import.html">
@@ -38,7 +38,7 @@ The idea on this post, is to h">
 <!-- This keeps the margins nice -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">Mostrar navegación</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -112,41 +112,33 @@ from a module, for example by doing <tt class="docutils literal">from &lt;module
 <p>The idea on this post, is to highlight and gather the reasons why this is a bad practice, in order to collectively
 identify many undesired effects. However, without losing pragmatism, in case there are some odd reasons why this
 might be acceptable, I will also mention them, if any. Let's see where we get.</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><dl class="first docutils">
 <dt>You do not know what you get</dt>
-<dd>
-<p class="first last">An arbitrary Python script may contain any code, and most of it will be executed when
+<dd>An arbitrary Python script may contain any code, and most of it will be executed when
 performing the <tt class="docutils literal">import *</tt> part (you cannot rely on how <tt class="docutils literal">__name__</tt> is handled).
 The interface is totally unclear: you do not know what computations performs, what objects will import, etc.
-In general is more efficient to import as few definitions as possible.</p>
-</dd>
+In general is more efficient to import as few definitions as possible.</dd>
 </dl></li>
 <li><dl class="first docutils">
 <dt>Identifiers appear magically</dt>
-<dd>
-<p class="first last">In any decently readable Python script, the programmer must be able to locate every definition, which means
+<dd>In any decently readable Python script, the programmer must be able to locate every definition, which means
 to identify where does every identifier come from. For example, a variable named <tt class="docutils literal">x</tt> can either be a parameter
 of the function in the current scope, a variable already defined (assigned), or a name already imported (<tt class="docutils literal">from mod import x</tt>), etc.
 By performing the incorrect import, this variable might appear out of the blue, meaning that I will have an <tt class="docutils literal">x</tt> that
 will not be neither a parameter, nor a definition nor a declared import. This means, I cannot
 track the origin or <tt class="docutils literal">x</tt>. The situation gets worse if there are not one, but many <tt class="docutils literal">import *</tt> statements.
-Debugging becomes a nightmare.</p>
-</dd>
+Debugging becomes a nightmare.</dd>
 </dl></li>
 <li><dl class="first docutils">
 <dt>Namespaces are one honking great idea -- let's do more of those!</dt>
-<dd>
-<p class="first last">Straight from the Python zen <a class="footnote-reference" href="do-not-import.html#id3" id="id1">[1]</a>. By importing everything from a module, the benefits of the namespaces
+<dd>Straight from the Python zen <a class="footnote-reference" href="do-not-import.html#id3" id="id1">[1]</a>. By importing everything from a module, the benefits of the namespaces
 are somehow lost. Instead, everything (or a lot of things), might get to be called the same, messing
-with the current scope. Moreover, new import definitions might override previous ones.</p>
-</dd>
+with the current scope. Moreover, new import definitions might override previous ones.</dd>
 </dl></li>
 <li><dl class="first docutils">
 <dt>Explicit is better than implicit</dt>
-<dd>
-<p class="first last">Again, every identifier that we want imported should be done explicitly (the <tt class="docutils literal">*</tt> is not very declarative).</p>
-</dd>
+<dd>Again, every identifier that we want imported should be done explicitly (the <tt class="docutils literal">*</tt> is not very declarative).</dd>
 </dl></li>
 </ol>
 <p>Now, so far these might be some of the main reasons about why importing everything from a Python module

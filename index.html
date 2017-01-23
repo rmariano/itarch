@@ -2,7 +2,6 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<base href="https://rmariano.github.io/itarch/index.html">
 <meta name="description" content="A blog about software engineering, technology and ideas.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IT Arch</title>
@@ -11,12 +10,13 @@
 <link href="assets/css/code.css" rel="stylesheet" type="text/css">
 <link href="assets/css/colorbox.css" rel="stylesheet" type="text/css">
 <link href="assets/css/theme.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/index.html">
 <link rel="next" href="index-2.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/2016-in-review.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/running-postgresql-in-memory-with-docker.html" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -80,7 +80,153 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016-in-review.html" class="u-url">2016 in review</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/running-postgresql-in-memory-with-docker.html" class="u-url">Running PostgreSQL in memory with docker</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/running-postgresql-in-memory-with-docker.html" rel="bookmark"><time class="published dt-published" datetime="2017-01-22T17:09:59+01:00" title="Sun Jan 22, 2017 - 17:09">Sun Jan 22, 2017 - 17:09</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>Interacting with a database, can be a regular task of a developer, and for that
+we would like to ensure that we are developing and testing in situations close
+to a real implementation; therefore, using the same database as in
+production can help detecting issues early.</p>
+<p>However, setting up an entire database server for development, can be
+cumbersome. Hopefully nowadays, modern operating systems like <tt class="docutils literal">Linux</tt> have
+great tools and features that we could take advantage of.</p>
+<p>In particular, I would like to setup a simple database locally using
+<a class="reference external" href="https://www.docker.com/what-docker">docker</a>, and storing the data in memory.</p>
+<p>The idea is simple: run a docker container with the image for <tt class="docutils literal">PostgresSQL</tt>,
+using a <tt class="docutils literal">tmpfs</tt> <a class="footnote-reference" href="posts/running-postgresql-in-memory-with-docker.html#id4" id="id1">[1]</a> <a class="footnote-reference" href="posts/running-postgresql-in-memory-with-docker.html#id5" id="id2">[2]</a> as storage for the database (a <tt class="docutils literal">ramfs</tt> could also
+be used).</p>
+</div>
+<div class="section" id="procedure">
+<h2>Procedure</h2>
+<p>First, we get the image of <tt class="docutils literal">PostgresSQL</tt> according to the platform, for
+example:</p>
+<pre class="literal-block">
+docker pull fedora/postgresql
+</pre>
+<p>Then, I could create a <tt class="docutils literal">tmpfs</tt>, for the data and mount it</p>
+<pre class="code bash"><a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+</pre>
+<p>Now we could run the database container using this directory:</p>
+<table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-1">1</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-2">2</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-3">3</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-4">4</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-5">5</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-6">6</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_ae115c914fa84e7eaeecc1968063e944-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-6"></a>    -p 5432:5432 <span class="se">\</span>
+<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-7"></a>    fedora/postgresql
+</pre></td>
+</tr></table>
+<p>The first line indicates the name for the container we are running (if is not
+specified, docker will put a default one); the second line is the important
+one, since it is what makes the mapping of directories, meaning that will map
+the directory for the <tt class="docutils literal">tmpfs</tt> on the host, mounted as <tt class="docutils literal">/var/lib/pgsql/data</tt>
+inside the container (the target). The later directory is the one
+<tt class="docutils literal">PostgreSQL</tt> uses by default for initializing and storing the data of the
+database.  The <tt class="docutils literal">Z</tt> at the end of the mapping is an internal detail for
+flagging that directory in case <tt class="docutils literal">SELinux</tt> is enabled, so it will not fail due
+to a permissions errors (because containers run as another user, and we are
+mounting something that might be out of that scope) <a class="footnote-reference" href="posts/running-postgresql-in-memory-with-docker.html#id6" id="id3">[3]</a>.</p>
+<p>The rest of the three lines, are environment variables that docker will use for
+the initialization of the database (they are optional, and defaults will be
+used, in case they are not provided). Then follows the port mapping, which in
+this case indicates to map the port <tt class="docutils literal">5432</tt> inside the container to the same
+one on the host. And finally, the name of the <tt class="docutils literal">docker</tt> image we will run.</p>
+<p>Once this is running, it would look like we have an actual instance of
+<tt class="docutils literal">PostgreSQL</tt> up and running on our machine (actually we do, but it is inside
+a container :-), so we can connect with any client (even a <tt class="docutils literal">Python</tt>
+application, etc.).</p>
+<p>For example, if we want to use the <tt class="docutils literal">psql</tt> client with the container, the
+command would be:</p>
+<table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1">1</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2">2</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3">3</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+</pre></td>
+</tr></table>
+</div>
+<div class="section" id="applications">
+<h2>Applications</h2>
+<p>If we have <tt class="docutils literal">PostgreSQL</tt> installed, we could simply start a new instance as
+our user with the command (<tt class="docutils literal">postgres ...</tt>) and pass the <tt class="docutils literal"><span class="pre">-D</span></tt> parameter with
+the desired path where the database is going to store the data (which will be
+the <tt class="docutils literal">tmpfs</tt>/<tt class="docutils literal">ramdisk</tt>). This would be another way of achieving the same.</p>
+<p>Regardless the implementations, here are some potential applications:</p>
+<ol class="arabic simple">
+<li>Local development without requiring disk storage, and running faster at the
+same time.</li>
+<li>Unit testing: unit tests should be fast, granted. Sometimes, it makes
+perfect sense to run the tests against an actual database (practicality
+beats purity), even if this makes them "integration/functional" tests. In
+this regard, having a lightweight database container running locally could
+achieve the goal without compromising performance.</li>
+<li>Isolation: (this only applies for the container approach), running
+<tt class="docutils literal">PostgreSQL</tt> in a <tt class="docutils literal">docker</tt> container, encapsulates the libraries, tools,
+packages, etc. in <tt class="docutils literal">docker</tt>, so the rest of the system does not have to
+maintain much other packages installed. Think of if as a sort of "virtual
+environment" for packages.</li>
+</ol>
+<p>All in all, I think it's an interesting approach, worth considering, at least
+to have alternatives when working in projects that require intense interaction
+with the database.</p>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/running-postgresql-in-memory-with-docker.html#id1">[1]</a></td>
+<td>: <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt</a>
+</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/running-postgresql-in-memory-with-docker.html#id2">[2]</a></td>
+<td>: <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">https://en.wikipedia.org/wiki/Tmpfs</a>
+</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/running-postgresql-in-memory-with-docker.html#id3">[3]</a></td>
+<td>: <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016-in-review.html" class="u-url">2016 in review</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -374,20 +520,28 @@ answered no: the code is entirely fictional, and it was done for the mere
 purposes of the examples, so I just needed an excuse for a task that could be
 done in two SQL statements, so the example with the decorator can be shown.</p>
 <p>The code of the example follows:</p>
-<pre class="code SQL"><a name="rest_code_319a1bc5688642a6972b9ec86c7fe0e3-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_319a1bc5688642a6972b9ec86c7fe0e3-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_319a1bc5688642a6972b9ec86c7fe0e3-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_319a1bc5688642a6972b9ec86c7fe0e3-4"></a>
-<a name="rest_code_319a1bc5688642a6972b9ec86c7fe0e3-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_fd5e29689ef04be29788e48f1407baa0-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-4"></a>
+<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that there is another way of writing that sort of statements,
 with the "returning" sentence of PostgreSQL.</p>
 <p>It would be re-written like:</p>
-<pre class="code SQL"><a name="rest_code_18115bbed8324d899f9773e009f6244d-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_18115bbed8324d899f9773e009f6244d-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_18115bbed8324d899f9773e009f6244d-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_18115bbed8324d899f9773e009f6244d-4"></a><span class="p">)</span>
-<a name="rest_code_18115bbed8324d899f9773e009f6244d-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_1af29086e96443f1aa232d154ece72a1-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_1af29086e96443f1aa232d154ece72a1-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_1af29086e96443f1aa232d154ece72a1-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_1af29086e96443f1aa232d154ece72a1-4"></a><span class="p">)</span>
+<a name="rest_code_1af29086e96443f1aa232d154ece72a1-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+</pre>
+<p>Or... the other way around:</p>
+<pre class="code SQL"><a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-5"></a><span class="p">)</span>
+<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
 <p>The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
@@ -398,35 +552,35 @@ return the data they affect, and this can be used in an intermediate table to
 pipe it to another statement.</p>
 <p>By default, if you run the delete statement, it should return the number of
 affected rows, like:</p>
-<pre class="code SQL"><a name="rest_code_d4f27d5edaf043679577f2bd1e9a01c4-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_9ee7c5d51ee74cd084fd430bac6ef5bb-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_c483968b38d14bb99424ad8a2406a138-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_3b4c608839154ebfbd7d9dfbecd9ae59-1"></a>DELETE 4
 </pre>
 <p>But, we can make it to return the rows themselves:</p>
-<pre class="code SQL"><a name="rest_code_bf4ef4cdbdc14958b89d3b7378c12b97-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_21654ea485af4aaca4db3b9abdd4430e-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_150a32ea27de4fdba423ac4b360bf206-1"></a>id|   description    |     order_date
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-2"></a>----+------------------+---------------------
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-7"></a>(4 rows)
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-8"></a>
-<a name="rest_code_150a32ea27de4fdba423ac4b360bf206-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-1"></a>id|   description    |     order_date
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-2"></a>----+------------------+---------------------
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-7"></a>(4 rows)
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-8"></a>
+<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-9"></a>DELETE 4
 </pre>
 <p>Or, specific columns if we select them:</p>
-<pre class="code SQL"><a name="rest_code_d0548fc067264f678850163df6588c2d-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_d47ac583a49042068b8e57f536d095ba-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_c7658199be384190b7f6e54b481742c5-1"></a>id |   description
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-2"></a>----+------------------
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-3"></a>4 | to be archived
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-4"></a>5 | First sale order
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-5"></a>6 | First sale order
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-6"></a>7 | First sale order
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-7"></a>(4 rows)
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-8"></a>
-<a name="rest_code_c7658199be384190b7f6e54b481742c5-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_a3e01069b5874243bd82842900db39b5-1"></a>id |   description
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-2"></a>----+------------------
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-3"></a>4 | to be archived
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-4"></a>5 | First sale order
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-5"></a>6 | First sale order
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-6"></a>7 | First sale order
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-7"></a>(4 rows)
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-8"></a>
+<a name="rest_code_a3e01069b5874243bd82842900db39b5-9"></a>DELETE 4
 </pre>
 <p>So, we can use the "returning" feature of PostgreSQL, to do in a single command
 what we usually would do in two or more, and in some cases, it might be
@@ -679,228 +833,6 @@ deleting it. Delete commented out code mercilessly: seek, locate and destroy.</p
 <td class="label"><a class="fn-backref" href="posts/deleting-commented-out-code.html#id1">[1]</a></td>
 <td>A book I highly recommend: <a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a>
 </td>
-</tr></tbody>
-</table>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/copying-strings-in-c.html" class="u-url">strncpy and strncat for copying strings in C</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
-            </span></p>
-            <p class="dateline"><a href="posts/copying-strings-in-c.html" rel="bookmark"><time class="published dt-published" datetime="2015-09-27T18:34:44-03:00" title="Sun Sep 27, 2015 - 18:34">Sun Sep 27, 2015 - 18:34</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>Recently, I've read an interesting article <a class="footnote-reference" href="posts/copying-strings-in-c.html#id8" id="id1">[1]</a>, explaining why the <code>strncpy</code> function in C is not
-safer than <code>strcpy</code>. The post was very interesting, but what's more, it suggested an alternative
-idiom for copying strings in C, that might probably be the way to go.</p>
-<p>Later, in another article <a class="footnote-reference" href="posts/copying-strings-in-c.html#id9" id="id2">[2]</a> that compared some functionality in C, Python and Go, one of the comments
-pointed out that very same idiom. That grabbed my attention, so I decided to try it in an example.</p>
-<p>The problem with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
-the sample code provided in the documentation <a class="footnote-reference" href="posts/copying-strings-in-c.html#id10" id="id3">[3]</a> (that should be just a reference), the break condition
-is up to <code>n</code> characters (the third parameter) or until the source string is exhausted, whatever happens first. This
-should not be a problem, unless <code>n &lt; strlen(source_string)</code>. That parameter would make <code>strncpy</code>
-to finish before it can put a <code>\0</code> character at the end of the target string, leaving
-an invalid array of characters <a class="footnote-reference" href="posts/copying-strings-in-c.html#id12" id="id4">[5]</a>.</p>
-<p>This is an example.</p>
-<table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_008db1a6075746629430194bc5e570b0-24">24</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_008db1a6075746629430194bc5e570b0-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncpy, strlen */</span><span class="cp"></span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-3"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-5"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-7"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-10"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-11"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-12"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-13"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-14"></a>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-15"></a><span class="cm">    * strlen) */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-16"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-20"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-21"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-22"></a>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_008db1a6075746629430194bc5e570b0-24"></a><span class="p">}</span>
-</pre></td>
-</tr></table>
-<p>On this example, the target array is represented by the variable <code>dst</code>, and I used a fixed-length string,
-on purpose for the demonstration, simulating what would actually happen. I null-terminated it so the program
-can finish successfully, because otherwise the operations on it would not end until the delimiter is reached,
-and we cannot know when that will happen, considering what's in memory at that time. In addition, the
-unpredictable behaviour will lead to errors, and probably to memory corruption. The underscore,
-should be interpreted as slots: regions or reserved memory that are there, but empty.</p>
-<p>The proposed idiom uses <code>strncat</code> (see <a class="footnote-reference" href="posts/copying-strings-in-c.html#id11" id="id5">[4]</a>),
-tricking the function by passing it an empty string as the first parameter,
-and then the actual string we need to copy. This call will render the same result,
-but without the previous side effect.
-Let's see an example:</p>
-<table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-24">24</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-25">25</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-26">26</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-27">27</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-28">28</a>
-<a href="posts/copying-strings-in-c.html#rest_code_2e6bba677319492db46dc37b6f642fbd-29">29</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_2e6bba677319492db46dc37b6f642fbd-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncat, strlen */</span><span class="cp"></span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-3"></a>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-5"></a>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-7"></a>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-10"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-11"></a>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-12"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-13"></a>    <span class="cm">/* Prepare destination string */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-14"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-15"></a>    <span class="cm">/* Copy with strncat */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-16"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-20"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-21"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-22"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-23"></a>    <span class="cm">/* If I try to overrun the buffer */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-24"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-25"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-26"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-27"></a>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-28"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_2e6bba677319492db46dc37b6f642fbd-29"></a><span class="p">}</span>
-</pre></td>
-</tr></table>
-<p>Here we see, the error is no longer present, probably because of the difference on the implementation
-(the snippet on the documentation <a class="footnote-reference" href="posts/copying-strings-in-c.html#id11" id="id6">[4]</a> gives us a hint on what it does, so we can spot the change).</p>
-<p>This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
-point that a new function was developed. The <code>strscpy</code> function is being included in the Kernel
-development for <em>Linux 4.3-rc4</em> <a class="footnote-reference" href="posts/copying-strings-in-c.html#id13" id="id7">[6]</a> because it <em>is</em> a better interface. Some of the problems mentioned
-in the commit message, that inspired this new version, are the ones described on the previous paragraphs.</p>
-<p>This makes me wonder, if this should be the "correct" way for performing this operation "safely" in C. In all
-cases, the error is the same (not checking the boundaries, and trusting the input), and should be avoided. What I
-mean by this, is that we cannot simply rely on those functions being secure, the security must be in our code,
-so the proper way to handle these situations is to <em>code defensively</em>: do not trust user input, always check the boundaries,
-error codes, memory allocation, status of the pointer (a <code>free</code> for every <code>malloc</code> but not for a <code>NULL</code> pointer, etc.).</p>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/copying-strings-in-c.html#id1">[1]</a></td>
-<td>
-<a class="reference external" href="https://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html">https://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html</a>.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/copying-strings-in-c.html#id2">[2]</a></td>
-<td>
-<a class="reference external" href="https://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">https://blog.surgut.co.uk/2015/08/go-enjoy-python3.html</a>.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/copying-strings-in-c.html#id3">[3]</a></td>
-<td>
-<a class="reference external" href="https://linux.die.net/man/3/strncpy/">strncpy documentation</a>.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id11" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label">[4]</td>
-<td>
-<em>(<a class="fn-backref" href="posts/copying-strings-in-c.html#id5">1</a>, <a class="fn-backref" href="posts/copying-strings-in-c.html#id6">2</a>)</em> <a class="reference external" href="https://linux.die.net/man/3/strncat/">strncat manual page</a>.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id12" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/copying-strings-in-c.html#id4">[5]</a></td>
-<td>An array of characters that is not null-terminated, is invalid.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id13" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/copying-strings-in-c.html#id7">[6]</a></td>
-<td>
-<a class="reference external" href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671">https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671</a>.</td>
 </tr></tbody>
 </table>
 </div>

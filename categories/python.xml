@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (python)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="https://rmariano.github.io/itarch/categories/python.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 15 Jan 2017 20:23:31 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Python Barcelona November meetup notes</title><link>https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Last Thursday November 17, 2016, there was a Python meetup in Barcelona &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id3" id="id1"&gt;[1]&lt;/a&gt;,
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about python)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="https://rmariano.github.io/itarch/categories/python.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Mon, 23 Jan 2017 20:19:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Python Barcelona November meetup notes</title><link>https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;Last Thursday November 17, 2016, there was a Python meetup in Barcelona &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/python-barcelona-november-meetup-notes.html#id3" id="id1"&gt;[1]&lt;/a&gt;,
 with a set of interesting talks.&lt;/p&gt;
 &lt;p&gt;The first one was hosted by two representatives of the government of Catalunya,
 and Barcelona city, and they presented the technical challenges they are
@@ -201,7 +201,7 @@ among other things: &lt;a class="reference external" href="https://github.com/nv
 I install just this one manually, by making the command &lt;tt class="docutils literal"&gt;flake8&lt;/tt&gt; available system-wide &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/checking-python-files-with-vim.html#id2" id="id1"&gt;[1]&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Then the installation is as simple as downloading the project and coying the files into the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vim/ftplugin/python&lt;/span&gt;&lt;/tt&gt;
 directory. Make sure you have the following line added on your &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;~/.vimrc&lt;/span&gt;&lt;/tt&gt;:&lt;/p&gt;
-&lt;pre class="code vim"&gt;&lt;a name="rest_code_7d3d89cadb8a47698030cb21706ae9ef-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
+&lt;pre class="code vim"&gt;&lt;a name="rest_code_0710f93ac5e042d78855f688b5e3a24e-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; plugin indent &lt;span class="k"&gt;on&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The features I use are mainly the syntax and &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance checkers. It can also warn you about unused imports,
 and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity"&gt;cyclomatic complexity&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;It is useful because things like &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;PEP-8&lt;/span&gt;&lt;/tt&gt; compliance help to have a good code quality, and therefore a more readable
@@ -219,40 +219,36 @@ from a module, for example by doing &lt;tt class="docutils literal"&gt;from &amp
 &lt;p&gt;The idea on this post, is to highlight and gather the reasons why this is a bad practice, in order to collectively
 identify many undesired effects. However, without losing pragmatism, in case there are some odd reasons why this
 might be acceptable, I will also mention them, if any. Let's see where we get.&lt;/p&gt;
-&lt;ol class="arabic"&gt;
+&lt;ol class="arabic simple"&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
 &lt;dt&gt;You do not know what you get&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first last"&gt;An arbitrary Python script may contain any code, and most of it will be executed when
+&lt;dd&gt;An arbitrary Python script may contain any code, and most of it will be executed when
 performing the &lt;tt class="docutils literal"&gt;import *&lt;/tt&gt; part (you cannot rely on how &lt;tt class="docutils literal"&gt;__name__&lt;/tt&gt; is handled).
 The interface is totally unclear: you do not know what computations performs, what objects will import, etc.
-In general is more efficient to import as few definitions as possible.&lt;/p&gt;
-&lt;/dd&gt;
+In general is more efficient to import as few definitions as possible.&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
 &lt;dt&gt;Identifiers appear magically&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first last"&gt;In any decently readable Python script, the programmer must be able to locate every definition, which means
+&lt;dd&gt;In any decently readable Python script, the programmer must be able to locate every definition, which means
 to identify where does every identifier come from. For example, a variable named &lt;tt class="docutils literal"&gt;x&lt;/tt&gt; can either be a parameter
 of the function in the current scope, a variable already defined (assigned), or a name already imported (&lt;tt class="docutils literal"&gt;from mod import x&lt;/tt&gt;), etc.
 By performing the incorrect import, this variable might appear out of the blue, meaning that I will have an &lt;tt class="docutils literal"&gt;x&lt;/tt&gt; that
 will not be neither a parameter, nor a definition nor a declared import. This means, I cannot
 track the origin or &lt;tt class="docutils literal"&gt;x&lt;/tt&gt;. The situation gets worse if there are not one, but many &lt;tt class="docutils literal"&gt;import *&lt;/tt&gt; statements.
-Debugging becomes a nightmare.&lt;/p&gt;
-&lt;/dd&gt;
+Debugging becomes a nightmare.&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
 &lt;dt&gt;Namespaces are one honking great idea -- let's do more of those!&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first last"&gt;Straight from the Python zen &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/do-not-import.html#id3" id="id1"&gt;[1]&lt;/a&gt;. By importing everything from a module, the benefits of the namespaces
+&lt;dd&gt;Straight from the Python zen &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/do-not-import.html#id3" id="id1"&gt;[1]&lt;/a&gt;. By importing everything from a module, the benefits of the namespaces
 are somehow lost. Instead, everything (or a lot of things), might get to be called the same, messing
-with the current scope. Moreover, new import definitions might override previous ones.&lt;/p&gt;
-&lt;/dd&gt;
+with the current scope. Moreover, new import definitions might override previous ones.&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
 &lt;dt&gt;Explicit is better than implicit&lt;/dt&gt;
-&lt;dd&gt;&lt;p class="first last"&gt;Again, every identifier that we want imported should be done explicitly (the &lt;tt class="docutils literal"&gt;*&lt;/tt&gt; is not very declarative).&lt;/p&gt;
-&lt;/dd&gt;
+&lt;dd&gt;Again, every identifier that we want imported should be done explicitly (the &lt;tt class="docutils literal"&gt;*&lt;/tt&gt; is not very declarative).&lt;/dd&gt;
 &lt;/dl&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
@@ -383,16 +379,16 @@ not coherent, because sometimes it returned the content as a python &lt;strong&g
 return value was &lt;strong&gt;None&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Do you notice something odd here?&lt;/p&gt;
 &lt;p&gt;What if I want to use the result? I cannot do it safely, for example:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_c19900b1cdea448d989789ce3129f94a-3"&gt;3&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_c19900b1cdea448d989789ce3129f94a-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# with the correct parameters and file name&lt;/span&gt;
-&lt;a name="rest_code_c19900b1cdea448d989789ce3129f94a-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_c19900b1cdea448d989789ce3129f94a-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;  &lt;span class="c1"&gt;# process as required...&lt;/span&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_0bc5a825164045feb64934417007d628-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_0bc5a825164045feb64934417007d628-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/python-functions-return-values-consistency.html#rest_code_0bc5a825164045feb64934417007d628-3"&gt;3&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_0bc5a825164045feb64934417007d628-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# with the correct parameters and file name&lt;/span&gt;
+&lt;a name="rest_code_0bc5a825164045feb64934417007d628-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_0bc5a825164045feb64934417007d628-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;  &lt;span class="c1"&gt;# process as required...&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;If content is &lt;tt class="docutils literal"&gt;None&lt;/tt&gt;, it will raise an &lt;tt class="docutils literal"&gt;AttributeError&lt;/tt&gt; saying that None has no
 attribute called "items" (which is true).&lt;/p&gt;
 &lt;p&gt;Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_f361cdd48d58482bafec2aacaf9478a7-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_1ce85bde5a44436ebe9acc18b6712aa0-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an &lt;tt class="docutils literal"&gt;assert&lt;/tt&gt; or to raise an exception
 perhaps, but that is a different topic). I actually agree with defensive programming,

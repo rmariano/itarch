@@ -2,7 +2,6 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
 <head>
 <meta charset="utf-8">
-<base href="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Running RabbitMQ server on Docker | IT Arch</title>
 <link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -10,7 +9,8 @@
 <link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker.html">
@@ -39,7 +39,7 @@ a lot of queues or tasks being queued and that makes th">
 <!-- This keeps the margins nice -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
+            <span class="sr-only">Mostrar navegación</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -120,8 +120,8 @@ try <code>docker</code> and see how it results.</p>
 configuration it can run as expected.</p>
 <p>There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:</p>
-<pre class="code bash"><a name="rest_code_ef117fbe53ee4dcbbfc506c35f65793d-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_ef117fbe53ee4dcbbfc506c35f65793d-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+<pre class="code bash"><a name="rest_code_f2f9a11f630044888098c29cfefaac42-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_f2f9a11f630044888098c29cfefaac42-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p 5672:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
 passing <code>-e</code> we pass some environment variables (in this case,
@@ -141,8 +141,8 @@ which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we assigned).</p>
-<pre class="code bash"><a name="rest_code_ae6ca2e9863948919cb99e9fa97c0759-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_ae6ca2e9863948919cb99e9fa97c0759-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_c03dc1993e4a4db780918fccf1320780-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_c03dc1993e4a4db780918fccf1320780-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It's important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
