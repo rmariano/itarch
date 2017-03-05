@@ -80,7 +80,152 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/running-postgresql-in-memory-with-docker.html" class="u-url">Running PostgreSQL in memory with docker</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/wrapped-in-python-decorators.html" class="u-url">__wrapped__ in Python decorators</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/wrapped-in-python-decorators.html" rel="bookmark"><time class="published dt-published" datetime="2017-03-03T21:41:21+01:00" title="vie mar 03, 2017 - 21:41">vie mar 03, 2017 - 21:41</time></a></p>
+        </div>
+    </header><div class="e-content entry-content">
+    <div>
+<p>This is another of the new interesting things that Python 3 has. Time ago, it
+was somehow tricky to work with decorated functions, because the decorator
+replaced the original object, and its behaviour became hard to reach.</p>
+<p>So, for example, we all know that the following sentence:</p>
+<pre class="code python"><a name="rest_code_8c477b30036d4bb5a14478cab11f1882-1"></a><span class="nd">@decorator</span>
+<a name="rest_code_8c477b30036d4bb5a14478cab11f1882-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_8c477b30036d4bb5a14478cab11f1882-3"></a>    <span class="k">pass</span>
+</pre>
+<p>It's actually syntax sugar for:</p>
+<pre class="code python"><a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-2"></a>    <span class="k">pass</span>
+<a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-3"></a>
+<a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+</pre>
+<p>So, if for some reason, we need to work both with the original and decorated
+functions, we required tricks such as different names, something like:</p>
+<pre class="code python"><a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
+<a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-2"></a>    <span class="k">pass</span>
+<a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-3"></a>
+<a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
+</pre>
+<p>But in current Python, this should be no longer the case. As we can see from
+the code of the <tt class="docutils literal">functools</tt> module <a class="footnote-reference" href="posts/wrapped-in-python-decorators.html#id2" id="id1">[1]</a>, when decorating an object, there is
+an attribute named <tt class="docutils literal">__wrapped__</tt> that holds the reference to the original
+one.</p>
+<p>So now if we use this, we can access it directly without having to resort to
+the old quirks.</p>
+<div class="section" id="example">
+<h2>Example</h2>
+<p>Let's consider this example. Validating parameter types like this is far
+from a real implementation, but rather something for the sake of
+illustration.</p>
+<table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-1"> 1</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-2"> 2</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-3"> 3</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-4"> 4</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-5"> 5</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-6"> 6</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-7"> 7</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-8"> 8</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-9"> 9</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-10">10</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-11">11</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-12">12</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-13">13</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-14">14</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-15">15</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-16">16</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-17">17</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-18">18</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-19">19</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-20">20</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-21">21</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-22">22</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-23">23</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-24">24</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-25">25</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-26">26</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-27">27</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-28">28</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-29">29</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-30">30</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-31">31</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-32">32</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-33">33</a>
+<a href="posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-34">34</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_aa47d3e581034f808dc69608c5553cf4-1"></a><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-2"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-3"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-4"></a><span class="k">def</span> <span class="nf">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-5"></a>    <span class="sd">"""For a dictionary of kwargs, and another dictionary of annotations,</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-6"></a><span class="sd">    mapping each argument name with its type, validate if all types on the</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-7"></a><span class="sd">    keyword arguments match those described by the annotations.</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-8"></a><span class="sd">    """</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-9"></a>    <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-10"></a>        <span class="n">expected_type</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-11"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-12"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-13"></a>                <span class="s2">"{0}={1!r} is not of type {2!r}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-14"></a>                    <span class="n">arg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">)</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-15"></a>                <span class="p">)</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-16"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-17"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-18"></a><span class="k">def</span> <span class="nf">validate_function_parameters</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-20"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-21"></a>        <span class="n">annotations</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__annotations__</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-22"></a>        <span class="n">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-23"></a>        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-24"></a>    <span class="k">return</span> <span class="n">inner</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-25"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-26"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-27"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-28"></a><span class="nd">@validate_function_parameters</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-29"></a><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-30"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-31"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-32"></a>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-33"></a><span class="n">test_function</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># does not validate</span>
+<a name="rest_code_aa47d3e581034f808dc69608c5553cf4-34"></a><span class="n">test_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># validates and raises</span>
+</pre></td>
+</tr></table>
+<p>The statement in the penultimate line works because it's actually invoking the
+original function, without the decorator applied, whereas the last one fails
+because it's calling the function already decorated.</p>
+</div>
+<div class="section" id="potential-use-cases">
+<h2>Potential use cases</h2>
+<p>In general this a nice feature, for the reason that in a way enables accessing
+both objects, (it could be argued that decorating a function causes some sort
+of temporal coupling).</p>
+<p>Most importantly, it can be used in <em>unit tests</em>, whether is to test the
+original function, or that the decorator itself is acting as it is supposed to
+do.</p>
+<p>Moreover, we could tests our own code, before being decorated by other
+libraries being used in the project (for example the function of a tasks
+without the <tt class="docutils literal">@celery.task</tt> decorator applied, or an event of the database of
+<tt class="docutils literal">SQLAlchemy</tt> before it was changed by the listener event decorator, etc.).</p>
+<p>Just another trick to keep in the toolbox.</p>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="posts/wrapped-in-python-decorators.html#id1">[1]</a></td>
+<td>This attribute is documented, but I first found about it while reading
+at the code of CPython at
+<a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70">https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/running-postgresql-in-memory-with-docker.html" class="u-url">Running PostgreSQL in memory with docker</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -112,25 +257,25 @@ example:</p>
 docker pull fedora/postgresql
 </pre>
 <p>Then, I could create a <tt class="docutils literal">tmpfs</tt>, for the data and mount it</p>
-<pre class="code bash"><a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+<pre class="code bash"><a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the database container using this directory:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-1">1</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-2">2</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-3">3</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-4">4</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-5">5</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-6">6</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-7">7</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_ae115c914fa84e7eaeecc1968063e944-1"></a>docker run --name mempostgres <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-6"></a>    -p 5432:5432 <span class="se">\</span>
-<a name="rest_code_ae115c914fa84e7eaeecc1968063e944-7"></a>    fedora/postgresql
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-1">1</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-2">2</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-3">3</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-4">4</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-5">5</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-6">6</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-7"></a>    fedora/postgresql
 </pre></td>
 </tr></table>
 <p>The first line indicates the name for the container we are running (if is not
@@ -155,14 +300,14 @@ application, etc.).</p>
 <p>For example, if we want to use the <tt class="docutils literal">psql</tt> client with the container, the
 command would be:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1">1</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2">2</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3">3</a>
-<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4">4</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"></a>docker run -it --rm <span class="se">\</span>
-<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"></a>--link mempostgres:postgres <span class="se">\</span>
-<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"></a>fedora/postgresql <span class="se">\</span>
-<a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-1">1</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-2">2</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-3">3</a>
+<a href="posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_ade41db2db79493693add45917aa4900-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_ade41db2db79493693add45917aa4900-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_ade41db2db79493693add45917aa4900-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_ade41db2db79493693add45917aa4900-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </pre></td>
 </tr></table>
 </div>
@@ -520,28 +665,28 @@ answered no: the code is entirely fictional, and it was done for the mere
 purposes of the examples, so I just needed an excuse for a task that could be
 done in two SQL statements, so the example with the decorator can be shown.</p>
 <p>The code of the example follows:</p>
-<pre class="code SQL"><a name="rest_code_fd5e29689ef04be29788e48f1407baa0-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-4"></a>
-<a name="rest_code_fd5e29689ef04be29788e48f1407baa0-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_82ddd66a79fe4275a156464598165af5-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_82ddd66a79fe4275a156464598165af5-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_82ddd66a79fe4275a156464598165af5-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_82ddd66a79fe4275a156464598165af5-4"></a>
+<a name="rest_code_82ddd66a79fe4275a156464598165af5-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that there is another way of writing that sort of statements,
 with the "returning" sentence of PostgreSQL.</p>
 <p>It would be re-written like:</p>
-<pre class="code SQL"><a name="rest_code_1af29086e96443f1aa232d154ece72a1-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_1af29086e96443f1aa232d154ece72a1-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_1af29086e96443f1aa232d154ece72a1-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_1af29086e96443f1aa232d154ece72a1-4"></a><span class="p">)</span>
-<a name="rest_code_1af29086e96443f1aa232d154ece72a1-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-4"></a><span class="p">)</span>
+<a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
 <p>Or... the other way around:</p>
-<pre class="code SQL"><a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
-<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
-<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-5"></a><span class="p">)</span>
-<a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+<pre class="code SQL"><a name="rest_code_2bc74cae660f49d890fe97e1b1853522-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_2bc74cae660f49d890fe97e1b1853522-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_2bc74cae660f49d890fe97e1b1853522-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_2bc74cae660f49d890fe97e1b1853522-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_2bc74cae660f49d890fe97e1b1853522-5"></a><span class="p">)</span>
+<a name="rest_code_2bc74cae660f49d890fe97e1b1853522-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
 <p>The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
@@ -552,35 +697,35 @@ return the data they affect, and this can be used in an intermediate table to
 pipe it to another statement.</p>
 <p>By default, if you run the delete statement, it should return the number of
 affected rows, like:</p>
-<pre class="code SQL"><a name="rest_code_9ee7c5d51ee74cd084fd430bac6ef5bb-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_784eb6e80a9d4147ac82ec686c635e74-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_3b4c608839154ebfbd7d9dfbecd9ae59-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_fd5b1cd2ac7744b8bf13508d862a2d39-1"></a>DELETE 4
 </pre>
 <p>But, we can make it to return the rows themselves:</p>
-<pre class="code SQL"><a name="rest_code_21654ea485af4aaca4db3b9abdd4430e-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_45a24e8c600c49c0aa0c5acd1018a518-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-1"></a>id|   description    |     order_date
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-2"></a>----+------------------+---------------------
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-7"></a>(4 rows)
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-8"></a>
-<a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-1"></a>id|   description    |     order_date
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-2"></a>----+------------------+---------------------
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-7"></a>(4 rows)
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-8"></a>
+<a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-9"></a>DELETE 4
 </pre>
 <p>Or, specific columns if we select them:</p>
-<pre class="code SQL"><a name="rest_code_d47ac583a49042068b8e57f536d095ba-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_0ddba6287ab643a3bcafbdf6f98fe8b2-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_a3e01069b5874243bd82842900db39b5-1"></a>id |   description
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-2"></a>----+------------------
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-3"></a>4 | to be archived
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-4"></a>5 | First sale order
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-5"></a>6 | First sale order
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-6"></a>7 | First sale order
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-7"></a>(4 rows)
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-8"></a>
-<a name="rest_code_a3e01069b5874243bd82842900db39b5-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-1"></a>id |   description
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-2"></a>----+------------------
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-3"></a>4 | to be archived
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-4"></a>5 | First sale order
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-5"></a>6 | First sale order
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-6"></a>7 | First sale order
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-7"></a>(4 rows)
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-8"></a>
+<a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-9"></a>DELETE 4
 </pre>
 <p>So, we can use the "returning" feature of PostgreSQL, to do in a single command
 what we usually would do in two or more, and in some cases, it might be
@@ -774,67 +919,6 @@ Besides the features that are mentioned in the project, and the customizations m
 <img alt="../vim-capture2.png" src="vim-capture2.png"><p class="caption">The tabs are also themed according to the menus.</p>
 </div>
 <p>Any suggestions or improvements to the code and configuration can be made on the <a class="reference external" href="https://github.com/rmariano/vim-config">Github</a> project.</p>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/deleting-commented-out-code.html" class="u-url">Deleting commented out code</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
-                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
-            </span></p>
-            <p class="dateline"><a href="posts/deleting-commented-out-code.html" rel="bookmark"><time class="published dt-published" datetime="2016-02-17T22:06:50-03:00" title="mié feb 17, 2016 - 22:06">mié feb 17, 2016 - 22:06</time></a></p>
-        </div>
-    </header><div class="e-content entry-content">
-    <div>
-<p>This is a rule I always encourage in software development. Moreover, I consider it to be something that has
-to be included in every coding guideline of a good project.</p>
-<p>There are several reasons for this, but probably the best explanation can be found in the book "Clean Code"<a class="footnote-reference" href="posts/deleting-commented-out-code.html#id2" id="id1">[1]</a> by uncle
-Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
-it makes a place for confusion, leading to an error-prone spot.</p>
-<p>There are, however, people that seem to find some arguments for commenting out code, or leaving it.
-Some common arguments/reasons usually are:</p>
-<blockquote>
-<blockquote>
-<ul class="simple">
-<li>"I might need this functionality later.."</li>
-</ul>
-</blockquote>
-<p>We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
-the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.</p>
-<blockquote>
-<ul class="simple">
-<li>"This is temporary disabled... It will be restored later".</li>
-</ul>
-</blockquote>
-<p>Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
-As you see, there are plenty of better options for solving this scenario.</p>
-<blockquote>
-<ul class="simple">
-<li>Code that was left from the fist version</li>
-</ul>
-</blockquote>
-<p>Probably debugging leftovers. No doubt here: seek, locate, destroy.</p>
-</blockquote>
-<p>There is, a clear problem with code that is under comment, which is that it is "frozen" in time:
-it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
-might not certainly work (hence it is "rotten"), so un-commenting it is a bad idea because it will probably crash.</p>
-<p>Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
-in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
-going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
-idea for that code.</p>
-<p>Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
-mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
-deleting it. Delete commented out code mercilessly: seek, locate and destroy.</p>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="posts/deleting-commented-out-code.html#id1">[1]</a></td>
-<td>A book I highly recommend: <a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a>
-</td>
-</tr></tbody>
-</table>
 </div>
     </div>
     </article>

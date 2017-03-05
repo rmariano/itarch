@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about docker)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="https://rmariano.github.io/itarch/categories/docker.xml" rel="self"></atom:link><language>en</language><lastBuildDate>Mon, 23 Jan 2017 20:19:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about docker)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/categories/docker.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 05 Mar 2017 17:57:15 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Interacting with a database, can be a regular task of a developer, and for that
 we would like to ensure that we are developing and testing in situations close
@@ -22,22 +22,22 @@ example:&lt;/p&gt;
 docker pull fedora/postgresql
 &lt;/pre&gt;
 &lt;p&gt;Then, I could create a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;, for the data and mount it&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
-&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
+&lt;a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
 &lt;/pre&gt;&lt;p&gt;Now we could run the database container using this directory:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;&lt;/a&gt;    -p 5432:5432 &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;&lt;/a&gt;    fedora/postgresql
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-4"&gt;4&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-5"&gt;5&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-6"&gt;6&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-6"&gt;&lt;/a&gt;    -p &lt;span class="m"&gt;5432&lt;/span&gt;:5432 &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-7"&gt;&lt;/a&gt;    fedora/postgresql
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The first line indicates the name for the container we are running (if is not
 specified, docker will put a default one); the second line is the important
 one, since it is what makes the mapping of directories, meaning that will map
@@ -59,13 +59,13 @@ a container :-), so we can connect with any client (even a &lt;tt class="docutil
 application, etc.).&lt;/p&gt;
 &lt;p&gt;For example, if we want to use the &lt;tt class="docutils literal"&gt;psql&lt;/tt&gt; client with the container, the
 command would be:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_ade41db2db79493693add45917aa4900-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;div class="section" id="applications"&gt;
 &lt;h2&gt;Applications&lt;/h2&gt;
@@ -121,8 +121,8 @@ try &lt;code&gt;docker&lt;/code&gt; and see how it results.&lt;/p&gt;
 configuration it can run as expected.&lt;/p&gt;
 &lt;p&gt;There is already a docker image for RabbitMQ, which can be automatically pulled,
 and then run, for example:&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_f2f9a11f630044888098c29cfefaac42-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
-&lt;a name="rest_code_f2f9a11f630044888098c29cfefaac42-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p 5672:5672 rabbitmq:3
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_a601550e59a44238a248e7db1f3a574f-1"&gt;&lt;/a&gt;sudo docker pull rabbitmq
+&lt;a name="rest_code_a601550e59a44238a248e7db1f3a574f-2"&gt;&lt;/a&gt;sudo docker run -d -e &lt;span class="nv"&gt;RABBITMQ_NODENAME&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;my-rabbit --cpuset&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;"1"&lt;/span&gt; --name docker.rabbitmq -p &lt;span class="m"&gt;5672&lt;/span&gt;:5672 rabbitmq:3
 &lt;/pre&gt;&lt;p&gt;The &lt;code&gt;-d&lt;/code&gt; option indicates the process to start &lt;em&gt;detached&lt;/em&gt;, then by
 passing &lt;code&gt;-e&lt;/code&gt; we pass some environment variables (in this case,
 the &lt;code&gt;RABBITMQ_NODENAME&lt;/code&gt; is a particular variable for rabbit indicating
@@ -141,8 +141,8 @@ which is &lt;code&gt;docker logs rabbitmq.docker&lt;/code&gt;. Notice in this ca
 designated to the image was used instead of the &lt;em&gt;instance_id&lt;/em&gt;. In addition
 we can see internal data for the process by running the &lt;code&gt;inspect&lt;/code&gt;
 command (again we can use the &lt;cite&gt;instance_id&lt;/cite&gt; or the name we assigned).&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_c03dc1993e4a4db780918fccf1320780-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
-&lt;a name="rest_code_c03dc1993e4a4db780918fccf1320780-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_c76532a969ed446f9331495e7aa8e898-1"&gt;&lt;/a&gt;docker inspect rabbitmq.docker
+&lt;a name="rest_code_c76532a969ed446f9331495e7aa8e898-2"&gt;&lt;/a&gt;sudo docker logs docker.rabbitmq
 &lt;/pre&gt;&lt;p&gt;It's important to notice that docker is actually &lt;em&gt;not a virtualization platform&lt;/em&gt;, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by &lt;code&gt;docker&lt;/code&gt;.&lt;/p&gt;

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about code)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/categories/cat_code.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 05 Mar 2017 17:57:16 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>__wrapped__ in Python decorators</title><link>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is another of the new interesting things that Python 3 has. Time ago, it
+was somehow tricky to work with decorated functions, because the decorator
+replaced the original object, and its behaviour became hard to reach.&lt;/p&gt;
+&lt;p&gt;So, for example, we all know that the following sentence:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-1"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@decorator&lt;/span&gt;
+&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;It's actually syntax sugar for:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;So, if for some reason, we need to work both with the original and decorated
+functions, we required tricks such as different names, something like:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;But in current Python, this should be no longer the case. As we can see from
+the code of the &lt;tt class="docutils literal"&gt;functools&lt;/tt&gt; module &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#id2" id="id1"&gt;[1]&lt;/a&gt;, when decorating an object, there is
+an attribute named &lt;tt class="docutils literal"&gt;__wrapped__&lt;/tt&gt; that holds the reference to the original
+one.&lt;/p&gt;
+&lt;p&gt;So now if we use this, we can access it directly without having to resort to
+the old quirks.&lt;/p&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's consider this example. Validating parameter types like this is far
+from a real implementation, but rather something for the sake of
+illustration.&lt;/p&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-1"&gt; 1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-2"&gt; 2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-3"&gt; 3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-4"&gt; 4&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-5"&gt; 5&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-6"&gt; 6&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-7"&gt; 7&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-8"&gt; 8&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-9"&gt; 9&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-10"&gt;10&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-11"&gt;11&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-12"&gt;12&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-13"&gt;13&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-14"&gt;14&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-15"&gt;15&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-16"&gt;16&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-17"&gt;17&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-18"&gt;18&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-19"&gt;19&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-20"&gt;20&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-21"&gt;21&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-22"&gt;22&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-23"&gt;23&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-24"&gt;24&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-25"&gt;25&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-26"&gt;26&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-27"&gt;27&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-28"&gt;28&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-29"&gt;29&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-30"&gt;30&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-31"&gt;31&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-32"&gt;32&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-33"&gt;33&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-34"&gt;34&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-1"&gt;&lt;/a&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;wraps&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-5"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""For a dictionary of kwargs, and another dictionary of annotations,&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-6"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    mapping each argument name with its type, validate if all types on the&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-7"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    keyword arguments match those described by the annotations.&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-8"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-10"&gt;&lt;/a&gt;        &lt;span class="n"&gt;expected_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-11"&gt;&lt;/a&gt;        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-12"&gt;&lt;/a&gt;            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-13"&gt;&lt;/a&gt;                &lt;span class="s2"&gt;"{0}={1!r} is not of type {2!r}"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-14"&gt;&lt;/a&gt;                    &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-15"&gt;&lt;/a&gt;                &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-16"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-17"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-18"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_function_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-19"&gt;&lt;/a&gt;    &lt;span class="nd"&gt;@wraps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-20"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;inner&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-21"&gt;&lt;/a&gt;        &lt;span class="n"&gt;annotations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__annotations__&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-22"&gt;&lt;/a&gt;        &lt;span class="n"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-23"&gt;&lt;/a&gt;        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-24"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;inner&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-25"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-26"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-27"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-28"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@validate_function_parameters&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-29"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-30"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-31"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-32"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-33"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__wrapped__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# does not validate&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-34"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# validates and raises&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The statement in the penultimate line works because it's actually invoking the
+original function, without the decorator applied, whereas the last one fails
+because it's calling the function already decorated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="potential-use-cases"&gt;
+&lt;h2&gt;Potential use cases&lt;/h2&gt;
+&lt;p&gt;In general this a nice feature, for the reason that in a way enables accessing
+both objects, (it could be argued that decorating a function causes some sort
+of temporal coupling).&lt;/p&gt;
+&lt;p&gt;Most importantly, it can be used in &lt;em&gt;unit tests&lt;/em&gt;, whether is to test the
+original function, or that the decorator itself is acting as it is supposed to
+do.&lt;/p&gt;
+&lt;p&gt;Moreover, we could tests our own code, before being decorated by other
+libraries being used in the project (for example the function of a tasks
+without the &lt;tt class="docutils literal"&gt;@celery.task&lt;/tt&gt; decorator applied, or an event of the database of
+&lt;tt class="docutils literal"&gt;SQLAlchemy&lt;/tt&gt; before it was changed by the listener event decorator, etc.).&lt;/p&gt;
+&lt;p&gt;Just another trick to keep in the toolbox.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;This attribute is documented, but I first found about it while reading
+at the code of CPython at
+&lt;a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70"&gt;https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;</description><category>code</category><category>decorators</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</guid><pubDate>Fri, 03 Mar 2017 20:41:21 GMT</pubDate></item></channel></rss>

@@ -1,5 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Publicaciones de Mariano Anaya)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link type="application/rss+xml" href="https://rmariano.github.io/itarch/es/authors/mariano-anaya.xml" rel="self"></atom:link><language>es</language><lastBuildDate>Mon, 23 Jan 2017 20:19:38 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Publicaciones de Mariano Anaya)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/es/authors/mariano-anaya.xml" type="application/rss+xml" rel="self"></atom:link><language>es</language><lastBuildDate>Sun, 05 Mar 2017 17:57:15 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>__wrapped__ in Python decorators</title><link>https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is another of the new interesting things that Python 3 has. Time ago, it
+was somehow tricky to work with decorated functions, because the decorator
+replaced the original object, and its behaviour became hard to reach.&lt;/p&gt;
+&lt;p&gt;So, for example, we all know that the following sentence:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-1"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@decorator&lt;/span&gt;
+&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_8c477b30036d4bb5a14478cab11f1882-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;It's actually syntax sugar for:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_a691c80bc26f4e74aeb10497c8815d49-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;So, if for some reason, we need to work both with the original and decorated
+functions, we required tricks such as different names, something like:&lt;/p&gt;
+&lt;pre class="code python"&gt;&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_8f50fd8e811e4b21819f78452d2a6d3f-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;But in current Python, this should be no longer the case. As we can see from
+the code of the &lt;tt class="docutils literal"&gt;functools&lt;/tt&gt; module &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#id2" id="id1"&gt;[1]&lt;/a&gt;, when decorating an object, there is
+an attribute named &lt;tt class="docutils literal"&gt;__wrapped__&lt;/tt&gt; that holds the reference to the original
+one.&lt;/p&gt;
+&lt;p&gt;So now if we use this, we can access it directly without having to resort to
+the old quirks.&lt;/p&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's consider this example. Validating parameter types like this is far
+from a real implementation, but rather something for the sake of
+illustration.&lt;/p&gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-1"&gt; 1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-2"&gt; 2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-3"&gt; 3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-4"&gt; 4&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-5"&gt; 5&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-6"&gt; 6&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-7"&gt; 7&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-8"&gt; 8&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-9"&gt; 9&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-10"&gt;10&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-11"&gt;11&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-12"&gt;12&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-13"&gt;13&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-14"&gt;14&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-15"&gt;15&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-16"&gt;16&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-17"&gt;17&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-18"&gt;18&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-19"&gt;19&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-20"&gt;20&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-21"&gt;21&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-22"&gt;22&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-23"&gt;23&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-24"&gt;24&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-25"&gt;25&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-26"&gt;26&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-27"&gt;27&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-28"&gt;28&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-29"&gt;29&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-30"&gt;30&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-31"&gt;31&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-32"&gt;32&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-33"&gt;33&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#rest_code_aa47d3e581034f808dc69608c5553cf4-34"&gt;34&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-1"&gt;&lt;/a&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;wraps&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-2"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-3"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-5"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""For a dictionary of kwargs, and another dictionary of annotations,&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-6"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    mapping each argument name with its type, validate if all types on the&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-7"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    keyword arguments match those described by the annotations.&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-8"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-10"&gt;&lt;/a&gt;        &lt;span class="n"&gt;expected_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-11"&gt;&lt;/a&gt;        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-12"&gt;&lt;/a&gt;            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-13"&gt;&lt;/a&gt;                &lt;span class="s2"&gt;"{0}={1!r} is not of type {2!r}"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-14"&gt;&lt;/a&gt;                    &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-15"&gt;&lt;/a&gt;                &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-16"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-17"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-18"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_function_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-19"&gt;&lt;/a&gt;    &lt;span class="nd"&gt;@wraps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-20"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;inner&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-21"&gt;&lt;/a&gt;        &lt;span class="n"&gt;annotations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__annotations__&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-22"&gt;&lt;/a&gt;        &lt;span class="n"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-23"&gt;&lt;/a&gt;        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-24"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;inner&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-25"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-26"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-27"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-28"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@validate_function_parameters&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-29"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-30"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-31"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-32"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-33"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__wrapped__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# does not validate&lt;/span&gt;
+&lt;a name="rest_code_aa47d3e581034f808dc69608c5553cf4-34"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# validates and raises&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The statement in the penultimate line works because it's actually invoking the
+original function, without the decorator applied, whereas the last one fails
+because it's calling the function already decorated.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="potential-use-cases"&gt;
+&lt;h2&gt;Potential use cases&lt;/h2&gt;
+&lt;p&gt;In general this a nice feature, for the reason that in a way enables accessing
+both objects, (it could be argued that decorating a function causes some sort
+of temporal coupling).&lt;/p&gt;
+&lt;p&gt;Most importantly, it can be used in &lt;em&gt;unit tests&lt;/em&gt;, whether is to test the
+original function, or that the decorator itself is acting as it is supposed to
+do.&lt;/p&gt;
+&lt;p&gt;Moreover, we could tests our own code, before being decorated by other
+libraries being used in the project (for example the function of a tasks
+without the &lt;tt class="docutils literal"&gt;@celery.task&lt;/tt&gt; decorator applied, or an event of the database of
+&lt;tt class="docutils literal"&gt;SQLAlchemy&lt;/tt&gt; before it was changed by the listener event decorator, etc.).&lt;/p&gt;
+&lt;p&gt;Just another trick to keep in the toolbox.&lt;/p&gt;
+&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
+&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;This attribute is documented, but I first found about it while reading
+at the code of CPython at
+&lt;a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70"&gt;https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators.html</guid><pubDate>Fri, 03 Mar 2017 20:41:21 GMT</pubDate></item><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Interacting with a database, can be a regular task of a developer, and for that
 we would like to ensure that we are developing and testing in situations close
@@ -22,22 +143,22 @@ example:&lt;/p&gt;
 docker pull fedora/postgresql
 &lt;/pre&gt;
 &lt;p&gt;Then, I could create a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;, for the data and mount it&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
-&lt;a name="rest_code_03baf676bfa645b3ac321dddb7b193b0-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
+&lt;pre class="code bash"&gt;&lt;a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
+&lt;a name="rest_code_9e3d61ea181b4bbda5150a6c9a88c4db-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
 &lt;/pre&gt;&lt;p&gt;Now we could run the database container using this directory:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-6"&gt;&lt;/a&gt;    -p 5432:5432 &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_ae115c914fa84e7eaeecc1968063e944-7"&gt;&lt;/a&gt;    fedora/postgresql
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-4"&gt;4&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-5"&gt;5&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-6"&gt;6&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_7cf773e034a64956a2a6fc2a97dd5623-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-6"&gt;&lt;/a&gt;    -p &lt;span class="m"&gt;5432&lt;/span&gt;:5432 &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_7cf773e034a64956a2a6fc2a97dd5623-7"&gt;&lt;/a&gt;    fedora/postgresql
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The first line indicates the name for the container we are running (if is not
 specified, docker will put a default one); the second line is the important
 one, since it is what makes the mapping of directories, meaning that will map
@@ -59,13 +180,13 @@ a container :-), so we can connect with any client (even a &lt;tt class="docutil
 application, etc.).&lt;/p&gt;
 &lt;p&gt;For example, if we want to use the &lt;tt class="docutils literal"&gt;psql&lt;/tt&gt; client with the container, the
 command would be:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_8abc2da0f35046a3b32e1dd5a6d83d81-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
+&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-3"&gt;3&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/running-postgresql-in-memory-with-docker.html#rest_code_ade41db2db79493693add45917aa4900-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_ade41db2db79493693add45917aa4900-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
+&lt;a name="rest_code_ade41db2db79493693add45917aa4900-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
 &lt;div class="section" id="applications"&gt;
 &lt;h2&gt;Applications&lt;/h2&gt;
@@ -305,26 +426,26 @@ answered no: the code is entirely fictional, and it was done for the mere
 purposes of the examples, so I just needed an excuse for a task that could be
 done in two SQL statements, so the example with the decorator can be shown.&lt;/p&gt;
 &lt;p&gt;The code of the example follows:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
-&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-4"&gt;&lt;/a&gt;
-&lt;a name="rest_code_fd5e29689ef04be29788e48f1407baa0-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_82ddd66a79fe4275a156464598165af5-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_82ddd66a79fe4275a156464598165af5-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
+&lt;a name="rest_code_82ddd66a79fe4275a156464598165af5-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_82ddd66a79fe4275a156464598165af5-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_82ddd66a79fe4275a156464598165af5-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Then I learnt that there is another way of writing that sort of statements,
 with the "returning" sentence of PostgreSQL.&lt;/p&gt;
 &lt;p&gt;It would be re-written like:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
-&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_1af29086e96443f1aa232d154ece72a1-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_d7b341794d1b4b04823da8ebd3d25ad5-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Or... the other way around:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
-&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_26e1585b382c4543a637c4e3a52cf51f-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
+&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_2bc74cae660f49d890fe97e1b1853522-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
 round trip.&lt;/p&gt;
@@ -334,30 +455,30 @@ return the data they affect, and this can be used in an intermediate table to
 pipe it to another statement.&lt;/p&gt;
 &lt;p&gt;By default, if you run the delete statement, it should return the number of
 affected rows, like:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_9ee7c5d51ee74cd084fd430bac6ef5bb-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_3b4c608839154ebfbd7d9dfbecd9ae59-1"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_784eb6e80a9d4147ac82ec686c635e74-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_fd5b1cd2ac7744b8bf13508d862a2d39-1"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;But, we can make it to return the rows themselves:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_21654ea485af4aaca4db3b9abdd4430e-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-1"&gt;&lt;/a&gt;id|   description    |     order_date
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-2"&gt;&lt;/a&gt;----+------------------+---------------------
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4d31a7dbaca94f03b7b02df90f4d17b9-9"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_45a24e8c600c49c0aa0c5acd1018a518-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-1"&gt;&lt;/a&gt;id|   description    |     order_date
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-2"&gt;&lt;/a&gt;----+------------------+---------------------
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_b24a5a37aeb04de88d69ec6d29628688-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;Or, specific columns if we select them:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_d47ac583a49042068b8e57f536d095ba-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-1"&gt;&lt;/a&gt;id |   description
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-2"&gt;&lt;/a&gt;----+------------------
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-3"&gt;&lt;/a&gt;4 | to be archived
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-4"&gt;&lt;/a&gt;5 | First sale order
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-5"&gt;&lt;/a&gt;6 | First sale order
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-6"&gt;&lt;/a&gt;7 | First sale order
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_a3e01069b5874243bd82842900db39b5-9"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_0ddba6287ab643a3bcafbdf6f98fe8b2-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-1"&gt;&lt;/a&gt;id |   description
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-2"&gt;&lt;/a&gt;----+------------------
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-3"&gt;&lt;/a&gt;4 | to be archived
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-4"&gt;&lt;/a&gt;5 | First sale order
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-5"&gt;&lt;/a&gt;6 | First sale order
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-6"&gt;&lt;/a&gt;7 | First sale order
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_f39da269d3be4e4fac1c35297d133fc9-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;So, we can use the "returning" feature of PostgreSQL, to do in a single command
 what we usually would do in two or more, and in some cases, it might be
 something worth exploring. It was great learning things like this one, and
@@ -496,48 +617,4 @@ Besides the features that are mentioned in the project, and the customizations m
 &lt;img alt="../vim-capture2.png" src="https://rmariano.github.io/itarch/es/vim-capture2.png"&gt;
 &lt;p class="caption"&gt;The tabs are also themed according to the menus.&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;Any suggestions or improvements to the code and configuration can be made on the &lt;a class="reference external" href="https://github.com/rmariano/vim-config"&gt;Github&lt;/a&gt; project.&lt;/p&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/glimpses-of-a-vim-configuration.html</guid><pubDate>Sat, 27 Feb 2016 16:06:53 GMT</pubDate></item><item><title>Deleting commented out code</title><link>https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is a rule I always encourage in software development. Moreover, I consider it to be something that has
-to be included in every coding guideline of a good project.&lt;/p&gt;
-&lt;p&gt;There are several reasons for this, but probably the best explanation can be found in the book "Clean Code"&lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code.html#id2" id="id1"&gt;[1]&lt;/a&gt; by uncle
-Bob, on which explains that the code, gets outdated (rotten) with the rest of the surrounding code, and hence
-it makes a place for confusion, leading to an error-prone spot.&lt;/p&gt;
-&lt;p&gt;There are, however, people that seem to find some arguments for commenting out code, or leaving it.
-Some common arguments/reasons usually are:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;"I might need this functionality later.."&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;We have source control systems (for example git) for this. In git, anything can be restored from a previous point. If
-the software is properly under version control, there is no reason to fear data loss. Trust git, code fearlessly.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;"This is temporary disabled... It will be restored later".&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Again, same principle, rely on the version control system. Save a patch, and then restore later, or stash the changes, revert the commit, etc.
-As you see, there are plenty of better options for solving this scenario.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;Code that was left from the fist version&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Probably debugging leftovers. No doubt here: seek, locate, destroy.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;There is, a clear problem with code that is under comment, which is that it is "frozen" in time:
-it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
-might not certainly work (hence it is "rotten"), so un-commenting it is a bad idea because it will probably crash.&lt;/p&gt;
-&lt;p&gt;Another problem is that it can be a source of bias for some other developer, who wants to maintain that code at a future point
-in time. The one who left the rotten code, might have thought that it was a source of inspiration for when this functionality was
-going to be applied, but instead, it is just biasing the new developer with this skeleton, preventing from a brand new, fresh
-idea for that code.&lt;/p&gt;
-&lt;p&gt;Therefore, for these main reasons (an probably much more), having code that is commented in a code base, is a poor practice, (not to
-mention a code smell). If you are a seasoned developer, who cares about code quality, and best practices, you must not doubt when
-deleting it. Delete commented out code mercilessly: seek, locate and destroy.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;A book I highly recommend: &lt;a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"&gt;https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code.html</guid><pubDate>Thu, 18 Feb 2016 01:06:50 GMT</pubDate></item></channel></rss>
+&lt;p&gt;Any suggestions or improvements to the code and configuration can be made on the &lt;a class="reference external" href="https://github.com/rmariano/vim-config"&gt;Github&lt;/a&gt; project.&lt;/p&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/glimpses-of-a-vim-configuration.html</guid><pubDate>Sat, 27 Feb 2016 16:06:53 GMT</pubDate></item></channel></rss>
