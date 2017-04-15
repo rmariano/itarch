@@ -96,7 +96,7 @@ files,">
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Find Options</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                     <a href="../authors/mariano-anaya.html">Mariano Anaya</a>
             </span></p>
             <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-03-24T11:29:58-03:00" itemprop="datePublished" title="Tue Mar 24, 2015 - 11:29">Tue Mar 24, 2015 - 11:29</time></a></p>
@@ -116,7 +116,7 @@ manually moving all of them is not an option. A possible approach would be to lo
 by running <tt class="docutils literal">ls <span class="pre">-lrth</span></tt>). Suppose the first one of the batch is called <tt class="docutils literal">/tmp/checkpoint</tt> (for this example
 let's assume the files reside at <tt class="docutils literal">/tmp</tt>).</p>
 <p>The command would be:</p>
-<pre class="code bash"><a name="rest_code_e1eba9cafad84656ae2eb8baf89bb4aa-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+<pre class="code bash"><a name="rest_code_088c33fd3f834e71b99cbc6791928c48-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
 <p>The <tt class="docutils literal"><span class="pre">-type</span> f</tt> part is important in order not to move the entire directory (find only the files). Then
 we have the <tt class="docutils literal"><span class="pre">-anewer</span></tt> that receives a file as a parameter, and it will filter for those files whose
@@ -127,7 +127,7 @@ other actions such as modifications, <tt class="docutils literal">sed</tt>, etc.
 <p>Another trait I like about <tt class="docutils literal">find</tt> is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary files:</p>
-<pre class="code bash"><a name="rest_code_fc1558229e15442c85678335da110fe9-1"></a>find . -name <span class="s2">"*.pyc"</span>
+<pre class="code bash"><a name="rest_code_e9ac98cb5603482d8b9bd22129e3844a-1"></a>find . -name <span class="s2">"*.pyc"</span>
 </pre>
 <p>By issuing this command we list some files to erase. And then we can simply do that by
 appending <tt class="docutils literal"><span class="pre">-delete</span></tt> to the very same command.</p>
