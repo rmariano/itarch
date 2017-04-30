@@ -97,7 +97,7 @@ among other things: <a class="reference external" href="https://github.com/nvie/
 I install just this one manually, by making the command <tt class="docutils literal">flake8</tt> available system-wide <a class="footnote-reference" href="posts/checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p>
 <p>Then the installation is as simple as downloading the project and coying the files into the <tt class="docutils literal"><span class="pre">~/.vim/ftplugin/python</span></tt>
 directory. Make sure you have the following line added on your <tt class="docutils literal"><span class="pre">~/.vimrc</span></tt>:</p>
-<pre class="code vim"><a name="rest_code_ebc07792bd3942e4b6b344cba2eba777-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
+<pre class="code vim"><a name="rest_code_a4527465ac274d9eac0135172c5d43a4-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
 </pre>
 <p>The features I use are mainly the syntax and <tt class="docutils literal"><span class="pre">PEP-8</span></tt> compliance checkers. It can also warn you about unused imports,
 and <a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity</a>.</p>
@@ -134,7 +134,7 @@ without any distractions, focusing on what is just important. It is also great t
 relevant part of the email) and it can follow the links by launching the default browser.</p>
 <p>It is simple, fast and perfectly suitable for checking my old inbox with weekly lists updates.
 It's inherited from an old project, called pine, and in Fedora it can be installed by:</p>
-<pre class="code bash"><a name="rest_code_93f30513f97d435db7b05be97f20d314-1"></a>sudo dnf install alpine
+<pre class="code bash"><a name="rest_code_6aa6ae2085e7496691ba9a006d82beb5-1"></a>sudo dnf install alpine
 </pre>
 <p>Then you just need to configure the email account settings (one last time to visit the page,
 but that would be the last :-) and you're ready.</p>
@@ -165,10 +165,10 @@ the KVM application I am more familiar with. However, the new version of the <tt
 have networking features that are great for the data centre environment, but maybe not the best option
 for a particular workstation, so I added the following packages in order to set up an easier
 network configuration for my local virtual machines.</p>
-<pre class="code bash"><a name="rest_code_c209caca9d6d47889eccb9c213d8e269-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
+<pre class="code bash"><a name="rest_code_642ae693480c4a4d9bbefc507ff8934c-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In order to reflect the changes and start using the new features, we need to restart its service:</p>
-<pre class="code bash"><a name="rest_code_0dddece15e9548589cd1de4bef3c81cd-1"></a>systemctl restart libvirtd.service
+<pre class="code bash"><a name="rest_code_191fa084236b426b930ebda056aed792-1"></a>systemctl restart libvirtd.service
 </pre>
 <p>After that, when creating a new virtual machine, the NAT option is enabled, and the virtual
 manager with handle the NAT or bridging configuration automatically, which allows me to deploy new
@@ -527,19 +527,19 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_2b7fe345056747e8a6a13b60437725b3-1">1</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_2b7fe345056747e8a6a13b60437725b3-2">2</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_2b7fe345056747e8a6a13b60437725b3-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_2b7fe345056747e8a6a13b60437725b3-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_2b7fe345056747e8a6a13b60437725b3-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_2b7fe345056747e8a6a13b60437725b3-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-1">1</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-2">2</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
 <p>Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:</p>
-<pre class="code python"><a name="rest_code_2835e78df3f14fdcaf0ba34980d80e5e-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<pre class="code python"><a name="rest_code_2f21c29b64214f8f886b6a37b72ef155-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
