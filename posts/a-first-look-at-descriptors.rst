@@ -90,6 +90,7 @@ to be by means of descriptors.
 
             instance.__dict__[self.name] = value
 
+
     class Traveller:
         """
         >>> me = Traveller()
