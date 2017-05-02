@@ -17,8 +17,8 @@ they're so powerful is because they enable us to control the core operations
 a particular code, controlled by us, in order to modify, change, or extend the
 original operation.
 
-A descriptor is an object that implements either :code:``__get__``,
-:code:``__set__``, or :code:``__delete__``.
+A descriptor is an object that implements either :code:`__get__`,
+:code:`__set__`, or :code:`__delete__`.
 
 As of ``Python 3.6+`` [2]_ the *descriptor protocol* entails these methods::
 
@@ -56,7 +56,7 @@ its value. For simplicity let's assume attributes starting with
 attribute ``<name>``.
 
 There could be several ways to address this problem. One way could be
-overriding :code:``__getattr__()`` or :code:``__getattribue()__``. Another
+overriding :code:`__getattr__()` or :code:`__getattribue()__`. Another
 option, might be by the use of properties (getters and setters) for each
 attribute we want to track, but that will lead to some repetition. Or, we can
 use descriptors.
@@ -90,7 +90,7 @@ Under this schema, Python will translate a call like::
     traveller = Traveller()
     traveller.city = 'Stockholm'
 
-To the one using the :code:``__set__`` method in the descriptor, like::
+To the one using the :code:`__set__` method in the descriptor, like::
 
     Traveller.city.__set__(traveller, 'Stockholm')
 
@@ -123,11 +123,11 @@ Caveats and recommendations
 * Remember that descriptors should __always__ be used as **class attributes**.
 * Data should be stored in each original managed instance, instead of doing
   data bookkeeping in the descriptor. Each object should have its data in its
-  :code:``__dict__``.
+  :code:`__dict__`.
 * Preserve the ability of accessing the descriptor from the class as well, not
   only from instances. Mind the case when :code:``instance is None``, so it can
   be called as :code:``type(instance).descriptor``.
-* Do not override :code:``__getattribute__()``, or they'll lose effect[3]_.
+* Do not override :code:`__getattribute__()`, or they'll lose effect[3]_.
 * Mind the difference between data and non-data descriptors [3]_.
 
 
@@ -158,7 +158,7 @@ Descriptors are one of the most powerful features of Python, and their
 possibilities are virtually unlimited, so in this post
 we've only scratched the surface of them. More details such as exploring the
 different types of descriptors and the internal data representation, the use of
-the new :code:``__set_name__`` magic method, their relation with decorators,
+the new :code:`__set_name__` magic method, their relation with decorators,
 and analysis of good examples, are some of the topics for future entries.
 
 
