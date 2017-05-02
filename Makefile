@@ -8,6 +8,7 @@ setup:
 .PHONY: clean
 clean:
 	rm -fr cache
+	find . -type d -name __pycache__ | xargs rm -fr
 
 .PHONY: build
 build:
