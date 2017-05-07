@@ -740,3 +740,4 @@ LOGGING_HANDLERS = {
 # It can be anything, data, functions, modules, etc.
 GLOBAL_CONTEXT = {}
 LISTINGS_FOLDERS = {'listings': 'listings'}
+WRITE_TAG_CLOUD = True
