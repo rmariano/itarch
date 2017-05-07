@@ -1,5 +1,5 @@
 class TracedProperty:
-    """Keep count of how many times a property changed its value"""
+    """Keep count of how many times an attribute changed its value"""
 
     def __set_name__(self, owner, name):
         self.name = name
@@ -19,29 +19,37 @@ class TracedProperty:
 
 class Traveller:
     """
-    >>> me = Traveller()
-    >>> me.city = 'Barcelona'
-    >>> me.country = 'Spain'
-    >>> me.count_city
+    >>> tourist = Traveller('John Smith')
+    >>> tourist.city = 'Barcelona'
+    >>> tourist.country = 'Spain'
+
+    >>> tourist.count_city
     0
-    >>> me.count_country
+    >>> tourist.count_country
     0
 
-    >>> me.city = 'Stockholm'
-    >>> me.country = 'Sweden'
-    >>> me.count_city
+    >>> tourist.city = 'Stockholm'
+    >>> tourist.country = 'Sweden'
+    >>> tourist.count_city
     1
-    >>> me.count_country
+    >>> tourist.count_country
     1
-
-    >>> me.city = 'Kiruna'
-    >>> me.count_city
+    >>> tourist.city = 'Gothenburg'
+    >>> tourist.count_city
     2
-    >>> me.count_country
+    >>> tourist.count_country
     1
-    >>> me.country = 'Sweden'
-    >>> me.count_country
+    >>> tourist.country = 'Sweden'
+    >>> tourist.count_country
     1
     """
     city = TracedProperty()
     country = TracedProperty()
+
+    def __init__(self, name):
+        self.name = name
+
+
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod(verbose=True)
