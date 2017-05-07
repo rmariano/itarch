@@ -4,11 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>On returning consistent data types | IT Arch</title>
-<link href="../../assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-<link href="../../assets/css/rst.css" rel="stylesheet" type="text/css">
-<link href="../../assets/css/code.css" rel="stylesheet" type="text/css">
-<link href="../../assets/css/colorbox.css" rel="stylesheet" type="text/css">
-<link href="../../assets/css/theme.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
@@ -114,19 +110,19 @@ return value was <strong>None</strong>.</p>
 <p>Do you notice something odd here?</p>
 <p>What if I want to use the result? I cannot do it safely, for example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-1">1</a>
-<a href="python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-2">2</a>
-<a href="python-functions-return-values-consistency.html#rest_code_2de49d01bcc84d56b08c60c8b21a36ca-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_2de49d01bcc84d56b08c60c8b21a36ca-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_ebe67ab6aa5a41648afe66e919664c2d-1">1</a>
+<a href="python-functions-return-values-consistency.html#rest_code_ebe67ab6aa5a41648afe66e919664c2d-2">2</a>
+<a href="python-functions-return-values-consistency.html#rest_code_ebe67ab6aa5a41648afe66e919664c2d-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_ebe67ab6aa5a41648afe66e919664c2d-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_ebe67ab6aa5a41648afe66e919664c2d-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_ebe67ab6aa5a41648afe66e919664c2d-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If content is <tt class="docutils literal">None</tt>, it will raise an <tt class="docutils literal">AttributeError</tt> saying that None has no
 attribute called "items" (which is true).</p>
 <p>Therefore, the developer should catch the exception or avoid the corner case,
 by doing something like the following:</p>
-<pre class="code python"><a name="rest_code_2f21c29b64214f8f886b6a37b72ef155-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<pre class="code python"><a name="rest_code_f35076c7c61340d3b42f0a692a2c087e-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of "coding defensively", making sure that the program will not fail under
 most conditions (it would also require to add an <tt class="docutils literal">assert</tt> or to raise an exception
@@ -164,7 +160,7 @@ is no polymorphism, or maybe that the "contract" is not being respected).</p>
 </div>
 
 
-            <script src="../../assets/js/jquery.min.js"></script><script src="../../assets/js/bootstrap.min.js"></script><script src="../../assets/js/moment-with-locales.min.js"></script><script src="../../assets/js/fancydates.js"></script><script src="../../assets/js/jquery.colorbox-min.js"></script><script src="../../assets/js/colorbox-i18n/jquery.colorbox-es.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+            <script src="../../assets/js/all-nocdn.js"></script><script src="../../assets/js/colorbox-i18n/jquery.colorbox-es.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
     moment.locale("es");
     fancydates(0, "YYYY-MM-DD HH:mm");
     </script><!-- end fancy dates --><script>
