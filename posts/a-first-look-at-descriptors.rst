@@ -42,9 +42,58 @@ descriptor itself, and the class that is going to use the descriptor objects
 Getting Data
 ------------
 
+Consider this basic example on which I have a fictional manager for video
+output, that can handle multiple devices. Each device is set with a particular
+resolution, provided by a user. However, if for some reason one of the devices
+does not have a rendering resolution set, we want to use a default one,
+specified on the class definition.
+
+A possible implementation could look like this.
+
 .. listing:: descriptors0_get0.py python
    :number-lines:
    :name: Getter basic example
+
+
+In this case resolution is a descriptor that implements only
+:code:`__get__()`. If an instance of the display manager, has a resolution
+set, it will retrieve just that one. On the other hand, if it does not, then
+when we access one of the class attributes like :code:`media.tv`, what actually
+happens is that Python calls::
+
+    VideoDriver.tv.__get__(media, VideoDriver)
+
+Which executes the code in the :code:`__get__()` method of the descriptor,
+which in this case returns the default value, previously passed.
+
+In general [4]_ a code like::
+
+    <instance>.<descriptor>
+
+Will be translated into:
+
+.. code:: python
+   :number-lines:
+
+   type(<instance>).<descriptor>.__get__(<instance>, type(<instance>))
+
+When the descriptor is called from the class, and not the instance, the value
+of the parameter "instance" is None, but the "owner" is still a reference to
+the class being invoked (that's probably one of the reasons why these are two
+separate parameters, instead of just let the user derive the class from the
+instance, it allows even more flexibility).
+
+For this reason, is common to handle this case, and return the descriptor
+itself, which is the rationale behind the line:
+
+.. code:: python
+
+   if instance is None:
+       return self
+
+That is why when you define a property in a class, and call it from an instance
+object, you'll get the result of the computation of the method. However, if
+you call the property from the class, you get the property object.
 
 
 Setting Data
@@ -58,18 +107,21 @@ changed its value. For simplicity let's assume attributes starting with
 ``count_<name>``, cannot be modified, and those only correspond to the count of
 attribute ``<name>``.
 
-There may be several ways to address this problem. One way could be
-overriding :code:`__setattr__()`. Another
-option, could be by the means of properties (getters and setters) for each
-attribute we want to track, but that will lead to some repetition. Or, we can
-use descriptors.
+There may be several ways to address this problem. One way could be overriding
+:code:`__setattr__()`. Another option, could be by the means of properties
+(getters and setters) for each attribute we want to track. Or, we can use
+descriptors.
 
-Both properties, and ``__getattr__()`` might be subject to the problem of code
-repetition. Their logic should be repeated for several different properties,
-unless a property function builder is created (in order to reuse the logic of
-the property across several variables), or a ``mixin`` class would be required
-if we want to reuse the logic on the ``__getattr__()``. Both options seem
-rather convoluted. Descriptors it is, then.
+Both the properties, and :code:`__setattr__()` approaches, might be subject to
+code repetition. Their logic should be repeated for several different
+properties, unless a property function builder is created (in order to reuse
+the logic of the property across several variables). As per the
+:code:`__setattr__()` strategy, if we need to use this logic in multiple
+classes we would have to come up with some sort of ``mixin`` class, in order to
+achieve it, and if one of the classes already overrides this method, things
+might get overcomplicated.
+
+These two options seem rather convoluted. Descriptors it is, then.
 
 
 .. listing:: descriptors0_set0.py python
@@ -89,43 +141,59 @@ that, are objects, instances of the descriptor.
 Now let's take a look at the other side of it, the internal working  of the
 descriptor.
 
-Under this schema, Python will translate a call like::
+Under this schema, Python will translate a call like:
 
-    traveller = Traveller()
-    traveller.city = 'Stockholm'
+.. code:: python
 
-To the one using the :code:`__set__` method in the descriptor, like::
+   traveller = Traveller()
+   traveller.city = 'Stockholm'
 
-    Traveller.city.__set__(traveller, 'Stockholm')
+To the one using the :code:`__set__` method in the descriptor, like:
+
+.. code:: python
+
+   Traveller.city.__set__(traveller, 'Stockholm')
 
 Which means that the ``__set__`` method on the descriptor is going to receive
 the instance of the object being accessed, as a first parameter, and then the
 value that is being assigned.
 
-More generally we could say that something like::
+More generally we could say that something like:
 
-    obj.<descriptor> = <value>
+.. code:: python
 
-Translates to::
+   obj.<descriptor> = <value>
 
-    type(obj).__set__(obj, <value>)
+Translates to:
+
+.. code:: python
+
+   type(obj).__set__(obj, <value>)
 
 With these two parameters, we can manipulate the interaction any way we want,
 which makes the protocol really powerful.
 
 In this example, we are taking advantage of this, by querying the original
-object's attribute dictionary (:code:``instance.__dict__``), and getting the
-value in order to compare with the newly received one. By comparing this value,
-we calculate another attribute which will hold the count of the number of times
-the attribute was modified, and then, both of them are saved again in the
-original dictionary for the instance.
+object's attribute dictionary (:code:`instance.__dict__`), and getting the
+value in order to compare it with the newly received one. By reading this
+value, we calculate another attribute which will hold the count of the number
+of times the attribute was modified, and then, both of them are updated in
+the original dictionary for the instance.
+
+An important concept to point out is that this implementation not only works,
+but it also solves the problem in a more generic fashion. In this example, it
+was the case of a traveller, of whom we wanted to know how many times changed
+of location, but the exact same object could be used for example to monitor
+market stocks, variables in an equation, etc. This exposes functionality as a
+sort of library, toolkit, or even framework. In fact, many well-known
+frameworks in Python use descriptors to expose their API.
 
 
 Deleting Data
 -------------
 
 The :code:`__delete__()` method is going to be called when an instruction of
-the type ``del <instance>.<descriptor>`` is executed. See the following
+the type :code:`del <instance>.<descriptor>` is executed. See the following
 example.
 
 .. listing:: descriptors0_delete0.py python
@@ -140,15 +208,16 @@ and descriptors, again, provide one of the multiple possible implementations.
 Caveats and recommendations
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-* Remember that descriptors should _always_ be used as **class attributes**.
+* Remember that descriptors should always be used as **class attributes**.
 * Data should be stored in each original managed instance, instead of doing
   data bookkeeping in the descriptor. Each object should have its data in its
   :code:`__dict__`.
 * Preserve the ability of accessing the descriptor from the class as well, not
-  only from instances. Mind the case when :code:``instance is None``, so it can
-  be called as :code:``type(instance).descriptor``.
-* Do not override :code:`__getattribute__()`, or they'll lose effect.
+  only from instances. Mind the case when :code:`instance is None`, so it can
+  be called as :code:`type(instance).descriptor`.
+* Do not override :code:`__getattribute__()`, or they might lose effect.
 * Mind the difference between data and non-data descriptors [3]_.
+* Implement the minimum required interface.
 
 
 Food for thought
@@ -163,9 +232,6 @@ methods, when accessing these attributes from the managed instance.
 Under this considerations it is correct to think that it behaves as a
 framework.
 
-It is highly important to mention that there are two types of descriptors: data
-descriptors, and non-data descriptors. Details on this, are subject of another
-instalment.
 
 Summary
 ^^^^^^^
@@ -187,3 +253,4 @@ implementations, are some of the topics for future entries.
 .. [1] Python Cookbook (3rd edition) - David Beazley & Brian K. Jones
 .. [2] https://docs.python.org/3.6/reference/datamodel.html#descriptors
 .. [3] More details about this, will come in a future post.
+.. [4] https://docs.python.org/3.6/howto/descriptor.html#invoking-descriptors
