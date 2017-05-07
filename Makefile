@@ -18,6 +18,11 @@ build:
 serve:
 	nikola serve --browser
 
+.PHONY: test
+test:
+	@echo "Testing Python files..."
+	python listings/*.py
+
 .PHONY: publish
 publish:
 	nikola github_deploy
