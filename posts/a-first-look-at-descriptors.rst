@@ -17,6 +17,8 @@ they're so powerful is because they enable us to control the core operations
 a particular code, controlled by us, in order to modify, change, or extend the
 original operation.
 
+.. TEASER_END
+
 A descriptor is an object that implements either :code:`__get__`,
 :code:`__set__`, or :code:`__delete__`.
 

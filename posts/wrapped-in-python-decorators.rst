@@ -12,6 +12,8 @@ This is another of the new interesting things that Python 3 has. Time ago, it
 was somehow tricky to work with decorated functions, because the decorator
 replaced the original object, and its behaviour became hard to reach.
 
+.. TEASER_END
+
 So, for example, we all know that the following sentence:
 
 .. code:: python

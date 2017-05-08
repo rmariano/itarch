@@ -1,485 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch</title><link>https://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><atom:link href="https://rmariano.github.io/itarch/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 07 May 2017 21:31:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A first look at descriptors</title><link>https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch</title><link>https://rmariano.github.io/itarch/</link><description>A blog about software engineering, technology and ideas.</description><atom:link href="https://rmariano.github.io/itarch/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Mon, 08 May 2017 18:13:34 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A first look at descriptors</title><link>https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div class="section" id="introduction"&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Descriptors are one of the most powerful features of Python. The reason why
 they're so powerful is because they enable us to control the core operations
 (get, set, delete) &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id5" id="id1"&gt;[1]&lt;/a&gt;, of an attribute in a given object, so that we can hook
 a particular code, controlled by us, in order to modify, change, or extend the
 original operation.&lt;/p&gt;
-&lt;p&gt;A descriptor is an object that implements either &lt;code&gt;__get__&lt;/code&gt;,
-&lt;code&gt;__set__&lt;/code&gt;, or &lt;code&gt;__delete__&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;As of &lt;tt class="docutils literal"&gt;Python 3.6+&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id6" id="id2"&gt;[2]&lt;/a&gt; the &lt;em&gt;descriptor protocol&lt;/em&gt; entails these methods:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-__get__(self, instance, owner)
-__set__(self, instance, value)
-__delete__(self, instance)
-__set_name__(self, instance, name)
-&lt;/pre&gt;
-&lt;p&gt;We'll understand better what the parameters mean, once we've seen some examples
-of descriptors and how they're used.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="how-to-use-them"&gt;
-&lt;h2&gt;How to use them&lt;/h2&gt;
-&lt;p&gt;In order to use descriptors we need at least two classes: one for the
-descriptor itself, and the class that is going to use the descriptor objects
-(often referred to as the &lt;em&gt;managed class&lt;/em&gt;).&lt;/p&gt;
-&lt;div class="section" id="getting-data"&gt;
-&lt;h3&gt;Getting Data&lt;/h3&gt;
-&lt;p&gt;Consider this basic example on which I have a fictional manager for video
-output, that can handle multiple devices. Each device is set with a particular
-resolution, provided by a user. However, if for some reason one of the devices
-does not have a rendering resolution set, we want to use a default one,
-specified on the class definition.&lt;/p&gt;
-&lt;p&gt;A possible implementation could look like this.&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_get0.py.html"&gt;descriptors0_get0.py&lt;/a&gt;  &lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_get0.py"&gt;(Source)&lt;/a&gt;&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-1"&gt; 1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-2"&gt; 2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-3"&gt; 3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-4"&gt; 4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-5"&gt; 5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-6"&gt; 6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-7"&gt; 7&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-8"&gt; 8&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-9"&gt; 9&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-10"&gt;10&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-11"&gt;11&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-12"&gt;12&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-13"&gt;13&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-14"&gt;14&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-15"&gt;15&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-16"&gt;16&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-17"&gt;17&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-18"&gt;18&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-19"&gt;19&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-20"&gt;20&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-21"&gt;21&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-22"&gt;22&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-23"&gt;23&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-24"&gt;24&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-25"&gt;25&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-26"&gt;26&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-27"&gt;27&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-28"&gt;28&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-29"&gt;29&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-30"&gt;30&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-31"&gt;31&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-32"&gt;32&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-33"&gt;33&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-34"&gt;34&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-35"&gt;35&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-36"&gt;36&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-37"&gt;37&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-38"&gt;38&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-39"&gt;39&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_4672795cf5c24dae9714103a2d1983b7-40"&gt;40&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Resolution&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-2"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""Represents the resolution for a video display. In case there is no&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-3"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    resolution set, return a default value, previously indicated.&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-4"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-5"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;attr_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;default_resolution&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-6"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;attr_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;attr_name&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-7"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_resolution&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;default_resolution&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__get__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;owner&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-10"&gt;&lt;/a&gt;        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-11"&gt;&lt;/a&gt;            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-12"&gt;&lt;/a&gt;        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;default_resolution&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-13"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-14"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-15"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;VideoDriver&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-16"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""Contains multiple display devices, each one with a resolution&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-17"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    configured. If a resolution is not set for a device, return a default one,&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-18"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    provided by this class, as a fallback.&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-19"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-20"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media = VideoDriver()&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-21"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media.tv&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-22"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    (1024, 768)&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-23"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media.tv = (4096, 2160)&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-24"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media.tv&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-25"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    (4096, 2160)&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-26"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; del media.tv&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-27"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media.tv&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-28"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    (1024, 768)&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-29"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; media.screen&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-30"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    (1920, 1080)&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-31"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; VideoDriver.tv  # doctest: +ELLIPSIS&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-32"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;lt;__main__.Resolution object at 0x...&amp;gt;&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-33"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-34"&gt;&lt;/a&gt;    &lt;span class="n"&gt;tv&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Resolution&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'tv'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1024&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;768&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-35"&gt;&lt;/a&gt;    &lt;span class="n"&gt;screen&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Resolution&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;'screen'&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1920&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-36"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-37"&gt;&lt;/a&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-38"&gt;&lt;/a&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'__main__'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-39"&gt;&lt;/a&gt;    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;doctest&lt;/span&gt;
-&lt;a name="rest_code_4672795cf5c24dae9714103a2d1983b7-40"&gt;&lt;/a&gt;    &lt;span class="n"&gt;doctest&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;testmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;In this case resolution is a descriptor that implements only
-&lt;code&gt;__get__()&lt;/code&gt;. If an instance of the display manager, has a resolution
-set, it will retrieve just that one. On the other hand, if it does not, then
-when we access one of the class attributes like &lt;code&gt;media.tv&lt;/code&gt;, what actually
-happens is that Python calls:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-VideoDriver.tv.__get__(media, VideoDriver)
-&lt;/pre&gt;
-&lt;p&gt;Which executes the code in the &lt;code&gt;__get__()&lt;/code&gt; method of the descriptor,
-which in this case returns the default value, previously passed.&lt;/p&gt;
-&lt;p&gt;In general &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id8" id="id3"&gt;[4]&lt;/a&gt; a code like:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-&amp;lt;instance&amp;gt;.&amp;lt;descriptor&amp;gt;
-&lt;/pre&gt;
-&lt;p&gt;Will be translated into:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_a4a8aa02cbd84e6f9e1f763514e108ec-1"&gt;1&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_a4a8aa02cbd84e6f9e1f763514e108ec-1"&gt;&lt;/a&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;descriptor&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;.&lt;/span&gt;&lt;span class="fm"&gt;__get__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;When the descriptor is called from the class, and not the instance, the value
-of the parameter "instance" is None, but the "owner" is still a reference to
-the class being invoked (that's probably one of the reasons why these are two
-separate parameters, instead of just let the user derive the class from the
-instance, it allows even more flexibility).&lt;/p&gt;
-&lt;p&gt;For this reason, is common to handle this case, and return the descriptor
-itself, which is the rationale behind the line:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_2c9845f7ba484560bdfa68bb214d5921-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_2c9845f7ba484560bdfa68bb214d5921-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;That is why when you define a property in a class, and call it from an instance
-object, you'll get the result of the computation of the method. However, if
-you call the property from the class, you get the property object.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="setting-data"&gt;
-&lt;h3&gt;Setting Data&lt;/h3&gt;
-&lt;p&gt;Example: imagine we want to have some attributes in an object that are going to
-be traced, by other attributes that keep track, of how many times their values
-changed. So, for example, for every attribute &lt;em&gt;&amp;lt;x&amp;gt;&lt;/em&gt; on the object, there would
-be a corresponding &lt;em&gt;count_&amp;lt;x&amp;gt;&lt;/em&gt; one, that will keep count of how many times &lt;em&gt;x&lt;/em&gt;
-changed its value. For simplicity let's assume attributes starting with
-&lt;tt class="docutils literal"&gt;count_&amp;lt;name&amp;gt;&lt;/tt&gt;, cannot be modified, and those only correspond to the count of
-attribute &lt;tt class="docutils literal"&gt;&amp;lt;name&amp;gt;&lt;/tt&gt;.&lt;/p&gt;
-&lt;p&gt;There may be several ways to address this problem. One way could be overriding
-&lt;code&gt;__setattr__()&lt;/code&gt;. Another option, could be by the means of properties
-(getters and setters) for each attribute we want to track. Or, we can use
-descriptors.&lt;/p&gt;
-&lt;p&gt;Both the properties, and &lt;code&gt;__setattr__()&lt;/code&gt; approaches, might be subject to
-code repetition. Their logic should be repeated for several different
-properties, unless a property function builder is created (in order to reuse
-the logic of the property across several variables). As per the
-&lt;code&gt;__setattr__()&lt;/code&gt; strategy, if we need to use this logic in multiple
-classes we would have to come up with some sort of &lt;tt class="docutils literal"&gt;mixin&lt;/tt&gt; class, in order to
-achieve it, and if one of the classes already overrides this method, things
-might get overcomplicated.&lt;/p&gt;
-&lt;p&gt;These two options seem rather convoluted. Descriptors it is, then.&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_set0.py.html"&gt;descriptors0_set0.py&lt;/a&gt;  &lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_set0.py"&gt;(Source)&lt;/a&gt;&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-1"&gt; 1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-2"&gt; 2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-3"&gt; 3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-4"&gt; 4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-5"&gt; 5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-6"&gt; 6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-7"&gt; 7&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-8"&gt; 8&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-9"&gt; 9&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-10"&gt;10&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-11"&gt;11&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-12"&gt;12&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-13"&gt;13&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-14"&gt;14&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-15"&gt;15&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-16"&gt;16&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-17"&gt;17&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-18"&gt;18&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-19"&gt;19&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-20"&gt;20&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-21"&gt;21&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-22"&gt;22&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-23"&gt;23&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-24"&gt;24&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-25"&gt;25&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-26"&gt;26&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-27"&gt;27&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-28"&gt;28&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-29"&gt;29&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-30"&gt;30&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-31"&gt;31&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-32"&gt;32&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-33"&gt;33&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-34"&gt;34&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-35"&gt;35&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-36"&gt;36&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-37"&gt;37&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-38"&gt;38&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-39"&gt;39&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-40"&gt;40&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-41"&gt;41&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-42"&gt;42&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-43"&gt;43&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-44"&gt;44&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-45"&gt;45&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-46"&gt;46&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-47"&gt;47&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-48"&gt;48&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-49"&gt;49&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-50"&gt;50&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-51"&gt;51&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-52"&gt;52&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-53"&gt;53&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-54"&gt;54&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_0ac9c233613d4b3e8135b0b57e36bff8-55"&gt;55&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TracedProperty&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-2"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""Keep count of how many times an attribute changed its value"""&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-4"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__set_name__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;owner&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-5"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-6"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count_name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;'count_{name}'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-7"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-8"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__set__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-9"&gt;&lt;/a&gt;        &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-10"&gt;&lt;/a&gt;            &lt;span class="n"&gt;current_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__dict__&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-11"&gt;&lt;/a&gt;        &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-12"&gt;&lt;/a&gt;            &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__dict__&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-13"&gt;&lt;/a&gt;        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-14"&gt;&lt;/a&gt;            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;current_value&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-15"&gt;&lt;/a&gt;                &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__dict__&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count_name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-16"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-17"&gt;&lt;/a&gt;        &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__dict__&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-18"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-19"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-20"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;Traveller&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-21"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-22"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist = Traveller('John Smith')&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-23"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.city = 'Barcelona'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-24"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.country = 'Spain'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-25"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-26"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_city&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-27"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    0&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-28"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_country&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-29"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    0&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-30"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-31"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.city = 'Stockholm'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-32"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.country = 'Sweden'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-33"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_city&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-34"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    1&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-35"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_country&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-36"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    1&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-37"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.city = 'Gothenburg'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-38"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_city&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-39"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    2&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-40"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_country&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-41"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    1&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-42"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.country = 'Sweden'&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-43"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; tourist.count_country&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-44"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    1&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-45"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-46"&gt;&lt;/a&gt;    &lt;span class="n"&gt;city&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TracedProperty&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-47"&gt;&lt;/a&gt;    &lt;span class="n"&gt;country&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TracedProperty&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-48"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-49"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-50"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-51"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-52"&gt;&lt;/a&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-53"&gt;&lt;/a&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'__main__'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-54"&gt;&lt;/a&gt;    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;doctest&lt;/span&gt;
-&lt;a name="rest_code_0ac9c233613d4b3e8135b0b57e36bff8-55"&gt;&lt;/a&gt;    &lt;span class="n"&gt;doctest&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;testmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The &lt;tt class="docutils literal"&gt;docstring&lt;/tt&gt; on the &lt;tt class="docutils literal"&gt;Traveller&lt;/tt&gt; class, pretty much explains its intended
-use. The important thing about this, is the public interface: it's absolutely
-transparent for the user. An object that interacts with a &lt;tt class="docutils literal"&gt;Traveller&lt;/tt&gt;
-instance, gets a clean interface, with the properties exposed, without having
-to worry about the underlying implementation.&lt;/p&gt;
-&lt;p&gt;So, we have two classes, with different responsibilities, but related, because
-they interact towards a common goal. &lt;tt class="docutils literal"&gt;Traveller&lt;/tt&gt; has two &lt;em&gt;class attributes&lt;/em&gt;
-that, are objects, instances of the descriptor.&lt;/p&gt;
-&lt;p&gt;Now let's take a look at the other side of it, the internal working  of the
-descriptor.&lt;/p&gt;
-&lt;p&gt;Under this schema, Python will translate a call like:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_1dffe5a2f6f84d0583c549d0e965d785-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;traveller&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Traveller&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;a name="rest_code_1dffe5a2f6f84d0583c549d0e965d785-2"&gt;&lt;/a&gt;&lt;span class="n"&gt;traveller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;city&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;'Stockholm'&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;To the one using the &lt;code&gt;__set__&lt;/code&gt; method in the descriptor, like:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_d97fb84c3bca439bac09c03badca401e-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;Traveller&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;city&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="fm"&gt;__set__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;traveller&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;'Stockholm'&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;Which means that the &lt;tt class="docutils literal"&gt;__set__&lt;/tt&gt; method on the descriptor is going to receive
-the instance of the object being accessed, as a first parameter, and then the
-value that is being assigned.&lt;/p&gt;
-&lt;p&gt;More generally we could say that something like:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_41bea8b3bc8c4c74a17b0fbbbe1c93a8-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="o"&gt;.&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;descriptor&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;Translates to:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_f6776ad2c4834193adac099e731678a1-1"&gt;&lt;/a&gt;&lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="fm"&gt;__set__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;obj&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;With these two parameters, we can manipulate the interaction any way we want,
-which makes the protocol really powerful.&lt;/p&gt;
-&lt;p&gt;In this example, we are taking advantage of this, by querying the original
-object's attribute dictionary (&lt;code&gt;instance.__dict__&lt;/code&gt;), and getting the
-value in order to compare it with the newly received one. By reading this
-value, we calculate another attribute which will hold the count of the number
-of times the attribute was modified, and then, both of them are updated in
-the original dictionary for the instance.&lt;/p&gt;
-&lt;p&gt;An important concept to point out is that this implementation not only works,
-but it also solves the problem in a more generic fashion. In this example, it
-was the case of a traveller, of whom we wanted to know how many times changed
-of location, but the exact same object could be used for example to monitor
-market stocks, variables in an equation, etc. This exposes functionality as a
-sort of library, toolkit, or even framework. In fact, many well-known
-frameworks in Python use descriptors to expose their API.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="deleting-data"&gt;
-&lt;h3&gt;Deleting Data&lt;/h3&gt;
-&lt;p&gt;The &lt;code&gt;__delete__()&lt;/code&gt; method is going to be called when an instruction of
-the type &lt;code&gt;del &amp;lt;instance&amp;gt;.&amp;lt;descriptor&amp;gt;&lt;/code&gt; is executed. See the following
-example.&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_delete0.py.html"&gt;descriptors0_delete0.py&lt;/a&gt;  &lt;a class="reference external" href="https://rmariano.github.io/itarch/listings/descriptors0_delete0.py"&gt;(Source)&lt;/a&gt;&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-1"&gt; 1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-2"&gt; 2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-3"&gt; 3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-4"&gt; 4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-5"&gt; 5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-6"&gt; 6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-7"&gt; 7&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-8"&gt; 8&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-9"&gt; 9&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-10"&gt;10&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-11"&gt;11&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-12"&gt;12&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-13"&gt;13&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-14"&gt;14&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-15"&gt;15&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-16"&gt;16&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-17"&gt;17&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-18"&gt;18&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-19"&gt;19&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-20"&gt;20&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-21"&gt;21&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-22"&gt;22&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-23"&gt;23&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-24"&gt;24&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-25"&gt;25&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-26"&gt;26&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-27"&gt;27&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-28"&gt;28&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-29"&gt;29&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-30"&gt;30&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-31"&gt;31&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-32"&gt;32&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-33"&gt;33&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-34"&gt;34&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-35"&gt;35&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-36"&gt;36&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-37"&gt;37&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-38"&gt;38&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-39"&gt;39&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-40"&gt;40&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-41"&gt;41&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-42"&gt;42&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-43"&gt;43&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-44"&gt;44&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-45"&gt;45&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-46"&gt;46&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-47"&gt;47&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-48"&gt;48&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#rest_code_7f96b7087ec04ef19c5b87c45534e20d-49"&gt;49&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-1"&gt;&lt;/a&gt;&lt;span class="sd"&gt;"""An example of a descriptor with a ``__delete__()`` method.&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-2"&gt;&lt;/a&gt;&lt;span class="sd"&gt;The code is for illustration purposes only, and it does not correspond to any&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-3"&gt;&lt;/a&gt;&lt;span class="sd"&gt;actual implementation.&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-4"&gt;&lt;/a&gt;&lt;span class="sd"&gt;"""&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-5"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-6"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-7"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectedAttribute&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-8"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""A class attribute that can be protected against deletion"""&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-9"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-10"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;__set_name__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;owner&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-11"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-12"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-13"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__set__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-14"&gt;&lt;/a&gt;        &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="vm"&gt;__dict__&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-15"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-16"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__delete__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;instance&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-17"&gt;&lt;/a&gt;        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;AttributeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"Can't delete {self.name} for {instance!s}"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-18"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-19"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-20"&gt;&lt;/a&gt;&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;ProtectedUser&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-21"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-22"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; usr = ProtectedUser('jsmith', '127.0.0.1')&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-23"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; usr.username&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-24"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    'jsmith'&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-25"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; del usr.username&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-26"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    Traceback (most recent call last):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-27"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    ...&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-28"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    AttributeError: Can't delete username for ProtectedUser[jsmith]&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-29"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; usr.location&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-30"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    '127.0.0.1'&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-31"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; del usr.location&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-32"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    &amp;gt;&amp;gt;&amp;gt; usr.location&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-33"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    Traceback (most recent call last):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-34"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    ...&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-35"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    AttributeError: 'ProtectedUser' object has no attribute 'location'&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-36"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-37"&gt;&lt;/a&gt;    &lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ProtectedAttribute&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-38"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-39"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;location&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-40"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;username&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;username&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-41"&gt;&lt;/a&gt;        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;location&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;location&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-42"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-43"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__str__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-44"&gt;&lt;/a&gt;        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s2"&gt;"{self.__class__.__name__}[{self.username}]"&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-45"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-46"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-47"&gt;&lt;/a&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;'__main__'&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-48"&gt;&lt;/a&gt;    &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;doctest&lt;/span&gt;
-&lt;a name="rest_code_7f96b7087ec04ef19c5b87c45534e20d-49"&gt;&lt;/a&gt;    &lt;span class="n"&gt;doctest&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;testmod&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;In this example, we just want a property in the object, that cannot be deleted,
-and descriptors, again, provide one of the multiple possible implementations.&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="caveats-and-recommendations"&gt;
-&lt;h2&gt;Caveats and recommendations&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;Remember that descriptors should always be used as &lt;strong&gt;class attributes&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Data should be stored in each original managed instance, instead of doing
-data bookkeeping in the descriptor. Each object should have its data in its
-&lt;code&gt;__dict__&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Preserve the ability of accessing the descriptor from the class as well, not
-only from instances. Mind the case when &lt;code&gt;instance is None&lt;/code&gt;, so it can
-be called as &lt;code&gt;type(instance).descriptor&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Do not override &lt;code&gt;__getattribute__()&lt;/code&gt;, or they might lose effect.&lt;/li&gt;
-&lt;li&gt;Mind the difference between data and non-data descriptors &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id7" id="id4"&gt;[3]&lt;/a&gt;.&lt;/li&gt;
-&lt;li&gt;Implement the minimum required interface.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="food-for-thought"&gt;
-&lt;h2&gt;Food for thought&lt;/h2&gt;
-&lt;p&gt;Descriptors provide a &lt;em&gt;framework&lt;/em&gt; for abstracting away repetitive access logic.
-The term &lt;em&gt;framework&lt;/em&gt; here is not a coincidence. As the reader might have
-noticed, by using descriptors, there is an &lt;em&gt;inversion of control&lt;/em&gt; (&lt;tt class="docutils literal"&gt;IoC&lt;/tt&gt;) on
-the code, because Python will be calling the logic we put under the descriptor
-methods, when accessing these attributes from the managed instance.&lt;/p&gt;
-&lt;p&gt;Under this considerations it is correct to think that it behaves as a
-framework.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="summary"&gt;
-&lt;h2&gt;Summary&lt;/h2&gt;
-&lt;p&gt;Descriptors provide an API, to control the core access to an object's data
-model, at its low-level operations. By means of descriptors we can control the
-execution of an object's interface, because they provide a transparent layer
-between the public interface (what is exposed to users), and the internal
-representation and storage of data.&lt;/p&gt;
-&lt;p&gt;They are one of the most powerful features of Python, and their possibilities
-are virtually unlimited, so in this post we've only scratched the surface of
-them. More details, such as exploring the different types of descriptors with
-their internal representation or data, the use of the new &lt;code&gt;__set_name__&lt;/code&gt;
-magic method, their relation with decorators, and analysis of good
-implementations, are some of the topics for future entries.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;Python Cookbook (3rd edition) - David Beazley &amp;amp; Brian K. Jones&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id6" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://docs.python.org/3.6/reference/datamodel.html#descriptors"&gt;https://docs.python.org/3.6/reference/datamodel.html#descriptors&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id7" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id4"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;More details about this, will come in a future post.&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id8" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html#id3"&gt;[4]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#invoking-descriptors"&gt;https://docs.python.org/3.6/howto/descriptor.html#invoking-descriptors&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>descriptors</category><category>featured</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html</guid><pubDate>Sat, 06 May 2017 13:13:48 GMT</pubDate></item><item><title>Upcoming talk at PyCon CZ 2017</title><link>https://rmariano.github.io/itarch/posts/upcoming-talk-at-pycon-cz-2017.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;The proposal of my talk titled "&lt;em&gt;Discovering Descriptors&lt;/em&gt;", was accepted for
+&lt;p&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html"&gt;Read more…&lt;/a&gt; (8 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>descriptors</category><category>featured</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/a-first-look-at-descriptors.html</guid><pubDate>Sat, 06 May 2017 13:13:48 GMT</pubDate></item><item><title>Upcoming talk at PyCon CZ 2017</title><link>https://rmariano.github.io/itarch/posts/upcoming-talk-at-pycon-cz-2017.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;The proposal of my talk titled "&lt;em&gt;Discovering Descriptors&lt;/em&gt;", was accepted for
 the next edition of &lt;a class="reference external" href="https://cz.pycon.org/2017/"&gt;PyCon CZ&lt;/a&gt;, in Prague, Czech
 Republic. Although the schedule is not yet ready, this talk will most likely be
 on June 8th.&lt;/p&gt;
@@ -490,176 +17,10 @@ community, as it was last year when &lt;a class="reference external" href="https
 at EuroPython 2016&lt;/a&gt;. On this occasion, I
 plan to post an entry with the events, per each day of the conference.&lt;/p&gt;&lt;/div&gt;</description><category>python</category><category>talks</category><guid>https://rmariano.github.io/itarch/posts/upcoming-talk-at-pycon-cz-2017.html</guid><pubDate>Sat, 29 Apr 2017 10:29:35 GMT</pubDate></item><item><title>A few ideas on code review</title><link>https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;After watching a talk about code review &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html#id3" id="id1"&gt;[1]&lt;/a&gt;, from the last EuroPython, I got
 some ideas that I'd like to summarise.&lt;/p&gt;
-&lt;p&gt;The first one is a point I made on &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/my-talk-europython-2016.html"&gt;my talk about clean code in Python&lt;/a&gt;, about running style checks (PEP-8, for
-example), automatically as part of the CI. This has several rationales, the
-first one being that it's the sort of thing machines should do, and not humans.
-Having software engineers reviewing the tabs, spacing, and such, is just a
-wasted effort (not to mention, wasted money). As I mentioned on the conclusions
-during my talk, we should focus on the readability of the code in terms of the
-logic, by asking ourselves things like "&lt;em&gt;does this  code make sense?&lt;/em&gt;", rather
-than "&lt;em&gt;is the space before the comma correct?&lt;/em&gt;". Remember, code is for humans,
-not machines, it's a means of communication with the development team.&lt;/p&gt;
-&lt;p&gt;By automating these checks in the CI build &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html#id4" id="id2"&gt;[2]&lt;/a&gt;, we leave these details out of
-the scope, to focus on more important things, because in the end, the ultimate
-goal of the code review is actually to find defects on the code, and point
-them out for early correction.&lt;/p&gt;
-&lt;p&gt;In addition, separating the style checks, gives them a sense of "objective
-metric", because the author has to argue with an script, instead of another
-developer. This also enforces the style guide for the project, closer to the
-code.&lt;/p&gt;
-&lt;p&gt;Then followed lots of more tips aimed at making code review more effective.
-For example, that it's important to also highlight positive things found whilst
-looking at the code, and (arguably the most important one) that authors have to
-be receptive about feedback when placing a pull request. This is perhaps the
-most difficult point, because most of the times we hear things like "&lt;em&gt;would you
-merge this code?&lt;/em&gt;", rather than "&lt;em&gt;would you give me feedback about this?&lt;/em&gt;".
-Once again, the goal of code review is not to challenge, but to find defects on
-the code, so when placing a pull request, it's good for the author to keep in
-mind that reviewers are actually helping him or her, to improve the quality of
-the work. And it's also a learning experience.&lt;/p&gt;
-&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;&lt;a href="https://twitter.com/d0ugal"&gt;@d0ugal&lt;/a&gt; 0% thankfully. Coders act like they've painted a masterpiece and tend to debate every piece of feedback.&lt;/p&gt;— Mark Litwintschik (@marklit82) &lt;a href="https://twitter.com/marklit82/status/737939325334237184"&gt;June 1, 2016&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;p&gt;Another important point, is that for code reviews to be effective, pull
-requests have to be small.&lt;/p&gt;
-&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;10 lines of code = 10 issues.&lt;br&gt;&lt;br&gt;500 lines of code = "looks fine."&lt;br&gt;&lt;br&gt;Code reviews.&lt;/p&gt;— I Am Devloper (@iamdevloper) &lt;a href="https://twitter.com/iamdevloper/status/397664295875805184"&gt;November 5, 2013&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async src="//platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;&lt;p&gt;This increases not only the quality of the review, but also the
-&lt;a class="reference external" href="https://blog.jessfraz.com/post/analyzing-github-pull-request-data-with-big-query/"&gt;likelihood of it being merged&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Code review is a very extensive topic, so there are a lot of more things that
-can be analysed, but these are some of the main ideas that I consider to be of
-most importance.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id3" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;a class="reference external" href="https://youtu.be/uIwl01Nazdg"&gt;https://youtu.be/uIwl01Nazdg&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;I'll mention the sort of checks that can be configured in the CI, in a
-future entry.&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;&lt;/div&gt;</description><category>best-practices</category><category>clean-code</category><category>code review</category><category>development</category><guid>https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html</guid><pubDate>Fri, 14 Apr 2017 14:51:46 GMT</pubDate></item><item><title>__wrapped__ in Python decorators</title><link>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is another of the new interesting things that Python 3 has. Time ago, it
+&lt;p&gt;&lt;a href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>best-practices</category><category>clean-code</category><category>code review</category><category>development</category><guid>https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review.html</guid><pubDate>Fri, 14 Apr 2017 14:51:46 GMT</pubDate></item><item><title>__wrapped__ in Python decorators</title><link>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This is another of the new interesting things that Python 3 has. Time ago, it
 was somehow tricky to work with decorated functions, because the decorator
 replaced the original object, and its behaviour became hard to reach.&lt;/p&gt;
-&lt;p&gt;So, for example, we all know that the following sentence:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_0eb9a40601a54822afc04a1875548d0f-1"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@decorator&lt;/span&gt;
-&lt;a name="rest_code_0eb9a40601a54822afc04a1875548d0f-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_0eb9a40601a54822afc04a1875548d0f-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;It's actually syntax sugar for:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_660daf7c31394d4fb0b22145e7541d8b-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_660daf7c31394d4fb0b22145e7541d8b-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
-&lt;a name="rest_code_660daf7c31394d4fb0b22145e7541d8b-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_660daf7c31394d4fb0b22145e7541d8b-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;So, if for some reason, we need to work both with the original and decorated
-functions, we required tricks such as different names, something like:&lt;/p&gt;
-&lt;pre class="code python"&gt;&lt;a name="rest_code_1d8dc0d0f99b437fa03aef06e06d293e-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_1d8dc0d0f99b437fa03aef06e06d293e-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;
-&lt;a name="rest_code_1d8dc0d0f99b437fa03aef06e06d293e-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_1d8dc0d0f99b437fa03aef06e06d293e-4"&gt;&lt;/a&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;decorator&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;_function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;But in current Python, this should be no longer the case. As we can see from
-the code of the &lt;tt class="docutils literal"&gt;functools&lt;/tt&gt; module &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#id2" id="id1"&gt;[1]&lt;/a&gt;, when decorating an object, there is
-an attribute named &lt;tt class="docutils literal"&gt;__wrapped__&lt;/tt&gt; that holds the reference to the original
-one.&lt;/p&gt;
-&lt;p&gt;So now if we use this, we can access it directly without having to resort to
-the old quirks.&lt;/p&gt;
-&lt;div class="section" id="example"&gt;
-&lt;h2&gt;Example&lt;/h2&gt;
-&lt;p&gt;Let's consider this example. Validating parameter types like this is far
-from a real implementation, but rather something for the sake of
-illustration.&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-1"&gt; 1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-2"&gt; 2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-3"&gt; 3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-4"&gt; 4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-5"&gt; 5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-6"&gt; 6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-7"&gt; 7&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-8"&gt; 8&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-9"&gt; 9&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-10"&gt;10&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-11"&gt;11&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-12"&gt;12&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-13"&gt;13&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-14"&gt;14&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-15"&gt;15&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-16"&gt;16&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-17"&gt;17&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-18"&gt;18&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-19"&gt;19&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-20"&gt;20&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-21"&gt;21&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-22"&gt;22&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-23"&gt;23&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-24"&gt;24&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-25"&gt;25&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-26"&gt;26&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-27"&gt;27&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-28"&gt;28&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-29"&gt;29&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-30"&gt;30&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-31"&gt;31&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-32"&gt;32&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-33"&gt;33&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#rest_code_549f1f9c9a764927ba4c90c33d81eeca-34"&gt;34&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-1"&gt;&lt;/a&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;functools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;wraps&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-2"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-3"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-4"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-5"&gt;&lt;/a&gt;    &lt;span class="sd"&gt;"""For a dictionary of kwargs, and another dictionary of annotations,&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-6"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    mapping each argument name with its type, validate if all types on the&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-7"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    keyword arguments match those described by the annotations.&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-8"&gt;&lt;/a&gt;&lt;span class="sd"&gt;    """&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-9"&gt;&lt;/a&gt;    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-10"&gt;&lt;/a&gt;        &lt;span class="n"&gt;expected_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-11"&gt;&lt;/a&gt;        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="nb"&gt;isinstance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-12"&gt;&lt;/a&gt;            &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-13"&gt;&lt;/a&gt;                &lt;span class="s2"&gt;"{0}={1!r} is not of type {2!r}"&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-14"&gt;&lt;/a&gt;                    &lt;span class="n"&gt;arg&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expected_type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-15"&gt;&lt;/a&gt;                &lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-16"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-17"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-18"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;validate_function_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-19"&gt;&lt;/a&gt;    &lt;span class="nd"&gt;@wraps&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-20"&gt;&lt;/a&gt;    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;inner&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-21"&gt;&lt;/a&gt;        &lt;span class="n"&gt;annotations&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__annotations__&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-22"&gt;&lt;/a&gt;        &lt;span class="n"&gt;validate_parameters&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;annotations&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-23"&gt;&lt;/a&gt;        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;kwargs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-24"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;inner&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-25"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-26"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-27"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-28"&gt;&lt;/a&gt;&lt;span class="nd"&gt;@validate_function_parameters&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-29"&gt;&lt;/a&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;float&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-30"&gt;&lt;/a&gt;    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-31"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-32"&gt;&lt;/a&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-33"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__wrapped__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# does not validate&lt;/span&gt;
-&lt;a name="rest_code_549f1f9c9a764927ba4c90c33d81eeca-34"&gt;&lt;/a&gt;&lt;span class="n"&gt;test_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# validates and raises&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The statement in the penultimate line works because it's actually invoking the
-original function, without the decorator applied, whereas the last one fails
-because it's calling the function already decorated.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="potential-use-cases"&gt;
-&lt;h2&gt;Potential use cases&lt;/h2&gt;
-&lt;p&gt;In general this a nice feature, for the reason that in a way enables accessing
-both objects, (it could be argued that decorating a function causes some sort
-of temporal coupling).&lt;/p&gt;
-&lt;p&gt;Most importantly, it can be used in &lt;em&gt;unit tests&lt;/em&gt;, whether is to test the
-original function, or that the decorator itself is acting as it is supposed to
-do.&lt;/p&gt;
-&lt;p&gt;Moreover, we could tests our own code, before being decorated by other
-libraries being used in the project (for example the function of a tasks
-without the &lt;tt class="docutils literal"&gt;@celery.task&lt;/tt&gt; decorator applied, or an event of the database of
-&lt;tt class="docutils literal"&gt;SQLAlchemy&lt;/tt&gt; before it was changed by the listener event decorator, etc.).&lt;/p&gt;
-&lt;p&gt;Just another trick to keep in the toolbox.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id2" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;This attribute is documented, but I first found about it while reading
-at the code of CPython at
-&lt;a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70"&gt;https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>code</category><category>decorators</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</guid><pubDate>Fri, 03 Mar 2017 20:41:21 GMT</pubDate></item><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;div class="section" id="introduction"&gt;
+&lt;p&gt;&lt;a href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>code</category><category>decorators</category><category>python</category><guid>https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators.html</guid><pubDate>Fri, 03 Mar 2017 20:41:21 GMT</pubDate></item><item><title>Running PostgreSQL in memory with docker</title><link>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div class="section" id="introduction"&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Interacting with a database, can be a regular task of a developer, and for that
 we would like to ensure that we are developing and testing in situations close
@@ -673,103 +34,7 @@ great tools and features that we could take advantage of.&lt;/p&gt;
 &lt;p&gt;The idea is simple: run a docker container with the image for &lt;tt class="docutils literal"&gt;PostgresSQL&lt;/tt&gt;,
 using a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id4" id="id1"&gt;[1]&lt;/a&gt; &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id5" id="id2"&gt;[2]&lt;/a&gt; as storage for the database (a &lt;tt class="docutils literal"&gt;ramfs&lt;/tt&gt; could also
 be used).&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="section" id="procedure"&gt;
-&lt;h2&gt;Procedure&lt;/h2&gt;
-&lt;p&gt;First, we get the image of &lt;tt class="docutils literal"&gt;PostgresSQL&lt;/tt&gt; according to the platform, for
-example:&lt;/p&gt;
-&lt;pre class="literal-block"&gt;
-docker pull fedora/postgresql
-&lt;/pre&gt;
-&lt;p&gt;Then, I could create a &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;, for the data and mount it&lt;/p&gt;
-&lt;pre class="code bash"&gt;&lt;a name="rest_code_cd5b941ad1ee47dd837d4aee041af3ff-1"&gt;&lt;/a&gt;sudo mkdir /mnt/dbtempdisk
-&lt;a name="rest_code_cd5b941ad1ee47dd837d4aee041af3ff-2"&gt;&lt;/a&gt;sudo mount -t tmpfs -o &lt;span class="nv"&gt;size&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;50m tmpfs /mnt/dbtempdisk
-&lt;/pre&gt;&lt;p&gt;Now we could run the database container using this directory:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-4"&gt;4&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-5"&gt;5&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-6"&gt;6&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_05146757b0074f12bdddfee731c53348-7"&gt;7&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-1"&gt;&lt;/a&gt;docker run --name mempostgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-2"&gt;&lt;/a&gt;    -v &lt;span class="s2"&gt;"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"&lt;/span&gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-3"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_USER&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;username-for-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-4"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_PASSWORD&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;password-for-the-user&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-5"&gt;&lt;/a&gt;    -e &lt;span class="nv"&gt;POSTGRES_DB&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&amp;lt;name-of-the-db&amp;gt; &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-6"&gt;&lt;/a&gt;    -p &lt;span class="m"&gt;5432&lt;/span&gt;:5432 &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_05146757b0074f12bdddfee731c53348-7"&gt;&lt;/a&gt;    fedora/postgresql
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;The first line indicates the name for the container we are running (if is not
-specified, docker will put a default one); the second line is the important
-one, since it is what makes the mapping of directories, meaning that will map
-the directory for the &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt; on the host, mounted as &lt;tt class="docutils literal"&gt;/var/lib/pgsql/data&lt;/tt&gt;
-inside the container (the target). The later directory is the one
-&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; uses by default for initializing and storing the data of the
-database.  The &lt;tt class="docutils literal"&gt;Z&lt;/tt&gt; at the end of the mapping is an internal detail for
-flagging that directory in case &lt;tt class="docutils literal"&gt;SELinux&lt;/tt&gt; is enabled, so it will not fail due
-to a permissions errors (because containers run as another user, and we are
-mounting something that might be out of that scope) &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id6" id="id3"&gt;[3]&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;The rest of the three lines, are environment variables that docker will use for
-the initialization of the database (they are optional, and defaults will be
-used, in case they are not provided). Then follows the port mapping, which in
-this case indicates to map the port &lt;tt class="docutils literal"&gt;5432&lt;/tt&gt; inside the container to the same
-one on the host. And finally, the name of the &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt; image we will run.&lt;/p&gt;
-&lt;p&gt;Once this is running, it would look like we have an actual instance of
-&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; up and running on our machine (actually we do, but it is inside
-a container :-), so we can connect with any client (even a &lt;tt class="docutils literal"&gt;Python&lt;/tt&gt;
-application, etc.).&lt;/p&gt;
-&lt;p&gt;For example, if we want to use the &lt;tt class="docutils literal"&gt;psql&lt;/tt&gt; client with the container, the
-command would be:&lt;/p&gt;
-&lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_b47175aea8db4bc283f156524ce28cc2-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_b47175aea8db4bc283f156524ce28cc2-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_b47175aea8db4bc283f156524ce28cc2-3"&gt;3&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#rest_code_b47175aea8db4bc283f156524ce28cc2-4"&gt;4&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code bash"&gt;&lt;a name="rest_code_b47175aea8db4bc283f156524ce28cc2-1"&gt;&lt;/a&gt;docker run -it --rm &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_b47175aea8db4bc283f156524ce28cc2-2"&gt;&lt;/a&gt;--link mempostgres:postgres &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_b47175aea8db4bc283f156524ce28cc2-3"&gt;&lt;/a&gt;fedora/postgresql &lt;span class="se"&gt;\&lt;/span&gt;
-&lt;a name="rest_code_b47175aea8db4bc283f156524ce28cc2-4"&gt;&lt;/a&gt;psql -h mempostgres -U &amp;lt;username-in-db&amp;gt; &amp;lt;db-name&amp;gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;
-&lt;div class="section" id="applications"&gt;
-&lt;h2&gt;Applications&lt;/h2&gt;
-&lt;p&gt;If we have &lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; installed, we could simply start a new instance as
-our user with the command (&lt;tt class="docutils literal"&gt;postgres ...&lt;/tt&gt;) and pass the &lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;-D&lt;/span&gt;&lt;/tt&gt; parameter with
-the desired path where the database is going to store the data (which will be
-the &lt;tt class="docutils literal"&gt;tmpfs&lt;/tt&gt;/&lt;tt class="docutils literal"&gt;ramdisk&lt;/tt&gt;). This would be another way of achieving the same.&lt;/p&gt;
-&lt;p&gt;Regardless the implementations, here are some potential applications:&lt;/p&gt;
-&lt;ol class="arabic simple"&gt;
-&lt;li&gt;Local development without requiring disk storage, and running faster at the
-same time.&lt;/li&gt;
-&lt;li&gt;Unit testing: unit tests should be fast, granted. Sometimes, it makes
-perfect sense to run the tests against an actual database (practicality
-beats purity), even if this makes them "integration/functional" tests. In
-this regard, having a lightweight database container running locally could
-achieve the goal without compromising performance.&lt;/li&gt;
-&lt;li&gt;Isolation: (this only applies for the container approach), running
-&lt;tt class="docutils literal"&gt;PostgreSQL&lt;/tt&gt; in a &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt; container, encapsulates the libraries, tools,
-packages, etc. in &lt;tt class="docutils literal"&gt;docker&lt;/tt&gt;, so the rest of the system does not have to
-maintain much other packages installed. Think of if as a sort of "virtual
-environment" for packages.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;All in all, I think it's an interesting approach, worth considering, at least
-to have alternatives when working in projects that require intense interaction
-with the database.&lt;/p&gt;
-&lt;table class="docutils footnote" frame="void" id="id4" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id1"&gt;[1]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt"&gt;https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id5" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id2"&gt;[2]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs"&gt;https://en.wikipedia.org/wiki/Tmpfs&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;table class="docutils footnote" frame="void" id="id6" rules="none"&gt;
-&lt;colgroup&gt;&lt;col class="label"&gt;&lt;col&gt;&lt;/colgroup&gt;
-&lt;tbody valign="top"&gt;
-&lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html#id3"&gt;[3]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;: &lt;a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/"&gt;http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;/div&gt;&lt;/div&gt;</description><category>docker</category><category>linux</category><category>postgres</category><guid>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</guid><pubDate>Sun, 22 Jan 2017 16:09:59 GMT</pubDate></item><item><title>2016 in review</title><link>https://rmariano.github.io/itarch/posts/2016-in-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;A review of the events that took place this year, related to software
+&lt;p&gt;&lt;a href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html"&gt;Read more…&lt;/a&gt; (3 min remaining to read)&lt;/p&gt;&lt;/div&gt;</description><category>docker</category><category>linux</category><category>postgres</category><guid>https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker.html</guid><pubDate>Sun, 22 Jan 2017 16:09:59 GMT</pubDate></item><item><title>2016 in review</title><link>https://rmariano.github.io/itarch/posts/2016-in-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;A review of the events that took place this year, related to software
 engineering and architecture.&lt;/p&gt;
 &lt;div class="section" id="the-conferences-talks-and-events"&gt;
 &lt;h2&gt;The conferences, talks, and events&lt;/h2&gt;
@@ -965,26 +230,26 @@ answered no: the code is entirely fictional, and it was done for the mere
 purposes of the examples, so I just needed an excuse for a task that could be
 done in two SQL statements, so the example with the decorator can be shown.&lt;/p&gt;
 &lt;p&gt;The code of the example follows:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_e36d36c3a80940ccb9dd9c88238b8ba8-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_e36d36c3a80940ccb9dd9c88238b8ba8-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
-&lt;a name="rest_code_e36d36c3a80940ccb9dd9c88238b8ba8-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_e36d36c3a80940ccb9dd9c88238b8ba8-4"&gt;&lt;/a&gt;
-&lt;a name="rest_code_e36d36c3a80940ccb9dd9c88238b8ba8-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_46e4437bf81446caad06942b99eb3b32-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_46e4437bf81446caad06942b99eb3b32-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
+&lt;a name="rest_code_46e4437bf81446caad06942b99eb3b32-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_46e4437bf81446caad06942b99eb3b32-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_46e4437bf81446caad06942b99eb3b32-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Then I learnt that there is another way of writing that sort of statements,
 with the "returning" sentence of PostgreSQL.&lt;/p&gt;
 &lt;p&gt;It would be re-written like:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_46a39be4c91745c3b34652a29f005e56-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_46a39be4c91745c3b34652a29f005e56-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_46a39be4c91745c3b34652a29f005e56-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
-&lt;a name="rest_code_46a39be4c91745c3b34652a29f005e56-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_46a39be4c91745c3b34652a29f005e56-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_dd0689289065400b87d18a65febc0748-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_dd0689289065400b87d18a65febc0748-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_dd0689289065400b87d18a65febc0748-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;a name="rest_code_dd0689289065400b87d18a65febc0748-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_dd0689289065400b87d18a65febc0748-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Or... the other way around:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
-&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_8846ba405c2e4531965e5e4fbe357e21-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
+&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
 round trip.&lt;/p&gt;
@@ -994,30 +259,30 @@ return the data they affect, and this can be used in an intermediate table to
 pipe it to another statement.&lt;/p&gt;
 &lt;p&gt;By default, if you run the delete statement, it should return the number of
 affected rows, like:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_10726ecdfdf24479aa4598a4a966d48d-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_39e7c377f36b4546afad27d7cc46b02f-1"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_845aada5f8364537a29ff98ef270715c-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_b3b754ea21a04d3a919ab0c93bb222e4-1"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;But, we can make it to return the rows themselves:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_f17406a66dc54d8b826c37cf77587666-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-1"&gt;&lt;/a&gt;id|   description    |     order_date
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-2"&gt;&lt;/a&gt;----+------------------+---------------------
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_657b43cd023b4bb69888781ec5d076b0-9"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_fb8b16714d90430d96f8843801a1ca1b-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-1"&gt;&lt;/a&gt;id|   description    |     order_date
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-2"&gt;&lt;/a&gt;----+------------------+---------------------
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;Or, specific columns if we select them:&lt;/p&gt;
-&lt;pre class="code SQL"&gt;&lt;a name="rest_code_7cf4d0eb33234066bc4d3b2de9b749f0-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-1"&gt;&lt;/a&gt;id |   description
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-2"&gt;&lt;/a&gt;----+------------------
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-3"&gt;&lt;/a&gt;4 | to be archived
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-4"&gt;&lt;/a&gt;5 | First sale order
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-5"&gt;&lt;/a&gt;6 | First sale order
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-6"&gt;&lt;/a&gt;7 | First sale order
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_34547e01494144a8b601d6c99ab42461-9"&gt;&lt;/a&gt;DELETE 4
+&lt;pre class="code SQL"&gt;&lt;a name="rest_code_63a0ae5615884853bb9674f4f524057d-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-1"&gt;&lt;/a&gt;id |   description
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-2"&gt;&lt;/a&gt;----+------------------
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-3"&gt;&lt;/a&gt;4 | to be archived
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-4"&gt;&lt;/a&gt;5 | First sale order
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-5"&gt;&lt;/a&gt;6 | First sale order
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-6"&gt;&lt;/a&gt;7 | First sale order
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_c492df275d974961b1337ef2e74166ae-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;So, we can use the "returning" feature of PostgreSQL, to do in a single command
 what we usually would do in two or more, and in some cases, it might be
 something worth exploring. It was great learning things like this one, and

@@ -11,6 +11,8 @@
 After watching a talk about code review [1]_, from the last EuroPython, I got
 some ideas that I'd like to summarise.
 
+.. TEASER_END
+
 The first one is a point I made on `my talk about clean code in Python
 <link://slug/my-talk-europython-2016>`_, about running style checks (PEP-8, for
 example), automatically as part of the CI. This has several rationales, the
