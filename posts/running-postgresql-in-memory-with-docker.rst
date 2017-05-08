@@ -27,6 +27,8 @@ The idea is simple: run a docker container with the image for ``PostgresSQL``,
 using a ``tmpfs`` [1]_ [2]_ as storage for the database (a ``ramfs`` could also
 be used).
 
+.. TEASER_END
+
 Procedure
 ---------
 
