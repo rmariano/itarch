@@ -8,9 +8,6 @@
 .. type: text
 
 
-Introduction
-^^^^^^^^^^^^
-
 Descriptors are one of the most powerful features of Python. The reason why
 they're so powerful is because they enable us to control the core operations
 (get, set, delete) [1]_, of an attribute in a given object, so that we can hook

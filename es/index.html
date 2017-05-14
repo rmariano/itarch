@@ -76,7 +76,29 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/a-first-look-at-descriptors.html" class="u-url">A first look at descriptors</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/types-of-descriptors.html" class="u-url">Types of Descriptors</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/types-of-descriptors.html" rel="bookmark"><time class="published dt-published" datetime="2017-05-14T12:55:31+02:00" title="dom may 14, 2017 - 12:55">dom may 14, 2017 - 12:55</time></a></p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>Resuming from where we left off, on the previous post, on which we took
+<a class="reference external" href="../posts/a-first-look-at-descriptors.html">A first look at descriptors</a>, it's time to explore their different types
+and how they work internally.</p>
+<p>In Python, almost everything is represented with a dictionary. Objects are
+dictionaries. Classes are objects, hence they also are contained into a
+dictionary. This is denoted by the <code>__dict__</code> attribute that objects
+have.</p>
+<p>There are two types of descriptors: data descriptors and non-data ones. If a
+descriptor implements both <a class="footnote-reference" href="posts/types-of-descriptors.html#id6" id="id1">[1]</a> <code>__get__()</code> and <code>__set__()</code>, it's
+called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.</p>
+<p class="more"><a href="posts/types-of-descriptors.html">Leer más…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/a-first-look-at-descriptors.html" class="u-url">A first look at descriptors</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/mariano-anaya.html">Mariano Anaya</a>
@@ -84,8 +106,7 @@
             <p class="dateline"><a href="posts/a-first-look-at-descriptors.html" rel="bookmark"><time class="published dt-published" datetime="2017-05-06T15:13:48+02:00" title="sáb may 06, 2017 - 15:13">sáb may 06, 2017 - 15:13</time></a></p>
         </div>
     </header><div class="p-summary entry-summary">
-    <div class="section" id="introduction">
-<h2>Introduction</h2>
+    <div>
 <p>Descriptors are one of the most powerful features of Python. The reason why
 they're so powerful is because they enable us to control the core operations
 (get, set, delete) <a class="footnote-reference" href="posts/a-first-look-at-descriptors.html#id5" id="id1">[1]</a>, of an attribute in a given object, so that we can hook
@@ -463,28 +484,28 @@ answered no: the code is entirely fictional, and it was done for the mere
 purposes of the examples, so I just needed an excuse for a task that could be
 done in two SQL statements, so the example with the decorator can be shown.</p>
 <p>The code of the example follows:</p>
-<pre class="code SQL"><a name="rest_code_46e4437bf81446caad06942b99eb3b32-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_46e4437bf81446caad06942b99eb3b32-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_46e4437bf81446caad06942b99eb3b32-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_46e4437bf81446caad06942b99eb3b32-4"></a>
-<a name="rest_code_46e4437bf81446caad06942b99eb3b32-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_498b47baa9f647659289a396681cc486-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_498b47baa9f647659289a396681cc486-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_498b47baa9f647659289a396681cc486-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_498b47baa9f647659289a396681cc486-4"></a>
+<a name="rest_code_498b47baa9f647659289a396681cc486-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that there is another way of writing that sort of statements,
 with the "returning" sentence of PostgreSQL.</p>
 <p>It would be re-written like:</p>
-<pre class="code SQL"><a name="rest_code_dd0689289065400b87d18a65febc0748-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_dd0689289065400b87d18a65febc0748-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_dd0689289065400b87d18a65febc0748-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_dd0689289065400b87d18a65febc0748-4"></a><span class="p">)</span>
-<a name="rest_code_dd0689289065400b87d18a65febc0748-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_98c42ae32ba24455bf36f4f91ce7e662-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_98c42ae32ba24455bf36f4f91ce7e662-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_98c42ae32ba24455bf36f4f91ce7e662-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_98c42ae32ba24455bf36f4f91ce7e662-4"></a><span class="p">)</span>
+<a name="rest_code_98c42ae32ba24455bf36f4f91ce7e662-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
 <p>Or... the other way around:</p>
-<pre class="code SQL"><a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
-<a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
-<a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-5"></a><span class="p">)</span>
-<a name="rest_code_41838ac390ff4bee84e6a19ca03ca0b8-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+<pre class="code SQL"><a name="rest_code_b3d100cc07eb4876babe148be56c44b6-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_b3d100cc07eb4876babe148be56c44b6-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_b3d100cc07eb4876babe148be56c44b6-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_b3d100cc07eb4876babe148be56c44b6-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_b3d100cc07eb4876babe148be56c44b6-5"></a><span class="p">)</span>
+<a name="rest_code_b3d100cc07eb4876babe148be56c44b6-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
 <p>The interesting point here, is that it entails a single command, instead of
 two. So this can be done with a single call to the database, saving an extra
@@ -495,35 +516,35 @@ return the data they affect, and this can be used in an intermediate table to
 pipe it to another statement.</p>
 <p>By default, if you run the delete statement, it should return the number of
 affected rows, like:</p>
-<pre class="code SQL"><a name="rest_code_845aada5f8364537a29ff98ef270715c-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_7714433d1da2402897a87d2e624f8829-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_b3b754ea21a04d3a919ab0c93bb222e4-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_992fe460745847ccb47dfc961da5e9e6-1"></a>DELETE 4
 </pre>
 <p>But, we can make it to return the rows themselves:</p>
-<pre class="code SQL"><a name="rest_code_fb8b16714d90430d96f8843801a1ca1b-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_ec6a442124164b399f76d173b1091be9-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-1"></a>id|   description    |     order_date
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-2"></a>----+------------------+---------------------
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-7"></a>(4 rows)
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-8"></a>
-<a name="rest_code_169fa62fcfd0420e9064de2fe11eaca2-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-1"></a>id|   description    |     order_date
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-2"></a>----+------------------+---------------------
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-7"></a>(4 rows)
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-8"></a>
+<a name="rest_code_208305e71aef420a9d0d213f1bb2bea0-9"></a>DELETE 4
 </pre>
 <p>Or, specific columns if we select them:</p>
-<pre class="code SQL"><a name="rest_code_63a0ae5615884853bb9674f4f524057d-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+<pre class="code SQL"><a name="rest_code_ae0d13a9489141a3a1d044d428f575d1-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_c492df275d974961b1337ef2e74166ae-1"></a>id |   description
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-2"></a>----+------------------
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-3"></a>4 | to be archived
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-4"></a>5 | First sale order
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-5"></a>6 | First sale order
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-6"></a>7 | First sale order
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-7"></a>(4 rows)
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-8"></a>
-<a name="rest_code_c492df275d974961b1337ef2e74166ae-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-1"></a>id |   description
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-2"></a>----+------------------
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-3"></a>4 | to be archived
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-4"></a>5 | First sale order
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-5"></a>6 | First sale order
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-6"></a>7 | First sale order
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-7"></a>(4 rows)
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-8"></a>
+<a name="rest_code_d32611c132fc4f96868fd7ab945f31b4-9"></a>DELETE 4
 </pre>
 <p>So, we can use the "returning" feature of PostgreSQL, to do in a single command
 what we usually would do in two or more, and in some cases, it might be
@@ -531,36 +552,6 @@ something worth exploring. It was great learning things like this one, and
 getting tips as a result from the feedback of the talk (it does not change the
 meaning, and the example could remain the same for the aforementioned reasons;
 it is just an example :-).</p>
-</div>
-    </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/my-talk-europython-2016.html" class="u-url">My talk @ EuroPython 2016</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
-            </span></p>
-            <p class="dateline"><a href="posts/my-talk-europython-2016.html" rel="bookmark"><time class="published dt-published" datetime="2016-08-02T21:22:53-03:00" title="mar ago 02, 2016 - 21:22">mar ago 02, 2016 - 21:22</time></a></p>
-        </div>
-    </header><div class="p-summary entry-summary">
-    <div>
-<p>I had the great experience of presenting at EuroPython 2016. My talk entitled "Clean code in Python",
-was about good development practices, down to low-level design (with code examples), for Python. The idea
-of the talk, was to present the "pythonic" approach for writing code, and how do general concepts of
-clean code apply to Python.</p>
-<p>These examples might be useful for beginners, developers experienced in other languages coming to Python,
-and people using Python for scientific applications. The examples could also be helpful for senior
-developers, because they remind real situations that might appear in pull requests, while doing a code review.</p>
-<p>Here is the video on YouTube:</p>
-<div class="youtube-video align-center">
-<iframe width="425" height="344" src="https://www.youtube.com/embed/7ADbOHW1dTA?rel=0&amp;hd=1&amp;wmode=transparent"></iframe>
-</div>
-<p>And the slides (which I also made available along with the source code, <a class="reference external" href="https://twitter.com/rmarianoa/status/755808691996200960">shortly after the presentation
-finished</a>).</p>
-<script async class="speakerdeck-embed" data-id="8e5af9b4d3a14204a700458cebfda1d7" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script><p>The presentation was well received: some attendees
-told me they liked it (even asked for the slides and code), and I got good advices.
-The following days of the conference, more people told me that they liked the presentation, and some others
-mentioned (something I did not think at the beginning, but that it makes perfect sense), that these ideas
-are really useful for people using Python in scientific environments.</p>
-<p>I am glad it was useful for the community.</p>
 </div>
     </div>
     </article>
