@@ -18,8 +18,8 @@ dictionary. This is denoted by the :code:`__dict__` attribute that objects
 have.
 
 There are two types of descriptors: data descriptors and non-data ones. If a
-descriptor implements both [1]_ :code:`__get__()` and :code:`__set__()`, it's called
-a *data descriptor*; otherwise is a *non-data descriptor*.
+descriptor implements both [1]_ :code:`__get__()` and :code:`__set__()`, it's
+called a *data descriptor*; otherwise is a *non-data descriptor*.
 
 .. NOTE::
 
@@ -28,8 +28,8 @@ a *data descriptor*; otherwise is a *non-data descriptor*.
     internal dictionary may be looked up first.
 
 The difference between them, lies on how the properties in the object are
-accessed, meaning which path will the ``MRO`` or Python follow, in order to comply
-with our instruction.
+accessed, meaning which path will the ``MRO`` or Python follow, in order to
+comply with our instruction.
 
 For a non-data descriptor, when we have an statement like::
 
@@ -145,32 +145,111 @@ In ``CPython``, this logic is implemented in ``C``, but let's see if we can
 create an equivalent example, just to get a clear picture. Imagine we have a
 custom function, and we want to apply it to a class, as an instance method.
 
+.. code:: python
 
-In [2]: monitor = SystemMonitor('prod')
+    def mtbf(system_monitor):
+        """Mean Time Between Failures
+        https://en.wikipedia.org/wiki/Mean_time_between_failures
+        """
+        operational_intervals = zip(
+            system_monitor.downtimes,
+            system_monitor.uptimes)
 
-In [3]: monitor.uptimes = [0,7, 12]
-
-In [4]: monitor.downtimes = [5, 12]
-
-In [5]: mtbf(monitor)
-Out[5]: 5.0
-
-In [6]: monitor.mtbf = mtbf
-
-In [7]: monitor.mtbf()
----------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-7-8b6c34df3517> in <module>()
-----> 1 monitor.mtbf()
-
-TypeError: mtbf() missing 1 required positional argument: 'system_monitor'
+        operational_time = sum(
+            (start_downtime - start_uptime)
+            for start_downtime, start_uptime in operational_intervals)
+        try:
+            return operational_time / len(system_monitor.downtimes)
+        except ZeroDivisionError:
+            return 0
 
 
-In [8]: monitor.mtbf = mtbf.__get__(monitor)
+    class SystemMonitor:
+        """Collect metrics on software & hardware components."""
+        def __init__(self, name):
+            self.name = name
+            self.uptimes = []
+            self.downtimes = []
 
-In [9]: monitor.mtbf()
-Out[9]: 5.0
+        def up(self, when):
+            self.uptimes.append(when)
 
+        def down(self, when):
+            self.downtimes.append(when)
+
+For now we just test the function, but soon we'll want this as a method of the
+class.
+
+.. code:: python
+
+    >>> monitor = SystemMonitor('prod')
+    >>> monitor.uptimes = [0,7, 12]
+    >>> monitor.downtimes = [5, 12]
+
+    >>> mtbf(monitor)
+    >>> 5.0
+
+Now if we try to assign the function as a method, it will just fail:
+
+.. code:: python
+
+    >>> monitor.mtbf = mtbf
+    >>> monitor.mtbf()
+    ---------------------------------------------------------------------------
+    TypeError                                 Traceback (most recent call last)
+    <ipython-input-7-...> in <module>()
+    ----> 1 monitor.mtbf()
+
+    TypeError: mtbf() missing 1 required positional argument: 'system_monitor'
+
+
+In this case the ``system_monitor`` positional argument that requires is the
+instance, which in methods is referred to as *self*.
+
+Now, if the function is bound to the object, the scenario changes. We can do
+that the same way Python does: :code:`__get__`.
+
+
+.. code:: python
+
+    >>> monitor.mtbf = mtbf.__get__(monitor)
+    >>> monitor.mtbf()
+    5.0
+
+
+Now, I want to be able to define this function inside the class, the same way
+we do with methods, like :code:`def mtbf(self):...`. In this case, for
+simplicity, I'll use a callable object, that represents the actual object
+function, and the equivalent is that I'll set it as an attribute, so that::
+
+    class SystemMonitor:
+        ...
+        mtbf = MTBF()
+
+Provided that ``MTBF`` is a callable object (again, representing our
+"function"), is equivalent to doing ``def mtbf(self): ...`` inside the class.
+
+In the body of the callable, we can just reuse the original function, for
+simplicity. What's really interesting is the :code:``__get__`` method, on which
+we return the callable object, exposed as a method.
+
+.. code:: python
+
+    class MTBF:
+        """Compute Mean Time Between Failures"""
+        def __call__(self, instance):
+            return mtbf(instance)
+
+        def __get__(self, instance, owner=None):
+            return types.MethodType(self, instance)
+
+This does the trick of making functions work as methods, which is a very
+elegant solution of ``CPython``.
+
+Following a similar logic, ``classmethod``, and ``staticmethod`` decorators,
+are also descriptors. The former, passes the class as the first argument (which
+is why class methods start with ``cls`` as first argument), and the latter,
+simply returns the function as it is.
 
 
 Lookup on Data Descriptors
@@ -191,13 +270,13 @@ could have a different logic.
 
 .. code:: python
 
-	class DataDescriptor:
-		"""This descriptor holds the same values for all instances."""
-		def __get__(self, instance, owner):
-			return self.value
+    class DataDescriptor:
+        """This descriptor holds the same values for all instances."""
+        def __get__(self, instance, owner):
+            return self.value
 
-		def __set__(self, instance, value):
-			self.value = value
+        def __set__(self, instance, value):
+            self.value = value
 
     class Managed:
         descriptor = DataDescriptor()
