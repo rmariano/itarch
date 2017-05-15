@@ -1,7 +1,7 @@
 .. title: A setup for a CI in Python projects
 .. slug: a-setup-for-a-ci-in-python-projects
-.. date: 2017-04-22 22:46:35 UTC+02:00
-.. tags: clean-code, best-practices, development, mypy, python,draft
+.. date: 2017-08-22 22:46:35 UTC+02:00
+.. tags: clean-code, best-practices, development, mypy, python
 .. category: code, best-practices
 .. link:
 .. description:
