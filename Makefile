@@ -21,7 +21,7 @@ serve:
 .PHONY: test
 test:
 	@echo "Testing Python files..."
-	python listings/*.py
+	@python listings/*.py
 
 .PHONY: publish
 publish:
