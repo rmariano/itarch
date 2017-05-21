@@ -1,7 +1,5 @@
 """Descriptors & Decorators
 Example 1: class methods
-
-
 """
 from functools import wraps
 
@@ -16,34 +14,63 @@ class decorator:
         return f"decorated {result}"
 
 
+class decorator2(decorator):
+    def __get__(self, instance, owner):
+        mapped = self.func.__get__(instance, owner)
+        return self.__class__(mapped)
+
+
 @decorator
 def function():
+    """
+    >>> function()
+    'decorated function'
+    """
     return 'function'
 
 
 class Object:
-    # @decorator
+    """
+    >>> Object.class_method()
+    Traceback (most recent call last):
+    ...
+    TypeError: 'classmethod' object is not callable
+
+
+    >>> Object.class_method2()
+    'decorated second class method'
+
+    >>> Object.base_class_method()
+    Traceback (most recent call last):
+    ...
+    TypeError: 'classmethod' object is not callable
+
+    >>> Object.correct()
+    'decorated this works'
+    """
+    @decorator
     @classmethod
     def class_method(cls):
         return 'class method'
 
-    class_method = decorator(class_method)
+    @decorator2
+    @classmethod
+    def class_method2(cls):
+        return 'second class method'
 
 
-"""
->>> function()
-'decorated function 2'
+    @classmethod
+    def base_class_method(cls):
+        return 'base class method'
 
->>> Object.class_method()
-Traceback (most recent call last):
-...
-TypeError: 'classmethod' object is not callable
-"""
+    base_class_method = decorator(base_class_method)
 
+    @classmethod
+    @decorator
+    def correct(cls):
+        return 'this works'
 
-assert False
 
 if __name__ == '__main__':
     import doctest
-    doctest.testmod()
-    assert False
+    doctest.testmod(verbose=True)
