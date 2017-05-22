@@ -7,8 +7,8 @@
 .. description:
 .. type: text
 
-Descriptors are an amazing tool to have in our toolbox, and they come in handy
-on many opportunities.
+Descriptors are an amazing tool to have in our toolbox, as they come in handy
+in many opportunities.
 
 Probably the best thing about descriptors, is that they can improve other
 solutions. Let's see how we can write better decorators, by using descriptors.
@@ -53,15 +53,19 @@ actually a callable. But if that's the case then, how do class methods run?
 
 The fact is that, this is true, class methods are indeed not callable objects,
 but we rarely notice this, because when we access a class method, it's usually
-in the form of :code:`<class>.<class_method>` (or maybe also from an instance doing
-:code:`self.<class_method>`). But for both cases the answer is the same: by
+in the form of `<class>.<class_method>` (or maybe also from an instance doing
+:code:`self.<class_method>`). For both cases the answer is the same: by
 calling the method like this, the *descriptor mechanism* is triggered, and will
 call the :code:`__get__` inside the class method. As we already know from the
 analysis of the :doc:`types-of-descriptors`, ``@classmethod`` is actually a
-descriptor, and the definition of its ``__get__`` method returns a 
-callable [1]_, but it's not itself a callable.
+descriptor, and the definition of its ``__get__`` method is the one that returns
+a  callable [1]_, but ``@classmethod`` is not itself a callable.
 
-Now, when the decorator is applied to the class method, it's equivalent
+.. HINT::
+    ``@classmethod`` is not a callable object. It's a descriptor whose ``__get__``
+    method return a callable.
+
+Now, when the decorator is applied to the class method, this is equivalent
 of doing::
 
     class Object:
@@ -94,16 +98,18 @@ function, which does the trick.
 It's important to notice that this error was due to the order on which
 descriptors where applied, because ``@decorator`` was decorating
 ``@classmethod`` and not the other way around. This problem wouldn't have
-occurred in this case. So it's a fair question to ask, why wasn't this just
-applied like this? After all, a class method-like functionality is orthogonal
-from every other sort of decoration we might want to apply, so it makes sense
-to be it the last one being applied. True, but the fix is rather simple, and more
-importantly, it makes the decorator more generic and applicable, as it's shown on
+occurred if we swapped the order of the decorators. So it's a fair question to ask,
+why wasn't this just applied like this to begin with? After all, a class method-like
+functionality is orthogonal from every other sort of decoration we might want to apply,
+so it makes sense to be it the last one being applied. True, but the fix is rather simple,
+and more importantly, it makes the decorator more generic and applicable, as it's shown on
 the next section.
 
 .. NOTE::
     Keep in mind the order of the decorators, and make sure ``@classmethod`` is
     the last one being used, in order to avoid issues.
+    Even despite this consideration, is better to have decorators that will work
+    in many possible scenarios, regardless of their order.
 
 
 Decorators that change the signature
@@ -118,7 +124,6 @@ parameters, but it does so, by using a helper object, created from the
 parameters, like this:
 
 .. code:: python
-   :number-lines:
 
     def resolver_function(root, args, context, info):
         helper = DomainObject(root, args, context, info)
@@ -151,7 +156,6 @@ arguments, maintaining compatibility. By applying the decorator, we could
 happily assume that the required object will be passed by:
 
 .. code:: python
-   :number-lines:
 
     @DomainArgs
     def resolver_function2(helper):
