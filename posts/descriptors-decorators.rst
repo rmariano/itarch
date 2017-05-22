@@ -1,7 +1,7 @@
 .. title: Descriptors & Decorators
 .. slug: descriptors-decorators
 .. date: 2017-05-21 17:22:05 UTC+02:00
-.. tags: python, descriptors, featured, decorators, draft
+.. tags: python, descriptors, featured, decorators
 .. category: python
 .. link:
 .. description:
@@ -18,11 +18,10 @@ solutions. Let's see how we can write better decorators, by using descriptors.
 Decorate a class method
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Imagine we have a very simple decorator, that does nothing but change the text,
-wrapping what the original function receives:
+Imagine we have a very simple decorator, that does nothing but returning a text,
+with what the original function returns:
 
 .. code:: python
-   :number-lines:
 
     class decorator:
         def __init__(self, func):
@@ -40,8 +39,7 @@ wrapping what the original function receives:
             return 'class method'
 
 
-
-If we apply the decorator to a simple function, it works, as expected. However,
+If we apply the decorator to a simple function, it'll work, as expected. However,
 when it's applied to a class method, we can see an error::
 
     >>> Object.class_method()
@@ -51,30 +49,29 @@ when it's applied to a class method, we can see an error::
 
 
 The exception is telling us that we tried to call something that is not
-actually callable. But if that's the case, then how do class methods run?
+actually a callable. But if that's the case then, how do class methods run?
 
 The fact is that, this is true, class methods are indeed not callable objects,
-but we rarely know this, because when we access a class method, it's always
-done like :code:`<class>.<class_method>` (or maybe also from an instance doing
-:code:`self.<class_method>`). But in both cases the answer is the same: by
-calling the method like this, the *descriptor* mechanism is executed. This
-means, that as we already know from the analysis of the
-:doc:`types-of-descriptors`, ``@classmethod`` is actually a descriptor, and the
-definition of its ``__get__`` method returns a callable [1]_, but it's not
-itself a callable.
+but we rarely notice this, because when we access a class method, it's usually
+in the form of :code:`<class>.<class_method>` (or maybe also from an instance doing
+:code:`self.<class_method>`). But for both cases the answer is the same: by
+calling the method like this, the *descriptor mechanism* is triggered, and will
+call the :code:`__get__` inside the class method. As we already know from the
+analysis of the :doc:`types-of-descriptors`, ``@classmethod`` is actually a
+descriptor, and the definition of its ``__get__`` method returns a 
+callable [1]_, but it's not itself a callable.
 
-Therefore, when the decorator is applied to the class method, it's equivalent
-to doing::
-
+Now, when the decorator is applied to the class method, it's equivalent
+of doing::
 
     class Object:
         ...
         class_method = decorator(class_method)
 
 
-Which doesn't trigger the descriptor protocol, the ``__get__`` in
-``@class_method`` is never called, therefore what is received is not a
-callable, hence the exception.
+Which doesn't trigger the *descriptor protocol*, so the ``__get__`` in
+``@classmethod`` is never called, therefore what the decorator receives,
+is not a callable, hence the exception.
 
 By now, it becomes clear that if the reason why it fails is because
 ``@classmethod`` is a non-callable descriptor, then the solution must be
@@ -83,7 +80,6 @@ related to descriptors. And indeed, this can be fixed by just implementing
 
 
 .. code:: python
-   :number-lines:
 
     class decorator:
         ...
@@ -97,17 +93,17 @@ function, which does the trick.
 
 It's important to notice that this error was due to the order on which
 descriptors where applied, because ``@decorator`` was decorating
-``@classmethod`` instead of the other way around. This problem wouldn't have
+``@classmethod`` and not the other way around. This problem wouldn't have
 occurred in this case. So it's a fair question to ask, why wasn't this just
-applied like this? After all a class method-like functionality is orthogonal
-from every other sort of decoration we might want to apply, which makes sense
-to be the one being last applied. True, but the fix is rather simple, and more
-importantly, makes the decorator more generic and applicable, as it's shown on
+applied like this? After all, a class method-like functionality is orthogonal
+from every other sort of decoration we might want to apply, so it makes sense
+to be it the last one being applied. True, but the fix is rather simple, and more
+importantly, it makes the decorator more generic and applicable, as it's shown on
 the next section.
 
 .. NOTE::
-    Keep in mind the order of the decorators and make sure ``@classmethod`` is
-    the last one being used, in order to avoid errors.
+    Keep in mind the order of the decorators, and make sure ``@classmethod`` is
+    the last one being used, in order to avoid issues.
 
 
 Decorators that change the signature
@@ -133,13 +129,11 @@ parameters, like this:
         return helper.task1()
 
 
-There are functions with this signature doing the same as in the first line, in
-multiple parts of the code, so it would be nice to abstract this, and simply
-receive the helper object directly. A decorator like this one should work:
-
+If there are more functions with this signature doing the same as in the first lines,
+it'll be better to abstract this away, and simply receive the helper object directly.
+A decorator like this one should work:
 
 .. code:: python
-   :number-lines:
 
     class DomainArgs:
         def __init__(self, func):
@@ -166,12 +160,10 @@ happily assume that the required object will be passed by:
         ...
         return helper.process()
 
-
 However, there are also objects whose methods have this logic, and we want to
 apply the same decorator to them:
 
 .. code:: python
-   :number-lines:
 
     class ViewResolver:
         @DomainArgs
@@ -180,7 +172,7 @@ apply the same decorator to them:
             return f"Method: {response}"
 
 
-But with this implementation it won't work::
+But with this implementation, it won't work::
 
     >>> vr = ViewResolver()
     >>> vr.resolve_method('root', 'args', 'context', 'info')
@@ -194,13 +186,14 @@ But with this implementation it won't work::
 
 The problem is that instance methods are functions, that take an extra first
 parameter, namely *self*, which is the instance itself. In this case, the error
-we see in line 41, is that the decorator passes the object as first (and sole)
-parameter, in the place of *self*, and there is nothing for the parameter named
-"helper", hence the error.
+shown in line 41, means that the decorator is composing the object as usually,
+and passes it was the first parameter, in the place where *self* would go for the
+method, and there is nothing being passed for *helper* (the parameters are "shifted"
+on place to the left), hence the error.
 
 In order to fix this, we need to distinguish when the wrapped function is being
-called "isolated", or as part of an instance or class. And descriptors do just
-that, so the fix is rather simple as in the previous case:
+called from an instance or a class. And descriptors do just that, so the fix
+is rather simple as in the previous case:
 
 .. code:: python
 
@@ -208,12 +201,11 @@ that, so the fix is rather simple as in the previous case:
         mapped = self.func.__get__(instance, owner)
         return self.__class__(mapped)
 
-The same method works as well here. When the wrapped function is a regular
-function, the ``__get__`` doesn't take place at all, so it doesn't affect the
-decorator. Whereas, when called from a class, the ``__get__`` method is
-enabled, returning a bound instance, which will pass *self* as first parameter
-(what Python does internally).
-
+The same method works here as well. When the wrapped function is a regular
+one, the ``__get__`` method doesn't take place at all, so adding it, doesn't
+affect the decorator. Whereas, when is called from a class, the ``__get__``
+method is enabled, returning a bound instance, which will pass *self* as the
+first parameter (what Python does internally).
 
 .. HINT::
     Descriptors can help writing better decorators, by fixing common problems
