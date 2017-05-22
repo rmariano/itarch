@@ -10,13 +10,15 @@ class DomainObject:
         self.args = args
 
     def process(self):
+        """format all arguments passed by"""
         return ', '.join(self.args)
 
     task1 = task2 = process
 
-    def task(self, n):
+    def task(self, task_no):
+        """Dummy task"""
         result = self.process()
-        return f"Task {n}: {self.process()}"
+        return f"Task {task_no}: {result}"
 
 
 def resolver_function(root, args, context, info):
@@ -27,7 +29,6 @@ def resolver_function(root, args, context, info):
     'root, args, context, info'
     """
     helper = DomainObject(root, args, context, info)
-    ...
     helper.process()
     helper.task1()
     helper.task2()
