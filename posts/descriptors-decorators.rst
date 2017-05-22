@@ -18,8 +18,8 @@ solutions. Let's see how we can write better decorators, by using descriptors.
 Decorate a class method
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Imagine we have a very simple decorator, that does nothing but returning a text,
-with what the original function returns:
+Imagine we have a very simple decorator, that does nothing but returning a
+text, with what the original function returns:
 
 .. code:: python
 
@@ -39,8 +39,8 @@ with what the original function returns:
             return 'class method'
 
 
-If we apply the decorator to a simple function, it'll work, as expected. However,
-when it's applied to a class method, we can see an error::
+If we apply the decorator to a simple function, it'll work, as expected.
+However, when it's applied to a class method, we can see an error::
 
     >>> Object.class_method()
     Traceback (most recent call last):
@@ -58,12 +58,12 @@ in the form of `<class>.<class_method>` (or maybe also from an instance doing
 calling the method like this, the *descriptor mechanism* is triggered, and will
 call the :code:`__get__` inside the class method. As we already know from the
 analysis of the :doc:`types-of-descriptors`, ``@classmethod`` is actually a
-descriptor, and the definition of its ``__get__`` method is the one that returns
-a  callable [1]_, but ``@classmethod`` is not itself a callable.
+descriptor, and the definition of its ``__get__`` method is the one that
+returns a callable [1]_, but ``@classmethod`` is not itself a callable.
 
 .. HINT::
-    ``@classmethod`` is not a callable object. It's a descriptor whose ``__get__``
-    method returns a callable.
+    ``@classmethod`` is not a callable object. It's a descriptor whose
+    ``__get__`` method returns a callable.
 
 Now, when the decorator is applied to the class method, this is equivalent
 of doing::
@@ -98,19 +98,22 @@ function, which does the trick.
 It's important to notice that this error was due to the order on which
 descriptors where applied, because ``@decorator`` was decorating
 ``@classmethod`` and not the other way around. This problem wouldn't have
-occurred if we swapped the order of the decorators. So it's a fair question to ask,
-why wasn't this just applied like this to begin with? After all, a class method-like
-functionality is orthogonal from every other sort of decoration we might want to apply,
-so it makes sense to be it the last one being applied. True, but the fix is rather simple,
-and more importantly, it makes the decorator more generic and applicable, as it's shown on
-the next section.
+occurred if we swapped the order of the decorators. So it's a fair question to
+ask, why wasn't this just applied like this to begin with? After all, a class
+method-like functionality is orthogonal from every other sort of decoration we
+might want to apply, so it makes sense to be it the last one being applied.
+True, but the fix is rather simple, and more importantly, it makes the
+decorator more generic and applicable, as it's shown on the next section.
 
 .. NOTE::
     Keep in mind the order of the decorators, and make sure ``@classmethod`` is
-    the last one being used, in order to avoid issues.
-    Even despite this consideration, is better to have decorators that will work
-    in many possible scenarios, regardless of their order.
+    the last one being used, in order to avoid issues.  Even despite this
+    consideration, is better to have decorators that will work in many possible
+    scenarios, regardless of their order.
 
+
+The complete code for this example can be found `here
+<link://listing_source/descriptors2_classmethod0.py>`_
 
 Decorators that change the signature
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -134,9 +137,9 @@ parameters, like this:
         return helper.task1()
 
 
-If there are more functions with this signature doing the same as in the first lines,
-it'll be better to abstract this away, and simply receive the helper object directly.
-A decorator like this one should work:
+If there are more functions with this signature doing the same as in the first
+lines, it'll be better to abstract this away, and simply receive the helper
+object directly.  A decorator like this one should work:
 
 .. code:: python
 
@@ -191,13 +194,13 @@ But with this implementation, it won't work::
 The problem is that instance methods are functions, that take an extra first
 parameter, namely *self*, which is the instance itself. In this case, the error
 shown in line 41, means that the decorator is composing the object as usually,
-and passes it was the first parameter, in the place where *self* would go for the
-method, and there is nothing being passed for *helper* (the parameters are "shifted"
-on place to the left), hence the error.
+and passes it was the first parameter, in the place where *self* would go for
+the method, and there is nothing being passed for *helper* (the parameters are
+"shifted" on place to the left), hence the error.
 
 In order to fix this, we need to distinguish when the wrapped function is being
-called from an instance or a class. And descriptors do just that, so the fix
-is rather simple as in the previous case:
+called from an instance or a class. And descriptors do just that, so the fix is
+rather simple as in the previous case:
 
 .. code:: python
 
@@ -215,6 +218,8 @@ first parameter (what Python does internally).
     Descriptors can help writing better decorators, by fixing common problems
     in a very elegant fashion.
 
+`Here is <link://listing_source/descriptors2_args0.py>`_ the listing for this
+example.
 
 
 .. [1] An equivalent Python implementation of classmethod and others can be
