@@ -63,7 +63,7 @@ a  callable [1]_, but ``@classmethod`` is not itself a callable.
 
 .. HINT::
     ``@classmethod`` is not a callable object. It's a descriptor whose ``__get__``
-    method return a callable.
+    method returns a callable.
 
 Now, when the decorator is applied to the class method, this is equivalent
 of doing::
