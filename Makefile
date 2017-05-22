@@ -26,3 +26,6 @@ test:
 .PHONY: publish
 publish:
 	nikola github_deploy
+
+.PHONY: public
+public: publish
