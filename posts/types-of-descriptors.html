@@ -12,6 +12,7 @@
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/types-of-descriptors.html">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="a-first-look-at-descriptors.html" title="A first look at descriptors" type="text/html">
+<link rel="next" href="descriptors-decorators.html" title="Descriptors &amp; Decorators" type="text/html">
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Types of Descriptors">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/types-of-descriptors.html">
@@ -147,16 +148,16 @@ dictionary of an object, whereas non data (non-overriding) ones do not.</p>
 the object was first created it didn't have any values for their properties. If
 we inspect the object, and its class, we'll see that it doesn't have any keys
 set for <tt class="docutils literal">'tv'</tt>, but the class does:</p>
-<pre class="code python"><a name="rest_code_4ee484872d4f497e909da602786e351d-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-2"></a><span class="p">{}</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-3"></a>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="s1">'__dict__'</span> <span class="n">of</span> <span class="s1">'VideoDriver'</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">,</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-6"></a>              <span class="s1">'__doc__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-7"></a>              <span class="s1">'__module__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-8"></a>              <span class="s1">'__weakref__'</span><span class="p">:</span> <span class="o">...</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-9"></a>              <span class="s1">'screen'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">,</span>
-<a name="rest_code_4ee484872d4f497e909da602786e351d-10"></a>              <span class="s1">'tv'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">})</span>
+<pre class="code python"><a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-2"></a><span class="p">{}</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-3"></a>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="s1">'__dict__'</span> <span class="n">of</span> <span class="s1">'VideoDriver'</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-6"></a>              <span class="s1">'__doc__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-7"></a>              <span class="s1">'__module__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-8"></a>              <span class="s1">'__weakref__'</span><span class="p">:</span> <span class="o">...</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-9"></a>              <span class="s1">'screen'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">,</span>
+<a name="rest_code_6f4d076dc85f465d8db0ffc5fc073b47-10"></a>              <span class="s1">'tv'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">})</span>
 </pre>
 <p>When we run <tt class="docutils literal">media.tv</tt> the first time, there is no key <tt class="docutils literal">'tv'</tt> on
 <tt class="docutils literal">media.__dict__</tt>, so Python tries to search in the class, and founds one, it
@@ -186,21 +187,21 @@ prove it <a class="footnote-reference" href="types-of-descriptors.html#id8" id="
 <p>If we have a class like this and inspect its dictionary we'll see that whatever
 we defined as methods, are actually functions stored internally in the
 dictionary of the class.</p>
-<pre class="code python"><a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-<a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-4"></a>
-<a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-5"></a>    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_person</span><span class="p">):</span>
-<a name="rest_code_34b5a6d41aa74b9db675a03c52b0edf6-6"></a>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Hi {other_person.name}, I'm {self.name}!"</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+<a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-4"></a>
+<a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-5"></a>    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_person</span><span class="p">):</span>
+<a name="rest_code_795fd8983d3d439f87c1a6e2e7367ce4-6"></a>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Hi {other_person.name}, I'm {self.name}!"</span><span class="p">)</span>
 </pre>
 <p>We can see that among all the things defined in the class, it's dictionary
 contains an entry for 'greet', whose value is a function.</p>
-<pre class="code python"><a name="rest_code_742a378c0e804b35a604ee89c1837ff8-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
-<a name="rest_code_742a378c0e804b35a604ee89c1837ff8-2"></a><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">function</span><span class="s1">'&gt;</span>
-<a name="rest_code_742a378c0e804b35a604ee89c1837ff8-3"></a>
-<a name="rest_code_742a378c0e804b35a604ee89c1837ff8-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">Person</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_742a378c0e804b35a604ee89c1837ff8-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">...</span>
-<a name="rest_code_742a378c0e804b35a604ee89c1837ff8-6"></a>              <span class="s1">'greet'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="o">...</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="o">&gt;</span><span class="p">})</span>
+<pre class="code python"><a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
+<a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-2"></a><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">function</span><span class="s1">'&gt;</span>
+<a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-3"></a>
+<a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">Person</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">...</span>
+<a name="rest_code_e1e0827d6ad8468983ddb25263e159d0-6"></a>              <span class="s1">'greet'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="o">...</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="o">&gt;</span><span class="p">})</span>
 </pre>
 <p>This means that in fact, it's the same as having a function defined outside the
 class, that knows how to work with an instance of that same class, which by
@@ -216,65 +217,65 @@ custom function, and we want to apply it to a class, as an instance method.</p>
 failures for an object that collects metrics on systems that monitors. Then we
 have a class called <tt class="docutils literal">SystemMonitor</tt>, that represents all sort of objects that
 collect metrics on monitored systems.</p>
-<pre class="code python"><a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-1"></a><span class="k">def</span> <span class="nf">mtbf</span><span class="p">(</span><span class="n">system_monitor</span><span class="p">):</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-2"></a>    <span class="sd">"""Mean Time Between Failures</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-3"></a><span class="sd">    https://en.wikipedia.org/wiki/Mean_time_between_failures</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-4"></a><span class="sd">    """</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-5"></a>    <span class="n">operational_intervals</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-6"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">,</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-7"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">uptimes</span><span class="p">)</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-8"></a>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-9"></a>    <span class="n">operational_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-10"></a>        <span class="p">(</span><span class="n">start_downtime</span> <span class="o">-</span> <span class="n">start_uptime</span><span class="p">)</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-11"></a>        <span class="k">for</span> <span class="n">start_downtime</span><span class="p">,</span> <span class="n">start_uptime</span> <span class="ow">in</span> <span class="n">operational_intervals</span><span class="p">)</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-12"></a>    <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-13"></a>        <span class="k">return</span> <span class="n">operational_time</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">)</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-14"></a>    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-15"></a>        <span class="k">return</span> <span class="mi">0</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-16"></a>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-17"></a>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-18"></a><span class="k">class</span> <span class="nc">SystemMonitor</span><span class="p">:</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-19"></a>    <span class="sd">"""Collect metrics on software &amp; hardware components."""</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-20"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-24"></a>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-25"></a>    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-27"></a>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-28"></a>    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
-<a name="rest_code_64fde049acf041c5b7db9a7d3f3befdd-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-1"></a><span class="k">def</span> <span class="nf">mtbf</span><span class="p">(</span><span class="n">system_monitor</span><span class="p">):</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-2"></a>    <span class="sd">"""Mean Time Between Failures</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-3"></a><span class="sd">    https://en.wikipedia.org/wiki/Mean_time_between_failures</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-4"></a><span class="sd">    """</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-5"></a>    <span class="n">operational_intervals</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-6"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">,</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-7"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">uptimes</span><span class="p">)</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-8"></a>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-9"></a>    <span class="n">operational_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-10"></a>        <span class="p">(</span><span class="n">start_downtime</span> <span class="o">-</span> <span class="n">start_uptime</span><span class="p">)</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-11"></a>        <span class="k">for</span> <span class="n">start_downtime</span><span class="p">,</span> <span class="n">start_uptime</span> <span class="ow">in</span> <span class="n">operational_intervals</span><span class="p">)</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-12"></a>    <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-13"></a>        <span class="k">return</span> <span class="n">operational_time</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">)</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-14"></a>    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-15"></a>        <span class="k">return</span> <span class="mi">0</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-16"></a>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-17"></a>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-18"></a><span class="k">class</span> <span class="nc">SystemMonitor</span><span class="p">:</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-19"></a>    <span class="sd">"""Collect metrics on software &amp; hardware components."""</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-20"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-24"></a>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-25"></a>    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-27"></a>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-28"></a>    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
+<a name="rest_code_f1d2dff78a714ebaa0820a5b7e41c3e1-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
 </pre>
 <p>For now we just test the function, but soon we'll want this as a method of the
 class. We can easily apply the function to work with a <tt class="docutils literal">SystemMonitor</tt>
 instance:</p>
-<pre class="code python"><a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span> <span class="o">=</span> <span class="n">SystemMonitor</span><span class="p">(</span><span class="s1">'prod'</span><span class="p">)</span>
-<a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
-<a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
-<a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-4"></a>
-<a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
-<a name="rest_code_12ed7b073daa43a5af05ecf21eec15f5-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">5.0</span>
+<pre class="code python"><a name="rest_code_9d7cb38a3901416899b1de193e4a5173-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span> <span class="o">=</span> <span class="n">SystemMonitor</span><span class="p">(</span><span class="s1">'prod'</span><span class="p">)</span>
+<a name="rest_code_9d7cb38a3901416899b1de193e4a5173-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<a name="rest_code_9d7cb38a3901416899b1de193e4a5173-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<a name="rest_code_9d7cb38a3901416899b1de193e4a5173-4"></a>
+<a name="rest_code_9d7cb38a3901416899b1de193e4a5173-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+<a name="rest_code_9d7cb38a3901416899b1de193e4a5173-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">5.0</span>
 </pre>
 <p>But now we want it to be part of the class, so that I can use it as a instance
 method. If we try to assign the function as a method, it will just fail,
 because it's not bound:</p>
-<pre class="code python"><a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-3"></a><span class="o">---------------------------------------------------------------------------</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-4"></a><span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-5"></a><span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-...&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-6"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-7"></a>
-<a name="rest_code_2cb14ba921d342b88c264d4b9ae68d8e-8"></a><span class="ne">TypeError</span><span class="p">:</span> <span class="n">mtbf</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s1">'system_monitor'</span>
+<pre class="code python"><a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-3"></a><span class="o">---------------------------------------------------------------------------</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-4"></a><span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-5"></a><span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-...&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-6"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-7"></a>
+<a name="rest_code_0cdccb16eca94addad80acb7d1216b7b-8"></a><span class="ne">TypeError</span><span class="p">:</span> <span class="n">mtbf</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s1">'system_monitor'</span>
 </pre>
 <p>In this case the <tt class="docutils literal">system_monitor</tt> positional argument that requires, is the
 instance, which in methods is referred to as <em>self</em>.</p>
 <p>Now, if the function is bound to the object, the scenario changes. We can do
 that the same way Python does: <code>__get__</code>.</p>
-<pre class="code python"><a name="rest_code_43c29a55d3d043dd96c0f1d8e6aa2a99-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
-<a name="rest_code_43c29a55d3d043dd96c0f1d8e6aa2a99-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_43c29a55d3d043dd96c0f1d8e6aa2a99-3"></a><span class="mf">5.0</span>
+<pre class="code python"><a name="rest_code_aa46dcd14c0a4a69b3e671d4dfd5d135-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+<a name="rest_code_aa46dcd14c0a4a69b3e671d4dfd5d135-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_aa46dcd14c0a4a69b3e671d4dfd5d135-3"></a><span class="mf">5.0</span>
 </pre>
 <p>Now, we want to be able to define this function inside the class, the same way
 we do with methods, like <code>def mtbf(self):...</code>. In this case, for
@@ -292,13 +293,13 @@ class SystemMonitor:
 <p>In the body of the callable, we can just reuse the original function, for
 simplicity. What's really interesting is the <code>__get__</code> method, on which
 we return the callable object, exposed as a method.</p>
-<pre class="code python"><a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-1"></a><span class="k">class</span> <span class="nc">MTBF</span><span class="p">:</span>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-2"></a>    <span class="sd">"""Compute Mean Time Between Failures"""</span>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-3"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-4"></a>        <span class="k">return</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-5"></a>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-6"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-<a name="rest_code_f68277b2d9ea4c649cf2446753dddd22-7"></a>        <span class="k">return</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_eb58c44dd2f7499094c74637b6179722-1"></a><span class="k">class</span> <span class="nc">MTBF</span><span class="p">:</span>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-2"></a>    <span class="sd">"""Compute Mean Time Between Failures"""</span>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-3"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-4"></a>        <span class="k">return</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-5"></a>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-6"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_eb58c44dd2f7499094c74637b6179722-7"></a>        <span class="k">return</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
 </pre>
 <p>To explain: the attribute <tt class="docutils literal">mtbf</tt> is a "function" (callable actually), defined
 in the class. When we call it as a method, Python will see it has a
@@ -330,33 +331,33 @@ characterises data descriptors.</p>
 <p>On the previous examples, if after running the descriptor, the <tt class="docutils literal">__dict__</tt> on
 the instance was modified, it was because the code explicitly did so, but it
 could have had a different logic.</p>
-<pre class="code python"><a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-2"></a>    <span class="sd">"""This descriptor holds the same values for all instances."""</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-4"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-5"></a>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-6"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-8"></a>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-9"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
-<a name="rest_code_25ec1d8b4a8e455cba7d55a548fcc786-10"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">DataDescriptor</span><span class="p">()</span>
+<pre class="code python"><a name="rest_code_a07e9c428a094149992ac814887ff3bf-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-2"></a>    <span class="sd">"""This descriptor holds the same values for all instances."""</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-4"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-5"></a>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-6"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-8"></a>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-9"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
+<a name="rest_code_a07e9c428a094149992ac814887ff3bf-10"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">DataDescriptor</span><span class="p">()</span>
 </pre>
 <p>If we run it, we can see, that since this descriptor holds the data internally,
 <tt class="docutils literal">__dict__</tt> is never modified on the instance <a class="footnote-reference" href="types-of-descriptors.html#id9" id="id4">[4]</a>:</p>
-<pre class="code python"><a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-3"></a><span class="p">{}</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span> <span class="o">=</span> <span class="s1">'foo'</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-6"></a><span class="s1">'foo'</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-8"></a><span class="p">{}</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-9"></a>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed_2</span><span class="p">)</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-12"></a><span class="p">{}</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span><span class="o">.</span><span class="n">descriptor</span>
-<a name="rest_code_05fa1c4e673d4bf29c03d587bca844f3-14"></a><span class="s1">'foo'</span>
+<pre class="code python"><a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-3"></a><span class="p">{}</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span> <span class="o">=</span> <span class="s1">'foo'</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-6"></a><span class="s1">'foo'</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-8"></a><span class="p">{}</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-9"></a>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed_2</span><span class="p">)</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-12"></a><span class="p">{}</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span><span class="o">.</span><span class="n">descriptor</span>
+<a name="rest_code_db2581edd47741c0a75bef2f4537c0fb-14"></a><span class="s1">'foo'</span>
 </pre>
 </div>
 <div class="section" id="method-lookup">
@@ -434,6 +435,9 @@ might require it, of course), but it's shown only to support the idea.</td>
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="a-first-look-at-descriptors.html" rel="prev" title="A first look at descriptors">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="descriptors-decorators.html" rel="next" title="Descriptors &amp; Decorators">Next post</a>
             </li>
         </ul></nav></aside></article>
 </div>
