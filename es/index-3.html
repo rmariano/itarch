@@ -77,97 +77,97 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/returning-data-in-postgresql.html" class="u-url">Returning data in PostgreSQL</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/returning-data-in-postgresql.html" class="u-url">Returning data in&nbsp;PostgreSQL</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/mariano-anaya.html">Mariano Anaya</a>
+                <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline"><a href="posts/returning-data-in-postgresql.html" rel="bookmark"><time class="published dt-published" datetime="2016-08-14T18:41:30-03:00" title="dom ago 14, 2016 - 18:41">dom ago 14, 2016 - 18:41</time></a></p>
         </div>
     </header><div class="p-summary entry-summary">
     <div>
-<p>In order to get the best performance from our database engine, most of the
-times, we have to take advantage of its exclusive features. This has the
-disadvantage of getting farther away from standard, ANSI code, and in the case
-of RDBM engines, this also means, most of the ORMs will not work.</p>
-<p>Besides that, it could sometimes be worth exploring what we can gain by
-adapting to the engine.</p>
-<p>This is something learnt from the feedback of <a class="reference external" href="posts/my-talk-europython-2016.html">my talk given at EuroPython 2016</a>.  After the talk, an attendee told me
-that he liked it, and asked me about the code portrayed in one of the slides,
-the one about decorators with the example of moving some records from one table
-to another. He asked me if I ran code like that one in production, to which I
-answered no: the code is entirely fictional, and it was done for the mere
-purposes of the examples, so I just needed an excuse for a task that could be
-done in two SQL statements, so the example with the decorator can be shown.</p>
-<p>The code of the example follows:</p>
-<pre class="code SQL"><a name="rest_code_fbcb24108f7a4099bfc4a1d5e09c1dc2-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_fbcb24108f7a4099bfc4a1d5e09c1dc2-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_fbcb24108f7a4099bfc4a1d5e09c1dc2-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_fbcb24108f7a4099bfc4a1d5e09c1dc2-4"></a>
-<a name="rest_code_fbcb24108f7a4099bfc4a1d5e09c1dc2-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<p>In or­der to get the best per­for­man­ce from our da­ta­ba­se en­gi­ne, most of the
+­ti­me­s, we ha­ve to take ad­van­ta­ge of its ex­clu­si­ve fea­tu­res. This has the
+­di­sad­van­ta­ge of ge­tting far­ther away from stan­dar­d, AN­SI co­de, and in the ca­se
+of RDBM en­gi­nes, this al­so mean­s, most of the OR­Ms wi­ll not&nbsp;wo­rk.</p> 
+ <p>Be­si­des tha­t, it could so­me­ti­mes be wor­th ex­plo­ring what we can gain by
+a­dap­ting to the&nbsp;en­gi­ne.</p> 
+ <p>This is so­me­thing learnt from the fee­dba­ck of  <a class="reference external" href="posts/my-talk-europython-2016.html">my ta­lk gi­ven at Eu­ro­P­y­thon 2016</a>.  After the ta­lk, an atten­dee told me
+­that he liked it, and asked me about the co­de por­tra­yed in one of the sli­des,
+­the one about de­co­ra­tors wi­th the exam­ple of mo­ving so­me re­cor­ds from one ta­ble
+­to ano­the­r. He asked me if I ran co­de like that one in pro­duc­tio­n, to whi­ch I
+an­swe­red no: the co­de is en­ti­re­ly fic­tio­na­l, and it was do­ne for the me­re
+­pur­po­ses of the exam­ple­s, so I just nee­ded an ex­cu­se for a ta­sk that could be­
+­do­ne in two SQL sta­te­men­ts, so the exam­ple wi­th the de­co­ra­tor can be&nbsp;sho­wn.</p> 
+ <p>The co­de of the exam­ple&nbsp;fo­llo­ws:</p> 
+ <pre class="code SQL"><a name="rest_code_8317afd7474749baa35d918973080714-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_8317afd7474749baa35d918973080714-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_8317afd7474749baa35d918973080714-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_8317afd7474749baa35d918973080714-4"></a>
+<a name="rest_code_8317afd7474749baa35d918973080714-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
-<p>Then I learnt that there is another way of writing that sort of statements,
-with the "returning" sentence of PostgreSQL.</p>
-<p>It would be re-written like:</p>
-<pre class="code SQL"><a name="rest_code_3d6d769678e94658add3e876594717ea-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_3d6d769678e94658add3e876594717ea-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_3d6d769678e94658add3e876594717ea-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_3d6d769678e94658add3e876594717ea-4"></a><span class="p">)</span>
-<a name="rest_code_3d6d769678e94658add3e876594717ea-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+<p>Then I learnt that the­re is ano­ther way of wri­ting that sort of sta­te­men­ts,
+wi­th the &#8220;re­tur­nin­g&#8221; sen­ten­ce of&nbsp;Pos­tgreS­Q­L.</p> 
+ <p>It would be re-w­ri­tten&nbsp;like:</p> 
+ <pre class="code SQL"><a name="rest_code_cd0c4f607dfa4307b1f894bc3554bd89-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_cd0c4f607dfa4307b1f894bc3554bd89-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_cd0c4f607dfa4307b1f894bc3554bd89-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_cd0c4f607dfa4307b1f894bc3554bd89-4"></a><span class="p">)</span>
+<a name="rest_code_cd0c4f607dfa4307b1f894bc3554bd89-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
-<p>Or... the other way around:</p>
-<pre class="code SQL"><a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
-<a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
-<a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-5"></a><span class="p">)</span>
-<a name="rest_code_b059cd0ab70f485bb0d2062857d708c8-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+<p>Or&#8230; the other way&nbsp;aroun­d:</p> 
+ <pre class="code SQL"><a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-5"></a><span class="p">)</span>
+<a name="rest_code_59f3f0709d974f06876aeaed9434f5cc-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
-<p>The interesting point here, is that it entails a single command, instead of
-two. So this can be done with a single call to the database, saving an extra
-round trip.</p>
-<p>The point here is that the <a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html">delete statement of PostgreSQL</a> (as well as the
-rest of the statements, INSERT, UPDATE, for instance), can be specified to
-return the data they affect, and this can be used in an intermediate table to
-pipe it to another statement.</p>
-<p>By default, if you run the delete statement, it should return the number of
-affected rows, like:</p>
-<pre class="code SQL"><a name="rest_code_29f5a26732e847729173a8d330b22dc7-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+<p>The in­te­res­ting po­int he­re, is that it en­tails a sin­gle co­m­man­d, ins­tead of
+­two. So this can be do­ne wi­th a sin­gle ca­ll to the da­ta­ba­se, saving an ex­tra
+­round&nbsp;tri­p.</p> 
+ <p>The po­int he­re is that the  <a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html">de­le­te sta­te­ment of Pos­tgreS­QL</a>  (as we­ll as the
+­rest of the sta­te­men­ts, IN­SER­T, UP­DA­TE, for ins­tan­ce), can be spe­ci­fied to­
+­re­turn the da­ta they affec­t, and this can be us­ed in an in­ter­me­dia­te ta­ble to­
+­pi­pe it to ano­ther&nbsp;sta­te­men­t.</p> 
+ <p>By de­faul­t, if you run the de­le­te sta­te­men­t, it should re­turn the num­ber of
+a­ffec­ted ro­ws,&nbsp;like:</p> 
+ <pre class="code SQL"><a name="rest_code_7dfe82d98688428395285606eadb4f3f-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_060bc917451545ec8a7d8283f8997a50-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_55fc2f938acb4bb0b3cd74f9bd2d17ef-1"></a>DELETE 4
 </pre>
-<p>But, we can make it to return the rows themselves:</p>
-<pre class="code SQL"><a name="rest_code_da60033c40174c27876415a31c6aa226-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+<p>Bu­t, we can make it to re­turn the ro­ws&nbsp;the­msel­ve­s:</p> 
+ <pre class="code SQL"><a name="rest_code_2464674340d642a797536e8456735ea8-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-1"></a>id|   description    |     order_date
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-2"></a>----+------------------+---------------------
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-7"></a>(4 rows)
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-8"></a>
-<a name="rest_code_bbde77e63fc3464e86a4c687aead18c9-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_f5456599c2d54cec80a2a599a8624b62-1"></a>id|   description    |     order_date
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-2"></a>----+------------------+---------------------
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-7"></a>(4 rows)
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-8"></a>
+<a name="rest_code_f5456599c2d54cec80a2a599a8624b62-9"></a>DELETE 4
 </pre>
-<p>Or, specific columns if we select them:</p>
-<pre class="code SQL"><a name="rest_code_71bd76ffd8a743fbbdebf196fbbbb63b-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+<p>Or, spe­ci­fic co­lumns if we se­lect&nbsp;the­m:</p> 
+ <pre class="code SQL"><a name="rest_code_cdd256fc66cf46f18d59528b5232bda6-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-1"></a>id |   description
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-2"></a>----+------------------
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-3"></a>4 | to be archived
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-4"></a>5 | First sale order
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-5"></a>6 | First sale order
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-6"></a>7 | First sale order
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-7"></a>(4 rows)
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-8"></a>
-<a name="rest_code_28fcd073fae64f86a7996f6b7f266a60-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-1"></a>id |   description
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-2"></a>----+------------------
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-3"></a>4 | to be archived
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-4"></a>5 | First sale order
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-5"></a>6 | First sale order
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-6"></a>7 | First sale order
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-7"></a>(4 rows)
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-8"></a>
+<a name="rest_code_80c626936bb74ad7ae741ff5f9d59dd2-9"></a>DELETE 4
 </pre>
-<p>So, we can use the "returning" feature of PostgreSQL, to do in a single command
-what we usually would do in two or more, and in some cases, it might be
-something worth exploring. It was great learning things like this one, and
-getting tips as a result from the feedback of the talk (it does not change the
-meaning, and the example could remain the same for the aforementioned reasons;
-it is just an example :-).</p>
+<p>So, we can use the &#8220;re­tur­nin­g&#8221; fea­tu­re of Pos­tgreS­Q­L, to do in a sin­gle co­m­man­d
+what we usua­lly would do in two or mo­re, and in so­me ca­ses, it mi­ght be­
+­so­me­thing wor­th ex­plo­rin­g. It was great lear­ning things like this one, an­d
+­ge­tting tips as a re­sult from the fee­dba­ck of the ta­lk (it does not chan­ge the
+­mea­nin­g, and the exam­ple could re­main the sa­me for the afo­re­men­tio­ned rea­son­s;
+it is just an exam­ple&nbsp;:-).</p>
 </div>
     </div>
     </article>
@@ -175,10 +175,10 @@ it is just an example :-).</p>
 
         <nav class="postindexpager"><ul class="pager">
 <li class="previous">
-                <a href="index.html" rel="prev">Publicaciones posteriores</a>
+                <a href="index.html" rel="prev">Publicaciones&nbsp;posteriores</a>
             </li>
             <li class="next">
-                <a href="index-2.html" rel="next">Publicaciones anteriores</a>
+                <a href="index-2.html" rel="next">Publicaciones&nbsp;anteriores</a>
             </li>
         </ul></nav>
 </div>

@@ -16,9 +16,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Running RabbitMQ server on Docker">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker.html">
-<meta property="og:description" content="If you use RabbitMQ for development frequently, sometimes you might have found
-it uses too much resources (it's normal while programming to have
-a lot of queues or tasks being queued and that makes th">
+<meta property="og:description" content="If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
+it us­es too much re­sources (it's nor­mal while pro­gram­ming to have
+a lot of queues or tasks be­ing queued and">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-04-26T13:58:46-03:00">
 <meta property="article:tag" content="docker">
@@ -89,11 +89,11 @@ a lot of queues or tasks being queued and that makes th">
         <div class="row">
             
             
-<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Running RabbitMQ server on Docker</a></h1>
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">Running RabbitMQ server on&nbsp;Docker</a></h1>
 
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../authors/mariano-anaya.html">Mariano Anaya</a>
+                    <a href="../authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2015-04-26T13:58:46-03:00" itemprop="datePublished" title="Sun Apr 26, 2015 - 13:58">Sun Apr 26, 2015 - 13:58</time></a></p>
             
@@ -104,31 +104,31 @@ a lot of queues or tasks being queued and that makes th">
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>If you use RabbitMQ for development frequently, sometimes you might have found
-it uses too much resources (it's normal while programming to have
-a lot of queues or tasks being queued and that makes the CPU usage to spike).</p>
-<p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
-on development I'd rather do something different, in order to isolate
+<p>If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
+it us­es too much re­sources (it&#8217;s nor­mal while pro­gram­ming to have
+a lot of queues or tasks be­ing queued and that makes the CPU us­age to&nbsp;spike).</p> 
+ <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+on development I&#8217;d rather do something different, in order to isolate
 the process. I know I could bound it (for example order it not to start automatically
 as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
-try <code>docker</code> and see how it results.</p>
-<p>It turned out to be just the tool for the work, and so far with a little simple
-configuration it can run as expected.</p>
-<p>There is already a docker image for RabbitMQ, which can be automatically pulled,
-and then run, for example:</p>
-<pre class="code bash"><a name="rest_code_ac55124cffde48878d9d1669e9b49af1-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_ac55124cffde48878d9d1669e9b49af1-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+try <code>docker</code> and see how it&nbsp;results.</p>
+<p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
+­con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p> 
+ <p>There is al­ready a dock­er im­age for Rab­bit­MQ, which can be au­to­mat­i­cal­ly pulled,
+and then run, for&nbsp;ex­am­ple:</p> 
+ <pre class="code bash"><a name="rest_code_81097b7c44b24585a3cd7f92919ae156-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_81097b7c44b24585a3cd7f92919ae156-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
 passing <code>-e</code> we pass some environment variables (in this case,
 the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
 how to set the name of the node it is starting). Optionally, we can limit the CPU
 usage with the <code>--cpuset</code>, as in this case which sets the process to use the
-second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being created.</p>
+second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being&nbsp;created.</p>
 <p>The most important part in this case is the port mapping, made by the <code>-p</code> option which in this case maps the
 port used by RabbitMQ directly (1:1) with the host machine. This makes the docker process to run transparently, as
-the other applications that try to communicate with a RabbitMQ won't notice any difference, making it look like is
-executing an actual RabbitMQ service. Finally there is the name of the docker image to run.</p>
+the other applications that try to communicate with a RabbitMQ won&#8217;t notice any difference, making it look like is
+executing an actual RabbitMQ service. Finally there is the name of the docker image to&nbsp;run.</p>
 <p>What I usually do is to manage the docker image by its <cite>instance_id</cite> (a number that is displayed after listing
 the docker images, by doing <code>sudo docker ps -a</code>).
 Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
@@ -136,15 +136,15 @@ Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</cod
 which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running the <code>inspect</code>
-command (again we can use the <cite>instance_id</cite> or the name we assigned).</p>
-<pre class="code bash"><a name="rest_code_8184b5ec840d4719994615bc6e166c09-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_8184b5ec840d4719994615bc6e166c09-2"></a>sudo docker logs docker.rabbitmq
+command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
+<pre class="code bash"><a name="rest_code_1bc6d7621cd04547a9773c20af307316-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_1bc6d7621cd04547a9773c20af307316-2"></a>sudo docker logs docker.rabbitmq
 </pre>
-<p>It's important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
+<p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by <code>docker</code>.</p>
-<p>I found this approach to be very versatile for a development environment, and with RabbitMQ being the first pilot,
-I think I can migrate more applications to docker instead of having them installed on the system (as long as possible).</p>
+<p>I found this ap­proach to be very ver­sa­tile for a de­vel­op­ment en­vi­ron­men­t, and with Rab­bit­MQ be­ing the first pi­lot,
+I think I can mi­grate more ap­pli­ca­tions to dock­er in­stead of hav­ing them in­stalled on the sys­tem (as long as&nbsp;pos­si­ble).</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
@@ -154,10 +154,10 @@ I think I can migrate more applications to docker instead of having them install
         </ul>
 <ul class="pager hidden-print">
 <li class="previous">
-                <a href="find-options.html" rel="prev" title="Find Options">Previous post</a>
+                <a href="find-options.html" rel="prev" title="Find Options">Previous&nbsp;post</a>
             </li>
             <li class="next">
-                <a href="notas-sobre-la-arqconf-2015.html" rel="next" title="Notas sobre la ArqConf 2015">Next post</a>
+                <a href="notas-sobre-la-arqconf-2015.html" rel="next" title="Notas sobre la ArqConf 2015">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article>
 </div>
