@@ -96,7 +96,7 @@
             </span></p>
             <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2014-06-08T15:46:09-03:00" itemprop="datePublished" title="Sun Jun 08, 2014 - 15:46">Sun Jun 08, 2014 - 15:46</time></a></p>
             
-        <p class="sourceline"><a href="python-functions-return-values-consistency.rst" id="sourcelink">Source</a></p>
+        <p class="sourceline"><a href="python-functions-return-values-consistency.rst" class="sourcelink">Source</a></p>
 
         </div>
         
@@ -110,19 +110,19 @@ re­turn val­ue was  <strong>None</strong>.</p>
  <p>Do you no­tice some­thing odd&nbsp;here?</p> 
  <p>What if I want to use the re­sult? I can­not do it safe­ly, for&nbsp;ex­am­ple:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_b9543c5d3a0447879988381dabe32760-1">1</a>
-<a href="python-functions-return-values-consistency.html#rest_code_b9543c5d3a0447879988381dabe32760-2">2</a>
-<a href="python-functions-return-values-consistency.html#rest_code_b9543c5d3a0447879988381dabe32760-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_b9543c5d3a0447879988381dabe32760-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_b9543c5d3a0447879988381dabe32760-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_b9543c5d3a0447879988381dabe32760-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_ca662a2f7b56441594bd9e8f3c9e3185-1">1</a>
+<a href="python-functions-return-values-consistency.html#rest_code_ca662a2f7b56441594bd9e8f3c9e3185-2">2</a>
+<a href="python-functions-return-values-consistency.html#rest_code_ca662a2f7b56441594bd9e8f3c9e3185-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_ca662a2f7b56441594bd9e8f3c9e3185-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_ca662a2f7b56441594bd9e8f3c9e3185-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_ca662a2f7b56441594bd9e8f3c9e3185-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If con­tent is  <tt class="docutils literal">None</tt>, it will raise an  <tt class="docutils literal">At­tribu­teEr­ror</tt>  say­ing that None has no
 at­tribute called &#8220;item­s&#8221; (which is&nbsp;true).</p> 
  <p>There­fore, the de­vel­op­er should catch the ex­cep­tion or avoid the cor­ner case,
 ­by do­ing some­thing like the&nbsp;fol­low­ing:</p> 
- <pre class="code python"><a name="rest_code_5b58f3ede1fa48149a99103c799397e9-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+ <pre class="code python"><a name="rest_code_4d35982b760440a19d33f29fa5467e0d-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of &#8220;cod­ing de­fen­sive­ly&#8221;, mak­ing sure that the pro­gram will not fail un­der­
 ­most con­di­tions (it would al­so re­quire to add an  <tt class="docutils literal">as­sert</tt>  or to raise an ex­cep­tion

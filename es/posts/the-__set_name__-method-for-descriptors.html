@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The __set_name__ method for descriptors | IT Arch</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/the-__set_name__-method-for-descriptors.html">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="descriptors-decorators.html" title="Descriptors &amp; Decorators" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="The __set_name__ method for descriptors">
+<meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/the-__set_name__-method-for-descriptors.html">
+<meta property="og:description" content="Des­crip­tors ge­ne­ra­lly ha­ve to in­te­ract wi­th attri­bu­tes of the ma­na­ged ob­jec­t,
+and this is do­ne by ins­pec­ting  __­dic­t__  on that ob­ject (or ca­llin­g
+ ge­ta­ttr/se­ta­ttr, but the ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-06-03T15:29:50+02:00">
+<meta property="article:tag" content="decorators">
+<meta property="article:tag" content="descriptors">
+<meta property="article:tag" content="metaprogramming">
+<meta property="article:tag" content="python">
+<link rel="alternate" hreflang="en" href="../../posts/the-__set_name__-method-for-descriptors.html">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Mostrar navegación</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+
+                <span id="blog-title">IT Arch</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../archive.html">Archive</a>
+                </li>
+<li>
+<a href="../../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="https://github.com/rmariano">Github</a>
+                </li>
+<li>
+<a href="../../stories/about-this-blog.html">About</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+            </li>
+<li><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en">English</a></li>
+
+                
+                    
+    <li>
+    <a href="the-__set_name__-method-for-descriptors.rst" id="sourcelink">Código&nbsp;fuente</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="#" class="u-url">The __set_name__ method for&nbsp;descriptors</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="#" rel="bookmark"><time class="published dt-published" datetime="2017-06-03T15:29:50+02:00" itemprop="datePublished" title="sáb jun 03, 2017 - 15:29">sáb jun 03, 2017 - 15:29</time></a></p>
+            
+        <p class="sourceline"><a href="the-__set_name__-method-for-descriptors.rst" class="sourcelink">Código&nbsp;fuente</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>Des­crip­tors ge­ne­ra­lly ha­ve to in­te­ract wi­th attri­bu­tes of the ma­na­ged ob­jec­t,
+and this is do­ne by ins­pec­ting  <tt class="docutils literal">__­dic­t__</tt>  on that ob­ject (or ca­llin­g
+ <tt class="docutils literal">ge­ta­ttr/se­ta­ttr</tt>, but the pro­blem is the sa­me), and fin­ding the key un­de­r
+­the spe­ci­fic&nbsp;na­me.</p> 
+ <p>For this rea­so­n, the des­crip­tor wi­ll ha­ve to know the na­me of the key to look
+­fo­r, whi­ch is re­lated to the na­me of the attri­bu­te is&nbsp;ma­na­gin­g.</p> 
+ <p>On pre­vious ver­sions of Py­thon this had to be do­ne ex­pli­ci­tl­y. If we wanted to­
+wo­rk around it, the­re we­re so­me mo­re ad­van­ced wa­ys to do so. Lu­cki­l­y, afte­r
+ <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/">PE­P-487</a>  (a­dded in Py­thon 3.6),
+­the­re are so­me enhan­ce­men­ts re­gar­ding cla­ss crea­tio­n, whi­ch al­so affec­ts&nbsp;­des­crip­tor­s.</p> 
+ <p>Le­t&#8217;s re­view the pro­ble­m, the pre­vious appro­aches to ta­ck­le it, and the mo­der­n
+way of sol­ving&nbsp;it.</p> 
+ <!-- TEASER_END -->
+<div class="section" id="configure-the-name-of-the-descriptor">
+<h2>Configure the name of the&nbsp;descriptor</h2>
+<p>The des­crip­tor nee­ds to so­me­how know whi­ch attri­bu­te wi­ll be mo­di­fyin­g, and fo­r
+­this, the most co­m­mon so­lu­tion is to sto­re the attri­bu­te na­me in­ter­na­ll­y. Fo­r
+e­xam­ple&nbsp;in:</p> 
+ <pre class="code python"><a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-4"></a>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-5"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-6"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-7"></a>            <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-8"></a>        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-9"></a>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-10"></a>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-11"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
+<a name="rest_code_252cbfeb4dfe44edb000a2265390dbe0-12"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">(</span><span class="s1">'descriptor'</span><span class="p">)</span>
+</pre>
+<p>What we re­qui­re is to che­ck that the na­me is pa­ss­ed to the des­crip­tor pro­per­l­y,&nbsp;­ba­si­ca­ll­y:</p> 
+ <pre class="literal-block">
+assert Managed.descriptor.name == 'descriptor'
+</pre>
+<p>But we do­n&#8217;t want to pa­ss the string  <tt class="docutils literal">'des­crip­to­r'</tt>  as a pa­ra­me­ter when
+­cons­truc­ting it, be­cau­se it&#8217;s re­pe­ti­ti­ve. Ins­tea­d, we want this to be­
+­con­fi­gu­red au­to­ma­ti­ca­ll­y. Le­t&#8217;s see so­me&nbsp;op­tion­s.</p> 
+ </div>
+<div class="section" id="a-class-decorator">
+<h2>A class&nbsp;decorator</h2>
+<p>Wi­th a cla­ss de­co­ra­to­r, we could de­fi­ne all de­co­ra­tors for the cla­ss as
+­pa­ra­me­ters of the de­co­ra­to­r, and make the as­sig­n­ment of the na­me in it as&nbsp;we­ll.</p> 
+ <p>So­me­thing like&nbsp;this:</p> 
+ <pre class="code python"><a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-1"></a><span class="k">class</span> <span class="nc">configure_descriptors</span><span class="p">:</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">descs</span> <span class="o">=</span> <span class="p">{</span><span class="n">dname</span><span class="p">:</span> <span class="n">dcls</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span> <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">dcls</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-4"></a>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-5"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">):</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-6"></a>        <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-7"></a>            <span class="nb">setattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">)</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-8"></a>        <span class="k">return</span> <span class="n">class_</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-9"></a>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-10"></a>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-11"></a><span class="nd">@configure_descriptors</span><span class="p">(</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-12"></a>    <span class="n">descriptor</span><span class="o">=</span><span class="n">LoggedAttr</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-13"></a><span class="p">)</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-14"></a><span class="k">class</span> <span class="nc">DecoratedManaged</span><span class="p">:</span>
+<a name="rest_code_dcab54e4bdc2404faef78deea2ea0566-15"></a>    <span class="sd">"""The descriptor is provided by the decorator"""</span>
+</pre>
+<p>The con­di­tion is&nbsp;pre­ser­ve­d:</p> 
+ <pre class="literal-block">
+assert DecoratedManaged.descriptor.name == 'descriptor'
+</pre>
+<p>In this decorator, we provide the name and the class of the descriptor to be
+created, and the decorator instantiates the class with this name. We could also
+have created the instance directly in the descriptor, and then update the value
+with <code>setattr(descriptor, 'name', dname)</code>, which is more general, in
+case you want to create descriptors that take multiple arguments on their
+<tt class="docutils literal">__init__</tt> method, but for this case it&#8217;s just&nbsp;fine.</p>
+<p>Then we set the new des­crip­tor (the one that has the na­me al­ready up­dated on
+i­t), to the wra­pped&nbsp;cla­ss.</p> 
+ <p>Ho­we­ve­r, it sti­ll see­ms a bit un­fa­mi­liar or coun­te­r-in­tui­ti­ve that we&#8217;­re
+­de­fi­ning the des­crip­tor not in the body of the cla­ss, but as a pa­ra­me­ter of a&nbsp;­de­co­ra­to­r.</p> 
+ <p>The­re must be ano­ther&nbsp;wa­y.</p> 
+ </div>
+<div class="section" id="a-meta-class">
+<h2>A&nbsp;meta-class</h2>
+<p>Ima­gi­ne we flag the cla­ss by adding a  <tt class="docutils literal">__se­t_­na­me = True</tt>  attri­bu­te on it,
+in or­der to hint the me­ta-­cla­ss that this is go­ing to be one of the attri­bu­tes
+­that need its na­me chan­ge­d. Then the me­ta-­cla­ss would look so­me­thing&nbsp;like:</p> 
+ <pre class="code python"><a name="rest_code_3c17c5fa86da43088fd88d01664634d3-1"></a><span class="k">class</span> <span class="nc">MetaDescriptor</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-2"></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">):</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-3"></a>        <span class="k">for</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">cls_attr</span> <span class="ow">in</span> <span class="n">cls_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-4"></a>            <span class="n">mangled_attr</span> <span class="o">=</span> <span class="s2">"_{0}__set_name"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls_attr</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-5"></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="n">mangled_attr</span><span class="p">):</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-6"></a>                <span class="nb">setattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-7"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">)</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-8"></a>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-9"></a>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-10"></a><span class="k">class</span> <span class="nc">MetaManaged</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaDescriptor</span><span class="p">):</span>
+<a name="rest_code_3c17c5fa86da43088fd88d01664634d3-11"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">()</span>
+</pre>
+<p>And&nbsp;agai­n:</p> 
+ <pre class="literal-block">
+assert MetaManaged.descriptor.name == 'descriptor'
+</pre>
+<p>One de­tail is that the  <tt class="docutils literal">__i­ni­t__</tt>  of the des­crip­tor ac­cep­ts the na­me to be­
+­nu­lla­ble so this wo­rks. Ano­ther op­tion would ha­ve been de­fi­ning on­ly the
+­des­crip­tor as­sig­ned to the cla­ss, and then, re-­ma­pping the attri­bu­te wi­th the
+ins­tan­ce, pa­s­sing the na­me when it&#8217;s being cons­truc­ted on the me­ta-­cla­ss. Bo­th
+op­tions are the sa­me, and the exam­ple was ma­de wi­th sim­pli­ci­ty in&nbsp;min­d.</p> 
+ <p>This wo­rks but it has a cou­ple of is­sues. First we ha­ve to so­me­how iden­ti­fy
+when the cla­ss attri­bu­te nee­ds to be up­dated (in this ca­se, a flag was added to­
+i­t, but other al­ter­na­ti­ves are no be­tter at all). The se­cond pro­blem should be­
+­ra­ther ob­vious: it&#8217;s not a good use of me­ta-­cla­sses, and this is ove­rki­ll (to­
+s­ay the leas­t) for what should be a sim­ple&nbsp;ta­sk.</p> 
+ <p>The­re must be a be­tter&nbsp;wa­y.</p> 
+ </div>
+<div class="section" id="set-name">
+<h2>__set_name__</h2>
+<p>And the­re is. At least for Py­thon 3.6 and hi­ghe­r. The  <tt class="docutils literal">__se­t_­na­me__</tt>  me­tho­d
+was in­clu­de­d, whi­ch is au­to­ma­ti­ca­lly ca­lled when the cla­ss is being create­d,
+and it re­cei­ves two pa­ra­me­ter­s: the cla­ss and the na­me of the attri­bu­te as it
+a­ppears de­fi­ned in the&nbsp;cla­ss.</p> 
+ <p>Wi­th this, the pro­blem is re­du­ced to just&nbsp;sim­pl­y:</p> 
+ <pre class="code python"><a name="rest_code_aa6029e3ddab4208ac23dc3e5a78f3ac-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<a name="rest_code_aa6029e3ddab4208ac23dc3e5a78f3ac-2"></a>    <span class="o">...</span>
+<a name="rest_code_aa6029e3ddab4208ac23dc3e5a78f3ac-3"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_aa6029e3ddab4208ac23dc3e5a78f3ac-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre>
+<p>And tha­t&#8217;s it, no other co­de is nee­de­d. The so­lu­tion is mu­ch sim­ple­r, and it
+en­tails le­ss&nbsp;pro­ble­ms.</p> 
+ <p>Ac­tua­ll­y, I de­li­be­ra­te­ly na­med the flag  <tt class="docutils literal">__se­t_­na­me</tt>, to get an idea of
+wha­t&#8217;s co­min­g, and to hint that wi­th  <tt class="docutils literal">__se­t_­na­me__</tt>, Py­thon must be do­in­g
+­so­me­thing si­mi­lar to the exam­ple, but in this ca­se we should­n&#8217;t wo­rry about&nbsp;it.</p> 
+ </div>
+<div class="section" id="conclusion">
+<h2>Conclusion</h2>
+<p>Even thou­gh it&#8217;s fi­ne to just know about the last me­tho­d, and we could sim­pl­y
+u­se tha­t, it&#8217;s sti­ll im­por­tant to ha­ve fo­llo­wed this pa­th, thi­nking about ho­w
+­things we­re do­ne pre­vious­l­y, be­cau­se it&#8217;s not fair to just as­su­me things we­re
+a­lwa­ys good, and take that for grante­d. Othe­rwi­se, we would miss the evo­lu­tio­n
+of the lan­gua­ge, and as­su­me the­re we­re ne­ver is­sues, pro­ble­ms or things tha­t
+­nee­ded&nbsp;re­vi­sio­n.</p> 
+ <p>And mo­re im­por­tan­tl­y, the­re sti­ll are. Py­thon sti­ll has lo­ts of other areas fo­r
+im­pro­ve­men­t. Just as in this exam­ple  <tt class="docutils literal">__se­t_­na­me__</tt>  see­ms to sol­ve a sma­ll,
+­yet an­no­ying pro­ble­m, the­re are many other sce­na­rios on whi­ch things are no­t
+­cr­ys­tal clear in Py­tho­n, so the lan­gua­ge sti­ll nee­ds to&nbsp;evol­ve.</p> 
+ </div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../categories/decorators.html" rel="tag">decorators</a></li>
+            <li><a class="tag p-category" href="../categories/descriptors.html" rel="tag">descriptors</a></li>
+            <li><a class="tag p-category" href="../categories/metaprogramming.html" rel="tag">metaprogramming</a></li>
+            <li><a class="tag p-category" href="../categories/python.html" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="descriptors-decorators.html" rel="prev" title="Descriptors &amp; Decorators">Publicación&nbsp;anterior</a>
+            </li>
+        </ul></nav></aside></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script src="../../assets/js/colorbox-i18n/jquery.colorbox-es.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
