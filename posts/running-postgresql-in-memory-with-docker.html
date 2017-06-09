@@ -128,25 +128,25 @@ be&nbsp;used).</p>
 docker pull fedora/postgresql
 </pre>
 <p>Then, I could cre­ate a  <tt class="docutils literal">tmpfs</tt>, for the da­ta and mount&nbsp;it</p> 
- <pre class="code bash"><a name="rest_code_c7af54e408a340d5bac1ee1e3d03de1f-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_c7af54e408a340d5bac1ee1e3d03de1f-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+ <pre class="code bash"><a name="rest_code_48f98103e3634fbfaf476a0ae0ac32c8-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_48f98103e3634fbfaf476a0ae0ac32c8-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-1">1</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-2">2</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-3">3</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-4">4</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-5">5</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-6">6</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_bc37a720e1cc468eb450dfe660b7699b-7">7</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-1"></a>docker run --name mempostgres <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
-<a name="rest_code_bc37a720e1cc468eb450dfe660b7699b-7"></a>    fedora/postgresql
+<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-1">1</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-2">2</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-3">3</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-4">4</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-5">5</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-6">6</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_966e5e8177bd46f0a9529e4380fb45a6-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_966e5e8177bd46f0a9529e4380fb45a6-7"></a>    fedora/postgresql
 </pre></td>
 </tr></table>
 <p>The first line in­di­cates the name for the con­tain­er we are run­ning (if is not
@@ -171,14 +171,14 @@ ap­pli­ca­tion,&nbsp;etc.).</p>
  <p>For ex­am­ple, if we want to use the  <tt class="docutils literal">psql</tt>  client with the con­tain­er, the
 ­com­mand would&nbsp;be:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_83d1c3bce68b4cbe89c27f93502d278a-1">1</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_83d1c3bce68b4cbe89c27f93502d278a-2">2</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_83d1c3bce68b4cbe89c27f93502d278a-3">3</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_83d1c3bce68b4cbe89c27f93502d278a-4">4</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_83d1c3bce68b4cbe89c27f93502d278a-1"></a>docker run -it --rm <span class="se">\</span>
-<a name="rest_code_83d1c3bce68b4cbe89c27f93502d278a-2"></a>--link mempostgres:postgres <span class="se">\</span>
-<a name="rest_code_83d1c3bce68b4cbe89c27f93502d278a-3"></a>fedora/postgresql <span class="se">\</span>
-<a name="rest_code_83d1c3bce68b4cbe89c27f93502d278a-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_765d4a040299468c8056661289f236da-1">1</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_765d4a040299468c8056661289f236da-2">2</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_765d4a040299468c8056661289f236da-3">3</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_765d4a040299468c8056661289f236da-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_765d4a040299468c8056661289f236da-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_765d4a040299468c8056661289f236da-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_765d4a040299468c8056661289f236da-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_765d4a040299468c8056661289f236da-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </pre></td>
 </tr></table>
 </div>
