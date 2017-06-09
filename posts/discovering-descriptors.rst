@@ -20,6 +20,10 @@ and contains some explanations along with the examples.
 Slides
 ^^^^^^
 
+.. raw:: html
+
+    <script async class="speakerdeck-embed" data-id="ce7561069aeb458db21e3d30eaf4f8df" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
 
 References
 ^^^^^^^^^^
