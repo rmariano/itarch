@@ -77,7 +77,32 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016-in-review.html" class="u-url">2016 in&nbsp;review</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/running-postgresql-in-memory-with-docker.html" class="u-url">Running PostgreSQL in memory with&nbsp;docker</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/running-postgresql-in-memory-with-docker.html" rel="bookmark"><time class="published dt-published" datetime="2017-01-22T17:09:59+01:00" title="Sun Jan 22, 2017 - 17:09">Sun Jan 22, 2017 - 17:09</time></a></p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In­ter­act­ing with a database, can be a reg­u­lar task of a de­vel­op­er, and for that
+we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
+­to a re­al im­ple­men­ta­tion; there­fore, us­ing the same data­base as in­
+pro­duc­tion can help de­tect­ing is­sues&nbsp;ear­ly.</p> 
+ <p>How­ev­er, set­ting up an en­tire data­base serv­er for de­vel­op­men­t, can be
+cum­ber­some. Hope­ful­ly nowa­days, mod­ern op­er­at­ing sys­tems like  <tt class="docutils literal">Lin­ux</tt>  have
+­great tools and fea­tures that we could take ad­van­tage&nbsp;of.</p> 
+ <p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing
+ <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p> 
+ <p>The idea is sim­ple: run a dock­er con­tain­er with the im­age for  <tt class="docutils literal">Post­gresSQL</tt>,
+us­ing a  <tt class="docutils literal">tmpfs</tt>   <a class="footnote-reference" href="posts/running-postgresql-in-memory-with-docker.html#id4" id="id1">[1]</a>   <a class="footnote-reference" href="posts/running-postgresql-in-memory-with-docker.html#id5" id="id2">[2]</a>  as stor­age for the data­base (a  <tt class="docutils literal">ramfs</tt>  could al­so
+be&nbsp;used).</p> 
+ <p class="more"><a href="posts/running-postgresql-in-memory-with-docker.html">Read&nbsp;more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2016-in-review.html" class="u-url">2016 in&nbsp;review</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
@@ -371,28 +396,28 @@ an­swered no: the code is en­tire­ly fic­tion­al, and it was done for the m
 pur­pos­es of the ex­am­ples, so I just need­ed an ex­cuse for a task that could be
 ­done in two SQL state­ments, so the ex­am­ple with the dec­o­ra­tor can be&nbsp;shown.</p> 
  <p>The code of the ex­am­ple&nbsp;fol­lows:</p> 
- <pre class="code SQL"><a name="rest_code_fb4912f0c1734d64a67e62e3df56c9c2-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_fb4912f0c1734d64a67e62e3df56c9c2-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_fb4912f0c1734d64a67e62e3df56c9c2-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_fb4912f0c1734d64a67e62e3df56c9c2-4"></a>
-<a name="rest_code_fb4912f0c1734d64a67e62e3df56c9c2-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_faffad4ab0654399a421839fc5362650-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_faffad4ab0654399a421839fc5362650-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_faffad4ab0654399a421839fc5362650-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_faffad4ab0654399a421839fc5362650-4"></a>
+<a name="rest_code_faffad4ab0654399a421839fc5362650-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that there is an­oth­er way of writ­ing that sort of state­ments,
 with the &#8220;re­turn­ing&#8221; sen­tence of&nbsp;Post­greSQL.</p> 
  <p>It would be re-writ­ten&nbsp;like:</p> 
- <pre class="code SQL"><a name="rest_code_f7c73c4517f241ab8e40d3c078c5fd8c-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_f7c73c4517f241ab8e40d3c078c5fd8c-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_f7c73c4517f241ab8e40d3c078c5fd8c-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_f7c73c4517f241ab8e40d3c078c5fd8c-4"></a><span class="p">)</span>
-<a name="rest_code_f7c73c4517f241ab8e40d3c078c5fd8c-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_f065e16752784ef2a4aa88714dd1d760-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_f065e16752784ef2a4aa88714dd1d760-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_f065e16752784ef2a4aa88714dd1d760-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_f065e16752784ef2a4aa88714dd1d760-4"></a><span class="p">)</span>
+<a name="rest_code_f065e16752784ef2a4aa88714dd1d760-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
 <p>Or&#8230; the oth­er way&nbsp;around:</p> 
- <pre class="code SQL"><a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
-<a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
-<a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-5"></a><span class="p">)</span>
-<a name="rest_code_f279cd4bc2194ec8b57c24111a63a241-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+ <pre class="code SQL"><a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-5"></a><span class="p">)</span>
+<a name="rest_code_50c82859c2c24641841cd3eb25dc56b6-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
 <p>The in­ter­est­ing point here, is that it en­tails a sin­gle com­mand, in­stead of
 t­wo. So this can be done with a sin­gle call to the database, sav­ing an ex­tra
@@ -403,35 +428,35 @@ re­turn the da­ta they af­fec­t, and this can be used in an in­ter­me­di�
 pipe it to an­oth­er&nbsp;state­men­t.</p> 
  <p>By de­fault, if you run the delete state­men­t, it should re­turn the num­ber of
 af­fect­ed rows,&nbsp;like:</p> 
- <pre class="code SQL"><a name="rest_code_2b4ccb6dedf34fb19956ef4c552710e0-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_14876846094f4b5cb4f2586dc89026f9-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_2373c5b2da484c36905fd357e71992b7-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_b98df8131dc64480a7e03acf61074151-1"></a>DELETE 4
 </pre>
 <p>But, we can make it to re­turn the rows&nbsp;them­selves:</p> 
- <pre class="code SQL"><a name="rest_code_e4c5734a899949fabbc1325d2300c4ad-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_b7bb46af5fdf4c21a6edd2454e6176f6-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-1"></a>id|   description    |     order_date
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-2"></a>----+------------------+---------------------
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-7"></a>(4 rows)
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-8"></a>
-<a name="rest_code_4ab7c6b250db471eb10191ed61c9bb03-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-1"></a>id|   description    |     order_date
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-2"></a>----+------------------+---------------------
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-7"></a>(4 rows)
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-8"></a>
+<a name="rest_code_3d0ba05cdf8f45bd8b22ea72aac24283-9"></a>DELETE 4
 </pre>
 <p>Or, spe­cif­ic col­umns if we se­lect&nbsp;them:</p> 
- <pre class="code SQL"><a name="rest_code_4b7f57aa67504d9790df8f3f710a7e1b-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_61e9f07cec2244a3a3b8dd87fcaba18c-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_162564deed344d6d98c4eb95f33a7137-1"></a>id |   description
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-2"></a>----+------------------
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-3"></a>4 | to be archived
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-4"></a>5 | First sale order
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-5"></a>6 | First sale order
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-6"></a>7 | First sale order
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-7"></a>(4 rows)
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-8"></a>
-<a name="rest_code_162564deed344d6d98c4eb95f33a7137-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_75118145f3d44806b8dc556060e963b9-1"></a>id |   description
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-2"></a>----+------------------
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-3"></a>4 | to be archived
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-4"></a>5 | First sale order
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-5"></a>6 | First sale order
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-6"></a>7 | First sale order
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-7"></a>(4 rows)
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-8"></a>
+<a name="rest_code_75118145f3d44806b8dc556060e963b9-9"></a>DELETE 4
 </pre>
 <p>So, we can use the &#8220;re­turn­ing&#8221; fea­ture of Post­greSQL, to do in a sin­gle com­mand
 what we usu­al­ly would do in two or more, and in some cas­es, it might be

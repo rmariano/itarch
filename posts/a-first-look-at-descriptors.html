@@ -136,86 +136,86 @@ spec­i­fied on the class&nbsp;def­i­ni­tion.</p>
  <p>A pos­si­ble im­ple­men­ta­tion could look like&nbsp;this.</p> 
  <p><a class="reference external" href="../listings/descriptors0_get0.py.html">de­scrip­tors0_get0.py</a>    <a class="reference external" href="../listings/descriptors0_get0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-1"> 1</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-2"> 2</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-3"> 3</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-4"> 4</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-5"> 5</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-6"> 6</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-7"> 7</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-8"> 8</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-9"> 9</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-10">10</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-11">11</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-12">12</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-13">13</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-14">14</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-15">15</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-16">16</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-17">17</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-18">18</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-19">19</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-20">20</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-21">21</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-22">22</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-23">23</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-24">24</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-25">25</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-26">26</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-27">27</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-28">28</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-29">29</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-30">30</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-31">31</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-32">32</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-33">33</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-34">34</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-35">35</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-36">36</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-37">37</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-38">38</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-39">39</a>
-<a href="a-first-look-at-descriptors.html#rest_code_5acab57c42a74dbebaaa58a459cf0caf-40">40</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-1"></a><span class="k">class</span> <span class="nc">Resolution</span><span class="p">:</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-2"></a>    <span class="sd">"""Represents the resolution for a video display. In case there is no</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-3"></a><span class="sd">    resolution set, return a default value, previously indicated.</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-4"></a><span class="sd">    """</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-5"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">default_resolution</span><span class="p">):</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span> <span class="o">=</span> <span class="n">default_resolution</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-8"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-9"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-10"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-11"></a>            <span class="k">return</span> <span class="bp">self</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-13"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-14"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-15"></a><span class="k">class</span> <span class="nc">VideoDriver</span><span class="p">:</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-16"></a>    <span class="sd">"""Contains multiple display devices, each one with a resolution</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-17"></a><span class="sd">    configured. If a resolution is not set for a device, return a default one,</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-18"></a><span class="sd">    provided by this class, as a fallback.</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-19"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-20"></a><span class="sd">    &gt;&gt;&gt; media = VideoDriver()</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-21"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-22"></a><span class="sd">    (1024, 768)</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-23"></a><span class="sd">    &gt;&gt;&gt; media.tv = (4096, 2160)</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-24"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-25"></a><span class="sd">    (4096, 2160)</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-26"></a><span class="sd">    &gt;&gt;&gt; del media.tv</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-27"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-28"></a><span class="sd">    (1024, 768)</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-29"></a><span class="sd">    &gt;&gt;&gt; media.screen</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-30"></a><span class="sd">    (1920, 1080)</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-31"></a><span class="sd">    &gt;&gt;&gt; VideoDriver.tv  # doctest: +ELLIPSIS</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-32"></a><span class="sd">    &lt;__main__.Resolution object at 0x...&gt;</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-33"></a><span class="sd">    """</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-34"></a>    <span class="n">tv</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'tv'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">))</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-35"></a>    <span class="n">screen</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'screen'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-36"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-37"></a>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-38"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-39"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_5acab57c42a74dbebaaa58a459cf0caf-40"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-1"> 1</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-2"> 2</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-3"> 3</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-4"> 4</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-5"> 5</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-6"> 6</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-7"> 7</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-8"> 8</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-9"> 9</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-10">10</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-11">11</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-12">12</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-13">13</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-14">14</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-15">15</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-16">16</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-17">17</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-18">18</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-19">19</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-20">20</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-21">21</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-22">22</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-23">23</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-24">24</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-25">25</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-26">26</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-27">27</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-28">28</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-29">29</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-30">30</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-31">31</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-32">32</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-33">33</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-34">34</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-35">35</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-36">36</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-37">37</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-38">38</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-39">39</a>
+<a href="a-first-look-at-descriptors.html#rest_code_550aa94e48e842bbba0136bf3faccdf4-40">40</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-1"></a><span class="k">class</span> <span class="nc">Resolution</span><span class="p">:</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-2"></a>    <span class="sd">"""Represents the resolution for a video display. In case there is no</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-3"></a><span class="sd">    resolution set, return a default value, previously indicated.</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-4"></a><span class="sd">    """</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-5"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">default_resolution</span><span class="p">):</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span> <span class="o">=</span> <span class="n">default_resolution</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-8"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-9"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-10"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-11"></a>            <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-13"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-14"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-15"></a><span class="k">class</span> <span class="nc">VideoDriver</span><span class="p">:</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-16"></a>    <span class="sd">"""Contains multiple display devices, each one with a resolution</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-17"></a><span class="sd">    configured. If a resolution is not set for a device, return a default one,</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-18"></a><span class="sd">    provided by this class, as a fallback.</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-19"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-20"></a><span class="sd">    &gt;&gt;&gt; media = VideoDriver()</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-21"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-22"></a><span class="sd">    (1024, 768)</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-23"></a><span class="sd">    &gt;&gt;&gt; media.tv = (4096, 2160)</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-24"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-25"></a><span class="sd">    (4096, 2160)</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-26"></a><span class="sd">    &gt;&gt;&gt; del media.tv</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-27"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-28"></a><span class="sd">    (1024, 768)</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-29"></a><span class="sd">    &gt;&gt;&gt; media.screen</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-30"></a><span class="sd">    (1920, 1080)</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-31"></a><span class="sd">    &gt;&gt;&gt; VideoDriver.tv  # doctest: +ELLIPSIS</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-32"></a><span class="sd">    &lt;__main__.Resolution object at 0x...&gt;</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-33"></a><span class="sd">    """</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-34"></a>    <span class="n">tv</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'tv'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">))</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-35"></a>    <span class="n">screen</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'screen'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-36"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-37"></a>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-38"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-39"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_550aa94e48e842bbba0136bf3faccdf4-40"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>In this case resolution is a descriptor that implements only
@@ -234,8 +234,8 @@ which in this case returns the default value, previously&nbsp;passed.</p>
 </pre>
 <p>Will be trans­lat­ed&nbsp;in­to:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_534b3c3166fc41cbbadfcae11e7c6614-1">1</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_534b3c3166fc41cbbadfcae11e7c6614-1"></a><span class="nb">type</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">)</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;.</span><span class="fm">__get__</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">))</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_a64606c83ba849e481944a463a607444-1">1</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_a64606c83ba849e481944a463a607444-1"></a><span class="nb">type</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">)</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;.</span><span class="fm">__get__</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="o">&lt;</span><span class="n">instance</span><span class="o">&gt;</span><span class="p">))</span>
 </pre></td>
 </tr></table>
 <p>When the de­scrip­tor is called from the class, and not the in­stance, the val­ue
@@ -245,8 +245,8 @@ sep­a­rate pa­ram­e­ter­s, in­stead of just let the us­er de­rive the c
 in­stance, it al­lows even more&nbsp;flex­i­bil­i­ty).</p> 
  <p>For this rea­son, is com­mon to han­dle this case, and re­turn the de­scrip­tor
 it­self, which is the ra­tio­nale be­hind the&nbsp;line:</p> 
- <pre class="code python"><a name="rest_code_7a249644b3cf4c2da19c1d013324e894-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_7a249644b3cf4c2da19c1d013324e894-2"></a>    <span class="k">return</span> <span class="bp">self</span>
+ <pre class="code python"><a name="rest_code_dfcffa9176c34c90939d5974984a6980-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_dfcffa9176c34c90939d5974984a6980-2"></a>    <span class="k">return</span> <span class="bp">self</span>
 </pre>
 <p>That is why when you de­fine a prop­er­ty in a class, and call it from an in­stance
 ob­jec­t, you&#8217;ll get the re­sult of the com­pu­ta­tion of the method. How­ev­er, if
@@ -275,116 +275,116 @@ might get&nbsp;overcomplicated.</p>
 <p>These two op­tions seem rather con­vo­lut­ed. De­scrip­tors it is,&nbsp;then.</p> 
  <p><a class="reference external" href="../listings/descriptors0_set0.py.html">de­scrip­tors0_set0.py</a>    <a class="reference external" href="../listings/descriptors0_set0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-1"> 1</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-2"> 2</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-3"> 3</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-4"> 4</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-5"> 5</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-6"> 6</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-7"> 7</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-8"> 8</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-9"> 9</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-10">10</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-11">11</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-12">12</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-13">13</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-14">14</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-15">15</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-16">16</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-17">17</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-18">18</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-19">19</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-20">20</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-21">21</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-22">22</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-23">23</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-24">24</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-25">25</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-26">26</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-27">27</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-28">28</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-29">29</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-30">30</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-31">31</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-32">32</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-33">33</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-34">34</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-35">35</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-36">36</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-37">37</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-38">38</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-39">39</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-40">40</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-41">41</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-42">42</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-43">43</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-44">44</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-45">45</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-46">46</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-47">47</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-48">48</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-49">49</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-50">50</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-51">51</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-52">52</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-53">53</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-54">54</a>
-<a href="a-first-look-at-descriptors.html#rest_code_dd0ccd68c8f144908455ae4b95f28c78-55">55</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-1"></a><span class="k">class</span> <span class="nc">TracedProperty</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-2"></a>    <span class="sd">"""Keep count of how many times an attribute changed its value"""</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-3"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-4"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">count_name</span> <span class="o">=</span> <span class="n">f</span><span class="s1">'count_{name}'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-7"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-8"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-9"></a>        <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-10"></a>            <span class="n">current_value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-11"></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-12"></a>            <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-13"></a>        <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-14"></a>            <span class="k">if</span> <span class="n">current_value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-15"></a>                <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-16"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-17"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-18"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-19"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-20"></a><span class="k">class</span> <span class="nc">Traveller</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-21"></a>    <span class="sd">"""</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-22"></a><span class="sd">    &gt;&gt;&gt; tourist = Traveller('John Smith')</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-23"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Barcelona'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-24"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Spain'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-25"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-26"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-27"></a><span class="sd">    0</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-28"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-29"></a><span class="sd">    0</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-30"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-31"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Stockholm'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-32"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-33"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-34"></a><span class="sd">    1</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-35"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-36"></a><span class="sd">    1</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-37"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Gothenburg'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-38"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-39"></a><span class="sd">    2</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-40"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-41"></a><span class="sd">    1</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-42"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-43"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-44"></a><span class="sd">    1</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-45"></a><span class="sd">    """</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-46"></a>    <span class="n">city</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-47"></a>    <span class="n">country</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-48"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-49"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-50"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-51"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-52"></a>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-53"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-54"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_dd0ccd68c8f144908455ae4b95f28c78-55"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-1"> 1</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-2"> 2</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-3"> 3</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-4"> 4</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-5"> 5</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-6"> 6</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-7"> 7</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-8"> 8</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-9"> 9</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-10">10</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-11">11</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-12">12</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-13">13</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-14">14</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-15">15</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-16">16</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-17">17</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-18">18</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-19">19</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-20">20</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-21">21</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-22">22</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-23">23</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-24">24</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-25">25</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-26">26</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-27">27</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-28">28</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-29">29</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-30">30</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-31">31</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-32">32</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-33">33</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-34">34</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-35">35</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-36">36</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-37">37</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-38">38</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-39">39</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-40">40</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-41">41</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-42">42</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-43">43</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-44">44</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-45">45</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-46">46</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-47">47</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-48">48</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-49">49</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-50">50</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-51">51</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-52">52</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-53">53</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-54">54</a>
+<a href="a-first-look-at-descriptors.html#rest_code_877133d141654f778f9f930cf7e23633-55">55</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_877133d141654f778f9f930cf7e23633-1"></a><span class="k">class</span> <span class="nc">TracedProperty</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-2"></a>    <span class="sd">"""Keep count of how many times an attribute changed its value"""</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-3"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-4"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">count_name</span> <span class="o">=</span> <span class="n">f</span><span class="s1">'count_{name}'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-7"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-8"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-9"></a>        <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-10"></a>            <span class="n">current_value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-11"></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-12"></a>            <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-13"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-14"></a>            <span class="k">if</span> <span class="n">current_value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-15"></a>                <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-16"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-17"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-18"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-19"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-20"></a><span class="k">class</span> <span class="nc">Traveller</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-21"></a>    <span class="sd">"""</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-22"></a><span class="sd">    &gt;&gt;&gt; tourist = Traveller('John Smith')</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-23"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Barcelona'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-24"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Spain'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-25"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-26"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-27"></a><span class="sd">    0</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-28"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-29"></a><span class="sd">    0</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-30"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-31"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Stockholm'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-32"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-33"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-34"></a><span class="sd">    1</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-35"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-36"></a><span class="sd">    1</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-37"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Gothenburg'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-38"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-39"></a><span class="sd">    2</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-40"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-41"></a><span class="sd">    1</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-42"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-43"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-44"></a><span class="sd">    1</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-45"></a><span class="sd">    """</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-46"></a>    <span class="n">city</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-47"></a>    <span class="n">country</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-48"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-49"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-50"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-51"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-52"></a>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-53"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-54"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_877133d141654f778f9f930cf7e23633-55"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>The  <tt class="docutils literal">doc­string</tt>  on the  <tt class="docutils literal">Trav­eller</tt>  class, pret­ty much ex­plains its in­tend­ed
@@ -397,20 +397,20 @@ they in­ter­act to­wards a com­mon goal.  <tt class="docutils literal">Trav�
 that, are ob­ject­s, in­stances of the&nbsp;de­scrip­tor.</p> 
  <p>Now let&#8217;s take a look at the oth­er side of it, the in­ter­nal work­ing  of the&nbsp;de­scrip­tor.</p> 
  <p>Un­der this schema, Python will trans­late a call&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_64a01da083b745409086391186f41615-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
-<a name="rest_code_64a01da083b745409086391186f41615-2"></a><span class="n">traveller</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Stockholm'</span>
+ <pre class="code python"><a name="rest_code_ac519d2d84424e24b777286f701ce920-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
+<a name="rest_code_ac519d2d84424e24b777286f701ce920-2"></a><span class="n">traveller</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Stockholm'</span>
 </pre>
 <p>To the one using the <code>__set__</code> method in the descriptor,&nbsp;like:</p>
-<pre class="code python"><a name="rest_code_c6aee0b329404a75b0fe8733de2eb8bb-1"></a><span class="n">Traveller</span><span class="o">.</span><span class="n">city</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">traveller</span><span class="p">,</span> <span class="s1">'Stockholm'</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_b29da3e0bfc943f5b8d920b9599eaab7-1"></a><span class="n">Traveller</span><span class="o">.</span><span class="n">city</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">traveller</span><span class="p">,</span> <span class="s1">'Stockholm'</span><span class="p">)</span>
 </pre>
 <p>Which means that the  <tt class="docutils literal">__set__</tt>  method on the de­scrip­tor is go­ing to re­ceive
 the in­stance of the ob­ject be­ing ac­cessed, as a first pa­ram­e­ter, and then the
 ­val­ue that is be­ing&nbsp;as­signed.</p> 
  <p>More gen­er­al­ly we could say that some­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_686a12d9333446dd846039d3a55ce430-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+ <pre class="code python"><a name="rest_code_7a09cd8d599b45b989a579b05e6694bc-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
 </pre>
 <p>Trans­lates&nbsp;to:</p> 
- <pre class="code python"><a name="rest_code_dcb1cdf9e01c4459a87b6898c3f53275-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_dc6352a6755d4184832e7807f1c608cb-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
 </pre>
 <p>With these two pa­ram­e­ter­s, we can ma­nip­u­late the in­ter­ac­tion any way we wan­t,
 which makes the pro­to­col re­al­ly&nbsp;pow­er­ful.</p> 
@@ -434,104 +434,104 @@ frame­works in Python use de­scrip­tors to ex­pose their&nbsp;API.</p>
 the type <code>del &lt;instance&gt;.&lt;descriptor&gt;</code> is executed. See the following&nbsp;example.</p>
 <p><a class="reference external" href="../listings/descriptors0_delete0.py.html">de­scrip­tors0_delete0.py</a>    <a class="reference external" href="../listings/descriptors0_delete0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-1"> 1</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-2"> 2</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-3"> 3</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-4"> 4</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-5"> 5</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-6"> 6</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-7"> 7</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-8"> 8</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-9"> 9</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-10">10</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-11">11</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-12">12</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-13">13</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-14">14</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-15">15</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-16">16</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-17">17</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-18">18</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-19">19</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-20">20</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-21">21</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-22">22</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-23">23</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-24">24</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-25">25</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-26">26</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-27">27</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-28">28</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-29">29</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-30">30</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-31">31</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-32">32</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-33">33</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-34">34</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-35">35</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-36">36</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-37">37</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-38">38</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-39">39</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-40">40</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-41">41</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-42">42</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-43">43</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-44">44</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-45">45</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-46">46</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-47">47</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-48">48</a>
-<a href="a-first-look-at-descriptors.html#rest_code_055c1f93bcf54de0a875a46c39ddcd88-49">49</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-1"></a><span class="sd">"""An example of a descriptor with a ``__delete__()`` method.</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-2"></a><span class="sd">The code is for illustration purposes only, and it does not correspond to any</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-3"></a><span class="sd">actual implementation.</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-4"></a><span class="sd">"""</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-5"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-6"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-7"></a><span class="k">class</span> <span class="nc">ProtectedAttribute</span><span class="p">:</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-8"></a>    <span class="sd">"""A class attribute that can be protected against deletion"""</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-9"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-10"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-12"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-13"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-14"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-15"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-16"></a>    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-17"></a>        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Can't delete {self.name} for {instance!s}"</span><span class="p">)</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-18"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-19"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-20"></a><span class="k">class</span> <span class="nc">ProtectedUser</span><span class="p">:</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-21"></a>    <span class="sd">"""</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-22"></a><span class="sd">    &gt;&gt;&gt; usr = ProtectedUser('jsmith', '127.0.0.1')</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-23"></a><span class="sd">    &gt;&gt;&gt; usr.username</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-24"></a><span class="sd">    'jsmith'</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-25"></a><span class="sd">    &gt;&gt;&gt; del usr.username</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-26"></a><span class="sd">    Traceback (most recent call last):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-27"></a><span class="sd">    ...</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-28"></a><span class="sd">    AttributeError: Can't delete username for ProtectedUser[jsmith]</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-29"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-30"></a><span class="sd">    '127.0.0.1'</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-31"></a><span class="sd">    &gt;&gt;&gt; del usr.location</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-32"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-33"></a><span class="sd">    Traceback (most recent call last):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-34"></a><span class="sd">    ...</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-35"></a><span class="sd">    AttributeError: 'ProtectedUser' object has no attribute 'location'</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-36"></a><span class="sd">    """</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-37"></a>    <span class="n">username</span> <span class="o">=</span> <span class="n">ProtectedAttribute</span><span class="p">()</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-38"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-39"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-42"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-43"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-44"></a>        <span class="k">return</span> <span class="n">f</span><span class="s2">"{self.__class__.__name__}[{self.username}]"</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-45"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-46"></a>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-48"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_055c1f93bcf54de0a875a46c39ddcd88-49"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-1"> 1</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-2"> 2</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-3"> 3</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-4"> 4</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-5"> 5</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-6"> 6</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-7"> 7</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-8"> 8</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-9"> 9</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-10">10</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-11">11</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-12">12</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-13">13</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-14">14</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-15">15</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-16">16</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-17">17</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-18">18</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-19">19</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-20">20</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-21">21</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-22">22</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-23">23</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-24">24</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-25">25</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-26">26</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-27">27</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-28">28</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-29">29</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-30">30</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-31">31</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-32">32</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-33">33</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-34">34</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-35">35</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-36">36</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-37">37</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-38">38</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-39">39</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-40">40</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-41">41</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-42">42</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-43">43</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-44">44</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-45">45</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-46">46</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-47">47</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-48">48</a>
+<a href="a-first-look-at-descriptors.html#rest_code_448668a1d72047c3802fb3a76cf96b67-49">49</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_448668a1d72047c3802fb3a76cf96b67-1"></a><span class="sd">"""An example of a descriptor with a ``__delete__()`` method.</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-2"></a><span class="sd">The code is for illustration purposes only, and it does not correspond to any</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-3"></a><span class="sd">actual implementation.</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-4"></a><span class="sd">"""</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-5"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-6"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-7"></a><span class="k">class</span> <span class="nc">ProtectedAttribute</span><span class="p">:</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-8"></a>    <span class="sd">"""A class attribute that can be protected against deletion"""</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-9"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-10"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-12"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-13"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-14"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-15"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-16"></a>    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-17"></a>        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Can't delete {self.name} for {instance!s}"</span><span class="p">)</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-18"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-19"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-20"></a><span class="k">class</span> <span class="nc">ProtectedUser</span><span class="p">:</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-21"></a>    <span class="sd">"""</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-22"></a><span class="sd">    &gt;&gt;&gt; usr = ProtectedUser('jsmith', '127.0.0.1')</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-23"></a><span class="sd">    &gt;&gt;&gt; usr.username</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-24"></a><span class="sd">    'jsmith'</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-25"></a><span class="sd">    &gt;&gt;&gt; del usr.username</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-26"></a><span class="sd">    Traceback (most recent call last):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-27"></a><span class="sd">    ...</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-28"></a><span class="sd">    AttributeError: Can't delete username for ProtectedUser[jsmith]</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-29"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-30"></a><span class="sd">    '127.0.0.1'</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-31"></a><span class="sd">    &gt;&gt;&gt; del usr.location</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-32"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-33"></a><span class="sd">    Traceback (most recent call last):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-34"></a><span class="sd">    ...</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-35"></a><span class="sd">    AttributeError: 'ProtectedUser' object has no attribute 'location'</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-36"></a><span class="sd">    """</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-37"></a>    <span class="n">username</span> <span class="o">=</span> <span class="n">ProtectedAttribute</span><span class="p">()</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-38"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-39"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-42"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-43"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-44"></a>        <span class="k">return</span> <span class="n">f</span><span class="s2">"{self.__class__.__name__}[{self.username}]"</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-45"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-46"></a>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-48"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_448668a1d72047c3802fb3a76cf96b67-49"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>In this ex­am­ple, we just want a prop­er­ty in the ob­jec­t, that can­not be delet­ed,
