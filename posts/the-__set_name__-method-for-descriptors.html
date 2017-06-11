@@ -123,18 +123,18 @@ way of solv­ing&nbsp;it.</p>
 <p>The de­scrip­tor needs to some­how know which at­tribute will be mod­i­fy­ing, and for
 this, the most com­mon so­lu­tion is to store the at­tribute name in­ter­nal­ly. For
 ex­am­ple&nbsp;in:</p> 
- <pre class="code python"><a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-4"></a>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-5"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-6"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-7"></a>            <span class="k">return</span> <span class="bp">self</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-8"></a>        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-9"></a>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-10"></a>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-11"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
-<a name="rest_code_c1289f0119b6483abcdd9cca5127d84e-12"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">(</span><span class="s1">'descriptor'</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_80a9978679f2449f8635f547d5499b78-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-4"></a>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-5"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-6"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-7"></a>            <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-8"></a>        <span class="k">return</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-9"></a>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-10"></a>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-11"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
+<a name="rest_code_80a9978679f2449f8635f547d5499b78-12"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">(</span><span class="s1">'descriptor'</span><span class="p">)</span>
 </pre>
 <p>What we re­quire is to check that the name is passed to the de­scrip­tor prop­er­ly,&nbsp;ba­si­cal­ly:</p> 
  <pre class="literal-block">
@@ -149,21 +149,21 @@ assert Managed.descriptor.name == 'descriptor'
 <p>With a class dec­o­ra­tor, we could de­fine all dec­o­ra­tors for the class as
 ­pa­ram­e­ters of the dec­o­ra­tor, and make the as­sign­ment of the name in it as&nbsp;well.</p> 
  <p>Some­thing like&nbsp;this:</p> 
- <pre class="code python"><a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-1"></a><span class="k">class</span> <span class="nc">configure_descriptors</span><span class="p">:</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">descs</span> <span class="o">=</span> <span class="p">{</span><span class="n">dname</span><span class="p">:</span> <span class="n">dcls</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span> <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">dcls</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-4"></a>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-5"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">):</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-6"></a>        <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-7"></a>            <span class="nb">setattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">)</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-8"></a>        <span class="k">return</span> <span class="n">class_</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-9"></a>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-10"></a>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-11"></a><span class="nd">@configure_descriptors</span><span class="p">(</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-12"></a>    <span class="n">descriptor</span><span class="o">=</span><span class="n">LoggedAttr</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-13"></a><span class="p">)</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-14"></a><span class="k">class</span> <span class="nc">DecoratedManaged</span><span class="p">:</span>
-<a name="rest_code_84b3a4f75ac04c21889c142ca7f72d0a-15"></a>    <span class="sd">"""The descriptor is provided by the decorator"""</span>
+ <pre class="code python"><a name="rest_code_57906060c6b84e7e8163ef90faf498e1-1"></a><span class="k">class</span> <span class="nc">configure_descriptors</span><span class="p">:</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">descs</span> <span class="o">=</span> <span class="p">{</span><span class="n">dname</span><span class="p">:</span> <span class="n">dcls</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span> <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">dcls</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-4"></a>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-5"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_</span><span class="p">):</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-6"></a>        <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">descs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-7"></a>            <span class="nb">setattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="n">dname</span><span class="p">,</span> <span class="n">descriptor</span><span class="p">)</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-8"></a>        <span class="k">return</span> <span class="n">class_</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-9"></a>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-10"></a>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-11"></a><span class="nd">@configure_descriptors</span><span class="p">(</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-12"></a>    <span class="n">descriptor</span><span class="o">=</span><span class="n">LoggedAttr</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-13"></a><span class="p">)</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-14"></a><span class="k">class</span> <span class="nc">DecoratedManaged</span><span class="p">:</span>
+<a name="rest_code_57906060c6b84e7e8163ef90faf498e1-15"></a>    <span class="sd">"""The descriptor is provided by the decorator"""</span>
 </pre>
 <p>The con­di­tion is&nbsp;pre­served:</p> 
  <pre class="literal-block">
@@ -186,17 +186,17 @@ defin­ing the de­scrip­tor not in the body of the class, but as a pa­ram­e�
 <p>Imag­ine we flag the class by adding a  <tt class="docutils literal">__set_­name = True</tt>  at­tribute on it,
 in or­der to hint the meta-­class that this is go­ing to be one of the at­tributes
 that need its name changed. Then the meta-­class would look some­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-1"></a><span class="k">class</span> <span class="nc">MetaDescriptor</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-2"></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">):</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-3"></a>        <span class="k">for</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">cls_attr</span> <span class="ow">in</span> <span class="n">cls_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-4"></a>            <span class="n">mangled_attr</span> <span class="o">=</span> <span class="s2">"_{0}__set_name"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls_attr</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-5"></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="n">mangled_attr</span><span class="p">):</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-6"></a>                <span class="nb">setattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-7"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">)</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-8"></a>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-9"></a>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-10"></a><span class="k">class</span> <span class="nc">MetaManaged</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaDescriptor</span><span class="p">):</span>
-<a name="rest_code_8faa988c37644a4c89d54d36ddf08d59-11"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">()</span>
+ <pre class="code python"><a name="rest_code_fa139b65973b4408b1e69728da8e3233-1"></a><span class="k">class</span> <span class="nc">MetaDescriptor</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-2"></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">):</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-3"></a>        <span class="k">for</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">cls_attr</span> <span class="ow">in</span> <span class="n">cls_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-4"></a>            <span class="n">mangled_attr</span> <span class="o">=</span> <span class="s2">"_{0}__set_name"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls_attr</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-5"></a>            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="n">mangled_attr</span><span class="p">):</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-6"></a>                <span class="nb">setattr</span><span class="p">(</span><span class="n">cls_attr</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="n">attrname</span><span class="p">)</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-7"></a>        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">clsname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_kwargs</span><span class="p">)</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-8"></a>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-9"></a>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-10"></a><span class="k">class</span> <span class="nc">MetaManaged</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaDescriptor</span><span class="p">):</span>
+<a name="rest_code_fa139b65973b4408b1e69728da8e3233-11"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">()</span>
 </pre>
 <p>And&nbsp;again:</p> 
  <pre class="literal-block">
@@ -221,10 +221,10 @@ was in­clud­ed, which is au­to­mat­i­cal­ly called when the class is be­
 and it re­ceives two pa­ram­e­ter­s: the class and the name of the at­tribute as it
 ap­pears de­fined in the&nbsp;class.</p> 
  <p>With this, the prob­lem is re­duced to just&nbsp;sim­ply:</p> 
- <pre class="code python"><a name="rest_code_8d1321d693f644e6909b66e42305c52e-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
-<a name="rest_code_8d1321d693f644e6909b66e42305c52e-2"></a>    <span class="o">...</span>
-<a name="rest_code_8d1321d693f644e6909b66e42305c52e-3"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_8d1321d693f644e6909b66e42305c52e-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+ <pre class="code python"><a name="rest_code_f8418395876f409d945a25aa9adcaed8-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<a name="rest_code_f8418395876f409d945a25aa9adcaed8-2"></a>    <span class="o">...</span>
+<a name="rest_code_f8418395876f409d945a25aa9adcaed8-3"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_f8418395876f409d945a25aa9adcaed8-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre>
 <p>And that&#8217;s it, no oth­er code is need­ed. The so­lu­tion is much sim­pler, and it
 en­tails less&nbsp;prob­lem­s.</p> 
