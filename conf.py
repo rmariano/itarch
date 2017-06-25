@@ -53,6 +53,7 @@ TRANSLATIONS_PATTERN = "{path}.{lang}.{ext}"
 # (the same way you would do with a (translatable) setting.)
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
+        ('/index.html', 'Home'),
         ("/archive.html", "Archive"),
         ("/categories/index.html", "Tags"),
         ("https://github.com/rmariano", "Github"),
