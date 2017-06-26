@@ -69,10 +69,7 @@ In general [4]_ a code like::
 
     <instance>.<descriptor>
 
-Will be translated into:
-
-.. code:: python
-   :number-lines:
+Will be translated to::
 
    type(<instance>).<descriptor>.__get__(<instance>, type(<instance>))
 
