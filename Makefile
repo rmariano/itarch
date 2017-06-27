@@ -9,6 +9,7 @@ setup:
 clean:
 	rm -fr cache
 	find . -type d -name __pycache__ | xargs rm -fr
+	nikola clean
 
 .PHONY: build
 build:
