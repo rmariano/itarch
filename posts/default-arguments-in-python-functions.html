@@ -111,68 +111,14 @@ not a good idea to pass de­fault mu­ta­ble ob­jects as pa­ram­e­ter­s
 in python func­tion&nbsp;def­i­ni­tion­s.</p> 
  <p>While the gist is ex­plained through an ex­am­ple that us­es list­s, the
 prin­ci­ple is ap­pli­ca­ble to all sorts of ob­jects (dic­tionar­ies, set­s,&nbsp;etc.).</p> 
- <script src="https://gist.github.com/7593536.js"></script><noscript>
-<pre class="literal-block">
-[![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
-
-## Python - How to pass empty lists as default argument
-
-On this gist I would like to point out an aspect of Python that might present
-some issues if it is not implemented correctly.
-
-Suppose we have a function and we need to define that some of its parameters
-take an empty list as a default argument. Something like the following, for
-example, might be a typical implementation:
-
-```python
-
-    def process_list(a, b=[]):
-        b.extend(a)
-        print(b)
-```
-
-Here the first line with `b=[]` presents a problem.
-Under this definition, if we run the following:
-
-```python
-    process_list([1,2,3])
-    process_list([4,5], [0])
-    process_list([7,8,9])
-```
-
-This is what you get, compared to what you would expect.
-
-
-
-Expected | Obtained
----------|---------------
-[1, 2, 3]| [1, 2, 3]
-[0, 4, 5]| [0, 4, 5]
-[7, 8, 9]| [1,2,3,7,8,9]
-
-
-The problem is that the second time that you try to use `b` (on the third
-function call), Python has already defined it, so it will keep the value that
-had the first time it was declared (when it parsed the function definition).
-
-To avoid this, you should give the parameter a different value (usually called
-_sentinel_, and assign the default value manually, for example:
-
-```python
-    def process_list(a, b=None):
-        b = b or []
-        b.extend(a)
-        print(b)
-```
-
-This time, it will work properly.
-
-To sum up, please bear in mind this when defining a function of this kind
-in Python, and also take into consideration that the same applies not only for
-lists but for sets, or dictionaries as well.
+ <div class="system-message">
+<p class="system-message-title">Sys­tem Mes­sage: ER­ROR/3 (<tt class="docutils">&lt;string&gt;</tt>, line&nbsp;8)</p> 
+ <p>Can­not get gist for&nbsp;url=http­s://gist.github.­com/raw/7593536</p> 
+ <pre class="literal-block">
+.. gist:: 7593536
 
 </pre>
-</noscript>
+</div>
 <p>If you are an ex­pe­ri­enced python de­vel­op­er, you prob­a­bly knew this caveat,
 n­ev­er­the­less is some­thing in­ter­est­ing to show to new python de­vel­op­er­s, and
 ­to re­mem­ber even if you have been writ­ing code in Python for&nbsp;years.</p>

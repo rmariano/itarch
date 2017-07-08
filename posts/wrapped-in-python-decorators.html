@@ -111,22 +111,22 @@ was some­how tricky to work with dec­o­rat­ed func­tion­s, be­cause the d
 re­placed the orig­i­nal ob­jec­t, and its be­hav­iour be­came hard to&nbsp;reach.</p> 
  <!-- TEASER_END -->
 <p>So, for ex­am­ple, we all know that the fol­low­ing&nbsp;sen­tence:</p> 
- <pre class="code python"><a name="rest_code_a0cc66ead1354d5a9b0979c2ae5f3c31-1"></a><span class="nd">@decorator</span>
-<a name="rest_code_a0cc66ead1354d5a9b0979c2ae5f3c31-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-<a name="rest_code_a0cc66ead1354d5a9b0979c2ae5f3c31-3"></a>    <span class="k">pass</span>
+ <pre class="code python"><a name="rest_code_9392759b8fe4474bb30f094f9240055c-1"></a><span class="nd">@decorator</span>
+<a name="rest_code_9392759b8fe4474bb30f094f9240055c-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_9392759b8fe4474bb30f094f9240055c-3"></a>    <span class="k">pass</span>
 </pre>
 <p>It&#8217;s ac­tu­al­ly syn­tax sug­ar&nbsp;for:</p> 
- <pre class="code python"><a name="rest_code_779a9a1fbe304328a2f8777e092b88e4-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-<a name="rest_code_779a9a1fbe304328a2f8777e092b88e4-2"></a>    <span class="k">pass</span>
-<a name="rest_code_779a9a1fbe304328a2f8777e092b88e4-3"></a>
-<a name="rest_code_779a9a1fbe304328a2f8777e092b88e4-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_95a5953be41441d88cdc0065f25882cb-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_95a5953be41441d88cdc0065f25882cb-2"></a>    <span class="k">pass</span>
+<a name="rest_code_95a5953be41441d88cdc0065f25882cb-3"></a>
+<a name="rest_code_95a5953be41441d88cdc0065f25882cb-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </pre>
 <p>So, if for some rea­son, we need to work both with the orig­i­nal and dec­o­rat­ed
 ­func­tion­s, we re­quired tricks such as dif­fer­ent names, some­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_8c1da347e03e4af1b92cfb07c382d633-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
-<a name="rest_code_8c1da347e03e4af1b92cfb07c382d633-2"></a>    <span class="k">pass</span>
-<a name="rest_code_8c1da347e03e4af1b92cfb07c382d633-3"></a>
-<a name="rest_code_8c1da347e03e4af1b92cfb07c382d633-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_c07ecdabcd454afbbad146c0afc9b215-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
+<a name="rest_code_c07ecdabcd454afbbad146c0afc9b215-2"></a>    <span class="k">pass</span>
+<a name="rest_code_c07ecdabcd454afbbad146c0afc9b215-3"></a>
+<a name="rest_code_c07ecdabcd454afbbad146c0afc9b215-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
 </pre>
 <p>But in cur­rent Python, this should be no longer the case. As we can see from
 the code of the  <tt class="docutils literal">func­tools</tt>  mod­ule  <a class="footnote-reference" href="wrapped-in-python-decorators.html#id2" id="id1">[1]</a>, when dec­o­rat­ing an ob­jec­t, there is
@@ -138,74 +138,74 @@ the old&nbsp;quirk­s.</p>
 <p>Let&#8217;s con­sid­er this ex­am­ple. Val­i­dat­ing pa­ram­e­ter types like this is far
 from a re­al im­ple­men­ta­tion, but rather some­thing for the sake of&nbsp;il­lus­tra­tion.</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-1"> 1</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-2"> 2</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-3"> 3</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-4"> 4</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-5"> 5</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-6"> 6</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-7"> 7</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-8"> 8</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-9"> 9</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-10">10</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-11">11</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-12">12</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-13">13</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-14">14</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-15">15</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-16">16</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-17">17</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-18">18</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-19">19</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-20">20</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-21">21</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-22">22</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-23">23</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-24">24</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-25">25</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-26">26</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-27">27</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-28">28</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-29">29</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-30">30</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-31">31</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-32">32</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-33">33</a>
-<a href="wrapped-in-python-decorators.html#rest_code_f226042251b347c3892614af53e7c71f-34">34</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_f226042251b347c3892614af53e7c71f-1"></a><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-2"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-3"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-4"></a><span class="k">def</span> <span class="nf">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-5"></a>    <span class="sd">"""For a dictionary of kwargs, and another dictionary of annotations,</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-6"></a><span class="sd">    mapping each argument name with its type, validate if all types on the</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-7"></a><span class="sd">    keyword arguments match those described by the annotations.</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-8"></a><span class="sd">    """</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-9"></a>    <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-10"></a>        <span class="n">expected_type</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-11"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-12"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-13"></a>                <span class="s2">"{0}={1!r} is not of type {2!r}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-14"></a>                    <span class="n">arg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">)</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-15"></a>                <span class="p">)</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-16"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-17"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-18"></a><span class="k">def</span> <span class="nf">validate_function_parameters</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-20"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-21"></a>        <span class="n">annotations</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__annotations__</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-22"></a>        <span class="n">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-23"></a>        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-24"></a>    <span class="k">return</span> <span class="n">inner</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-25"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-26"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-27"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-28"></a><span class="nd">@validate_function_parameters</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-29"></a><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-30"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-31"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-32"></a>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-33"></a><span class="n">test_function</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># does not validate</span>
-<a name="rest_code_f226042251b347c3892614af53e7c71f-34"></a><span class="n">test_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># validates and raises</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-1"> 1</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-2"> 2</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-3"> 3</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-4"> 4</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-5"> 5</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-6"> 6</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-7"> 7</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-8"> 8</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-9"> 9</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-10">10</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-11">11</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-12">12</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-13">13</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-14">14</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-15">15</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-16">16</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-17">17</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-18">18</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-19">19</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-20">20</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-21">21</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-22">22</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-23">23</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-24">24</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-25">25</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-26">26</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-27">27</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-28">28</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-29">29</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-30">30</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-31">31</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-32">32</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-33">33</a>
+<a href="wrapped-in-python-decorators.html#rest_code_e2ae999ec8824a619846091c741df998-34">34</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_e2ae999ec8824a619846091c741df998-1"></a><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-2"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-3"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-4"></a><span class="k">def</span> <span class="nf">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-5"></a>    <span class="sd">"""For a dictionary of kwargs, and another dictionary of annotations,</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-6"></a><span class="sd">    mapping each argument name with its type, validate if all types on the</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-7"></a><span class="sd">    keyword arguments match those described by the annotations.</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-8"></a><span class="sd">    """</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-9"></a>    <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-10"></a>        <span class="n">expected_type</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-11"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-12"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-13"></a>                <span class="s2">"{0}={1!r} is not of type {2!r}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-14"></a>                    <span class="n">arg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">)</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-15"></a>                <span class="p">)</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-16"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-17"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-18"></a><span class="k">def</span> <span class="nf">validate_function_parameters</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-20"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-21"></a>        <span class="n">annotations</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__annotations__</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-22"></a>        <span class="n">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-23"></a>        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-24"></a>    <span class="k">return</span> <span class="n">inner</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-25"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-26"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-27"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-28"></a><span class="nd">@validate_function_parameters</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-29"></a><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-30"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-31"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-32"></a>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-33"></a><span class="n">test_function</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># does not validate</span>
+<a name="rest_code_e2ae999ec8824a619846091c741df998-34"></a><span class="n">test_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># validates and raises</span>
 </pre></td>
 </tr></table>
 <p>The state­ment in the penul­ti­mate line works be­cause it&#8217;s ac­tu­al­ly in­vok­ing the
