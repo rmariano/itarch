@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Publicaciones sobre development)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/es/categories/development.xml" rel="self" type="application/rss+xml"></atom:link><language>es</language><lastBuildDate>Fri, 07 Jul 2017 23:21:54 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A few ideas on code review</title><link>https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;After wa­tching a ta­lk about co­de re­view  &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html#id3" id="id1"&gt;[1]&lt;/a&gt;, from the last Eu­ro­P­y­tho­n, I go­t
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>IT Arch (Publicaciones sobre development)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/es/categories/development.xml" rel="self" type="application/rss+xml"></atom:link><language>es</language><lastBuildDate>Tue, 11 Jul 2017 18:29:10 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>A few ideas on code review</title><link>https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;After wa­tching a ta­lk about co­de re­view  &lt;a class="footnote-reference" href="https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html#id3" id="id1"&gt;[1]&lt;/a&gt;, from the last Eu­ro­P­y­tho­n, I go­t
 ­so­me ideas that I'd like to su­m­ma­ri­se.&lt;/p&gt; 
  &lt;p&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html"&gt;Leer más…&lt;/a&gt; (quedan 2 minutos de lectura)&lt;/p&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/a-few-ideas-on-code-review.html</guid><pubDate>Fri, 14 Apr 2017 14:51:46 GMT</pubDate></item><item><title>Glimpses of a Vim configuration</title><link>https://rmariano.github.io/itarch/es/posts/glimpses-of-a-vim-configuration.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;It's been a whi­le sin­ce I started tra­cking ver­sions of my cus­tom Vim con­fi­gu­ra­tio­n, and making it avai­la­ble as an open sour­ce so­ftwa­re in  &lt;a class="reference external" href="https://github.com/rmariano/vim-config"&gt;Gi­thub&lt;/a&gt;.
 ­The best of this pro­ject is, in my opi­nio­n, to ha­ve it un­der ver­sion con­tro­l, so I can tra­ck chan­ges and re­lea­ses.&lt;/p&gt; 
@@ -20,15 +20,67 @@
 in py­thon func­tion de­fi­ni­tion­s.&lt;/p&gt; 
  &lt;p&gt;Whi­le the gist is ex­plai­ned th­rou­gh an exam­ple that uses lis­ts, the
 ­prin­ci­ple is appli­ca­ble to all sor­ts of ob­jec­ts (dic­tio­na­rie­s, se­ts, etc.).&lt;/p&gt; 
- &lt;div class="system-message"&gt;
-&lt;p class="system-message-title"&gt;Sys­tem Me­ss­age: ERRO­R/3 (&lt;tt class="docutils"&gt;&amp;lt;s­trin­g&amp;gt;&lt;/tt&gt;, li­ne 8)&lt;/p&gt; 
- &lt;p&gt;Can­not get gist for ur­l=h­ttp­s://­gis­t.­gi­thu­b.­co­m/­raw/7593536&lt;/p&gt; 
- &lt;pre class="literal-block"&gt;
-.. gist:: 7593536
+ &lt;script src="https://gist.github.com/7593536.js"&gt;&lt;/script&gt;&lt;noscript&gt;&lt;pre class="literal-block"&gt;
+[![License](http://img.shields.io/license/MIT.png?color=green)](http://opensource.org/licenses/MIT)
+
+## Python - How to pass empty lists as default argument
+
+On this gist I would like to point out an aspect of Python that might present
+some issues if it is not implemented correctly.
+
+Suppose we have a function and we need to define that some of its parameters
+take an empty list as a default argument. Something like the following, for
+example, might be a typical implementation:
+
+```python
+
+    def process_list(a, b=[]):
+        b.extend(a)
+        print(b)
+```
+
+Here the first line with `b=[]` presents a problem.
+Under this definition, if we run the following:
+
+```python
+    process_list([1,2,3])
+    process_list([4,5], [0])
+    process_list([7,8,9])
+```
+
+This is what you get, compared to what you would expect.
+
+
+
+Expected | Obtained
+---------|---------------
+[1, 2, 3]| [1, 2, 3]
+[0, 4, 5]| [0, 4, 5]
+[7, 8, 9]| [1,2,3,7,8,9]
+
+
+The problem is that the second time that you try to use `b` (on the third
+function call), Python has already defined it, so it will keep the value that
+had the first time it was declared (when it parsed the function definition).
+
+To avoid this, you should give the parameter a different value (usually called
+_sentinel_, and assign the default value manually, for example:
+
+```python
+    def process_list(a, b=None):
+        b = b or []
+        b.extend(a)
+        print(b)
+```
+
+This time, it will work properly.
+
+To sum up, please bear in mind this when defining a function of this kind
+in Python, and also take into consideration that the same applies not only for
+lists but for sets, or dictionaries as well.
 
 &lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;If you are an ex­pe­rien­ced py­thon de­ve­lo­pe­r, you pro­ba­bly knew this ca­vea­t,
+&lt;/noscript&gt;&lt;p&gt;If you are an ex­pe­rien­ced py­thon de­ve­lo­pe­r, you pro­ba­bly knew this ca­vea­t,
 ­ne­ver­the­le­ss is so­me­thing in­te­res­ting to show to new py­thon de­ve­lo­per­s, an­d
 ­to re­mem­ber even if you ha­ve been wri­ting co­de in Py­thon for year­s.&lt;/p&gt;&lt;/div&gt;</description><guid>https://rmariano.github.io/itarch/es/posts/default-arguments-in-python-functions.html</guid><pubDate>Sat, 28 Jun 2014 19:59:41 GMT</pubDate></item><item><title>On returning consistent data types</title><link>https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;This post is ins­pi­red on an is­sue I on­ce foun­d, whi­le I was using a we­ll-k­no­wn li­bra­ry in Py­thon fo­r
 ­par­sing YA­ML fi­le­s. The pro­blem was that when it was loading the con­tent of the fi­le, the re­sult wa­s
@@ -36,16 +88,16 @@ in py­thon func­tion de­fi­ni­tion­s.&lt;/p&gt;
 ­re­turn va­lue was  &lt;strong&gt;No­ne&lt;/strong&gt;.&lt;/p&gt; 
  &lt;p&gt;Do you no­ti­ce so­me­thing odd he­re?&lt;/p&gt; 
  &lt;p&gt;What if I want to use the re­sul­t? I can­not do it safe­l­y, for exam­ple:&lt;/p&gt; 
- &lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_03d7b90a6dab4afeaf981eb6de948cca-1"&gt;1&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_03d7b90a6dab4afeaf981eb6de948cca-2"&gt;2&lt;/a&gt;
-&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_03d7b90a6dab4afeaf981eb6de948cca-3"&gt;3&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_03d7b90a6dab4afeaf981eb6de948cca-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# with the correct parameters and file name&lt;/span&gt;
-&lt;a name="rest_code_03d7b90a6dab4afeaf981eb6de948cca-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
-&lt;a name="rest_code_03d7b90a6dab4afeaf981eb6de948cca-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;  &lt;span class="c1"&gt;# process as required...&lt;/span&gt;
+ &lt;table class="codetable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt;&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_66ebb6ae4915437a9d09c439613ac9be-1"&gt;1&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_66ebb6ae4915437a9d09c439613ac9be-2"&gt;2&lt;/a&gt;
+&lt;a href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency.html#rest_code_66ebb6ae4915437a9d09c439613ac9be-3"&gt;3&lt;/a&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;pre class="code python"&gt;&lt;a name="rest_code_66ebb6ae4915437a9d09c439613ac9be-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;...&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  &lt;span class="c1"&gt;# with the correct parameters and file name&lt;/span&gt;
+&lt;a name="rest_code_66ebb6ae4915437a9d09c439613ac9be-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;tag&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;items&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+&lt;a name="rest_code_66ebb6ae4915437a9d09c439613ac9be-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;pass&lt;/span&gt;  &lt;span class="c1"&gt;# process as required...&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;p&gt;If con­tent is  &lt;tt class="docutils literal"&gt;No­ne&lt;/tt&gt;, it wi­ll rai­se an  &lt;tt class="docutils literal"&gt;Attri­bu­teE­rror&lt;/tt&gt;  sa­ying that No­ne has no­
 a­ttri­bu­te ca­lled "i­te­ms" (whi­ch is true).&lt;/p&gt; 
  &lt;p&gt;The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
 by do­ing so­me­thing like the fo­llo­win­g:&lt;/p&gt; 
- &lt;pre class="code python"&gt;&lt;a name="rest_code_d72a3e90fff946548db3ecbd30ae8e86-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+ &lt;pre class="code python"&gt;&lt;a name="rest_code_877f39fd56014855932f01a2b56d03f9-1"&gt;&lt;/a&gt;&lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;yaml&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;That could be a ca­se of "co­ding de­fen­si­ve­l­y", making su­re that the pro­gram wi­ll not fail un­de­r
 ­most con­di­tions (it would al­so re­qui­re to add an  &lt;tt class="docutils literal"&gt;as­sert&lt;/tt&gt;  or to rai­se an ex­cep­tio­n
 ­perhap­s, but that is a di­ffe­rent to­pi­c). I ac­tua­lly agree wi­th de­fen­si­ve pro­gra­m­min­g,
