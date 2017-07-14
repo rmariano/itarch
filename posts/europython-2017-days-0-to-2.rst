@@ -1,7 +1,7 @@
 .. title: EuroPython 2017 days 0 to 3
 .. slug: europython-2017-days-0-to-3
 .. date: 2017-07-12 23:56:34 UTC+02:00
-.. tags: confs, python
+.. tags: confs, python, talks, EuroPython
 .. category:
 .. link:
 .. description:
