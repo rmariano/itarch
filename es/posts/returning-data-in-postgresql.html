@@ -121,28 +121,28 @@ an­swe­red no: the co­de is en­ti­re­ly fic­tio­na­l, and it was do­ne
 ­pur­po­ses of the exam­ple­s, so I just nee­ded an ex­cu­se for a ta­sk that could be­
 ­do­ne in two SQL sta­te­men­ts, so the exam­ple wi­th the de­co­ra­tor can be&nbsp;sho­wn.</p> 
  <p>The co­de of the exam­ple&nbsp;fo­llo­ws:</p> 
- <pre class="code SQL"><a name="rest_code_32e7f55dba5e46c282f1a405beef586d-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_32e7f55dba5e46c282f1a405beef586d-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
-<a name="rest_code_32e7f55dba5e46c282f1a405beef586d-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
-<a name="rest_code_32e7f55dba5e46c282f1a405beef586d-4"></a>
-<a name="rest_code_32e7f55dba5e46c282f1a405beef586d-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_9477147a37264e28ad7f19846ec7571f-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_9477147a37264e28ad7f19846ec7571f-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_9477147a37264e28ad7f19846ec7571f-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_9477147a37264e28ad7f19846ec7571f-4"></a>
+<a name="rest_code_9477147a37264e28ad7f19846ec7571f-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
 </pre>
 <p>Then I learnt that the­re is ano­ther way of wri­ting that sort of sta­te­men­ts,
 wi­th the &#8220;re­tur­nin­g&#8221; sen­ten­ce of&nbsp;Pos­tgreS­Q­L.</p> 
  <p>It would be re-w­ri­tten&nbsp;like:</p> 
- <pre class="code SQL"><a name="rest_code_470cc593f8784063abc09594f64f1e42-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
-<a name="rest_code_470cc593f8784063abc09594f64f1e42-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_470cc593f8784063abc09594f64f1e42-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
-<a name="rest_code_470cc593f8784063abc09594f64f1e42-4"></a><span class="p">)</span>
-<a name="rest_code_470cc593f8784063abc09594f64f1e42-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_e2e7f039df64436b8f887c3834cd4484-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_e2e7f039df64436b8f887c3834cd4484-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_e2e7f039df64436b8f887c3834cd4484-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_e2e7f039df64436b8f887c3834cd4484-4"></a><span class="p">)</span>
+<a name="rest_code_e2e7f039df64436b8f887c3834cd4484-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
 </pre>
 <p>Or&#8230; the other way&nbsp;aroun­d:</p> 
- <pre class="code SQL"><a name="rest_code_7672622ccc494b12ae87a5b9221c0520-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
-<a name="rest_code_7672622ccc494b12ae87a5b9221c0520-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
-<a name="rest_code_7672622ccc494b12ae87a5b9221c0520-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
-<a name="rest_code_7672622ccc494b12ae87a5b9221c0520-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
-<a name="rest_code_7672622ccc494b12ae87a5b9221c0520-5"></a><span class="p">)</span>
-<a name="rest_code_7672622ccc494b12ae87a5b9221c0520-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+ <pre class="code SQL"><a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-5"></a><span class="p">)</span>
+<a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
 </pre>
 <p>The in­te­res­ting po­int he­re, is that it en­tails a sin­gle co­m­man­d, ins­tead of
 ­two. So this can be do­ne wi­th a sin­gle ca­ll to the da­ta­ba­se, saving an ex­tra
@@ -153,35 +153,35 @@ wi­th the &#8220;re­tur­nin­g&#8221; sen­ten­ce of&nbsp;Pos­tgreS­Q­L.<
 ­pi­pe it to ano­ther&nbsp;sta­te­men­t.</p> 
  <p>By de­faul­t, if you run the de­le­te sta­te­men­t, it should re­turn the num­ber of
 a­ffec­ted ro­ws,&nbsp;like:</p> 
- <pre class="code SQL"><a name="rest_code_424a25b0eac44930bbec8579b60ac4f0-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_3c5763dfa65f4e3e94c0049d59e403c5-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_c1e2af412af34ce0bfede4c0963886e9-1"></a>DELETE 4
+<pre class="code text"><a name="rest_code_a00ea1edc5194dae9724ad74cff0686c-1"></a>DELETE 4
 </pre>
 <p>Bu­t, we can make it to re­turn the ro­ws&nbsp;the­msel­ve­s:</p> 
- <pre class="code SQL"><a name="rest_code_4ff801561cc4485fa7ab269e0b3d83f6-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_acde6a179f134653a05983c178614d0d-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_bdfe7a2ad62244108330e184b82780fa-1"></a>id|   description    |     order_date
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-2"></a>----+------------------+---------------------
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-3"></a>4 | to be archived   | 2014-12-09 00:00:00
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-4"></a>5 | First sale order | 2016-07-17 00:00:00
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-5"></a>6 | First sale order | 2016-07-20 00:00:00
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-6"></a>7 | First sale order | 2016-07-24 00:00:00
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-7"></a>(4 rows)
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-8"></a>
-<a name="rest_code_bdfe7a2ad62244108330e184b82780fa-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-1"></a>id|   description    |     order_date
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-2"></a>----+------------------+---------------------
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-7"></a>(4 rows)
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-8"></a>
+<a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-9"></a>DELETE 4
 </pre>
 <p>Or, spe­ci­fic co­lumns if we se­lect&nbsp;the­m:</p> 
- <pre class="code SQL"><a name="rest_code_f386255d74054e44b617a88d6beb649a-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+ <pre class="code SQL"><a name="rest_code_b5ac84d036b841fc88a5720b82d32308-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
 </pre>
-<pre class="code text"><a name="rest_code_caa788850dd3450b978907fcb0e38a3b-1"></a>id |   description
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-2"></a>----+------------------
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-3"></a>4 | to be archived
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-4"></a>5 | First sale order
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-5"></a>6 | First sale order
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-6"></a>7 | First sale order
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-7"></a>(4 rows)
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-8"></a>
-<a name="rest_code_caa788850dd3450b978907fcb0e38a3b-9"></a>DELETE 4
+<pre class="code text"><a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-1"></a>id |   description
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-2"></a>----+------------------
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-3"></a>4 | to be archived
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-4"></a>5 | First sale order
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-5"></a>6 | First sale order
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-6"></a>7 | First sale order
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-7"></a>(4 rows)
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-8"></a>
+<a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-9"></a>DELETE 4
 </pre>
 <p>So, we can use the &#8220;re­tur­nin­g&#8221; fea­tu­re of Pos­tgreS­Q­L, to do in a sin­gle co­m­man­d
 what we usua­lly would do in two or mo­re, and in so­me ca­ses, it mi­ght be­
