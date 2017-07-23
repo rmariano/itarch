@@ -58,7 +58,7 @@ Necessity and sufficiency
 
 And even if we reach that unrealistic goal: what does it mean to have 100% code
 coverage on unit tests? Can we rely on that to say that the code is fully
-tested, and there are no bugs? Absolutely not. 
+tested, and there are no bugs? Absolutely not.
 
 Here I am not even talking about path coverage (sometimes referred to as
 *multiple condition coverage*). To clarify, it's known that covering all
@@ -114,10 +114,10 @@ ensure a degree of quality. It is logical to think that for each line of code
 there should be many more of tests. This applies for all projects, in all
 programming languages. Now, if for each function we should have at least many
 more of them just testing it, you'll quickly get the picture that the relation
-between productive code and testing code should be in the ratio 1:N. Now,
-having 100% coverage (to say the best), can only mean an 1:1 ratio. It could be
-the case of a single test, covering the function, but not will sufficient
-cases.
+between productive code and testing code should be in the ratio ``1:N``. Now,
+having 100% coverage (to say the best), can only mean an ``1:1`` ratio. It
+could be the case of a single test, covering the function, but not will
+sufficient cases.
 
 Relation between tests and main code
 ------------------------------------
@@ -127,13 +127,13 @@ reasonable level of testing [3]_. According to the document that explains it's
 testing strategy, we can see that it has many more lines of tests code than
 main code in the library.
 
-To quote the document itself: the library contains roughly 122 KLOC [4]_,
-whereas the tests are about 91,596.1 KLOC (~90M LOC). The ratio is an
+To quote the document itself: the library contains roughly 122 ``KLOC`` [4]_,
+whereas the tests are about 91,596.1 ``KLOC`` (~90M ``LOC``). The ratio is an
 impressive 745x.
 
-In my opinion, this relation does not only apply to C projects, it's something
-general to all programming languages. It's just the reality of software. This
-is what it takes to build reliable software.
+In my opinion, this relation does not only apply to ``C`` projects, it's
+something general to all programming languages. It's just the reality of
+software. This is what it takes to build reliable software.
 
 Now, with this idea in mind, knowing that we must have many more lines of
 testing code than productive code, because each possible function can have
@@ -149,6 +149,20 @@ to have many more times testing lines than main ones.
 .. TIP::
 
     Don't rely on coverage. Rely on thoughful testing.
+
+
+Slides
+------
+
+This idea was presented in a lightning talk at `EuroPython 2017
+<https://ep2017.europython.eu/en/>`_, on Monday 10 of July. Here are the
+slides.
+
+
+.. raw:: html
+
+    <script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
 
 
 .. [1] https://martinfowler.com/bliki/TestCoverage.html

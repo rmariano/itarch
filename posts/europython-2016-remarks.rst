@@ -1,7 +1,7 @@
 .. title: EuroPython 2016 remarks
 .. slug: europython-2016-remarks
 .. date: 2016-07-31 12:06:56 UTC-03:00
-.. tags: conferences,EuroPython,python
+.. tags: confs,EuroPython,python
 .. category:
 .. link:
 .. description:
