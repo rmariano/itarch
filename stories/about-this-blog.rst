@@ -16,10 +16,8 @@ for this blog.
 
 About the author
 ^^^^^^^^^^^^^^^^
-I am a software engineer, and open source developer,
-focused mainly on Python and Linux, among many other technologies.
-
-I am also interested in distributed systems.
+I am a software engineer, open source developer, focused mainly on Python,
+Linux, functional programming, and distributed systems.
 
 I've also given some talks at technical conferences.
 
@@ -29,5 +27,5 @@ Contact
 
 Any comments or feedback are much appreciated:
 
-* Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`_
-* GitHub: `rmariano <https://github.com/rmariano>`_
+* Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`__
+* GitHub: `rmariano <https://github.com/rmariano>`__
