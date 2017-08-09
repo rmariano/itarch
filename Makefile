@@ -3,7 +3,7 @@ all : clean build serve
 
 .PHONY: setup
 setup:
-	$(VIRTUAL_ENV)/bin/pip install -r requirements.txt
+	$(VIRTUAL_ENV)/bin/pip install -Ur requirements.txt
 
 .PHONY: clean
 clean:
