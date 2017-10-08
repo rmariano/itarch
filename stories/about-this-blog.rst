@@ -7,21 +7,19 @@
 .. type: text
 
 The main topic of this blog is architecture in the context of software
-engineering. The blog has a technical approach, so topics like software
-development, infrastructure, Linux, programming paradigms are covered.
+engineering. The blog has a technical approach, therefore topics like software
+construction, infrastructure, Linux, and programming paradigms are covered
+(among others).
 
 Everything that relates somehow to software architecture, is a topic suitable
 for this blog.
 
-
 About the author
 ^^^^^^^^^^^^^^^^
-I am a software engineer, and open source developer,
-focused mainly on Python and Linux, among many other technologies.
+I am a software engineer, and open source contributor, focused mainly on Python,
+Linux, functional programming, and distributed systems.
 
-I am also interested in distributed systems.
-
-I've also given some talks at technical conferences.
+I've also given some :doc:`talks` at technical conferences.
 
 
 Contact
@@ -29,5 +27,5 @@ Contact
 
 Any comments or feedback are much appreciated:
 
-* Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`_
-* GitHub: `rmariano <https://github.com/rmariano>`_
+* Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`__
+* GitHub: `rmariano <https://github.com/rmariano>`__
