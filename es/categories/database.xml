@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Publicaciones sobre database)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/es/categories/database.xml" rel="self" type="application/rss+xml"></atom:link><language>es</language><lastBuildDate>Tue, 18 Jul 2017 19:47:49 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Returning data in PostgreSQL</title><link>https://rmariano.github.io/itarch/es/posts/returning-data-in-postgresql.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In or­der to get the best per­for­man­ce from our da­ta­ba­se en­gi­ne, most of the
+<?xml-stylesheet type="text/xsl" href="../../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Publicaciones sobre database)</title><link>https://rmariano.github.io/itarch/</link><description></description><atom:link href="https://rmariano.github.io/itarch/es/categories/database.xml" rel="self" type="application/rss+xml"></atom:link><language>es</language><lastBuildDate>Sun, 08 Oct 2017 08:49:29 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Returning data in PostgreSQL</title><link>https://rmariano.github.io/itarch/es/posts/returning-data-in-postgresql.html</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In or­der to get the best per­for­man­ce from our da­ta­ba­se en­gi­ne, most of the
 ­ti­me­s, we ha­ve to take ad­van­ta­ge of its ex­clu­si­ve fea­tu­res. This has the
 ­di­sad­van­ta­ge of ge­tting far­ther away from stan­dar­d, AN­SI co­de, and in the ca­se
 of RDBM en­gi­nes, this al­so mean­s, most of the OR­Ms wi­ll not wo­rk.&lt;/p&gt; 
@@ -13,26 +13,26 @@ an­swe­red no: the co­de is en­ti­re­ly fic­tio­na­l, and it was do­ne
 ­pur­po­ses of the exam­ple­s, so I just nee­ded an ex­cu­se for a ta­sk that could be­
 ­do­ne in two SQL sta­te­men­ts, so the exam­ple wi­th the de­co­ra­tor can be sho­wn.&lt;/p&gt; 
  &lt;p&gt;The co­de of the exam­ple fo­llo­ws:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_9477147a37264e28ad7f19846ec7571f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_9477147a37264e28ad7f19846ec7571f-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
-&lt;a name="rest_code_9477147a37264e28ad7f19846ec7571f-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_9477147a37264e28ad7f19846ec7571f-4"&gt;&lt;/a&gt;
-&lt;a name="rest_code_9477147a37264e28ad7f19846ec7571f-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_53ec37beed0f4a8d843dafa0733ac889-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_53ec37beed0f4a8d843dafa0733ac889-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
+&lt;a name="rest_code_53ec37beed0f4a8d843dafa0733ac889-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_53ec37beed0f4a8d843dafa0733ac889-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_53ec37beed0f4a8d843dafa0733ac889-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Then I learnt that the­re is ano­ther way of wri­ting that sort of sta­te­men­ts,
 wi­th the "re­tur­nin­g" sen­ten­ce of Pos­tgreS­Q­L.&lt;/p&gt; 
  &lt;p&gt;It would be re-w­ri­tten like:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_e2e7f039df64436b8f887c3834cd4484-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_e2e7f039df64436b8f887c3834cd4484-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_e2e7f039df64436b8f887c3834cd4484-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
-&lt;a name="rest_code_e2e7f039df64436b8f887c3834cd4484-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_e2e7f039df64436b8f887c3834cd4484-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_807cfe6984624ff39aa027ceb120e864-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_807cfe6984624ff39aa027ceb120e864-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_807cfe6984624ff39aa027ceb120e864-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;a name="rest_code_807cfe6984624ff39aa027ceb120e864-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_807cfe6984624ff39aa027ceb120e864-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Or... the other way aroun­d:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
-&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_dd8283a9282b4e05adb9052ce11eb9c7-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
+&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_7b5ad1c3a9e2480abe9c2d23d51619cd-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The in­te­res­ting po­int he­re, is that it en­tails a sin­gle co­m­man­d, ins­tead of
 ­two. So this can be do­ne wi­th a sin­gle ca­ll to the da­ta­ba­se, saving an ex­tra
 ­round tri­p.&lt;/p&gt; 
@@ -42,30 +42,30 @@ wi­th the "re­tur­nin­g" sen­ten­ce of Pos­tgreS­Q­L.&lt;/p&gt;
 ­pi­pe it to ano­ther sta­te­men­t.&lt;/p&gt; 
  &lt;p&gt;By de­faul­t, if you run the de­le­te sta­te­men­t, it should re­turn the num­ber of
 a­ffec­ted ro­ws, like:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_3c5763dfa65f4e3e94c0049d59e403c5-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_a00ea1edc5194dae9724ad74cff0686c-1"&gt;&lt;/a&gt;DELETE 4
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_acd6261dce87423292db6da0a203e361-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_200ea53c58844833b6901c4df1c339af-1"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;Bu­t, we can make it to re­turn the ro­ws the­msel­ve­s:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_acde6a179f134653a05983c178614d0d-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-1"&gt;&lt;/a&gt;id|   description    |     order_date
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-2"&gt;&lt;/a&gt;----+------------------+---------------------
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7b9cb33f2e6f4955bd5ac93a644b91ac-9"&gt;&lt;/a&gt;DELETE 4
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_bd9edd5254084254845932d7bd040773-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-1"&gt;&lt;/a&gt;id|   description    |     order_date
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-2"&gt;&lt;/a&gt;----+------------------+---------------------
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_aaf334c0701e475785ef1f86b91c28d8-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;Or, spe­ci­fic co­lumns if we se­lect the­m:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_b5ac84d036b841fc88a5720b82d32308-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-1"&gt;&lt;/a&gt;id |   description
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-2"&gt;&lt;/a&gt;----+------------------
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-3"&gt;&lt;/a&gt;4 | to be archived
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-4"&gt;&lt;/a&gt;5 | First sale order
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-5"&gt;&lt;/a&gt;6 | First sale order
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-6"&gt;&lt;/a&gt;7 | First sale order
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_7d618ced8f1e4851a6d1fd6b1bc9943f-9"&gt;&lt;/a&gt;DELETE 4
+ &lt;pre class="code SQL"&gt;&lt;a name="rest_code_ddf9e841926f4b619a4bc41350ea7923-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-1"&gt;&lt;/a&gt;id |   description
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-2"&gt;&lt;/a&gt;----+------------------
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-3"&gt;&lt;/a&gt;4 | to be archived
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-4"&gt;&lt;/a&gt;5 | First sale order
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-5"&gt;&lt;/a&gt;6 | First sale order
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-6"&gt;&lt;/a&gt;7 | First sale order
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_e865dcba391e4c239318a2759c61e4a2-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;So, we can use the "re­tur­nin­g" fea­tu­re of Pos­tgreS­Q­L, to do in a sin­gle co­m­man­d
 what we usua­lly would do in two or mo­re, and in so­me ca­ses, it mi­ght be­
 ­so­me­thing wor­th ex­plo­rin­g. It was great lear­ning things like this one, an­d
