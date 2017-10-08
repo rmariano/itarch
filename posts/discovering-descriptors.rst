@@ -8,9 +8,7 @@
 .. type: text
 
 This talk was presented at `PyCon CZ 2017 <https://cz.pycon.org/2017/>`_ and
-`EuroPython 2017
-<https://ep2017.europython.eu/conference/talks/discovering-descriptors>`_. Here
-are the references and resources for the presentation.
+`EuroPython 2017`_. Here are the references and resources for the presentation.
 
 The code used for the talk, is available `here
 <https://gist.github.com/rmariano/a359fe6b0c650589df68c9619c9354f0>`_ and
@@ -26,6 +24,12 @@ Slides
 
 
 	<script async class="speakerdeck-embed" data-id="ef1b8b0b00b04c019c5592d9d91d7753" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+Video
+^^^^^
+This is the recording of the talk presented at `EuroPython 2017`_.
+
+.. youtube:: TAuC086NNmo
 
 
 References
@@ -60,3 +64,6 @@ references, used as base for the talk:
 
 * `PEP-487 <https://www.python.org/dev/peps/pep-0487/>`_ introduces
   ``__set_name__``.
+
+
+.. _EuroPython 2017: https://ep2017.europython.eu/conference/talks/discovering-descriptors
