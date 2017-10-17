@@ -17,6 +17,8 @@ Collection of talks presented at conferences.
   `video <https://youtu.be/TAuC086NNmo>`__
   `slides <https://speakerdeck.com/rmariano/discovering-descriptors-ep>`__
 
+* ``EuroPython 2017`` | :doc:`beyond-coverage` (lightning talk) | 10 July
+
 * ``PyCon CZ`` | Discovering Descriptors | 9 June
   `slides <https://speakerdeck.com/rmariano/discovering-descriptors>`__
 
