@@ -12,6 +12,7 @@
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/refuse-the-temptation-to-pass.html">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="europython-2017-second-part.html" title="EuroPython 2017 - second part" type="text/html">
+<link rel="next" href="2017-in-review.html" title="2017 in Review" type="text/html">
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Refuse the temptation to pass">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/refuse-the-temptation-to-pass.html">
@@ -119,13 +120,13 @@ ha­s, and how hard it is to in­tro­du­ce a new one, so it&#8217;s the­re fo
  <p>Ho­we­ve­r, what I do ar­gue, is that so­me of the ni­ce fea­tu­res of Py­thon are often
 o­ve­r-u­s­e­d, and the temp­ta­tion to abu­se a ni­ce fea­tu­re sha­do­ws be­tte­r&nbsp;o­ppor­tu­ni­tie­s.</p> 
  <p>For exam­ple, when de­fi­ning&nbsp;ex­cep­tion­s:</p> 
- <pre class="code python"><a name="rest_code_a349a64c92de4c2e9ecc77bd32122fe6-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_a349a64c92de4c2e9ecc77bd32122fe6-2"></a>    <span class="k">pass</span>
+ <pre class="code python"><a name="rest_code_b30aced6303942168382cbc3b674d3bb-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_b30aced6303942168382cbc3b674d3bb-2"></a>    <span class="k">pass</span>
 </pre>
 <p>It&#8217;s be­tter to pla­ce a  <em>do­cs­tring</em>  ex­plai­ning its rai­son d&#8217;e­tre, whi­ch
 e­li­mi­na­tes the ne­ce­s­si­ty for the  <em>pa­ss</em>  and the emp­ty&nbsp;bod­y:</p> 
- <pre class="code python"><a name="rest_code_336cfc1848bd463b96111f0e425a4684-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_336cfc1848bd463b96111f0e425a4684-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
+ <pre class="code python"><a name="rest_code_a6e962d24f5d4412916cd588f42394eb-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_a6e962d24f5d4412916cd588f42394eb-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
 </pre>
 <p>This al­so com­plies wi­th the ge­ne­ral good prac­ti­ce of  <em>&#8220;u­se do­cs­trings in evee­r­y
 ­func­tio­n, cla­ss, and mo­du­le de­fi­ne­d&#8221;</em>. In my opi­nio­n, it&#8217;s a mu­ch be­tte­r&nbsp;­choi­ce.</p> 
@@ -133,23 +134,23 @@ e­li­mi­na­tes the ne­ce­s­si­ty for the  <em>pa­ss</em>  and the emp­
  <p>How about when dea­ling wi­th&nbsp;ex­cep­tion­s?</p> 
  <p>So­me­ti­me­s, the oc­cu­rren­ce of an ex­cep­tion is a con­tro­lled sce­na­rio, and agai­n
  <em>pa­ss</em>  looks rea­lly&nbsp;temp­tin­g:</p> 
- <pre class="code python"><a name="rest_code_c2a74d68c0e04192881ece77ceacdfd8-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_c2a74d68c0e04192881ece77ceacdfd8-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_c2a74d68c0e04192881ece77ceacdfd8-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_c2a74d68c0e04192881ece77ceacdfd8-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
+ <pre class="code python"><a name="rest_code_cc816bae66a54a64a5f2413bddd4d538-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_cc816bae66a54a64a5f2413bddd4d538-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_cc816bae66a54a64a5f2413bddd4d538-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_cc816bae66a54a64a5f2413bddd4d538-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
 </pre>
 <p>He­re the worst part is not even the  <em>pa­ss</em>, but the co­m­men­t! Ye­s, co­m­men­ts
 ­re­pre­sent our fai­lu­re to ex­press our ideas in­to co­de, and they are the­re­fo­re,
 ­ba­d. We can cheat a li­ttle bit he­re, but (on the bri­ght si­de), do so­me­thin­g
 ­mo­re use­fu­l: How about lo­gging the&nbsp;me­ss­age?</p> 
- <pre class="code python"><a name="rest_code_0ba314ba60eb4cd6a16724d6d3a0caba-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_0ba314ba60eb4cd6a16724d6d3a0caba-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_0ba314ba60eb4cd6a16724d6d3a0caba-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_0ba314ba60eb4cd6a16724d6d3a0caba-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_329cba97ee6c4eb3a2979177ccfd8190-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_329cba97ee6c4eb3a2979177ccfd8190-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_329cba97ee6c4eb3a2979177ccfd8190-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_329cba97ee6c4eb3a2979177ccfd8190-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
 </pre>
 <p>If all of this see­ms un­ne­ce­ssar­y, we can  <a class="reference external" href="https://docs.python.org/3/library/contextlib.html#contextlib.suppress">su­ppress</a>  the&nbsp;ex­cep­tio­n:</p> 
- <pre class="code python"><a name="rest_code_6c637448bbb348d9a960d20b826a8290-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
-<a name="rest_code_6c637448bbb348d9a960d20b826a8290-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_db87ce5210cc48cba524a02041e3293e-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
+<a name="rest_code_db87ce5210cc48cba524a02041e3293e-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre>
 <p>The­re are lo­ts of ca­ses like this when using the ke­yword  <em>pa­ss</em>  see­ms like a
 ­via­ble op­tio­n. And agai­n, I&#8217;m not sa­ying it&#8217;s a bad choi­ce. I&#8217;m on­ly in­vi­tin­g
@@ -164,6 +165,9 @@ e­li­mi­na­tes the ne­ce­s­si­ty for the  <em>pa­ss</em>  and the emp­
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="europython-2017-second-part.html" rel="prev" title="EuroPython 2017 - second part">Publicación&nbsp;anterior</a>
+            </li>
+            <li class="next">
+                <a href="2017-in-review.html" rel="next" title="2017 in Review">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article>
 </div>
