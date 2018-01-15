@@ -12,7 +12,7 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" href="es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/index.html">
 <link rel="next" href="index-4.html" type="text/html">
-<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/2017-in-review.html" type="text/html">
+<!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]--><link rel="prefetch" href="posts/exploring-generators-and-coroutines.html" type="text/html">
 </head>
 <body>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -82,7 +82,28 @@
 
     
 <div class="postindex">
-    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017-in-review.html" class="u-url">2017 in&nbsp;Review</a></h1>
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/exploring-generators-and-coroutines.html" class="u-url">Exploring Generators and&nbsp;Coroutines</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline"><a href="posts/exploring-generators-and-coroutines.html" rel="bookmark"><time class="published dt-published" datetime="2018-01-14T12:03:50+01:00" title="Sun Jan 14, 2018 - 12:03">Sun Jan 14, 2018 - 12:03</time></a></p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div>
+<p>Let&#8217;s re­vis­it the idea of gen­er­a­tors in Python, in or­der to un­der­stand
+how the sup­port for corou­tines was achieved in lat­est ver­sions of Python (3.6,
+at the time of this&nbsp;writ­ing).</p> 
+ <p>By re­view­ing the mile­stones on gen­er­a­tors, chrono­log­i­cal­ly, we can get a bet­ter
+idea of the evo­lu­tion that lead to asyn­chro­nous pro­gram­ming in&nbsp;Python.</p> 
+ <p>We will re­view the main changes in Python that re­late to gen­er­a­tors and
+asyn­chronous pro­gram­ming, start­ing with  <a class="reference external" href="https://www.python.org/dev/peps/pep-0255/">PEP-255</a>  (Sim­ple Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0342/">PEP-342</a> 
+(­Corou­tines via En­hanced Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0380/">PEP-380</a>  (Syn­tax for del­e­gat­ing to a
+­Sub­-­Gen­er­a­tor), and fin­ish­ing at  <a class="reference external" href="https://www.python.org/dev/peps/pep-0525/">PEP-525</a>  (Asyn­chronous&nbsp;Gen­er­a­tors).</p> 
+ <p class="more"><a href="posts/exploring-generators-and-coroutines.html">Read&nbsp;more…</a></p>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/2017-in-review.html" class="u-url">2017 in&nbsp;Review</a></h1>
         <div class="metadata">
             <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
                 <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
@@ -279,30 +300,6 @@ nice op­por­tu­ni­ty to net­work with the com­mu­ni­ty, which is al­way
 of the&nbsp;chal­lenges.</p>
 </div>
     </div>
-    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/the-__set_name__-method-for-descriptors.html" class="u-url">The __set_name__ method for&nbsp;descriptors</a></h1>
-        <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                <a href="authors/mariano-anaya.html">Mariano&nbsp;Anaya</a>
-            </span></p>
-            <p class="dateline"><a href="posts/the-__set_name__-method-for-descriptors.html" rel="bookmark"><time class="published dt-published" datetime="2017-06-03T15:29:50+02:00" title="Sat Jun 03, 2017 - 15:29">Sat Jun 03, 2017 - 15:29</time></a></p>
-        </div>
-    </header><div class="p-summary entry-summary">
-    <div>
-<p>De­scrip­tors gen­er­al­ly have to in­ter­act with at­tributes of the man­aged ob­jec­t,
-and this is done by in­spect­ing  <tt class="docutils literal">__­dic­t__</tt>  on that ob­ject (or call­ing
- <tt class="docutils literal">getat­tr/se­tat­tr</tt>, but the prob­lem is the same), and find­ing the key un­der­
-the spe­cif­ic&nbsp;name.</p> 
- <p>For this rea­son, the de­scrip­tor will have to know the name of the key to look
-­for, which is re­lat­ed to the name of the at­tribute is&nbsp;man­ag­ing.</p> 
- <p>On pre­vi­ous ver­sions of Python this had to be done ex­plic­it­ly. If we want­ed to
-­work around it, there were some more ad­vanced ways to do so. Luck­i­ly, af­ter
- <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/">PEP-487</a>  (added in Python 3.6),
-there are some en­hance­ments re­gard­ing class cre­ation, which al­so af­fect­s&nbsp;de­scrip­tors.</p> 
- <p>Let&#8217;s re­view the prob­lem, the pre­vi­ous ap­proach­es to tack­le it, and the mod­ern
-way of solv­ing&nbsp;it.</p> 
- <p class="more"><a href="posts/the-__set_name__-method-for-descriptors.html">Read&nbsp;more…</a></p>
-</div>
-    </div>
     </article>
 </div>
 
@@ -315,7 +312,7 @@ way of solv­ing&nbsp;it.</p>
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2017         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.

@@ -99,7 +99,7 @@ a­mong oth­er things:  <a class="reference external" href="https://github.com/
 I in­stall just this one man­u­al­ly, by mak­ing the com­mand  <tt class="docutils literal">flake8</tt>  avail­able sys­tem-wide  <a class="footnote-reference" href="posts/checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p> 
  <p>Then the in­stal­la­tion is as sim­ple as down­load­ing the project and coy­ing the files in­to the  <tt class="docutils literal"><span class="pre">~/.vim/ft­­plug­in/python</span></tt> 
 di­rec­to­ry. Make sure you have the fol­low­ing line added on your  <tt class="docutils literal"><span class="pre">~/.vim­rc</span></tt>:</p> 
- <pre class="code vim"><a name="rest_code_75566039ebf9428c90e02e0ec39b0b01-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
+ <pre class="code vim"><a name="rest_code_534b5acbabd74d3799df587cb0eb9129-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
 </pre>
 <p>The fea­tures I use are main­ly the syn­tax and  <tt class="docutils literal"><span class="pre">PEP-8</span></tt>  com­pli­ance check­er­s. It can al­so warn you about un­used im­port­s,
 and  <a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cy­clo­mat­ic com­plex­i­ty</a>.</p> 
@@ -136,7 +136,7 @@ with­out any dis­trac­tion­s, fo­cus­ing on what is just im­por­tan­t. 
 rel­e­vant part of the email) and it can fol­low the links by launch­ing the de­fault&nbsp;brows­er.</p> 
  <p>It is sim­ple, fast and per­fect­ly suit­able for check­ing my old in­box with week­ly lists up­dates.
 It&#8217;s in­her­it­ed from an old pro­jec­t, called pine, and in Fe­do­ra it can be in­stalled&nbsp;by:</p> 
- <pre class="code bash"><a name="rest_code_da6dfc6d0d264c45a24524a689c2a9c5-1"></a>sudo dnf install alpine
+ <pre class="code bash"><a name="rest_code_01634195bcb4417f8f2d5e856949e4a0-1"></a>sudo dnf install alpine
 </pre>
 <p>Then you just need to con­fig­ure the email ac­count set­tings (one last time to vis­it the page,
 but that would be the last :-) and you&#8217;re&nbsp;ready.</p> 
@@ -167,10 +167,10 @@ the KVM ap­pli­ca­tion I am more fa­mil­iar with. How­ev­er, the new ver�
 have net­work­ing fea­tures that are great for the da­ta cen­tre en­vi­ron­men­t, but maybe not the best op­tion
 ­for a par­tic­u­lar work­sta­tion, so I added the fol­low­ing pack­ages in or­der to set up an eas­ier
 net­work con­fig­u­ra­tion for my lo­cal vir­tu­al&nbsp;ma­chines.</p> 
- <pre class="code bash"><a name="rest_code_14c701bf23744f4da778a9d8bf8a1fb7-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
+ <pre class="code bash"><a name="rest_code_450efd1966734498a716e89d81364647-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In or­der to re­flect the changes and start us­ing the new fea­tures, we need to restart its&nbsp;ser­vice:</p> 
- <pre class="code bash"><a name="rest_code_6fb9bcf64e3f45f3b7e95588ede3dbb6-1"></a>systemctl restart libvirtd.service
+ <pre class="code bash"><a name="rest_code_ca9a25cd5a8f4a2d9a6e3fd33474da9e-1"></a>systemctl restart libvirtd.service
 </pre>
 <p>Af­ter that, when cre­at­ing a new vir­tu­al ma­chine, the NAT op­tion is en­abled, and the vir­tu­al
 ­man­ag­er with han­dle the NAT or bridg­ing con­fig­u­ra­tion au­to­mat­i­cal­ly, which al­lows me to de­ploy new
@@ -529,19 +529,19 @@ re­turn val­ue was  <strong>None</strong>.</p>
  <p>Do you no­tice some­thing odd&nbsp;here?</p> 
  <p>What if I want to use the re­sult? I can­not do it safe­ly, for&nbsp;ex­am­ple:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_ee298b80ac064ed9bd75b2a36a06acfb-1">1</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_ee298b80ac064ed9bd75b2a36a06acfb-2">2</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_ee298b80ac064ed9bd75b2a36a06acfb-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_ee298b80ac064ed9bd75b2a36a06acfb-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_ee298b80ac064ed9bd75b2a36a06acfb-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_ee298b80ac064ed9bd75b2a36a06acfb-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-1">1</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-2">2</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If con­tent is  <tt class="docutils literal">None</tt>, it will raise an  <tt class="docutils literal">At­tribu­teEr­ror</tt>  say­ing that None has no
 at­tribute called &#8220;item­s&#8221; (which is&nbsp;true).</p> 
  <p>There­fore, the de­vel­op­er should catch the ex­cep­tion or avoid the cor­ner case,
 ­by do­ing some­thing like the&nbsp;fol­low­ing:</p> 
- <pre class="code python"><a name="rest_code_5cb68840141e439d845f4d231e0b7411-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+ <pre class="code python"><a name="rest_code_36c66010fe3146eb84d015ce981a1608-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of &#8220;cod­ing de­fen­sive­ly&#8221;, mak­ing sure that the pro­gram will not fail un­der­
 ­most con­di­tions (it would al­so re­quire to add an  <tt class="docutils literal">as­sert</tt>  or to raise an ex­cep­tion
@@ -569,7 +569,7 @@ is no poly­mor­phis­m, or maybe that the &#8220;con­trac­t&#8221; is not be
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2017         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.

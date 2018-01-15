@@ -9,6 +9,11 @@
 
 Collection of talks presented at conferences.
 
+Upcoming
+========
+
+* Python BCN Meetup (17/01/2018): "Exploring generators and coroutines"
+
 
 2017
 ====
