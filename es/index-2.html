@@ -349,54 +349,54 @@ to finish before it can put a <code>\0</code> character at the end of the target
 an invalid array of characters <a class="footnote-reference" href="posts/copying-strings-in-c.html#id12" id="id4">[5]</a>.</p>
 <p>This is an&nbsp;exam­ple.</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_22c7c06bcb964b55b9f87926acd4920b-24">24</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncpy, strlen */</span><span class="cp"></span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-3"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-5"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-7"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-10"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-11"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-12"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-13"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-14"></a>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-15"></a><span class="cm">    * strlen) */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-16"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-20"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-21"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-22"></a>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_22c7c06bcb964b55b9f87926acd4920b-24"></a><span class="p">}</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-1"> 1</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-2"> 2</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-3"> 3</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-4"> 4</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-5"> 5</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-6"> 6</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-7"> 7</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-8"> 8</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-9"> 9</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-10">10</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-11">11</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-12">12</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-13">13</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-14">14</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-15">15</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-16">16</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-17">17</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-18">18</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-19">19</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-20">20</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-21">21</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-22">22</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-23">23</a>
+<a href="posts/copying-strings-in-c.html#rest_code_32f15e908c1841ccbe7985fb0da00a07-24">24</a></pre></div></td>
+<td class="code"><pre class="code c"><a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncpy, strlen */</span><span class="cp"></span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-3"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-4"></a><span class="cp">#define TARGET 10</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-5"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-7"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-10"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-11"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-12"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-13"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-14"></a>    <span class="cm">/* What happens if I pass a wrong length (lower than the actual</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-15"></a><span class="cm">    * strlen) */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-16"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas______' */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-20"></a>    <span class="n">strncpy</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-21"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-22"></a>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-23"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_32f15e908c1841ccbe7985fb0da00a07-24"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
 <p>On this example, the target array is represented by the variable <code>dst</code>, and I used a fixed-length string,
@@ -411,64 +411,64 @@ and then the actual string we need to copy. This call will render the same resul
 but without the previous side effect.
 Let&#8217;s see an&nbsp;example:</p>
 <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-1"> 1</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-2"> 2</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-3"> 3</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-4"> 4</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-5"> 5</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-6"> 6</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-7"> 7</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-8"> 8</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-9"> 9</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-10">10</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-11">11</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-12">12</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-13">13</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-14">14</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-15">15</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-16">16</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-17">17</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-18">18</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-19">19</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-20">20</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-21">21</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-22">22</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-23">23</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-24">24</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-25">25</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-26">26</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-27">27</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-28">28</a>
-<a href="posts/copying-strings-in-c.html#rest_code_ce4f387e3a23435a8d3976df7c589929-29">29</a></pre></div></td>
-<td class="code"><pre class="code c"><a name="rest_code_ce4f387e3a23435a8d3976df7c589929-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncat, strlen */</span><span class="cp"></span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-3"></a>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-4"></a><span class="cp">#define TARGET 10</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-5"></a>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-7"></a>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-10"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-11"></a>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-12"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-13"></a>    <span class="cm">/* Prepare destination string */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-14"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-15"></a>    <span class="cm">/* Copy with strncat */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-16"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-20"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-21"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-22"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-23"></a>    <span class="cm">/* If I try to overrun the buffer */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-24"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-25"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-26"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-27"></a>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-28"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<a name="rest_code_ce4f387e3a23435a8d3976df7c589929-29"></a><span class="p">}</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-1"> 1</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-2"> 2</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-3"> 3</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-4"> 4</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-5"> 5</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-6"> 6</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-7"> 7</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-8"> 8</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-9"> 9</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-10">10</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-11">11</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-12">12</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-13">13</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-14">14</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-15">15</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-16">16</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-17">17</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-18">18</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-19">19</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-20">20</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-21">21</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-22">22</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-23">23</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-24">24</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-25">25</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-26">26</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-27">27</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-28">28</a>
+<a href="posts/copying-strings-in-c.html#rest_code_67b06e9add544a8da202fc2984c10402-29">29</a></pre></div></td>
+<td class="code"><pre class="code c"><a name="rest_code_67b06e9add544a8da202fc2984c10402-1"></a><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;  /* stdout, fprintf */</span><span class="cp"></span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-2"></a><span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;  /* strncat, strlen */</span><span class="cp"></span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-3"></a>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-4"></a><span class="cp">#define TARGET 10</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-5"></a>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-6"></a><span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-7"></a>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-8"></a>    <span class="kt">char</span> <span class="o">*</span><span class="n">src</span> <span class="o">=</span> <span class="s">"Castle"</span><span class="p">;</span>  <span class="cm">/* 6 chars long */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-9"></a>    <span class="kt">char</span> <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span><span class="p">]</span> <span class="o">=</span> <span class="s">"__________"</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-10"></a>    <span class="n">dst</span><span class="p">[</span><span class="n">TARGET</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-11"></a>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-12"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: '_________' */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-13"></a>    <span class="cm">/* Prepare destination string */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-14"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-15"></a>    <span class="cm">/* Copy with strncat */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-16"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-17"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Cas' */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-18"></a>    <span class="cm">/* If I copy the string correctly, by passing the right</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-19"></a><span class="cm">    * length, then strcnpy behaves as expected */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-20"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-21"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-22"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-23"></a>    <span class="cm">/* If I try to overrun the buffer */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-24"></a>    <span class="n">dst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sc">'\0'</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-25"></a>    <span class="n">strncat</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">);</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-26"></a>    <span class="n">fprintf</span><span class="p">(</span><span class="n">stdout</span><span class="p">,</span> <span class="s">"%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">dst</span><span class="p">);</span>   <span class="cm">/* must be: 'Castle' */</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-27"></a>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-28"></a>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<a name="rest_code_67b06e9add544a8da202fc2984c10402-29"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
 <p>He­re we see, the error is no lon­ger pre­sen­t, pro­ba­bly be­cau­se of the di­ffe­ren­ce on the im­ple­men­ta­tio­n
@@ -571,7 +571,7 @@ wi­ll prompt for the  <tt class="docutils literal">su­do</tt>  pa­ssword eve�
 and  <tt class="docutils literal">lib­virt</tt>.</p> 
  <p>The­re­fo­re, just by run­ning the fo­llo­wing co­m­mand we can skip the pa­sswor­d
 ­prompt eve­ry&nbsp;ti­me.</p> 
- <pre class="code bash"><a name="rest_code_8a170016bcc84c5c81516fc2591ed88f-1"></a>sudo usermod -a -G kvm,libvirt mariano
+ <pre class="code bash"><a name="rest_code_83895a4faf464b40b997f10dddcb3a49-1"></a>sudo usermod -a -G kvm,libvirt mariano
 </pre>
 <p>This is an op­tion I would use on­ly for lo­cal de­ve­lo­p­ment on my ma­chi­ne.
 ­Pro­duc­ti­ve en­vi­ron­men­ts must ha­ve an strict per­mis­sions&nbsp;ma­na­ge­men­t.</p>
@@ -736,8 +736,8 @@ try <code>docker</code> and see how it&nbsp;results.</p>
 ­con­fi­gu­ra­tion it can run as&nbsp;ex­pec­te­d.</p> 
  <p>The­re is al­ready a do­cker ima­ge for Ra­bbit­M­Q, whi­ch can be au­to­ma­ti­ca­lly pu­lle­d,
 and then run, for&nbsp;exam­ple:</p> 
- <pre class="code bash"><a name="rest_code_0343a1b1e6344c50b5ff8ca20bd229f5-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_0343a1b1e6344c50b5ff8ca20bd229f5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+ <pre class="code bash"><a name="rest_code_47636bd424b14a308243175446c85751-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_47636bd424b14a308243175446c85751-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
 passing <code>-e</code> we pass some environment variables (in this case,
@@ -757,8 +757,8 @@ which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
-<pre class="code bash"><a name="rest_code_10627be6d19342d3a6275efce2a098e1-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_10627be6d19342d3a6275efce2a098e1-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_89891e178bbe48feacab0c04b10946fe-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_89891e178bbe48feacab0c04b10946fe-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
@@ -784,7 +784,7 @@ I thi­nk I can mi­gra­te mo­re appli­ca­tions to do­cker ins­tead of ha�
 by run­ning  <tt class="docutils literal">ls  <span class="pre">-l­r­­th</span></tt>). Su­ppo­se the first one of the ba­tch is ca­lled  <tt class="docutils literal">/t­m­p/­che­ck­po­int</tt>  (for this exam­ple
 ­le­t&#8217;s as­su­me the fi­les re­si­de at  <tt class="docutils literal">/t­mp</tt>).</p> 
  <p>The co­m­mand would&nbsp;be:</p> 
- <pre class="code bash"><a name="rest_code_abb9f7031ea14f1eb6315c0872fc0c49-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+ <pre class="code bash"><a name="rest_code_5d3789d10f86434c8533f676b52df604-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
 <p>The  <tt class="docutils literal"><span class="pre">-ty­­pe</span>   f</tt>  part is im­por­tant in or­der not to mo­ve the en­ti­re di­rec­to­ry (find on­ly the fi­le­s). Then
 we ha­ve the  <tt class="docutils literal"><span class="pre">-a­­newer</span></tt>  that re­cei­ves a fi­le as a pa­ra­me­te­r, and it wi­ll fil­ter for tho­se fi­les who­se
@@ -795,7 +795,7 @@ o­ther ac­tions su­ch as mo­di­fi­ca­tion­s,  <tt class="docutils litera
  <p>Ano­ther trait I like about  <tt class="docutils literal">find</tt>  is that pre­sen­ts a se­cu­re and we­ll-­de­fi­ned in­ter­fa­ce, mea­ning that in
 ­so­me ca­ses I can first che­ck the re­sul­ts prior to exe­cu­te an ac­tio­n. For exam­ple, if we would like to che­ck
 ­for de­le­ting so­me un­ne­ce­ssary&nbsp;fi­le­s:</p> 
- <pre class="code bash"><a name="rest_code_1828e20fa8014d1889724733e485f3e7-1"></a>find . -name <span class="s2">"*.pyc"</span>
+ <pre class="code bash"><a name="rest_code_7d80371ad2a94ea0882c7c527d91ef97-1"></a>find . -name <span class="s2">"*.pyc"</span>
 </pre>
 <p>By is­suing this co­m­mand we list so­me fi­les to era­se. And then we can sim­ply do that by
 a­ppen­ding  <tt class="docutils literal"><span class="pre">-de­­le­­te</span></tt>  to the ve­ry sa­me&nbsp;co­m­man­d.</p> 

@@ -99,7 +99,7 @@ a­mong other things:  <a class="reference external" href="https://github.com/nv
 I ins­ta­ll just this one ma­nua­ll­y, by making the co­m­mand  <tt class="docutils literal">flake8</tt>  avai­la­ble sys­te­m-wi­de  <a class="footnote-reference" href="posts/checking-python-files-with-vim.html#id2" id="id1">[1]</a>.</p> 
  <p>Then the ins­ta­lla­tion is as sim­ple as do­wn­loading the pro­ject and co­ying the fi­les in­to the  <tt class="docutils literal"><span class="pre">~/.­­vi­­m/­­ftplu­­gi­n/­­p­­y­­thon</span></tt> 
 di­rec­to­r­y. Make su­re you ha­ve the fo­llo­wing li­ne added on your  <tt class="docutils literal"><span class="pre">~/.­­vi­­mrc</span></tt>:</p> 
- <pre class="code vim"><a name="rest_code_534b5acbabd74d3799df587cb0eb9129-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
+ <pre class="code vim"><a name="rest_code_3547f56d5f4042b0ae9c9ad718e9935a-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
 </pre>
 <p>The fea­tu­res I use are main­ly the syn­tax and  <tt class="docutils literal"><span class="pre">PE­­P-8</span></tt>  com­plian­ce che­cker­s. It can al­so warn you about unu­s­ed im­por­ts,
 and  <a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cy­clo­ma­tic com­ple­xi­ty</a>.</p> 
@@ -136,7 +136,7 @@ wi­thout any dis­trac­tion­s, fo­cu­sing on what is just im­por­tan­t. 
 ­re­le­vant part of the emai­l) and it can fo­llow the li­nks by laun­ching the de­fault&nbsp;bro­w­se­r.</p> 
  <p>It is sim­ple, fast and per­fec­tly sui­ta­ble for che­cking my old in­box wi­th week­ly lis­ts up­da­tes.
 I­t&#8217;s inhe­rited from an old pro­jec­t, ca­lled pi­ne, and in Fe­do­ra it can be ins­ta­lled&nbsp;by:</p> 
- <pre class="code bash"><a name="rest_code_01634195bcb4417f8f2d5e856949e4a0-1"></a>sudo dnf install alpine
+ <pre class="code bash"><a name="rest_code_79cd677ab19f4bd1a35b2afcaaa304e3-1"></a>sudo dnf install alpine
 </pre>
 <p>Then you just need to con­fi­gu­re the email ac­count se­ttings (o­ne last ti­me to vi­sit the pa­ge,
 ­but that would be the last :-) and you&#8217;­re&nbsp;read­y.</p> 
@@ -167,10 +167,10 @@ I­t&#8217;s inhe­rited from an old pro­jec­t, ca­lled pi­ne, and in Fe­do
 ha­ve ne­two­rking fea­tu­res that are great for the da­ta cen­tre en­vi­ron­men­t, but ma­y­be not the best op­tio­n
 ­for a par­ti­cu­lar wo­rks­ta­tio­n, so I added the fo­llo­wing pa­cka­ges in or­der to set up an ea­sie­r
 ­ne­two­rk con­fi­gu­ra­tion for my lo­cal vir­tual&nbsp;ma­chi­nes.</p> 
- <pre class="code bash"><a name="rest_code_450efd1966734498a716e89d81364647-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
+ <pre class="code bash"><a name="rest_code_318a81b2ed0d4918b11e545547c3f12f-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In or­der to re­flect the chan­ges and start using the new fea­tu­res, we need to res­tart its&nbsp;ser­vi­ce:</p> 
- <pre class="code bash"><a name="rest_code_ca9a25cd5a8f4a2d9a6e3fd33474da9e-1"></a>systemctl restart libvirtd.service
+ <pre class="code bash"><a name="rest_code_f4134e3dfdc441f8ad7b136fc9fa08e8-1"></a>systemctl restart libvirtd.service
 </pre>
 <p>After tha­t, when crea­ting a new vir­tual ma­chi­ne, the NAT op­tion is ena­ble­d, and the vir­tua­l
 ­ma­na­ger wi­th hand­le the NAT or bri­dging con­fi­gu­ra­tion au­to­ma­ti­ca­ll­y, whi­ch allo­ws me to de­ploy new
@@ -529,19 +529,19 @@ u­s­ed in the desk­top en­vi­ron­ment (not that is so­me­thing new, but 
  <p>Do you no­ti­ce so­me­thing odd&nbsp;he­re?</p> 
  <p>What if I want to use the re­sul­t? I can­not do it safe­l­y, for&nbsp;exam­ple:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-1">1</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-2">2</a>
-<a href="posts/python-functions-return-values-consistency.html#rest_code_e02ab038cfe34174abd2848e3b3cfae3-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_e02ab038cfe34174abd2848e3b3cfae3-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="posts/python-functions-return-values-consistency.html#rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-1">1</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-2">2</a>
+<a href="posts/python-functions-return-values-consistency.html#rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_7a9d1272dd2f4a429e48d5faba5b8f92-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If con­tent is  <tt class="docutils literal">No­ne</tt>, it wi­ll rai­se an  <tt class="docutils literal">Attri­bu­teE­rror</tt>  sa­ying that No­ne has no­
 a­ttri­bu­te ca­lled &#8220;i­te­ms&#8221; (whi­ch is&nbsp;true).</p> 
  <p>The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
 by do­ing so­me­thing like the&nbsp;fo­llo­win­g:</p> 
- <pre class="code python"><a name="rest_code_36c66010fe3146eb84d015ce981a1608-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+ <pre class="code python"><a name="rest_code_782afd57dad44c08a484ed2f40b1fa71-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a ca­se of &#8220;co­ding de­fen­si­ve­l­y&#8221;, making su­re that the pro­gram wi­ll not fail un­de­r
 ­most con­di­tions (it would al­so re­qui­re to add an  <tt class="docutils literal">as­sert</tt>  or to rai­se an ex­cep­tio­n

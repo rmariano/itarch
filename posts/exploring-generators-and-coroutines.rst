@@ -17,7 +17,7 @@ idea of the evolution that lead to asynchronous programming in Python.
 We will review the main changes in Python that relate to generators and
 asynchronous programming, starting with PEP-255_ (Simple Generators), PEP-342_
 (Coroutines via Enhanced Generators), PEP-380_ (Syntax for delegating to a
-Sub-Generator), and finishing at PEP-525_ (Asynchronous Generators).
+Sub-Generator), and finishing with PEP-525_ (Asynchronous Generators).
 
 .. TEASER_END
 
@@ -67,8 +67,9 @@ Now let's see how much memory is used::
     48628
 
 
-The first number is the result of the print, whilst the second one the output
-of the `time` command, printing out the memory used by the program (~48 MiB).
+The first number is the result of the print, whilst the second one is the
+output of the `time` command, printing out the memory used by the program (~48
+MiB).
 
 Now, what if this is implemented with a generator instead?
 
@@ -78,14 +79,14 @@ keyword.
 
 .. code:: python
 
-	LIMIT = 1_000_000
-	def new_range(n):
-		i = 0
-		while i < n:
-			yield i
-			i += 1
+    LIMIT = 1_000_000
+    def new_range(n):
+        i = 0
+        while i < n:
+            yield i
+            i += 1
 
-	print(sum(new_range(LIMIT)))
+    print(sum(new_range(LIMIT)))
 
 This time, the result is::
 
@@ -93,10 +94,9 @@ This time, the result is::
 	499999500000
 	8992
 
-We see a great difference of the implementation that takes all numbers into a
-list in memory, and uses ~48MiB, against another implementation, that just get
-one element at the time, using much less memory (< 9 MiB) [1]_.
-
+We see a huge difference: the implementation that holds all numbers in a list
+in memory, uses ~48MiB, whereas the implementation that just uses one number at
+the time, uses much less memory (< 9 MiB) [1]_.
 
 We see the idea: when the `yield <expression>` is reached, the result of the
 expression will be passed to the caller code, and the generator will remain
@@ -124,8 +124,8 @@ values each time is called, and how to signal the stop (by raising
 ``StopIteration``).
 
 The idea of *iterables* is that they advance through values, by calling the
-built-in `next()` function on it, and this will produce values until the
-`StopIteration` exception is raised, signalling the end of the iteration.
+built-in ``next()`` function on it, and this will produce values until the
+``StopIteration`` exception is raised, signalling the end of the iteration.
 
 
 .. code:: python
@@ -145,22 +145,22 @@ built-in `next()` function on it, and this will produce values until the
     >>> list(f())
     [1, 2]
 
-In the first case, when calling `f()`, this creates a new generator. The first
-two calls to `next()`, will advance until the next `yield` statement, producing
-the values they have set. When there is nothing else to produce, the
-`StopIteration` is raised. Something similar to this, is what is actually run,
-when we iterate over this object in the form of `for x in iterable:...`. Only
-that Python internally handles the exception that determines when the for loop
-stops.
+In the first case, when calling ``f()``, this creates a new generator. The
+first two calls to ``next()``, will advance until the next ``yield`` statement,
+producing the values they have set. When there is nothing else to produce, the
+``StopIteration`` exception is raised. Something similar to this, is actually
+run, when we iterate over this object in the form of `for x in iterable: ...`.
+Only that Python internally handles the exception that determines when the for
+loop stops.
 
 Before wrapping up the introduction to generators, I want to make a quick
 comment, and highlight something important about the role of generators in the
 language, and why they're such a neat abstraction to have.
 
 Instead of using the eager version (the one that stores everything in a list),
-you might consider avoiding that by just using a loop and counting in it. It’s
-like saying “all I need is just the count, so I might as well just accumulate
-the value in a loop, and that’s it”. Something slightly similar to:
+you might consider avoiding that by just using a loop and counting inside it.
+It’s like saying “all I need is just the count, so I might as well just
+accumulate the value in a loop, and that’s it”. Something slightly similar to:
 
 .. code:: python
 
@@ -172,33 +172,37 @@ the value in a loop, and that’s it”. Something slightly similar to:
 
 This is something I might consider doing in a language that doesn't have
 generators. Don’t do this. Generators are the right way to go. By using a
-generator, we’re doing more than just wrapping the code of an iteration, we’re
+generator, we’re doing more than just wrapping the code of an iteration; we’re
 creating a sequence (which could even be infinite), and naming it. This
-sequence we have, is an object we can use in the rest of the code, it’s an
+sequence we have, is an object we can use in the rest of the code. It’s an
 abstraction. As such, we can combine it with the rest of the code (for example
 to filter on it), reuse it, pass it along to other objects, and more.
 
-For example, let’s say we have the sequence created with `new_range()`, and
+For example, let’s say we have the sequence created with ``new_range()``, and
 then we realize that we need the first 10 even numbers of it. This is as simple
-as doing::
+as doing.
 
-    Import itertools
-    rg = new_range(1_000_000)
-    itertools.islice(filter(lambda n: n % 2 == 0, rg), 10)
+.. code:: python
 
-And this is something we could not so easily do, if we had chosen the other
-option.
+    >>> import itertools
+    >>> rg = new_range(1_000_000)
+    >>> itertools.islice(filter(lambda n: n % 2 == 0, rg), 10)
 
-For years, this has been all about generators in Python, until there was
-another enhancement, by PEP-342, adding more methods to them in order to
-support coroutines.
+And this is something we could not so easily accomplish, had we chosen to
+ignore generators.
+
+For years, this has been all pretty much about generators in Python. Generators
+were introduced with the idea of iteration and lazy computation in mind.
+
+Later on, there was another enhancement, by PEP-342, adding more methods to
+them, with the goal of supporting coroutines.
 
 Coroutines
 ----------
 Roughly speaking, the idea of coroutines is to pause the execution of a
-function at a given point, from where it can be later resumed, in order to
-switch to run another part of the code. Basically we need functions that can be
-paused.
+function at a given point, from where it can be later resumed. The idea is that
+while a coroutine is *suspended*, the program can switch to run another part of
+the code. Basically, we need functions that can be paused.
 
 As we have seen from the previous example, generators have this feature: when
 the ``yield <expresson>``, is reached, a value is produced to the caller
@@ -206,20 +210,21 @@ object, and in the meantime the generator object is suspended. This suggested
 that generators can be used to support coroutines in Python, hence the name of
 the PEP being "Coroutines via Enhanced Generators".
 
-Now, for this to work, more changes have to be added. The following methods
-were added to generators.
+There is more, though. Coroutines have to support to be resumed from
+multiple entry points to continue their execution. Therefore, more changes are
+required. We need to be able to pass data back to them, and handle exceptions.
+For this, more methods were added to their interface.
 
-* `send(<value>)`
-* `throw(ex_type[, ex_value[, ex_traceback]])`
-* `close()`
+* ``send(<value>)``
+* ``throw(ex_type[, ex_value[, ex_traceback]])``
+* ``close()``
 
 These methods allow sending a value to a generator, throwing an exception
 inside it, and closing it, respectively.
 
-The ``send()`` method means that with this change, `yield` becomes an
-*expression*, rather than a *statement* (as it was before). With this, is
-possible to assign the result of a `yield` to a variable, and the value will be
-whatever it was sent to it.
+The ``send()`` method implies that `yield` becomes an *expression*, rather than
+a *statement* (as it was before). With this, is possible to assign the result
+of a `yield` to a variable, and the value will be whatever it was sent to it.
 
 .. code:: python
 
@@ -240,16 +245,16 @@ whatever it was sent to it.
 	Got 42
 	3
 
-As we can see from this previous code, the value set to `yield` is going to be
-the result of the `send`, (in this case, the consecutive numbers of the
-sequence), while the value passed in the `send()`, the parameter, is the result
-that is assigned to `value` as returned by the `yield`, and printed out on the
-next line.
+As we can see from this previous code, the value sent by ``yield`` is going to
+be the result of the ``send``, (in this case, the consecutive numbers of the
+sequence), while the value passed in the ``send()``, the parameter, is the
+result that is assigned to ``value`` as returned by the ``yield``, and printed
+out on the next line.
 
 Before sending any values to the generator, this has to be advanced to the next
-`yield`. In fact, advancing is the only allowed operation on a newly-created
-generator. This can be done by calling `next(g)` or `g.send(None)`, which are
-equivalent.
+``yield``. In fact, advancing is the only allowed operation on a newly-created
+generator. This can be done by calling ``next(g)`` or ``g.send(None)``, which
+are equivalent.
 
 .. WARNING::
     Remember to always advance a generator that was just created, or you will
@@ -264,14 +269,23 @@ the generator, it will fail, and the exception will propagate to the caller.
 
 The ``.close()`` method is used to terminate the generator. It will raise the
 ``GeneratorExit`` exception inside the generator. If we wish to run some clean
-up code, this is the exception to handle.
+up code, this is the exception to handle. When handling this exception, the
+only allowed action is to return a value.
+
+With these additions, generators have now evolved into coroutines. This means
+our code can now support *concurrent programming*, suspend the execution of
+tasks, compute non-blocking I/O, and such.
+
+While this works, handling many coroutines, refactor generators, and organizing
+the code became a bit cumbersome. More work had to be done, if we wanted to
+keep a Pythonic way of doing concurrent programming.
 
 
 More Coroutines
 ---------------
-Now in Python 3, there were more changes added to coroutines, this time with
-the goal of supporting delegation to sub-generators. Two main things changed on
-generators to make them more useful as coroutines:
+PEP-380 added more changes to coroutines, this time with the goal of supporting
+delegation to sub-generators. Two main things changed in generators to make
+them more useful as coroutines:
 
 * Generators can now return values.
 * The ``yield from`` syntax.
@@ -311,14 +325,14 @@ value do? It's contained inside the exception, as an attribute in
 Notice that the value returned by the generator is stored inside the exception,
 in `StopIteration.value`. This might sound like is not the most elegant
 solution, but doing so, preserves the original interface, and the protocol
-remains unchanged, it's still the same kind of exception signalling the end of
+remains unchanged. It's still the same kind of exception signalling the end of
 the iteration.
 
 yield from
 ^^^^^^^^^^
 Another syntax change to the language.
 
-In its most basic form, the construction ``yield from iterable``, can be
+In its most basic form, the construction ``yield from <iterable>``, can be
 thought of as::
 
     for e in iterable:
@@ -329,7 +343,7 @@ Basically this means that it extends an *iterable*, yielding all elements that
 this internal *iterable* can produce.
 
 For example, this way we could create a clone of the ``itertools.chain``
-function on the standard library
+function from the standard library.
 
 .. code:: python
 
@@ -387,6 +401,20 @@ the name of the last generator becomes the resulting ``StopIteration.value``).
 We see now the real value of this construction. With this, it's easier to
 refactor generators into smaller pieces, compose them and chain them together
 while preserving the behaviour of coroutines.
+
+The new ``yield from`` syntax is a great step towards supporting better
+concurrency. We can now think generators as being "lightweight threads", that
+delegate functionality to an internal generator, pause the execution, so that
+other things can be computed in that time.
+
+
+Because syntactically generators are like coroutines, it was possible to
+accidentally confuse them, and end up placing a generator where a coroutine
+would have been expected (the ``yield from`` would accept it, after all). For
+this reason, the next step is to actually define the concept of coroutine as a
+proper type. With this change, it also followed that ``yield from`` evolved
+into ``await``, and a new syntax for defining coroutines was introduced:
+``async``.
 
 
 async def / await
@@ -520,7 +548,7 @@ In Python 3.5 not only the proper syntax for coroutines was added (``async def
 / await``), but also the concept of asynchronous iterators. The idea of having
 an asynchronous *iterable* is to iterate while running asynchronous code. For
 this new methods such as ``__aiter__`` and ``__anext__`` where added under the
-concept of asynchronous generators.
+concept of asynchronous iterators.
 
 However there was no support for asynchronous generators. That is analogous to
 saying that for asynchronous code we had to use *iterables* (like ``__iter__ /
