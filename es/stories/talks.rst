@@ -12,13 +12,17 @@ Collection of talks presented at conferences.
 Upcoming
 ========
 
-* Python BCN Meetup (17/01/2018): "Exploring generators and coroutines"
 
+2018
+====
+
+* ``Python BCN Meetup`` | :doc:`exploring-generators-and-coroutines` | 17 Jan
+  `slides <https://speakerdeck.com/rmariano/exploring-generators-and-coroutines>`__
 
 2017
 ====
 
-* ``EuroPython 2017`` | Discovering Descriptors | 11 July
+* ``EuroPython 2017`` | :doc:`discovering-descriptors` | 11 July
   `video <https://youtu.be/TAuC086NNmo>`__
   `slides <https://speakerdeck.com/rmariano/discovering-descriptors-ep>`__
 

@@ -11,7 +11,7 @@ A recap of the main events and posts throughout the year that is ending.
 
 This year I attended some conferences overseas, where I presented talks. First,
 in June, I went to the beautiful city of Prague for PyCon CZ 2017. At first, I
-got only one talk approved, `:doc:discovering-descriptors`, which was a new
+got only one talk approved, :doc:`discovering-descriptors`, which was a new
 topic I was presenting. A few days before the conference started, another
 speaker had to step down, so I was asked to fill in the slot, to which I agreed
 by proposing my talk of clean code in Python. That meant I presented one the

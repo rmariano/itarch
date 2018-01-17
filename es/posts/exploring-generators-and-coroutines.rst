@@ -642,6 +642,14 @@ are different, and have different purposes, but in terms of implementation
 generators are what make all this asynchronous programming possible.
 
 
+Slides
+------
+
+.. raw:: html
+
+        <script async class="speakerdeck-embed" data-id="9d8c57392f9a4a248f9f27203ca289ee" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+
+
 References
 ----------
 
