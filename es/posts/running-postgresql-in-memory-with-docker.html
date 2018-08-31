@@ -47,7 +47,7 @@ we would like to en­su­re that we are de­ve­lo­ping and tes­ting in si­tu
             </a>
         </div>
 <!-- /.navbar-header -->
-        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+        <div class="collapse navbar-collapse" id="bs-navbar" role="navigation" aria-expanded="false">
             <ul class="nav navbar-nav">
 <li>
 <a href="../../index.html">Home</a>
@@ -131,25 +131,25 @@ u­sing a  <tt class="docutils literal">tm­pfs</tt>   <a class="footnote-refere
 docker pull fedora/postgresql
 </pre>
 <p>Then, I could crea­te a  <tt class="docutils literal">tm­pfs</tt>, for the da­ta and mount&nbsp;it</p> 
- <pre class="code bash"><a name="rest_code_6d6a6289a44d498493edef11fcc3efb7-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_6d6a6289a44d498493edef11fcc3efb7-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+ <pre class="code bash"><a name="rest_code_955961e05eac47069aed96c741b89189-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_955961e05eac47069aed96c741b89189-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the da­ta­ba­se con­tai­ner using this&nbsp;di­rec­to­r­y:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-1">1</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-2">2</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-3">3</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-4">4</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-5">5</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-6">6</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_42db474df70e4fa5b6db66ff7407bcaa-7">7</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-1"></a>docker run --name mempostgres <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
-<a name="rest_code_42db474df70e4fa5b6db66ff7407bcaa-7"></a>    fedora/postgresql
+<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-1">1</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-2">2</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-3">3</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-4">4</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-5">5</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-6">6</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_729bf420f6bb4ef682fa79d78870bcf8-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_729bf420f6bb4ef682fa79d78870bcf8-7"></a>    fedora/postgresql
 </pre></td>
 </tr></table>
 <p>The first li­ne in­di­ca­tes the na­me for the con­tai­ner we are run­ning (if is no­t
@@ -174,14 +174,14 @@ a­ppli­ca­tio­n,&nbsp;etc.).</p>
  <p>For exam­ple, if we want to use the  <tt class="docutils literal">ps­ql</tt>  client wi­th the con­tai­ne­r, the
 ­co­m­mand would&nbsp;be:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-1">1</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-2">2</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-3">3</a>
-<a href="running-postgresql-in-memory-with-docker.html#rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-4">4</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-1"></a>docker run -it --rm <span class="se">\</span>
-<a name="rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-2"></a>--link mempostgres:postgres <span class="se">\</span>
-<a name="rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-3"></a>fedora/postgresql <span class="se">\</span>
-<a name="rest_code_e5e1ea8ef8b54451bfc38a97f02aebb8-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<td class="linenos"><div class="linenodiv"><pre><a href="running-postgresql-in-memory-with-docker.html#rest_code_ef317ee7c77040f4a7e4cd5c6852a507-1">1</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_ef317ee7c77040f4a7e4cd5c6852a507-2">2</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_ef317ee7c77040f4a7e4cd5c6852a507-3">3</a>
+<a href="running-postgresql-in-memory-with-docker.html#rest_code_ef317ee7c77040f4a7e4cd5c6852a507-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_ef317ee7c77040f4a7e4cd5c6852a507-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_ef317ee7c77040f4a7e4cd5c6852a507-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_ef317ee7c77040f4a7e4cd5c6852a507-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_ef317ee7c77040f4a7e4cd5c6852a507-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </pre></td>
 </tr></table>
 </div>
@@ -189,7 +189,7 @@ a­ppli­ca­tio­n,&nbsp;etc.).</p>
 <h2>Applications</h2>
 <p>If we ha­ve  <tt class="docutils literal">Pos­tgreS­QL</tt>  ins­ta­lle­d, we could sim­ply start a new ins­tan­ce as
 our user wi­th the co­m­mand (<tt class="docutils literal">pos­tgres ...</tt>) and pa­ss the  <tt class="docutils literal"><span class="pre">-D</span></tt>  pa­ra­me­ter wi­th
-­the de­si­red pa­th whe­re the da­ta­ba­se is go­ing to sto­re the da­ta (whi­ch wi­ll be­
+­the de­si­red pa­th whe­re the da­ta­ba­se is going to sto­re the da­ta (whi­ch wi­ll be­
 ­the  <tt class="docutils literal">tm­pfs</tt>/<tt class="docutils literal">ra­m­disk</tt>). This would be ano­ther way of achie­ving the&nbsp;sa­me.</p> 
  <p>Re­gard­le­ss the im­ple­men­ta­tion­s, he­re are so­me po­ten­tial&nbsp;appli­ca­tion­s:</p> 
  <ol class="arabic simple">

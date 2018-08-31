@@ -45,7 +45,7 @@
             </a>
         </div>
 <!-- /.navbar-header -->
-        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+        <div class="collapse navbar-collapse" id="bs-navbar" role="navigation" aria-expanded="false">
             <ul class="nav navbar-nav">
 <li>
 <a href="../../index.html">Home</a>
@@ -113,25 +113,25 @@
  <p>Do you no­ti­ce so­me­thing odd&nbsp;he­re?</p> 
  <p>What if I want to use the re­sul­t? I can­not do it safe­l­y, for&nbsp;exam­ple:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_149fed5dc668428e91bcd10ee5f60d21-1">1</a>
-<a href="python-functions-return-values-consistency.html#rest_code_149fed5dc668428e91bcd10ee5f60d21-2">2</a>
-<a href="python-functions-return-values-consistency.html#rest_code_149fed5dc668428e91bcd10ee5f60d21-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_149fed5dc668428e91bcd10ee5f60d21-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_149fed5dc668428e91bcd10ee5f60d21-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_149fed5dc668428e91bcd10ee5f60d21-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="python-functions-return-values-consistency.html#rest_code_2b2521dc361749509a1da260d48ee7cd-1">1</a>
+<a href="python-functions-return-values-consistency.html#rest_code_2b2521dc361749509a1da260d48ee7cd-2">2</a>
+<a href="python-functions-return-values-consistency.html#rest_code_2b2521dc361749509a1da260d48ee7cd-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_2b2521dc361749509a1da260d48ee7cd-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_2b2521dc361749509a1da260d48ee7cd-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_2b2521dc361749509a1da260d48ee7cd-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
 <p>If con­tent is  <tt class="docutils literal">No­ne</tt>, it wi­ll rai­se an  <tt class="docutils literal">Attri­bu­teE­rror</tt>  sa­ying that No­ne has no­
 a­ttri­bu­te ca­lled &#8220;i­te­ms&#8221; (whi­ch is&nbsp;true).</p> 
  <p>The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
-by do­ing so­me­thing like the&nbsp;fo­llo­win­g:</p> 
- <pre class="code python"><a name="rest_code_c41f1d24854f487f8f1ce024dbe17dff-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+by doing so­me­thing like the&nbsp;fo­llo­win­g:</p> 
+ <pre class="code python"><a name="rest_code_2d79c02e424f4871a05b10f6ef920803-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a ca­se of &#8220;co­ding de­fen­si­ve­l­y&#8221;, making su­re that the pro­gram wi­ll not fail un­de­r
 ­most con­di­tions (it would al­so re­qui­re to add an  <tt class="docutils literal">as­sert</tt>  or to rai­se an ex­cep­tio­n
 ­perhap­s, but that is a di­ffe­rent to­pi­c). I ac­tua­lly agree wi­th de­fen­si­ve pro­gra­m­min­g,
 ­but I thi­nk it is be­tter if the li­bra­ry itself has a mo­re co­rrect be­ha­viou­r, res­pec­tin­g
-­the in­ter­fa­ce (that is: if you are go­ing to re­turn a dic­tio­na­r­y, and the­re is not con­ten­t,
+­the in­ter­fa­ce (that is: if you are going to re­turn a dic­tio­na­r­y, and the­re is not con­ten­t,
 ­then the lo­gi­cal as­sump­tion is to ex­pect an emp­ty dic­tio­na­r­y).
 ­This must be the de­fault be­ha­viou­r, not so­me­thing to be set by&nbsp;pa­ra­me­ter­s.</p> 
  <p>This could be thou­ght as an ins­tan­ce of a mo­re ge­ne­ral pro­blem that oc­curs when so­me func­tio­n
