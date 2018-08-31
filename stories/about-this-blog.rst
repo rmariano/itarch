@@ -16,16 +16,16 @@ for this blog.
 
 About the author
 ^^^^^^^^^^^^^^^^
-I am a software engineer, and open source contributor, focused mainly on Python,
-Linux, functional programming, and distributed systems.
 
-I've also given some :doc:`talks` at technical conferences.
+Mariano is a software engineer who spends most of his time creating software
+with Python, and mentoring fellow programmers. Mariano's main areas of
+interests besides Python are Linux, software architecture, functional
+programming, distributed systems, and :doc:`speaking at conferences <talks>`.
 
 
 Contact
 ^^^^^^^
 
-Any comments or feedback are much appreciated:
-
 * Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`__
 * GitHub: `rmariano <https://github.com/rmariano>`__
+* Speaker deck: `rmariano <https://speakerdeck.com/rmariano>`__
