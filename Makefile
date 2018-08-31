@@ -1,5 +1,5 @@
 .PHONY: all
-all : clean build serve
+all: clean build serve
 
 .PHONY: setup
 setup:
