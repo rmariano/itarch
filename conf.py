@@ -83,7 +83,7 @@ TIMEZONE = "CET"
 
 # Date format used to display post dates.
 # Format is CLDR: http://cldr.unicode.org/translation/date-time
-DATE_FORMAT = "EEE LLL dd, yyyy - HH:mm"
+DATE_FORMAT = "EEE LLL dd, yyyy - HH:mm z"
 
 # While nikola can select a sensible locale for each language,
 # sometimes explicit control can come handy.
