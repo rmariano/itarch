@@ -24,7 +24,7 @@ SITE_URL = "https://rmariano.github.io/itarch/"
 # If not set, defaults to SITE_URL
 BASE_URL = "https://rmariano.github.io/itarch/"
 BLOG_EMAIL = "marianoanaya@gmail.com"
-BLOG_DESCRIPTION = "A blog about software engineering, technology and ideas."  # (translatable)
+BLOG_DESCRIPTION = "A blog about software engineering."
 
 # Nikola is multilingual!
 # What is the default language?
@@ -33,10 +33,7 @@ DEFAULT_LANG = "en"
 # What other languages do you have?
 # The format is {"translationcode" : "path/to/translation" }
 # the path will be used as a prefix for the generated pages location
-TRANSLATIONS = {
-    DEFAULT_LANG: "",
-    "es": "./es",
-}
+TRANSLATIONS = {DEFAULT_LANG: "", "es": "./es"}
 
 # What will translated input files be named like?
 
@@ -53,13 +50,13 @@ TRANSLATIONS_PATTERN = "{path}.{lang}.{ext}"
 # (the same way you would do with a (translatable) setting.)
 NAVIGATION_LINKS = {
     DEFAULT_LANG: (
-        ('/index.html', 'Home'),
+        ("/index.html", "Home"),
         ("/archive.html", "Archive"),
         ("/categories/index.html", "Tags"),
         ("https://github.com/rmariano", "Github"),
         ("/stories/about-this-blog.html", "About"),
         ("/rss.xml", "RSS"),
-    ),
+    )
 }
 
 # Name of the theme to use.
@@ -91,9 +88,7 @@ DATE_FORMAT = "EEE LLL dd, yyyy - HH:mm z"
 # python's locales will accept in your OS, by example
 # "en_US.utf8" in unix-like OS, "English_United States" in Windows.
 # LOCALES = dict mapping language --> explicit locale for the languages
-LOCALES = {
-    'en': 'en_GB.utf8',
-}
+LOCALES = {"en": "en_GB.utf8"}
 # in TRANSLATIONS. You can ommit one or more keys.
 # LOCALE_FALLBACK = locale to use when an explicit locale is unavailable
 # LOCALE_DEFAULT = locale to use for languages not mentioned in LOCALES; if
@@ -147,18 +142,18 @@ PAGES = (
 # 'markdown' is MarkDown
 # 'html' assumes the file is html and just copies it
 COMPILERS = {
-    "rest": ('.rst', '.txt'),
-    "markdown": ('.md', '.mdown', '.markdown'),
-    "textile": ('.textile',),
-    "txt2tags": ('.t2t',),
-    "bbcode": ('.bb',),
-    "wiki": ('.wiki',),
-    "ipynb": ('.ipynb',),
-    "html": ('.html', '.htm'),
+    "rest": (".rst", ".txt"),
+    "markdown": (".md", ".mdown", ".markdown"),
+    "textile": (".textile",),
+    "txt2tags": (".t2t",),
+    "bbcode": (".bb",),
+    "wiki": (".wiki",),
+    "ipynb": (".ipynb",),
+    "html": (".html", ".htm"),
     # PHP files are rendered the usual way (i.e. with the full templates).
     # The resulting files have .php extensions, making it possible to run
     # them without reconfiguring your server to recognize them.
-    "php": ('.php',),
+    "php": (".php",),
     # Pandoc detects the input from the source filename
     # but is disabled by default as it would conflict
     # with many of the others.
@@ -249,8 +244,8 @@ REDIRECTIONS = []
 
 # For user.github.io/organization.github.io pages, the DEPLOY branch
 # MUST be 'master', and 'gh-pages' for other repositories.
-GITHUB_SOURCE_BRANCH = 'master'
-GITHUB_DEPLOY_BRANCH = 'gh-pages'
+GITHUB_SOURCE_BRANCH = "master"
+GITHUB_DEPLOY_BRANCH = "gh-pages"
 
 # The name of the remote where you wish to push to, using github_deploy.
 # GITHUB_REMOTE_NAME = 'origin'
@@ -285,10 +280,7 @@ GITHUB_DEPLOY_BRANCH = 'gh-pages'
 #
 # Many filters are shipped with Nikola.  A list is available in the manual:
 # <http://getnikola.com/handbook.html#post-processing-filters>
-FILTERS = {
-    '.html': [filters.typogrify],
-#    ".jpg": ["jpegoptim --strip-all -m75 -v %s"],
-}
+FILTERS = {".html": [filters.typogrify]}
 
 # Expert setting! Create a gzipped copy of each generated file. Cheap server-
 # side optimization for very high traffic sites or low memory servers.
@@ -385,7 +377,9 @@ INDEX_TEASERS = True
 # 'Read more...' for the index page, if INDEX_TEASERS is True (translatable)
 INDEX_READ_MORE_LINK = '<p class="more"><a href="{link}">{read_more}…</a></p>'
 # 'Read more...' for the RSS_FEED, if RSS_TEASERS is True (translatable)
-FEED_READ_MORE_LINK = '<p><a href="{link}">{read_more}…</a> ({min_remaining_read})</p>'
+FEED_READ_MORE_LINK = (
+    '<p><a href="{link}">{read_more}…</a> ({min_remaining_read})</p>'
+)
 
 # A HTML fragment describing the license, for the sidebar.
 # (translatable)
@@ -427,8 +421,8 @@ CONTENT_FOOTER_FORMATS = {
             "email": BLOG_EMAIL,
             "author": BLOG_AUTHOR,
             "date": time.gmtime().tm_year,
-            "license": LICENSE
-        }
+            "license": LICENSE,
+        },
     )
 }
 
@@ -616,7 +610,7 @@ FUTURE_IS_NOW = True
 # <input type="text" name="q" maxlength="255" results="0" placeholder="Search"/>
 # </form>
 # <!-- End of custom search -->
-#""" % SITE_URL
+# """ % SITE_URL
 
 # Use content distribution networks for jquery, twitter-bootstrap css and js,
 # and html5shiv (for older versions of Internet Explorer)
@@ -729,7 +723,7 @@ HYPHENATE = True
 #          experience!
 
 LOGGING_HANDLERS = {
-    'stderr': {'loglevel': 'INFO', 'bubble': True},
+    "stderr": {"loglevel": "INFO", "bubble": True},
     # 'smtp': {
     #     'from_addr': 'test-errors@example.com',
     #     'recipients': ('test@example.com'),
@@ -749,5 +743,5 @@ LOGGING_HANDLERS = {
 # Put in global_context things you want available on all your templates.
 # It can be anything, data, functions, modules, etc.
 GLOBAL_CONTEXT = {}
-LISTINGS_FOLDERS = {'listings': 'listings'}
+LISTINGS_FOLDERS = {"listings": "listings"}
 WRITE_TAG_CLOUD = True
