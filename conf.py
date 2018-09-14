@@ -61,6 +61,11 @@ NAVIGATION_LINKS = {
 
 # Name of the theme to use.
 THEME = "bootstrap4"
+THEME_CONFIG = {
+    DEFAULT_LANG: {
+        "navbar_light": False,
+    },
+}
 
 # Below this point, everything is optional
 
