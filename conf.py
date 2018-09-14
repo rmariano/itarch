@@ -82,8 +82,8 @@ TIMEZONE = "CET"
 # FORCE_ISO8601 = False
 
 # Date format used to display post dates.
-# (str used by datetime.datetime.strftime)
-DATE_FORMAT = "%a %b %d, %Y - %H:%M"
+# Format is CLDR: http://cldr.unicode.org/translation/date-time
+DATE_FORMAT = "EEE LLL dd, yyyy - HH:mm"
 
 # While nikola can select a sensible locale for each language,
 # sometimes explicit control can come handy.
@@ -663,7 +663,7 @@ BODY_END = """
 
 # If you hate "Filenames with Capital Letters and Spaces.md", you should
 # set this to true.
-UNSLUGIFY_TITLES = True
+FILE_METADATA_UNSLUGIFY_TITLES = True
 
 # Additional metadata that is added to a post when creating a new_post
 # ADDITIONAL_METADATA = {}
