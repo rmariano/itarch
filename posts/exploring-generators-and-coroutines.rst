@@ -46,7 +46,7 @@ returns a list with all the numbers on the interval. Imagine we want to come up
 with a similar implementation of it, in order to get the sum of all numbers up
 to a certain limit.
 
-.. code:: python
+.. code:: python3
 
     LIMIT = 1_000_000
     def old_range(n):
@@ -77,7 +77,7 @@ We just have to get rid of the list, and place the `yield` statement instead,
 indicating that we want to produce the value on the expression that follows the
 keyword.
 
-.. code:: python
+.. code:: python3
 
     LIMIT = 1_000_000
     def new_range(n):
@@ -102,7 +102,7 @@ We see the idea: when the `yield <expression>` is reached, the result of the
 expression will be passed to the caller code, and the generator will remain
 *suspended* at that line in the meanwhile.
 
-.. code:: python
+.. code:: python3
 
 	>>> import inspect
 	>>> r = new_range(1_000_000)
@@ -128,7 +128,7 @@ built-in ``next()`` function on it, and this will produce values until the
 ``StopIteration`` exception is raised, signalling the end of the iteration.
 
 
-.. code:: python
+.. code:: python3
 
     >>> def f():
     ...     yield 1
@@ -162,7 +162,7 @@ you might consider avoiding that by just using a loop and counting inside it.
 It’s like saying “all I need is just the count, so I might as well just
 accumulate the value in a loop, and that’s it”. Something slightly similar to:
 
-.. code:: python
+.. code:: python3
 
     total = 0
     i = 0
@@ -182,7 +182,7 @@ For example, let’s say we have the sequence created with ``new_range()``, and
 then we realize that we need the first 10 even numbers of it. This is as simple
 as doing.
 
-.. code:: python
+.. code:: python3
 
     >>> import itertools
     >>> rg = new_range(1_000_000)
@@ -226,7 +226,7 @@ The ``send()`` method implies that `yield` becomes an *expression*, rather than
 a *statement* (as it was before). With this, is possible to assign the result
 of a `yield` to a variable, and the value will be whatever it was sent to it.
 
-.. code:: python
+.. code:: python3
 
 	>>> def gen(start=0):
 	...     step = start
@@ -304,7 +304,7 @@ that a generator returns a value? It means that it stops. And where does that
 value do? It's contained inside the exception, as an attribute in
 ``StopIteration.value``.
 
-.. code:: python
+.. code:: python3
 
 	def gen():
 		yield 1
@@ -345,7 +345,7 @@ this internal *iterable* can produce.
 For example, this way we could create a clone of the ``itertools.chain``
 function from the standard library.
 
-.. code:: python
+.. code:: python3
 
     >>> def chain2(*iterables):
     ...:     for it in iterables:
@@ -360,7 +360,7 @@ added to the language. The raison d'etre of this construction is to actually
 delegate responsibility into smaller generators, and chain them.
 
 
-.. code:: python
+.. code:: python3
 
     >>> def internal(name, limit):
     ...:     for i in range(limit):
@@ -447,7 +447,7 @@ The following two coroutines ``step`` and ``coro`` are a simple example, of how
 ``await`` works similar to ``yield from`` delegating the values to the
 internal generator.
 
-.. code:: python
+.. code:: python3
 
     >>>  @types.coroutine
     ...: def step():
@@ -486,7 +486,7 @@ we would write, while ``step`` would be an external function we call.
 
 The following two coroutines are different ways of defining coroutines.
 
-.. code:: python
+.. code:: python3
 
     # py 3.4
     @asyncio.coroutine
@@ -562,7 +562,7 @@ element at the time, etc.), while iterating.
 Consider this simple example on which we want to iterate while calling some I/O
 code that we don't want to block upon.
 
-.. code:: python
+.. code:: python3
 
     async def recv(no, size) -> str:
         """Simulate reading <size> bytes from a remote source, asynchronously.
@@ -604,7 +604,7 @@ produced, one at the time, while calling an I/O task (in this example
 With asynchronous generators, the same could be rewritten in a more compact
 way.
 
-.. code:: python
+.. code:: python3
 
     async def async_data_streamer():
         LIMIT = 10
