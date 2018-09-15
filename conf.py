@@ -54,7 +54,7 @@ NAVIGATION_LINKS = {
         ("/archive.html", "Archive"),
         ("/categories/index.html", "Tags"),
         ("https://github.com/rmariano", "Github"),
-        ("/stories/about-this-blog.html", "About"),
+        ("/pages/about-this-blog", "About"),
         ("/rss.xml", "RSS"),
     )
 }
@@ -129,8 +129,10 @@ POSTS = (
     ("posts/*.txt", "posts", "post.tmpl"),
 )
 PAGES = (
-    ("stories/*.rst", "stories", "story.tmpl"),
-    ("stories/*.txt", "stories", "story.tmpl"),
+    ("pages/*.rst", "pages", "page.tmpl"),
+    ("pages/*.txt", "pages", "page.tmpl"),
+    ("pages/*.md", "pages", "page.tmpl"),
+    ("pages/*.html", "pages", "page.tmpl"),
 )
 
 # One or more folders containing files to be copied as-is into the output.
