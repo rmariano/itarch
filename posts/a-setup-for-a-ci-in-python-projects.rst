@@ -7,8 +7,8 @@
 .. description:
 .. type: text
 
-Following up on `the previous entry about automating some of the checks that
-are done as part of the code review code review <>`_ and `another good
+Following up on the previous entry about automating some of the checks that
+are done as part of the code review code review and `another good
 reference on coontinuous integration for Python by Brett Cannon
 <https://snarky.ca/how-to-use-your-project-travis-to-help-test-python-itself/>`_,
 now is time of summarizing what makes a good continuous integration (CI) setup
