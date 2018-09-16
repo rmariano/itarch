@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running PostgreSQL in memory with docker | IT Arch</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../2016-in-review/" title="2016 in review" type="text/html">
+<link rel="next" href="../wrapped-in-python-decorators/" title="__wrapped__ in Python decorators" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Running PostgreSQL in memory with docker">
+<meta property="og:url" content="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker/">
+<meta property="og:description" content="Introduction
+In­ter­act­ing with a database, can be a reg­u­lar task of a de­vel­op­er, and for that
+we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
+­to a re­al ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-01-22T17:09:59+01:00">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="postgres">
+<link rel="alternate" hreflang="es" href="../../es/posts/running-postgresql-in-memory-with-docker/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Running PostgreSQL in memory with&nbsp;docker</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2017-01-22T17:09:59+01:00" itemprop="datePublished" title="Sun Jan 22, 2017 - 17:09 +0100">Sun Jan 22, 2017 - 17:09 +0100</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<div class="section" id="introduction">
+<h2>Introduction</h2>
+<p>In­ter­act­ing with a database, can be a reg­u­lar task of a de­vel­op­er, and for that
+we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
+­to a re­al im­ple­men­ta­tion; there­fore, us­ing the same data­base as in­
+pro­duc­tion can help de­tect­ing is­sues&nbsp;ear­ly.</p> 
+ <p>How­ev­er, set­ting up an en­tire data­base serv­er for de­vel­op­men­t, can be
+cum­ber­some. Hope­ful­ly nowa­days, mod­ern op­er­at­ing sys­tems like  <tt class="docutils literal">Lin­ux</tt>  have
+­great tools and fea­tures that we could take ad­van­tage&nbsp;of.</p> 
+ <p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing
+ <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p> 
+ <p>The idea is sim­ple: run a dock­er con­tain­er with the im­age for  <tt class="docutils literal">Post­gresSQL</tt>,
+us­ing a  <tt class="docutils literal">tmpfs</tt>   <a class="footnote-reference" href="#id4" id="id1">[1]</a>   <a class="footnote-reference" href="#id5" id="id2">[2]</a>  as stor­age for the data­base (a  <tt class="docutils literal">ramfs</tt>  could al­so
+be&nbsp;used).</p> 
+ <!-- TEASER_END -->
+</div>
+<div class="section" id="procedure">
+<h2>Procedure</h2>
+<p>First, we get the im­age of  <tt class="docutils literal">Post­gresSQL</tt>  ac­cord­ing to the plat­for­m, for&nbsp;ex­am­ple:</p> 
+ <pre class="literal-block">
+docker pull fedora/postgresql
+</pre>
+<p>Then, I could cre­ate a  <tt class="docutils literal">tmpfs</tt>, for the da­ta and mount&nbsp;it</p> 
+ <pre class="code bash"><a name="rest_code_74d0e3f623ed4578919ae02ea9284bad-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_74d0e3f623ed4578919ae02ea9284bad-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+</pre>
+<p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p> 
+ <table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-1">1</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-2">2</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-3">3</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-4">4</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-5">5</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-6">6</a>
+<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-7"></a>    fedora/postgresql
+</pre></td>
+</tr></table>
+<p>The first line in­di­cates the name for the con­tain­er we are run­ning (if is not
+spec­i­fied, dock­er will put a de­fault one); the sec­ond line is the im­por­tan­t
+one, since it is what makes the map­ping of di­rec­to­ries, mean­ing that will map
+the di­rec­to­ry for the  <tt class="docutils literal">tmpfs</tt>  on the host, mount­ed as  <tt class="docutils literal">/var/lib/pgsql/­da­ta</tt> 
+in­side the con­tain­er (the tar­get). The lat­er di­rec­to­ry is the one
+ <tt class="docutils literal">Post­greSQL</tt>  us­es by de­fault for ini­tial­iz­ing and stor­ing the da­ta of the
+­database.  The  <tt class="docutils literal">Z</tt>  at the end of the map­ping is an in­ter­nal de­tail for
+flag­ging that di­rec­to­ry in case  <tt class="docutils literal">SELin­ux</tt>  is en­abled, so it will not fail due
+­to a per­mis­sions er­rors (be­cause con­tain­ers run as an­oth­er user, and we are
+­mount­ing some­thing that might be out of that scope)  <a class="footnote-reference" href="#id6" id="id3">[3]</a>.</p> 
+ <p>The rest of the three lines, are en­vi­ron­ment vari­ables that dock­er will use for
+the ini­tial­iza­tion of the data­base (they are op­tion­al, and de­faults will be
+used, in case they are not pro­vid­ed). Then fol­lows the port map­ping, which in­
+this case in­di­cates to map the port  <tt class="docutils literal">5432</tt>  in­side the con­tain­er to the same
+one on the host. And fi­nal­ly, the name of the  <tt class="docutils literal">dock­er</tt>  im­age we will&nbsp;run.</p> 
+ <p>Once this is run­ning, it would look like we have an ac­tu­al in­stance of
+ <tt class="docutils literal">Post­greSQL</tt>  up and run­ning on our ma­chine (ac­tu­al­ly we do, but it is in­sid­e
+a con­tain­er :-), so we can con­nect with any client (even a  <tt class="docutils literal">Python</tt> 
+ap­pli­ca­tion,&nbsp;etc.).</p> 
+ <p>For ex­am­ple, if we want to use the  <tt class="docutils literal">psql</tt>  client with the con­tain­er, the
+­com­mand would&nbsp;be:</p> 
+ <table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-1">1</a>
+<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-2">2</a>
+<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-3">3</a>
+<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+</pre></td>
+</tr></table>
+</div>
+<div class="section" id="applications">
+<h2>Applications</h2>
+<p>If we have  <tt class="docutils literal">Post­greSQL</tt>  in­stalled, we could sim­ply start a new in­stance as
+our us­er with the com­mand (<tt class="docutils literal">post­gres ...</tt>) and pass the  <tt class="docutils literal"><span class="pre">-D</span></tt>  pa­ram­e­ter with­
+the de­sired path where the data­base is go­ing to store the da­ta (which will be
+the  <tt class="docutils literal">tmpfs</tt>/<tt class="docutils literal">ramdisk</tt>). This would be an­oth­er way of achiev­ing the&nbsp;same.</p> 
+ <p>Re­gard­less the im­ple­men­ta­tion­s, here are some po­ten­tial&nbsp;ap­pli­ca­tion­s:</p> 
+ <ol class="arabic simple">
+<li>Lo­cal de­vel­op­ment with­out re­quir­ing disk stor­age, and run­ning faster at the
+same&nbsp;time.</li> 
+ <li>Unit test­ing: unit tests should be fast, grant­ed. Some­times, it makes
+per­fect sense to run the tests against an ac­tu­al data­base (prac­ti­cal­i­ty
+beats pu­ri­ty), even if this makes them &#8220;in­te­gra­tion/­func­tion­al&#8221; test­s. In­
+this re­gard, hav­ing a light­weight data­base con­tain­er run­ning lo­cal­ly could
+achieve the goal with­out com­pro­mis­ing&nbsp;per­for­mance.</li> 
+ <li>Iso­la­tion: (this on­ly ap­plies for the con­tain­er ap­proach), run­ning
+ <tt class="docutils literal">Post­greSQL</tt>  in a  <tt class="docutils literal">dock­er</tt>  con­tain­er, en­cap­su­lates the li­braries, tool­s,
+­pack­ages, etc. in  <tt class="docutils literal">dock­er</tt>, so the rest of the sys­tem does not have to
+­main­tain much oth­er pack­ages in­stalled. Think of if as a sort of &#8220;vir­tu­al
+en­vi­ron­men­t&#8221; for&nbsp;pack­ages.</li> 
+ </ol>
+<p>All in al­l, I think it&#8217;s an in­ter­est­ing ap­proach, worth con­sid­er­ing, at least­
+­to have al­ter­na­tives when work­ing in projects that re­quire in­tense in­ter­ac­tion
+with the&nbsp;data­base.</p> 
+ <table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
+<td>: <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt</a>
+</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id2">[2]</a></td>
+<td>: <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">https://en.wikipedia.org/wiki/Tmpfs</a>
+</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id3">[3]</a></td>
+<td>: <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/docker/" rel="tag">docker</a></li>
+            <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+            <li><a class="tag p-category" href="../../categories/postgres/" rel="tag">postgres</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../2016-in-review/" rel="prev" title="2016 in review">Previous&nbsp;post</a>
+            </li>
+            <li class="next">
+                <a href="../wrapped-in-python-decorators/" rel="next" title="__wrapped__ in Python decorators">Next&nbsp;post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

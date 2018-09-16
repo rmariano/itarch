@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Returning data in PostgreSQL | IT Arch</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/returning-data-in-postgresql/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../my-talk-europython-2016/" title="My talk @ EuroPython 2016" type="text/html">
+<link rel="next" href="../oncoming-events-of-python-and-architecture-in-september/" title="Oncoming events of Python and Architecture in September" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Returning data in PostgreSQL">
+<meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/returning-data-in-postgresql/">
+<meta property="og:description" content="In or­der to get the best per­for­man­ce from our da­ta­ba­se en­gi­ne, most of the
+­ti­me­s, we ha­ve to take ad­van­ta­ge of its ex­clu­si­ve fea­tu­res. This has the
+­di­sad­van­ta­ge of ge­tting f">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-08-14T18:41:30-03:00">
+<meta property="article:tag" content="data">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="postgres">
+<link rel="alternate" hreflang="en" href="../../../posts/returning-data-in-postgresql/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Código&nbsp;fuente</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Returning data in&nbsp;PostgreSQL</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2016-08-14T18:41:30-03:00" itemprop="datePublished" title="dom. ago. 14, 2016 - 18:41 -0300">dom. ago. 14, 2016 - 18:41 -0300</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Código&nbsp;fuente</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>In or­der to get the best per­for­man­ce from our da­ta­ba­se en­gi­ne, most of the
+­ti­me­s, we ha­ve to take ad­van­ta­ge of its ex­clu­si­ve fea­tu­res. This has the
+­di­sad­van­ta­ge of ge­tting far­ther away from stan­dar­d, AN­SI co­de, and in the ca­se
+of RDBM en­gi­nes, this al­so mean­s, most of the OR­Ms wi­ll not&nbsp;wo­rk.</p> 
+ <p>Be­si­des tha­t, it could so­me­ti­mes be wor­th ex­plo­ring what we can gain by
+a­dap­ting to the&nbsp;en­gi­ne.</p> 
+ <p>This is so­me­thing learnt from the fee­dba­ck of  <a class="reference external" href="../my-talk-europython-2016/">my ta­lk gi­ven at Eu­ro­P­y­thon 2016</a>.  After the ta­lk, an atten­dee told me
+­that he liked it, and asked me about the co­de por­tra­yed in one of the sli­des,
+­the one about de­co­ra­tors wi­th the exam­ple of mo­ving so­me re­cor­ds from one ta­ble
+­to ano­the­r. He asked me if I ran co­de like that one in pro­duc­tio­n, to whi­ch I
+an­swe­red no: the co­de is en­ti­re­ly fic­tio­na­l, and it was do­ne for the me­re
+­pur­po­ses of the exam­ple­s, so I just nee­ded an ex­cu­se for a ta­sk that could be­
+­do­ne in two SQL sta­te­men­ts, so the exam­ple wi­th the de­co­ra­tor can be&nbsp;sho­wn.</p> 
+ <p>The co­de of the exam­ple&nbsp;fo­llo­ws:</p> 
+ <pre class="code SQL"><a name="rest_code_59c93bd3b4e44b46b946230683f1fc63-1"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_59c93bd3b4e44b46b946230683f1fc63-2"></a><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span>
+<a name="rest_code_59c93bd3b4e44b46b946230683f1fc63-3"></a><span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+<a name="rest_code_59c93bd3b4e44b46b946230683f1fc63-4"></a>
+<a name="rest_code_59c93bd3b4e44b46b946230683f1fc63-5"></a><span class="k">DELETE</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span><span class="p">;</span>
+</pre>
+<p>Then I learnt that the­re is ano­ther way of wri­ting that sort of sta­te­men­ts,
+wi­th the &#8220;re­tur­nin­g&#8221; sen­ten­ce of&nbsp;Pos­tgreS­Q­L.</p> 
+ <p>It would be re-w­ri­tten&nbsp;like:</p> 
+ <pre class="code SQL"><a name="rest_code_531bd95ca99d42b5812ef1416e8c8289-1"></a><span class="k">WITH</span> <span class="n">deleted</span> <span class="k">as</span> <span class="p">(</span>
+<a name="rest_code_531bd95ca99d42b5812ef1416e8c8289-2"></a>    <span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_531bd95ca99d42b5812ef1416e8c8289-3"></a>    <span class="n">RETURNING</span> <span class="o">*</span>
+<a name="rest_code_531bd95ca99d42b5812ef1416e8c8289-4"></a><span class="p">)</span>
+<a name="rest_code_531bd95ca99d42b5812ef1416e8c8289-5"></a><span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">deleted</span><span class="p">;</span>
+</pre>
+<p>Or&#8230; the other way&nbsp;aroun­d:</p> 
+ <pre class="code SQL"><a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-1"></a><span class="k">WITH</span> <span class="n">to_delete</span> <span class="k">as</span><span class="p">(</span>
+<a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-2"></a>    <span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">archive_orders</span>
+<a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-3"></a>    <span class="k">SELECT</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">order_date</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">WHERE</span> <span class="n">order_date</span> <span class="o">&lt;</span> <span class="s1">'2016-01-01'</span>
+<a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-4"></a>    <span class="n">RETURNING</span> <span class="n">id</span>
+<a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-5"></a><span class="p">)</span>
+<a name="rest_code_dd23ea05c71b4493bc412d7e17eccb73-6"></a><span class="k">DELETE</span> <span class="k">FROM</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="k">in</span> <span class="p">(</span><span class="k">select</span> <span class="n">id</span> <span class="k">from</span> <span class="n">to_delete</span><span class="p">);</span>
+</pre>
+<p>The in­te­res­ting point he­re, is that it en­tails a sin­gle co­m­man­d, ins­tead of
+­two. So this can be do­ne wi­th a sin­gle ca­ll to the da­ta­ba­se, saving an ex­tra
+­round&nbsp;tri­p.</p> 
+ <p>The point he­re is that the  <a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html">de­le­te sta­te­ment of Pos­tgreS­QL</a>  (as we­ll as the
+­rest of the sta­te­men­ts, IN­SER­T, UP­DA­TE, for ins­tan­ce), can be spe­ci­fied to­
+­re­turn the da­ta they affec­t, and this can be us­ed in an in­ter­me­dia­te ta­ble to­
+­pi­pe it to ano­ther&nbsp;sta­te­men­t.</p> 
+ <p>By de­faul­t, if you run the de­le­te sta­te­men­t, it should re­turn the num­ber of
+a­ffec­ted ro­ws,&nbsp;like:</p> 
+ <pre class="code SQL"><a name="rest_code_94fdde005be943dc86187ae25fa0109f-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">;</span>
+</pre>
+<pre class="code text"><a name="rest_code_ebc5ef6841114585bfaaceeeb47e380e-1"></a>DELETE 4
+</pre>
+<p>Bu­t, we can make it to re­turn the ro­ws&nbsp;the­msel­ve­s:</p> 
+ <pre class="code SQL"><a name="rest_code_61d3ba1229f34b9192c845bb3018c232-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="err">\</span><span class="o">*</span><span class="p">;</span>
+</pre>
+<pre class="code text"><a name="rest_code_7fd88514745644b1a2e2810140f44385-1"></a>id|   description    |     order_date
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-2"></a>----+------------------+---------------------
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-3"></a>4 | to be archived   | 2014-12-09 00:00:00
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-4"></a>5 | First sale order | 2016-07-17 00:00:00
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-5"></a>6 | First sale order | 2016-07-20 00:00:00
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-6"></a>7 | First sale order | 2016-07-24 00:00:00
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-7"></a>(4 rows)
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-8"></a>
+<a name="rest_code_7fd88514745644b1a2e2810140f44385-9"></a>DELETE 4
+</pre>
+<p>Or, spe­ci­fic co­lumns if we se­lect&nbsp;the­m:</p> 
+ <pre class="code SQL"><a name="rest_code_01f52bd95ea1483faeb845e9935f8fce-1"></a><span class="k">delete</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">id</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">returning</span> <span class="n">id</span><span class="p">,</span> <span class="n">description</span><span class="p">;</span>
+</pre>
+<pre class="code text"><a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-1"></a>id |   description
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-2"></a>----+------------------
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-3"></a>4 | to be archived
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-4"></a>5 | First sale order
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-5"></a>6 | First sale order
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-6"></a>7 | First sale order
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-7"></a>(4 rows)
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-8"></a>
+<a name="rest_code_cf958adb5c7d4879abaeecce9e2d5f6f-9"></a>DELETE 4
+</pre>
+<p>So, we can use the &#8220;re­tur­nin­g&#8221; fea­tu­re of Pos­tgreS­Q­L, to do in a sin­gle co­m­man­d
+what we usua­lly would do in two or mo­re, and in so­me ca­ses, it mi­ght be­
+­so­me­thing wor­th ex­plo­rin­g. It was great lear­ning things like this one, an­d
+­ge­tting tips as a re­sult from the fee­dba­ck of the ta­lk (it does not chan­ge the
+­mea­nin­g, and the exam­ple could re­main the sa­me for the afo­re­men­tio­ned rea­son­s;
+it is just an exam­ple&nbsp;:-).</p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/data/" rel="tag">data</a></li>
+            <li><a class="tag p-category" href="../../categories/database/" rel="tag">database</a></li>
+            <li><a class="tag p-category" href="../../categories/postgres/" rel="tag">postgres</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../my-talk-europython-2016/" rel="prev" title="My talk @ EuroPython 2016">Publicación&nbsp;anterior</a>
+            </li>
+            <li class="next">
+                <a href="../oncoming-events-of-python-and-architecture-in-september/" rel="next" title="Oncoming events of Python and Architecture in September">Siguiente&nbsp;publicación</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

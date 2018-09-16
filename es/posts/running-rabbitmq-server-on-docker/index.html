@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running RabbitMQ server on Docker | IT Arch</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../find-options/" title="Find Options" type="text/html">
+<link rel="next" href="../notas-sobre-la-arqconf-2015/" title="Notas sobre la ArqConf 2015" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Running RabbitMQ server on Docker">
+<meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker/">
+<meta property="og:description" content="If you use Ra­bbit­MQ for de­ve­lo­p­ment fre­quen­tl­y, so­me­ti­mes you mi­ght ha­ve foun­d
+it uses too mu­ch re­sour­ces (i­t's nor­mal whi­le pro­gra­m­ming to ha­ve
+a lot of queues or ta­sks bein">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2015-04-26T13:58:46-03:00">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="rabbitmq">
+<link rel="alternate" hreflang="en" href="../../../posts/running-rabbitmq-server-on-docker/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Código&nbsp;fuente</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Running RabbitMQ server on&nbsp;Docker</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2015-04-26T13:58:46-03:00" itemprop="datePublished" title="dom. abr. 26, 2015 - 13:58 -0300">dom. abr. 26, 2015 - 13:58 -0300</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Código&nbsp;fuente</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>If you use Ra­bbit­MQ for de­ve­lo­p­ment fre­quen­tl­y, so­me­ti­mes you mi­ght ha­ve foun­d
+it uses too mu­ch re­sour­ces (i­t&#8217;s nor­mal whi­le pro­gra­m­ming to ha­ve
+a lot of queues or ta­sks being queued and that makes the CPU usage to&nbsp;spike).</p> 
+ <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+on development I&#8217;d rather do something different, in order to isolate
+the process. I know I could bound it (for example order it not to start automatically
+as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
+try <code>docker</code> and see how it&nbsp;results.</p>
+<p>It tur­ned out to be just the tool for the wo­rk, and so far wi­th a li­ttle sim­ple
+­con­fi­gu­ra­tion it can run as&nbsp;ex­pec­te­d.</p> 
+ <p>The­re is al­ready a do­cker ima­ge for Ra­bbit­M­Q, whi­ch can be au­to­ma­ti­ca­lly pu­lle­d,
+and then run, for&nbsp;exam­ple:</p> 
+ <pre class="code bash"><a name="rest_code_1911b314e13b45bc907226a996b440e0-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_1911b314e13b45bc907226a996b440e0-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+</pre>
+<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
+passing <code>-e</code> we pass some environment variables (in this case,
+the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
+how to set the name of the node it is starting). Optionally, we can limit the CPU
+usage with the <code>--cpuset</code>, as in this case which sets the process to use the
+second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being&nbsp;created.</p>
+<p>The most important part in this case is the port mapping, made by the <code>-p</code> option which in this case maps the
+port used by RabbitMQ directly (1:1) with the host machine. This makes the docker process to run transparently, as
+the other applications that try to communicate with a RabbitMQ won&#8217;t notice any difference, making it look like is
+executing an actual RabbitMQ service. Finally there is the name of the docker image to&nbsp;run.</p>
+<p>What I usually do is to manage the docker image by its <cite>instance_id</cite> (a number that is displayed after listing
+the docker images, by doing <code>sudo docker ps -a</code>).
+Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
+<p>There is another command to see the output being generated by the process
+which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
+designated to the image was used instead of the <em>instance_id</em>. In addition
+we can see internal data for the process by running the <code>inspect</code>
+command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
+<pre class="code bash"><a name="rest_code_a246bb76ee5b4b5c8449728e08b0f84c-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_a246bb76ee5b4b5c8449728e08b0f84c-2"></a>sudo docker logs docker.rabbitmq
+</pre>
+<p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
+in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
+other limitations and bounds constrained by <code>docker</code>.</p>
+<p>I found this appro­ach to be ve­ry ver­sati­le for a de­ve­lo­p­ment en­vi­ron­men­t, and wi­th Ra­bbit­MQ being the first pi­lo­t,
+I thi­nk I can mi­gra­te mo­re appli­ca­tions to do­cker ins­tead of ha­ving them ins­ta­lled on the sys­tem (as long as&nbsp;po­s­si­ble).</p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/docker/" rel="tag">docker</a></li>
+            <li><a class="tag p-category" href="../../categories/linux/" rel="tag">linux</a></li>
+            <li><a class="tag p-category" href="../../categories/rabbitmq/" rel="tag">rabbitmq</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../find-options/" rel="prev" title="Find Options">Publicación&nbsp;anterior</a>
+            </li>
+            <li class="next">
+                <a href="../notas-sobre-la-arqconf-2015/" rel="next" title="Notas sobre la ArqConf 2015">Siguiente&nbsp;publicación</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

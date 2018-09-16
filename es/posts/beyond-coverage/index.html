@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beyond coverage | IT Arch</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/beyond-coverage/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../pycon-cz-day-3/" title="PyCon CZ - Day 3" type="text/html">
+<link rel="next" href="../europython-2017-days-0-to-3/" title="EuroPython 2017 days 0 to 3" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Beyond coverage">
+<meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/beyond-coverage/">
+<meta property="og:description" content="It looks like the­re are a lot of opi­nions or as­sump­tions about unit tes­ts an­d
+­co­de co­ve­ra­ge, most of them con­fu­sing of bia­sed in se­ve­ral wa­ys. For exam­ple,
+I'­ve heard or read things">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-07-02T17:20:19+02:00">
+<meta property="article:tag" content="best-practices">
+<meta property="article:tag" content="clean-code">
+<meta property="article:tag" content="quality">
+<link rel="alternate" hreflang="en" href="../../../posts/beyond-coverage/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Código&nbsp;fuente</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Beyond&nbsp;coverage</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2017-07-02T17:20:19+02:00" itemprop="datePublished" title="dom. jul. 02, 2017 - 17:20 +0200">dom. jul. 02, 2017 - 17:20 +0200</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Código&nbsp;fuente</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>It looks like the­re are a lot of opi­nions or as­sump­tions about unit tes­ts an­d
+­co­de co­ve­ra­ge, most of them con­fu­sing of bia­sed in se­ve­ral wa­ys. For exam­ple,
+I&#8217;­ve heard or read things like &#8220;this is fi­ne, it has X% co­ve­ra­ge&#8221;, or &#8220;che­ckin­g
+­for co­ve­ra­ge on pu­ll re­ques­ts does­n&#8217;t hel­p&#8221;, or &#8220;dro­pping the co­ve­ra­ge le­vel is
+­not an is­sue&#8221;, and many mo­re of the&nbsp;like.</p> 
+ <p>This arti­cle ai­ms to shed so­me li­ght on the is­sue of unit tes­ting wi­th and co­de
+­co­ve­ra­ge. Ho­pe­fu­lly by the end of it, we&#8217;­ll get an idea of whi­ch of the
+­pre­vious sta­te­men­ts are ri­ght and whi­ch are wrong (s­poi­ler aler­t: the­y&#8217;­re all
+w­ron­g, but for di­ffe­rent&nbsp;rea­son­s).</p> 
+ <!-- TEASER_END -->
+<div class="section" id="it-s-not-a-metric">
+<h2>It&#8217;s not a&nbsp;metric</h2>
+<p>I pre­tty mu­ch agree wi­th Mar­tin Fo­w­ler he­re  <a class="footnote-reference" href="#id6" id="id1">[1]</a>, about the fact that tes­t
+­co­ve­ra­ge is not a me­tric that in­di­ca­tes how good we are doing in ter­ms of
+­tes­tin­g, but just a re­fe­ren­ce in or­der to iden­ti­fy par­ts of the co­de that nee­d
+­to be&nbsp;tes­te­d.</p> 
+ <p>This lea­ds me to the idea that co­ve­ra­ge is not a goa­l, or and en­ding poin­t, bu­t
+just the star­ting&nbsp;poin­t.</p> 
+ <p>What I mean by this is that ima­gi­ne that you find in the co­ve­ra­ge re­por­t, tha­t
+­so­me li­nes are not being exer­ci­s­e­d, for exam­ple the­re are two func­tions tha­t
+­la­ck tes­tin­g. Good head star­t, now we can wri­te tes­ts for the­m. Now you go on
+and wri­te a test for the first one. After tha­t, you run the tes­ts agai­n, an­d
+­the co­ve­ra­ge in­crea­se­d: the first func­tion is now co­ve­re­d, so tho­se li­nes no­
+­lon­ger appear as mis­sing in the re­por­t. Now you mi­ght be thi­nking on mo­ving on
+­to wri­ting tes­ts for the se­cond func­tio­n. Tha­t&#8217;s the tra­p. Tes­ting should no­t
+s­top the­re. What about the rest of the tes­ts sce­na­rios for that first func­tio­n?
+What about tes­ting wi­th mo­re in­pu­t, di­ffe­rent com­bi­na­tions of pa­ra­me­ter­s, si­de
+e­ffec­ts, and mo­re? Tha­t&#8217;s why it&#8217;s not a goa­l: we should­n&#8217;t stop tes­ting on­ce
+we&#8217;­ve sa­tis­fied the mis­sing li­nes on the&nbsp;re­por­t.</p> 
+ <p>Another reason why reaching 100% coverage it&#8217;s not a valid goal, is because
+sometimes is unachievable. There are parts of the code that respond to
+<em>defensive programming</em> <a class="footnote-reference" href="#id10" id="id2">[5]</a>, and have some statements like <code>assert(0)</code>
+for unreachable conditions, which logically, if the code works correctly, will
+never run (actually, the fact that it doesn&#8217;t fail by reaching those lines when tests are
+run, works as a way of making the code to &#8220;self-testable&#8221;, so to&nbsp;speak).</p>
+</div>
+<div class="section" id="necessity-and-sufficiency">
+<h2>Necessity and&nbsp;sufficiency</h2>
+<p>And even if we rea­ch that un­rea­lis­tic goa­l: what does it mean to ha­ve 100% co­de
+­co­ve­ra­ge on unit tes­ts? Can we re­ly on that to say that the co­de is fu­ll­y
+­tes­te­d, and the­re are no bugs? Ab­so­lu­te­ly&nbsp;no­t.</p> 
+ <p>Here I am not even talking about path coverage (sometimes referred to as
+<em>multiple condition coverage</em>). To clarify, it&#8217;s known that covering all
+branches does not mean the program will run just fine. Even with functional
+(manual or automated) testing. Suppose that we&#8217;re completely sure all paths are
+covered, and the testing team has checked everything, therefore we&#8217;re sure all
+the logic is sound. It still doesn&#8217;t mean the program is correct. There are
+runtime considerations to be taken into account: what if there is a race
+condition? (something hard to reproduce). What if the server is under heavy
+load? (with a high load average), what if <code>malloc()</code> at some point
+returns <tt class="docutils literal">NULL</tt>? What if the disk is full? Or if there is latency? What about
+security? You get the point, the list of possible failure scenarios, is&nbsp;infinite.</p>
+<p>Pu­tting tho­se con­si­de­ra­tions asi­de, the crux ques­tion is: can unit tes­ts pro­ve
+­the lo­gic (a­gai­n, not be­ha­viour in runti­me, just the lo­gi­c), to be co­rrec­t? No­,
+­be­cau­se, even wi­th all sta­te­men­ts ana­l­ys­e­d, the­re is sti­ll the po­s­si­bi­li­ty tha­t
+­things are le­ft&nbsp;ou­t.</p> 
+ <p>To put it in ano­ther wa­y: if the co­ve­ra­ge is lo­wer than to­ta­l, then as­su­me
+­the­re are things that wi­ll go sou­th (the fa­mous &#8220;co­de wi­thout tes­ts is bro­ken
+by de­sig­n&#8221;). If eve­r­y­thing is co­ve­re­d, then for in­ter­pre­ted lan­gua­ges (like
+­P­y­tho­n), it means so­me­thing like &#8220;<em>it com­pi­les</em>&#8220;. It&#8217;s  <em>syn­tac­ti­ca­lly</em>  co­rrec­t,
+whi­ch does­n&#8217;t mean it&#8217;s  <em>se­man­ti­ca­lly</em>  co­rrec­t. For com­pi­led lan­gua­ges, he­re I
+­see li­ttle gai­n, ex­cept for the me­re fact that che­cks at a ve­ry ba­sic le­ve­l
+­that the co­de wi­ll&nbsp;run.</p> 
+ </div>
+<div class="section" id="a-high-coverage-is-not-enough">
+<h2>A high coverage is not&nbsp;enough</h2>
+<p>The­re is ano­ther in­te­res­ting idea about co­ve­ra­ge, ni­ce­ly illus­tra­ted in the
+­pa­per &#8220;how to mi­su­se tes­ts co­ve­ra­ge&#8221;  <a class="footnote-reference" href="#id7" id="id3">[2]</a>, whi­ch is that  <em>co­de co­ve­ra­ge can
+on­ly te­ll about the co­de that is the­re</em>. The­re­fo­re, it can&#8217;t te­ll an­y­thin­g
+a­bout po­ten­tial bugs that due to  <em>mis­sing co­de</em>. It can&#8217;t de­tect  <em>faul­ts of
+o­mis­sion</em>.</p> 
+ <p>On the other han­d, if ins­tead of being just gui­ded by the test co­ve­ra­ge, we
+ac­tua­lly thi­nk about the test sce­na­rios that are re­le­vant for a unit of co­de,
+we&#8217;­ll start thi­nking on new po­s­si­bi­li­tie­s, in­pu­ts, and com­bi­na­tions that wi­ll
+­lo­gi­ca­lly lead to the­se faul­ts being dis­co­ve­re­d, and as a re­sult of tha­t, the
+­co­rrec­ti­ve co­de wi­ll be in­clu­de­d. This is the key poin­t: not just to se­ttle fo­r
+a hi­gh co­ve­ra­ge, but for ha­ving a ba­tte­ry of mea­nin­gful tes­ts that co­ve­r
+­re­le­vant sce­na­rio­s, ins­tead of li­nes of&nbsp;co­de.</p> 
+ <div class="admonition tip">
+<p class="first admonition-title">Tip</p> 
+ <p class="last">Co­ver sce­na­rio­s, not li­nes of&nbsp;co­de.</p> 
+ </div>
+<p>The tru­th is that so­ftwa­re is com­plex. Rea­lly com­plex. The­re are a lot of
+­things that can go wron­g. The­re­fo­re, tes­ts are a fun­da­men­tal tool to at leas­t
+en­su­re a de­gree of qua­li­ty. It is lo­gi­cal to thi­nk that for ea­ch li­ne of co­de
+­the­re should be many mo­re of tes­ts. This applies for all pro­jec­ts, in all
+­pro­gra­m­ming lan­gua­ges. No­w, if for ea­ch func­tion we should ha­ve at least man­y
+­mo­re of them just tes­ting it, you&#8217;­ll qui­ck­ly get the pic­tu­re that the re­la­tio­n
+­be­tween pro­duc­ti­ve co­de and tes­ting co­de should be in the ra­tio  <tt class="docutils literal">1:N</tt>. No­w,
+ha­ving 100% co­ve­ra­ge (to say the bes­t), can on­ly mean an  <tt class="docutils literal">1:1</tt>  ra­tio. It
+­could be the ca­se of a sin­gle tes­t, co­ve­ring the func­tio­n, but not wi­ll
+­su­ffi­cient&nbsp;ca­ses.</p> 
+ </div>
+<div class="section" id="relation-between-tests-and-main-code">
+<h2>Relation between tests and main&nbsp;code</h2>
+<p>Le­t&#8217;s take a look at  <tt class="docutils literal">SQ­Li­te</tt>, whi­ch is a pro­ject that see­ms to ha­ve a
+­rea­so­na­ble le­vel of tes­ting  <a class="footnote-reference" href="#id8" id="id4">[3]</a>. Ac­cor­ding to the do­cu­ment that ex­plains it&#8217;s
+­tes­ting stra­te­g­y, we can see that it has many mo­re li­nes of tes­ts co­de than
+­main co­de in the&nbsp;li­bra­r­y.</p> 
+ <p>To quo­te the do­cu­ment itsel­f: the li­bra­ry con­tains rou­gh­ly 122  <tt class="docutils literal">KLOC</tt>   <a class="footnote-reference" href="#id9" id="id5">[4]</a>,
+whe­reas the tes­ts are about 91,596.1  <tt class="docutils literal">KLOC</tt>  (~90M  <tt class="docutils literal">LOC</tt>). The ra­tio is an
+im­pres­si­ve&nbsp;745­x.</p> 
+ <p>In my opi­nio­n, this re­la­tion does not on­ly apply to  <tt class="docutils literal">C</tt>  pro­jec­ts, it&#8217;s
+­so­me­thing ge­ne­ral to all pro­gra­m­ming lan­gua­ges. It&#8217;s just the rea­li­ty of
+­so­ftwa­re. This is what it takes to build re­lia­ble&nbsp;so­ftwa­re.</p> 
+ <p>No­w, wi­th this idea in min­d, kno­wing that we must ha­ve many mo­re li­nes of
+­tes­ting co­de than pro­duc­ti­ve co­de, be­cau­se ea­ch po­s­si­ble func­tion can ha­ve
+­mul­ti­ple ou­tco­me­s, and has to be exer­ci­s­ed un­der mul­ti­ple sce­na­rios (va­li­da­tio­n
+of in­pu­t, com­bi­na­tion of its in­ter­nal con­di­tion­s, and mo­re), it be­co­mes clea­r,
+­that co­ve­ra­ge does not mean that the co­de is thou­gh­tfu­lly tes­ted at all. It
+­then be­co­mes evi­dent that co­ve­ra­ge is not the en­d, but the be­gin­ning of
+­tes­tin­g: on­ce we&#8217;­ve iden­ti­fied the li­nes that need to be che­cke­d, the tes­ts
+wo­n&#8217;t stop on­ce the­y&#8217;­ve been co­ve­re­d, they should stop on­ce all po­s­si­ble
+s­ce­na­rios ha­ve been pro­per­ly ve­ri­fie­d. It al­so be­co­mes evi­dent that is ex­pec­te­d
+­to ha­ve many mo­re ti­mes tes­ting li­nes than main&nbsp;ones.</p> 
+ <div class="admonition tip">
+<p class="first admonition-title">Tip</p> 
+ <p class="last">Do­n&#8217;t re­ly on co­ve­ra­ge. Re­ly on thou­gh­ful&nbsp;tes­tin­g.</p> 
+ </div>
+</div>
+<div class="section" id="slides">
+<h2>Slides</h2>
+<p>This idea was pre­sen­ted in a li­gh­tning ta­lk at  <a class="reference external" href="https://ep2017.europython.eu/en/">Eu­ro­P­y­thon 2017</a>, on Mon­day 10 of Ju­l­y. He­re are the&nbsp;s­li­des.</p> 
+ <script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script><table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
+<td><a class="reference external" href="https://martinfowler.com/bliki/TestCoverage.html">https://martinfowler.com/bliki/TestCoverage.html</a></td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id3">[2]</a></td>
+<td>&#8220;How to misuse test coverage&#8221; - Brian Marick <a class="reference external" href="http://www.exampler.com/testing-com/writings/coverage.pdf">http://www.exampler.com/testing-com/writings/coverage.pdf</a>
+This is an excellent paper, that discusses some important points about
+test coverage.</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id4">[3]</a></td>
+<td><a class="reference external" href="https://sqlite.org/testing.html">https://sqlite.org/testing.html</a></td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id5">[4]</a></td>
+<td>1 KLOC means 1000 lines of code</td>
+</tr></tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id2">[5]</a></td>
+<td><a class="reference external" href="https://en.wikipedia.org/wiki/Defensive_programming">https://en.wikipedia.org/wiki/Defensive_programming</a></td>
+</tr></tbody>
+</table>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/best-practices/" rel="tag">best-practices</a></li>
+            <li><a class="tag p-category" href="../../categories/clean-code/" rel="tag">clean-code</a></li>
+            <li><a class="tag p-category" href="../../categories/quality/" rel="tag">quality</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../pycon-cz-day-3/" rel="prev" title="PyCon CZ - Day 3">Publicación&nbsp;anterior</a>
+            </li>
+            <li class="next">
+                <a href="../europython-2017-days-0-to-3/" rel="next" title="EuroPython 2017 days 0 to 3">Siguiente&nbsp;publicación</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

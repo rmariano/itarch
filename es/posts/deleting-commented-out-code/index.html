@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deleting commented out code | IT Arch</title>
+<link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code/">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../copying-strings-in-c/" title="strncpy and strncat for copying strings in C" type="text/html">
+<link rel="next" href="../glimpses-of-a-vim-configuration/" title="Glimpses of a Vim configuration" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="Deleting commented out code">
+<meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code/">
+<meta property="og:description" content="This is a ru­le I alwa­ys en­cou­ra­ge in so­ftwa­re de­ve­lo­p­men­t. Mo­reo­ve­r, I con­si­der it to be so­me­thing that ha­s
+­to be in­clu­ded in eve­ry co­ding gui­de­li­ne of a good pro­jec­t. 
+ ">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2016-02-17T22:06:50-03:00">
+<meta property="article:tag" content="best-practices">
+<meta property="article:tag" content="clean-code">
+<link rel="alternate" hreflang="en" href="../../../posts/deleting-commented-out-code/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Ir al contenido principal</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Código&nbsp;fuente</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Deleting commented out&nbsp;code</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2016-02-17T22:06:50-03:00" itemprop="datePublished" title="mié. feb. 17, 2016 - 22:06 -0300">mié. feb. 17, 2016 - 22:06 -0300</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Código&nbsp;fuente</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>This is a ru­le I alwa­ys en­cou­ra­ge in so­ftwa­re de­ve­lo­p­men­t. Mo­reo­ve­r, I con­si­der it to be so­me­thing that ha­s
+­to be in­clu­ded in eve­ry co­ding gui­de­li­ne of a good&nbsp;pro­jec­t.</p> 
+ <p>The­re are se­ve­ral rea­sons for this, but pro­ba­bly the best ex­pla­na­tion can be found in the book &#8220;Clean Co­de&#8221;<a class="footnote-reference" href="#id2" id="id1">[1]</a>  by un­cle
+­Bo­b, on whi­ch ex­plains that the co­de, ge­ts ou­tdated (ro­tten) wi­th the rest of the su­rroun­ding co­de, and hen­ce
+it makes a pla­ce for con­fu­sio­n, lea­ding to an erro­r-­pro­ne&nbsp;spo­t.</p> 
+ <p>The­re are, ho­we­ve­r, peo­ple that seem to find so­me ar­gu­men­ts for co­m­men­ting out co­de, or lea­ving it.
+­So­me co­m­mon ar­gu­men­ts/­rea­sons usua­lly&nbsp;are:</p> 
+ <blockquote>
+<blockquote>
+<ul class="simple">
+<li><span class="dquo">&#8220;</span>I mi­ght need this func­tio­na­li­ty&nbsp;la­te­r..&#8221;</li> 
+ </ul>
+</blockquote>
+<p>We ha­ve sour­ce con­trol sys­te­ms (for exam­ple gi­t) for this. In gi­t, an­y­thing can be res­to­red from a pre­vious poin­t. If
+­the so­ftwa­re is pro­per­ly un­der ver­sion con­tro­l, the­re is no rea­son to fear da­ta lo­ss. Trust gi­t, co­de&nbsp;fear­le­ss­l­y.</p> 
+ <blockquote>
+<ul class="simple">
+<li><span class="dquo">&#8220;</span>This is tem­po­ra­ry di­sa­ble­d&#8230; It wi­ll be res­to­red&nbsp;la­te­r&#8221;.</li> 
+ </ul>
+</blockquote>
+<p>Agai­n, sa­me prin­ci­ple, re­ly on the ver­sion con­trol sys­te­m. Save a pa­tch, and then res­to­re la­te­r, or stash the chan­ges, re­vert the co­m­mi­t, etc.
+As you see, the­re are plen­ty of be­tter op­tions for sol­ving this&nbsp;sce­na­rio.</p> 
+ <blockquote>
+<ul class="simple">
+<li>Co­de that was le­ft from the fist&nbsp;ver­sion</li> 
+ </ul>
+</blockquote>
+<p>Pro­ba­bly de­bu­gging le­fto­ver­s. No doubt he­re: seek, lo­ca­te,&nbsp;des­tro­y.</p> 
+ </blockquote>
+<p>The­re is, a clear pro­blem wi­th co­de that is un­der co­m­men­t, whi­ch is that it is &#8220;fro­zen&#8221; in ti­me:
+it was good at so­me poin­t, but then it was le­ft the­re whi­le the rest of the co­de around it, evol­ve­d, so this old co­de
+­mi­ght not cer­tain­ly wo­rk (hen­ce it is &#8220;ro­tten&#8221;), so un-­co­m­men­ting it is a bad idea be­cau­se it wi­ll pro­ba­bly&nbsp;cras­h.</p> 
+ <p>Ano­ther pro­blem is that it can be a sour­ce of bias for so­me other de­ve­lo­pe­r, who wan­ts to main­tain that co­de at a fu­tu­re poin­t
+in ti­me. The one who le­ft the ro­tten co­de, mi­ght ha­ve thou­ght that it was a sour­ce of ins­pi­ra­tion for when this func­tio­na­li­ty wa­s
+­going to be applie­d, but ins­tea­d, it is just bia­sing the new de­ve­lo­per wi­th this ske­le­to­n, pre­ven­ting from a brand new, fres­h
+i­dea for that&nbsp;co­de.</p> 
+ <p>The­re­fo­re, for the­se main rea­sons (an pro­ba­bly mu­ch mo­re), ha­ving co­de that is co­m­men­ted in a co­de ba­se, is a poor prac­ti­ce, (not to­
+­men­tion a co­de sme­ll). If you are a sea­so­ned de­ve­lo­pe­r, who ca­res about co­de qua­li­ty, and best prac­ti­ce­s, you must not doubt when
+­de­le­ting it. De­le­te co­m­men­ted out co­de mer­ci­le­ss­l­y: seek, lo­ca­te and&nbsp;des­tro­y.</p> 
+ <table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
+<td>A book I highly recommend: <a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/best-practices/" rel="tag">best-practices</a></li>
+            <li><a class="tag p-category" href="../../categories/clean-code/" rel="tag">clean-code</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../copying-strings-in-c/" rel="prev" title="strncpy and strncat for copying strings in C">Publicación&nbsp;anterior</a>
+            </li>
+            <li class="next">
+                <a href="../glimpses-of-a-vim-configuration/" rel="next" title="Glimpses of a Vim configuration">Siguiente&nbsp;publicación</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("es");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article#
+" lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Available dunder when decorating functions">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__wrapped__ in Python decorators | IT Arch</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="canonical" href="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators/">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<link rel="prev" href="../running-postgresql-in-memory-with-docker/" title="Running PostgreSQL in memory with docker" type="text/html">
+<link rel="next" href="../a-few-ideas-on-code-review/" title="A few ideas on code review" type="text/html">
+<meta property="og:site_name" content="IT Arch">
+<meta property="og:title" content="__wrapped__ in Python decorators">
+<meta property="og:url" content="https://rmariano.github.io/itarch/posts/wrapped-in-python-decorators/">
+<meta property="og:description" content="Available dunder when decorating functions">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2017-03-03T21:41:21+01:00">
+<meta property="article:tag" content="code">
+<meta property="article:tag" content="decorators">
+<meta property="article:tag" content="python">
+<link rel="alternate" hreflang="es" href="../../es/posts/wrapped-in-python-decorators/">
+</head>
+<body>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-expand-md static-top mb-4
+navbar-dark bg-dark
+"><div class="container">
+<!-- This keeps the margins nice -->
+        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+
+            <span id="blog-title">IT Arch</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="bs-navbar">
+            <ul class="navbar-nav mr-auto">
+<li class="nav-item">
+<a href="../../index.html" class="nav-link">Home</a>
+                </li>
+<li class="nav-item">
+<a href="../../archive.html" class="nav-link">Archive</a>
+                </li>
+<li class="nav-item">
+<a href="../../categories/index.html" class="nav-link">Tags</a>
+                </li>
+<li class="nav-item">
+<a href="https://github.com/rmariano" class="nav-link">Github</a>
+                </li>
+<li class="nav-item">
+<a href="../../pages/about-this-blog" class="nav-link">About</a>
+                </li>
+<li class="nav-item">
+<a href="../../rss.xml" class="nav-link">RSS</a>
+
+                
+            </li>
+</ul>
+<ul class="navbar-nav navbar-right">
+<li>
+            </li>
+<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+
+                
+                    
+    
+    <li class="nav-item">
+    <a href="index.rst" id="sourcelink" class="nav-link">Source</a>
+    </li>
+
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        
+        
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">__wrapped__ in Python&nbsp;decorators</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
+                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            </span></p>
+            <p class="dateline">
+            <a href="." rel="bookmark">
+            <time class="published dt-published" datetime="2017-03-03T21:41:21+01:00" itemprop="datePublished" title="Fri Mar 03, 2017 - 21:41 +0100">Fri Mar 03, 2017 - 21:41 +0100</time></a>
+            </p>
+            
+        <p class="sourceline"><a href="index.rst" class="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>This is an­oth­er of the new in­ter­est­ing things that Python 3 has. Time ago, it
+was some­how tricky to work with dec­o­rat­ed func­tion­s, be­cause the dec­o­ra­tor
+re­placed the orig­i­nal ob­jec­t, and its be­hav­iour be­came hard to&nbsp;reach.</p> 
+ <!-- TEASER_END -->
+<p>So, for ex­am­ple, we all know that the fol­low­ing&nbsp;sen­tence:</p> 
+ <pre class="code python"><a name="rest_code_3feae3d9f01447758e8f3a4d833df938-1"></a><span class="nd">@decorator</span>
+<a name="rest_code_3feae3d9f01447758e8f3a4d833df938-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_3feae3d9f01447758e8f3a4d833df938-3"></a>    <span class="k">pass</span>
+</pre>
+<p>It&#8217;s ac­tu­al­ly syn­tax sug­ar&nbsp;for:</p> 
+ <pre class="code python"><a name="rest_code_15885e1c42cf482784293b881d9c59cd-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_15885e1c42cf482784293b881d9c59cd-2"></a>    <span class="k">pass</span>
+<a name="rest_code_15885e1c42cf482784293b881d9c59cd-3"></a>
+<a name="rest_code_15885e1c42cf482784293b881d9c59cd-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+</pre>
+<p>So, if for some rea­son, we need to work both with the orig­i­nal and dec­o­rat­ed
+­func­tion­s, we re­quired tricks such as dif­fer­ent names, some­thing&nbsp;like:</p> 
+ <pre class="code python"><a name="rest_code_25aa348e473a48b0b408bd92cfe6f62b-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
+<a name="rest_code_25aa348e473a48b0b408bd92cfe6f62b-2"></a>    <span class="k">pass</span>
+<a name="rest_code_25aa348e473a48b0b408bd92cfe6f62b-3"></a>
+<a name="rest_code_25aa348e473a48b0b408bd92cfe6f62b-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
+</pre>
+<p>But in cur­rent Python, this should be no longer the case. As we can see from
+the code of the  <tt class="docutils literal">func­tools</tt>  mod­ule  <a class="footnote-reference" href="#id2" id="id1">[1]</a>, when dec­o­rat­ing an ob­jec­t, there is
+an at­tribute named  <tt class="docutils literal">__wrapped__</tt>  that holds the ref­er­ence to the orig­i­nal&nbsp;one.</p> 
+ <p>So now if we use this, we can ac­cess it di­rect­ly with­out hav­ing to re­sort to
+the old&nbsp;quirk­s.</p> 
+ <div class="section" id="example">
+<h2>Example</h2>
+<p>Let&#8217;s con­sid­er this ex­am­ple. Val­i­dat­ing pa­ram­e­ter types like this is far
+from a re­al im­ple­men­ta­tion, but rather some­thing for the sake of&nbsp;il­lus­tra­tion.</p> 
+ <table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-1"> 1</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-2"> 2</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-3"> 3</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-4"> 4</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-5"> 5</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-6"> 6</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-7"> 7</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-8"> 8</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-9"> 9</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-10">10</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-11">11</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-12">12</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-13">13</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-14">14</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-15">15</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-16">16</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-17">17</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-18">18</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-19">19</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-20">20</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-21">21</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-22">22</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-23">23</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-24">24</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-25">25</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-26">26</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-27">27</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-28">28</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-29">29</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-30">30</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-31">31</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-32">32</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-33">33</a>
+<a href="#rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-34">34</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-1"></a><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-2"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-3"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-4"></a><span class="k">def</span> <span class="nf">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">):</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-5"></a>    <span class="sd">"""For a dictionary of kwargs, and another dictionary of annotations,</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-6"></a><span class="sd">    mapping each argument name with its type, validate if all types on the</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-7"></a><span class="sd">    keyword arguments match those described by the annotations.</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-8"></a><span class="sd">    """</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-9"></a>    <span class="k">for</span> <span class="n">arg</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-10"></a>        <span class="n">expected_type</span> <span class="o">=</span> <span class="n">annotations</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-11"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">):</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-12"></a>            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-13"></a>                <span class="s2">"{0}={1!r} is not of type {2!r}"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-14"></a>                    <span class="n">arg</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">expected_type</span><span class="p">)</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-15"></a>                <span class="p">)</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-16"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-17"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-18"></a><span class="k">def</span> <span class="nf">validate_function_parameters</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-20"></a>    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-21"></a>        <span class="n">annotations</span> <span class="o">=</span> <span class="n">function</span><span class="o">.</span><span class="n">__annotations__</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-22"></a>        <span class="n">validate_parameters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">annotations</span><span class="p">)</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-23"></a>        <span class="k">return</span> <span class="n">function</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-24"></a>    <span class="k">return</span> <span class="n">inner</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-25"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-26"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-27"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-28"></a><span class="nd">@validate_function_parameters</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-29"></a><span class="k">def</span> <span class="nf">test_function</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-30"></a>    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-31"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-32"></a>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-33"></a><span class="n">test_function</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># does not validate</span>
+<a name="rest_code_80b2d5e5f5bc42a6a06d57c98cb551e1-34"></a><span class="n">test_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># validates and raises</span>
+</pre></td>
+</tr></table>
+<p>The state­ment in the penul­ti­mate line works be­cause it&#8217;s ac­tu­al­ly in­vok­ing the
+o­rig­i­nal func­tion, with­out the dec­o­ra­tor ap­plied, where­as the last one fail­s
+be­cause it&#8217;s call­ing the func­tion al­ready&nbsp;dec­o­rat­ed.</p> 
+ </div>
+<div class="section" id="potential-use-cases">
+<h2>Potential use&nbsp;cases</h2>
+<p>In gen­er­al this a nice fea­ture, for the rea­son that in a way en­ables ac­cess­ing
+both ob­ject­s, (it could be ar­gued that dec­o­rat­ing a func­tion caus­es some sort
+of tem­po­ral&nbsp;cou­pling).</p> 
+ <p>Most im­por­tant­ly, it can be used in  <em>unit tests</em>, whether is to test the
+o­rig­i­nal func­tion, or that the dec­o­ra­tor it­self is act­ing as it is sup­posed to&nbsp;­do.</p> 
+ <p>More­over, we could tests our own code, be­fore be­ing dec­o­rat­ed by oth­er
+li­braries be­ing used in the project (for ex­am­ple the func­tion of a tasks
+with­out the  <tt class="docutils literal">@cel­ery.­task</tt>  dec­o­ra­tor ap­plied, or an event of the data­base of
+ <tt class="docutils literal">SQLAlche­my</tt>  be­fore it was changed by the lis­ten­er event dec­o­ra­tor,&nbsp;etc.).</p> 
+ <p>Just an­oth­er trick to keep in the&nbsp;tool­box.</p> 
+ <table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup>
+<col class="label">
+<col>
+</colgroup>
+<tbody valign="top"><tr>
+<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
+<td>This attribute is documented, but I first found about it while reading
+at the code of CPython at
+<a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70">https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70</a>
+</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/code/" rel="tag">code</a></li>
+            <li><a class="tag p-category" href="../../categories/decorators/" rel="tag">decorators</a></li>
+            <li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../running-postgresql-in-memory-with-docker/" rel="prev" title="Running PostgreSQL in memory with docker">Previous&nbsp;post</a>
+            </li>
+            <li class="next">
+                <a href="../a-few-ideas-on-code-review/" rel="next" title="A few ideas on code review">Next&nbsp;post</a>
+            </li>
+        </ul></nav></aside></article><!--End of body content--><footer id="footer">
+            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
+licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
+4.0 International License</a>.
+
+            
+        </footer>
+</div>
+</div>
+
+
+        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates --><script>
+    baguetteBox.run('div#content', {
+        ignoreClass: 'islink',
+        captions: function(element) {
+            return element.getElementsByTagName('img')[0].alt;
+    }});
+    </script><script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-32356464-1', 'rmariano.github.io');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>
