@@ -133,25 +133,25 @@ be&nbsp;used).</p>
 docker pull fedora/postgresql
 </pre>
 <p>Then, I could cre­ate a  <tt class="docutils literal">tmpfs</tt>, for the da­ta and mount&nbsp;it</p> 
- <pre class="code bash"><a name="rest_code_74d0e3f623ed4578919ae02ea9284bad-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_74d0e3f623ed4578919ae02ea9284bad-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+ <pre class="code bash"><a name="rest_code_abea8573e15f4189a4e388b6d4b17e04-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_abea8573e15f4189a4e388b6d4b17e04-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-1">1</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-2">2</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-3">3</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-4">4</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-5">5</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-6">6</a>
-<a href="#rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-7">7</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-1"></a>docker run --name mempostgres <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
-<a name="rest_code_e6a3850f43ae4666acf6ea1630ee6ac6-7"></a>    fedora/postgresql
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-1">1</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-2">2</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-3">3</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-4">4</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-5">5</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-6">6</a>
+<a href="#rest_code_d51fed3bb5a841128c6b98d45a4f3038-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_d51fed3bb5a841128c6b98d45a4f3038-7"></a>    fedora/postgresql
 </pre></td>
 </tr></table>
 <p>The first line in­di­cates the name for the con­tain­er we are run­ning (if is not
@@ -176,14 +176,14 @@ ap­pli­ca­tion,&nbsp;etc.).</p>
  <p>For ex­am­ple, if we want to use the  <tt class="docutils literal">psql</tt>  client with the con­tain­er, the
 ­com­mand would&nbsp;be:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-1">1</a>
-<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-2">2</a>
-<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-3">3</a>
-<a href="#rest_code_6ea137d1c5d34297a93e6751fd8256c6-4">4</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-1"></a>docker run -it --rm <span class="se">\</span>
-<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-2"></a>--link mempostgres:postgres <span class="se">\</span>
-<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-3"></a>fedora/postgresql <span class="se">\</span>
-<a name="rest_code_6ea137d1c5d34297a93e6751fd8256c6-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_c7c58c8ada894083b808834f3abed83d-1">1</a>
+<a href="#rest_code_c7c58c8ada894083b808834f3abed83d-2">2</a>
+<a href="#rest_code_c7c58c8ada894083b808834f3abed83d-3">3</a>
+<a href="#rest_code_c7c58c8ada894083b808834f3abed83d-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_c7c58c8ada894083b808834f3abed83d-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_c7c58c8ada894083b808834f3abed83d-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_c7c58c8ada894083b808834f3abed83d-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_c7c58c8ada894083b808834f3abed83d-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </pre></td>
 </tr></table>
 </div>

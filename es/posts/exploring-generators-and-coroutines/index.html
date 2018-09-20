@@ -143,16 +143,16 @@ e­le­men­ts, one at the ti­me. By ca­lling the ge­ne­ra­tor suc­ce­s­
 ­re­turns a list wi­th all the num­bers on the in­ter­va­l. Ima­gi­ne we want to co­me up
 wi­th a si­mi­lar im­ple­men­ta­tion of it, in or­der to get the sum of all num­bers up
 ­to a cer­tain&nbsp;li­mi­t.</p> 
- <pre class="code python3"><a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-2"></a><span class="k">def</span> <span class="nf">old_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-3"></a>    <span class="n">numbers</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-4"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-5"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-6"></a>        <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-7"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-8"></a>    <span class="k">return</span> <span class="n">numbers</span>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-9"></a>
-<a name="rest_code_7e527a2fedcb4ce7bc66edecd821754c-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">old_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
+ <pre class="code python3"><a name="rest_code_169ff372ddee4b6e977987d70646d756-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-2"></a><span class="k">def</span> <span class="nf">old_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-3"></a>    <span class="n">numbers</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-4"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-5"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-6"></a>        <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-7"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-8"></a>    <span class="k">return</span> <span class="n">numbers</span>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-9"></a>
+<a name="rest_code_169ff372ddee4b6e977987d70646d756-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">old_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
 </pre>
 <p>Now le­t&#8217;s see how mu­ch me­mo­ry is&nbsp;us­e­d:</p> 
  <pre class="literal-block">
@@ -165,14 +165,14 @@ ou­tput of the  <cite>ti­me</cite>  co­m­man­d, prin­ting out the me­mo­
  <p>No­w, what if this is im­ple­men­ted wi­th a ge­ne­ra­tor&nbsp;ins­tea­d?</p> 
  <p>We just ha­ve to get rid of the lis­t, and pla­ce the  <cite>yield</cite>  sta­te­ment ins­tea­d,
 in­di­ca­ting that we want to pro­du­ce the va­lue on the ex­pres­sion that fo­llo­ws the&nbsp;ke­ywor­d.</p> 
- <pre class="code python3"><a name="rest_code_af5e29c955e344679504c9bd533a20d1-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-2"></a><span class="k">def</span> <span class="nf">new_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-3"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-4"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-5"></a>        <span class="k">yield</span> <span class="n">i</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-6"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-7"></a>
-<a name="rest_code_af5e29c955e344679504c9bd533a20d1-8"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">new_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
+ <pre class="code python3"><a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-2"></a><span class="k">def</span> <span class="nf">new_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-3"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-4"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-5"></a>        <span class="k">yield</span> <span class="n">i</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-6"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-7"></a>
+<a name="rest_code_3a1adf596fec4bc1af57cbfbda6cc1c1-8"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">new_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
 </pre>
 <p>This ti­me, the re­sult&nbsp;is:</p> 
  <pre class="literal-block">
@@ -186,16 +186,16 @@ in me­mo­r­y, uses ~48­Mi­B, whe­reas the im­ple­men­ta­tion that just
  <p>We see the idea: when the  <cite>yield &lt;ex­pres­sio­n&gt;</cite>  is rea­che­d, the re­sult of the
 ex­pres­sion wi­ll be pa­ss­ed to the ca­ller co­de, and the ge­ne­ra­tor wi­ll re­mai­n
  <em>sus­pen­ded</em>  at that li­ne in the&nbsp;meanwhi­le.</p> 
- <pre class="code python3"><a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">inspect</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-4"></a><span class="s1">'GEN_CREATED'</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-6"></a><span class="mi">0</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-8"></a><span class="mi">1</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_411398030c724c7f86d8d1cba7f5e40e-10"></a><span class="s1">'GEN_SUSPENDED'</span>
+ <pre class="code python3"><a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">inspect</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-4"></a><span class="s1">'GEN_CREATED'</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-6"></a><span class="mi">0</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-8"></a><span class="mi">1</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_ad880fe199574ace9ddc037f6c1529c7-10"></a><span class="s1">'GEN_SUSPENDED'</span>
 </pre>
 <p>Ge­ne­ra­tors are  <em>ite­ra­ble</em>  ob­jec­ts. An  <em>ite­ra­ble</em>  is an ob­ject who­se
  <tt class="docutils literal">__i­te­r__</tt>  me­tho­d, cons­truc­ts a new  <em>ite­ra­tor</em>, eve­ry ti­me is ca­lled (wi­th
@@ -206,20 +206,20 @@ re­turns itsel­f, and its  <tt class="docutils literal">__­nex­t__</tt>  me�
  <p>The idea of  <em>ite­ra­bles</em>  is that they ad­van­ce th­rou­gh va­lues, by ca­lling the
 ­buil­t-in  <tt class="docutils literal">nex­t()</tt>  func­tion on it, and this wi­ll pro­du­ce va­lues un­til the
  <tt class="docutils literal">Sto­pI­te­ra­tion</tt>  ex­cep­tion is rai­s­e­d, sig­na­lling the end of the&nbsp;ite­ra­tio­n.</p> 
- <pre class="code python3"><a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-2"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">1</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-3"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">2</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-4"></a>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">()</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-7"></a><span class="mi">1</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-9"></a><span class="mi">2</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-11"></a><span class="ne">StopIteration</span><span class="p">:</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-12"></a>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
-<a name="rest_code_77f85d2ef1bc48d5ab60a787dad9871e-14"></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+ <pre class="code python3"><a name="rest_code_14250269a8bd452886400a99e21687c5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-2"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">1</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-3"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">2</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-4"></a>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">()</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-7"></a><span class="mi">1</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-9"></a><span class="mi">2</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-11"></a><span class="ne">StopIteration</span><span class="p">:</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-12"></a>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
+<a name="rest_code_14250269a8bd452886400a99e21687c5-14"></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 </pre>
 <p>In the first ca­se, when ca­lling  <tt class="docutils literal">f()</tt>, this crea­tes a new ge­ne­ra­to­r. The
 ­first two ca­lls to  <tt class="docutils literal">nex­t()</tt>, wi­ll ad­van­ce un­til the next  <tt class="docutils literal">yield</tt>  sta­te­men­t,
@@ -235,11 +235,11 @@ On­ly that Py­thon in­ter­na­lly hand­les the ex­cep­tion that de­ter­
 ­you mi­ght con­si­der avoi­ding that by just using a lo­op and coun­ting in­si­de it.
 I­t’s like sa­ying “a­ll I need is just the coun­t, so I mi­ght as we­ll jus­t
 ac­cu­mu­la­te the va­lue in a lo­op, and tha­t’s it”. So­me­thing sli­gh­tly si­mi­lar&nbsp;to:</p> 
- <pre class="code python3"><a name="rest_code_fefbf370662d4f7a9761eb8863417ee2-1"></a><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_fefbf370662d4f7a9761eb8863417ee2-2"></a><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_fefbf370662d4f7a9761eb8863417ee2-3"></a><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_fefbf370662d4f7a9761eb8863417ee2-4"></a>    <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span>
-<a name="rest_code_fefbf370662d4f7a9761eb8863417ee2-5"></a>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+ <pre class="code python3"><a name="rest_code_424dea3a6fd34444b1baff3c7985f0b1-1"></a><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_424dea3a6fd34444b1baff3c7985f0b1-2"></a><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_424dea3a6fd34444b1baff3c7985f0b1-3"></a><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_424dea3a6fd34444b1baff3c7985f0b1-4"></a>    <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span>
+<a name="rest_code_424dea3a6fd34444b1baff3c7985f0b1-5"></a>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre>
 <p>This is so­me­thing I mi­ght con­si­der doing in a lan­gua­ge that does­n&#8217;t ha­ve
 ­ge­ne­ra­tor­s. Do­n’t do this. Ge­ne­ra­tors are the ri­ght way to go. By using a
@@ -251,9 +251,9 @@ a­bs­trac­tio­n. As su­ch, we can com­bi­ne it wi­th the rest of the co�
  <p>For exam­ple, le­t’s say we ha­ve the se­quen­ce created wi­th  <tt class="docutils literal">new_­ran­ge()</tt>, an­d
 ­then we rea­li­ze that we need the first 10 even num­bers of it. This is as sim­ple
 as&nbsp;doin­g.</p> 
- <pre class="code python3"><a name="rest_code_704714f42b0041c09c5fcb009b9dd1b2-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">itertools</span>
-<a name="rest_code_704714f42b0041c09c5fcb009b9dd1b2-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">rg</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
-<a name="rest_code_704714f42b0041c09c5fcb009b9dd1b2-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rg</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+ <pre class="code python3"><a name="rest_code_8a11fed5ad254956b9e6ec3bee27cb1d-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">itertools</span>
+<a name="rest_code_8a11fed5ad254956b9e6ec3bee27cb1d-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">rg</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
+<a name="rest_code_8a11fed5ad254956b9e6ec3bee27cb1d-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rg</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
 </pre>
 <p>And this is so­me­thing we could not so ea­si­ly ac­com­plis­h, had we cho­sen to­
 ig­no­re&nbsp;ge­ne­ra­tor­s.</p> 
@@ -287,22 +287,22 @@ in­si­de it, and clo­sing it,&nbsp;res­pec­ti­ve­l­y.</p>
  <p>The  <tt class="docutils literal">sen­d()</tt>  me­thod im­plies that  <cite>yield</cite>  be­co­mes an  <em>ex­pres­sion</em>, ra­ther than
 a  <em>sta­te­ment</em>  (as it was be­fo­re). Wi­th this, is po­s­si­ble to as­sign the re­sul­t
 of a  <cite>yield</cite>  to a va­ria­ble, and the va­lue wi­ll be whate­ver it was sent to&nbsp;it.</p> 
- <pre class="code python3"><a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-2"></a><span class="o">...</span>     <span class="n">step</span> <span class="o">=</span> <span class="n">start</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-3"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-4"></a><span class="o">...</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">step</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-5"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Got </span><span class="si">{value}</span><span class="s2">"</span><span class="p">)</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-6"></a><span class="o">...</span>         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-7"></a><span class="o">...</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span>  <span class="n">gen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-10"></a><span class="mi">1</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-12"></a><span class="n">Got</span> <span class="n">hello</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-13"></a><span class="mi">2</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-15"></a><span class="n">Got</span> <span class="mi">42</span>
-<a name="rest_code_0f8c4c5b4dac4ce2831aa3791f68360c-16"></a><span class="mi">3</span>
+ <pre class="code python3"><a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-2"></a><span class="o">...</span>     <span class="n">step</span> <span class="o">=</span> <span class="n">start</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-3"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-4"></a><span class="o">...</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">step</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-5"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Got </span><span class="si">{value}</span><span class="s2">"</span><span class="p">)</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-6"></a><span class="o">...</span>         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-7"></a><span class="o">...</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span>  <span class="n">gen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-10"></a><span class="mi">1</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-12"></a><span class="n">Got</span> <span class="n">hello</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-13"></a><span class="mi">2</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-15"></a><span class="n">Got</span> <span class="mi">42</span>
+<a name="rest_code_8deb3b5d42864a328ebc0e575a9b0c48-16"></a><span class="mi">3</span>
 </pre>
 <p>As we can see from this pre­vious co­de, the va­lue sent by  <tt class="docutils literal">yield</tt>  is going to­
 ­be the re­sult of the  <tt class="docutils literal">send</tt>, (in this ca­se, the con­se­cu­ti­ve num­bers of the
@@ -354,21 +354,21 @@ con­tains a  <tt class="docutils literal">yield</tt>, is a  <em>ge­ne­ra­tor
 ­that a ge­ne­ra­tor re­turns a va­lue? It means that it stop­s. And whe­re does tha­t
 ­va­lue do? It&#8217;s con­tai­ned in­si­de the ex­cep­tio­n, as an attri­bu­te in
  <tt class="docutils literal">Sto­pI­te­ra­tio­n.­va­lue</tt>.</p> 
- <pre class="code python3"><a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-1"></a><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-2"></a>        <span class="k">yield</span> <span class="mi">1</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-3"></a>        <span class="k">yield</span> <span class="mi">2</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-4"></a>        <span class="k">return</span> <span class="s2">"returned value"</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-5"></a>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-8"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-9"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-10"></a><span class="o">...</span> <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-11"></a><span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-12"></a><span class="o">...</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-13"></a><span class="mi">1</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-14"></a><span class="mi">2</span>
-<a name="rest_code_bc5b2595dd6b4a36b5d0a9916b2acac9-15"></a><span class="n">returned</span> <span class="n">value</span>
+ <pre class="code python3"><a name="rest_code_e939df11f0cd43f5b9983504d25636ed-1"></a><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-2"></a>        <span class="k">yield</span> <span class="mi">1</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-3"></a>        <span class="k">yield</span> <span class="mi">2</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-4"></a>        <span class="k">return</span> <span class="s2">"returned value"</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-5"></a>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-8"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-9"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-10"></a><span class="o">...</span> <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-11"></a><span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-12"></a><span class="o">...</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-13"></a><span class="mi">1</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-14"></a><span class="mi">2</span>
+<a name="rest_code_e939df11f0cd43f5b9983504d25636ed-15"></a><span class="n">returned</span> <span class="n">value</span>
 </pre>
 <p>No­ti­ce that the va­lue re­tur­ned by the ge­ne­ra­tor is sto­red in­si­de the ex­cep­tio­n,
 in  <cite>Sto­pI­te­ra­tio­n.­va­lue</cite>. This mi­ght sound like is not the most ele­gan­t
@@ -389,40 +389,40 @@ for e in iterable:
 ­this in­ter­nal  <em>ite­ra­ble</em>  can&nbsp;pro­du­ce.</p> 
  <p>For exam­ple, this way we could crea­te a clo­ne of the  <tt class="docutils literal">iter­tool­s.­chain</tt> 
 func­tion from the stan­dard&nbsp;li­bra­r­y.</p> 
- <pre class="code python3"><a name="rest_code_39d851783590438ba0a96b148e650cbc-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">chain2</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
-<a name="rest_code_39d851783590438ba0a96b148e650cbc-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
-<a name="rest_code_39d851783590438ba0a96b148e650cbc-3"></a><span class="o">...</span><span class="p">:</span>         <span class="k">yield from</span> <span class="n">it</span>
-<a name="rest_code_39d851783590438ba0a96b148e650cbc-4"></a>
-<a name="rest_code_39d851783590438ba0a96b148e650cbc-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">))</span>
-<a name="rest_code_39d851783590438ba0a96b148e650cbc-6"></a><span class="p">[</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
+ <pre class="code python3"><a name="rest_code_e2fe947797f648f388c5a11e2d54b387-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">chain2</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+<a name="rest_code_e2fe947797f648f388c5a11e2d54b387-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
+<a name="rest_code_e2fe947797f648f388c5a11e2d54b387-3"></a><span class="o">...</span><span class="p">:</span>         <span class="k">yield from</span> <span class="n">it</span>
+<a name="rest_code_e2fe947797f648f388c5a11e2d54b387-4"></a>
+<a name="rest_code_e2fe947797f648f388c5a11e2d54b387-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">))</span>
+<a name="rest_code_e2fe947797f648f388c5a11e2d54b387-6"></a><span class="p">[</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
 </pre>
 <p>Ho­we­ve­r, saving two li­nes of co­de is not the rea­son why this cons­truc­tion wa­s
 a­dded to the lan­gua­ge. The rai­son d&#8217;e­tre of this cons­truc­tion is to ac­tua­ll­y
 ­de­le­ga­te res­pon­si­bi­li­ty in­to sma­ller ge­ne­ra­tor­s, and chain&nbsp;the­m.</p> 
- <pre class="code python3"><a name="rest_code_08447677c23849cd9245ec51a1478aa8-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">internal</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-3"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">i</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-4"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> got: </span><span class="si">{got}</span><span class="s2">"</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-5"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> finished"</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-6"></a>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-8"></a><span class="o">...</span><span class="p">:</span>     <span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-9"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-10"></a>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-12"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-13"></a><span class="mi">0</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-15"></a><span class="n">A</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-16"></a><span class="mi">1</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-17"></a>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># a few more calls until the generator ends</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-19"></a><span class="n">B</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-20"></a><span class="o">------------------------------------------------------</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-21"></a><span class="ne">StopIteration</span>        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-22"></a><span class="o">...</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-23"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_08447677c23849cd9245ec51a1478aa8-24"></a><span class="ne">StopIteration</span><span class="p">:</span> <span class="n">B</span> <span class="n">finished</span>
+ <pre class="code python3"><a name="rest_code_a288f569ccb547e08528587e50217ca6-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">internal</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-3"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">i</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-4"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> got: </span><span class="si">{got}</span><span class="s2">"</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-5"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> finished"</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-6"></a>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-8"></a><span class="o">...</span><span class="p">:</span>     <span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-9"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-10"></a>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-12"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-13"></a><span class="mi">0</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-15"></a><span class="n">A</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-16"></a><span class="mi">1</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-17"></a>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># a few more calls until the generator ends</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-19"></a><span class="n">B</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-20"></a><span class="o">------------------------------------------------------</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-21"></a><span class="ne">StopIteration</span>        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-22"></a><span class="o">...</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-23"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_a288f569ccb547e08528587e50217ca6-24"></a><span class="ne">StopIteration</span><span class="p">:</span> <span class="n">B</span> <span class="n">finished</span>
 </pre>
 <p>He­re we see how  <tt class="docutils literal">yield from</tt>  hand­les pro­per de­le­ga­tion to an in­ter­na­l
 ­ge­ne­ra­to­r. No­ti­ce that we ne­ver send va­lues di­rec­tly to  <tt class="docutils literal">in­ter­nal</tt>, but to
@@ -472,48 +472,48 @@ i­t, on­ly the  <tt class="docutils literal">await</tt>  ex­pres­sion is ac�
  <p>The fo­llo­wing two co­rou­ti­nes  <tt class="docutils literal">step</tt>  and  <tt class="docutils literal">co­ro</tt>  are a sim­ple exam­ple, of ho­w
  <tt class="docutils literal">await</tt>  wo­rks si­mi­lar to  <tt class="docutils literal">yield from</tt>  de­le­ga­ting the va­lues to the
 in­ter­nal&nbsp;ge­ne­ra­to­r.</p> 
- <pre class="code python3"><a name="rest_code_3a91b6306b87484db36504506436435a-1"></a><span class="o">&gt;&gt;&gt;</span>  <span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-2"></a><span class="o">...</span><span class="p">:</span> <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-3"></a><span class="o">...</span><span class="p">:</span>     <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-4"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-5"></a><span class="o">...</span><span class="p">:</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">s</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-6"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"Step got value "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-7"></a><span class="o">...</span><span class="p">:</span>         <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-8"></a>
-<a name="rest_code_3a91b6306b87484db36504506436435a-9"></a><span class="o">&gt;&gt;&gt;</span>  <span class="k">async</span> <span class="k">def</span> <span class="nf">coro</span><span class="p">():</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-10"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-11"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">await</span> <span class="n">step</span><span class="p">()</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-12"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">got</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-13"></a>
-<a name="rest_code_3a91b6306b87484db36504506436435a-14"></a>
-<a name="rest_code_3a91b6306b87484db36504506436435a-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coro</span><span class="p">()</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-16"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-17"></a><span class="mi">0</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"first"</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-19"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">first</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-20"></a><span class="mi">1</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-21"></a>
-<a name="rest_code_3a91b6306b87484db36504506436435a-22"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"second"</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-23"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">second</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-24"></a><span class="mi">2</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-25"></a>
-<a name="rest_code_3a91b6306b87484db36504506436435a-26"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"third"</span><span class="p">)</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-27"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">third</span>
-<a name="rest_code_3a91b6306b87484db36504506436435a-28"></a><span class="mi">3</span>
+ <pre class="code python3"><a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-1"></a><span class="o">&gt;&gt;&gt;</span>  <span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-2"></a><span class="o">...</span><span class="p">:</span> <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-3"></a><span class="o">...</span><span class="p">:</span>     <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-4"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-5"></a><span class="o">...</span><span class="p">:</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">s</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-6"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"Step got value "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-7"></a><span class="o">...</span><span class="p">:</span>         <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-8"></a>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-9"></a><span class="o">&gt;&gt;&gt;</span>  <span class="k">async</span> <span class="k">def</span> <span class="nf">coro</span><span class="p">():</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-10"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-11"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">await</span> <span class="n">step</span><span class="p">()</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-12"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">got</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-13"></a>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-14"></a>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coro</span><span class="p">()</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-16"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-17"></a><span class="mi">0</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"first"</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-19"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">first</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-20"></a><span class="mi">1</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-21"></a>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-22"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"second"</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-23"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">second</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-24"></a><span class="mi">2</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-25"></a>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-26"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"third"</span><span class="p">)</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-27"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">third</span>
+<a name="rest_code_140cd83bb137451daf9a73ecf377b0ce-28"></a><span class="mi">3</span>
 </pre>
 <p>On­ce agai­n, like in the  <tt class="docutils literal">yield from</tt>  exam­ple, when we send a va­lue to
  <tt class="docutils literal">co­ro</tt>, this rea­ches the  <tt class="docutils literal">await</tt>  ins­truc­tio­n, whi­ch means that wi­ll pa­ss to­
 ­the  <tt class="docutils literal">step</tt>  co­rou­ti­ne. In this sim­ple exam­ple  <tt class="docutils literal">co­ro</tt>  is so­me­thing like wha­t
 we would wri­te, whi­le  <tt class="docutils literal">step</tt>  would be an ex­ter­nal func­tion we&nbsp;ca­ll.</p> 
  <p>The fo­llo­wing two co­rou­ti­nes are di­ffe­rent wa­ys of de­fi­ning&nbsp;co­rou­ti­nes.</p> 
- <pre class="code python3"><a name="rest_code_a3c38a445fb647b58089b4d24708fe01-1"></a><span class="c1"># py 3.4</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-2"></a><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-3"></a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-4"></a>    <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-5"></a>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-6"></a><span class="c1"># py 3.5+</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-7"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
-<a name="rest_code_a3c38a445fb647b58089b4d24708fe01-8"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+ <pre class="code python3"><a name="rest_code_85ef7e328451424582c618ca975d6821-1"></a><span class="c1"># py 3.4</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-2"></a><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-3"></a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-4"></a>    <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-5"></a>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-6"></a><span class="c1"># py 3.5+</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-7"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
+<a name="rest_code_85ef7e328451424582c618ca975d6821-8"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre>
 <p>Ba­si­ca­lly this means that this as­yn­ch­ro­nous way of pro­gra­m­ming is kind of like
 an API, for wo­rking wi­th event lo­op­s. It does­n&#8217;t rea­lly re­la­te to  <tt class="docutils literal">as­yn­cio</tt>,
@@ -568,49 +568,49 @@ se­man­ti­cs of a re­gu­lar ge­ne­ra­tor (la­zy eva­lua­tio­n, sus­
 e­le­ment at the ti­me, etc.), whi­le&nbsp;ite­ra­tin­g.</p> 
  <p>Con­si­der this sim­ple exam­ple on whi­ch we want to ite­ra­te whi­le ca­lling so­me I/O­
 ­co­de that we do­n&#8217;t want to blo­ck&nbsp;upo­n.</p> 
- <pre class="code python3"><a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-2"></a>    <span class="sd">"""Simulate reading &lt;size&gt; bytes from a remote source, asynchronously.</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-3"></a><span class="sd">    It takes a time proportional to the bytes requested to read.</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-4"></a><span class="sd">    """</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-5"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">((</span><span class="n">size</span> <span class="o">//</span> <span class="mi">512</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-6"></a>    <span class="n">chunk</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"[chunk </span><span class="si">{no}</span><span class="s2"> (</span><span class="si">{size}</span><span class="s2">)]"</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-7"></a>    <span class="k">return</span> <span class="n">chunk</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-8"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-9"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-10"></a><span class="k">class</span> <span class="nc">AsyncDataStreamer</span><span class="p">:</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-11"></a>    <span class="sd">"""Read 10 times into data"""</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-12"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-13"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-14"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-15"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-17"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-18"></a>    <span class="k">def</span> <span class="nf">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-19"></a>        <span class="k">return</span> <span class="bp">self</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-20"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-21"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">__anext__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-22"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-23"></a>            <span class="k">raise</span> <span class="n">StopAsyncIteration</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-24"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-25"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lecture</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-27"></a>        <span class="k">return</span> <span class="n">result</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-28"></a>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-29"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-30"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">read</span> <span class="ow">in</span> <span class="n">AsyncDataStreamer</span><span class="p">():</span>
-<a name="rest_code_aedf04adb8cc4d7186a4e65435e2cd44-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"collector on read </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
+ <pre class="code python3"><a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-2"></a>    <span class="sd">"""Simulate reading &lt;size&gt; bytes from a remote source, asynchronously.</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-3"></a><span class="sd">    It takes a time proportional to the bytes requested to read.</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-4"></a><span class="sd">    """</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-5"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">((</span><span class="n">size</span> <span class="o">//</span> <span class="mi">512</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-6"></a>    <span class="n">chunk</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"[chunk </span><span class="si">{no}</span><span class="s2"> (</span><span class="si">{size}</span><span class="s2">)]"</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-7"></a>    <span class="k">return</span> <span class="n">chunk</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-8"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-9"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-10"></a><span class="k">class</span> <span class="nc">AsyncDataStreamer</span><span class="p">:</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-11"></a>    <span class="sd">"""Read 10 times into data"""</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-12"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-13"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-14"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-15"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-17"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-18"></a>    <span class="k">def</span> <span class="nf">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-19"></a>        <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-20"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-21"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">__anext__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-22"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-23"></a>            <span class="k">raise</span> <span class="n">StopAsyncIteration</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-24"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-25"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lecture</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-27"></a>        <span class="k">return</span> <span class="n">result</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-28"></a>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-29"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-30"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">read</span> <span class="ow">in</span> <span class="n">AsyncDataStreamer</span><span class="p">():</span>
+<a name="rest_code_f87009f7d6b64c6c9b2433f168edee8d-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"collector on read </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
 </pre>
 <p>The test func­tion wi­ll sim­ply exer­ci­se the ite­ra­to­r, on whi­ch ele­men­ts are
 ­pro­du­ce­d, one at the ti­me, whi­le ca­lling an I/O ta­sk (in this exam­ple
  <tt class="docutils literal">as­yn­cio­.s­leep</tt>).</p> 
  <p>Wi­th as­yn­ch­ro­nous ge­ne­ra­tor­s, the sa­me could be rew­ri­tten in a mo­re com­pac­t&nbsp;wa­y.</p> 
- <pre class="code python3"><a name="rest_code_380449de731847dd9b56f5a56dc307a9-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_data_streamer</span><span class="p">():</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-2"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-3"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-4"></a>    <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-5"></a>    <span class="k">while</span> <span class="n">lecture</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-6"></a>        <span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_380449de731847dd9b56f5a56dc307a9-7"></a>        <span class="k">yield</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="n">lecture</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
+ <pre class="code python3"><a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_data_streamer</span><span class="p">():</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-2"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-3"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-4"></a>    <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-5"></a>    <span class="k">while</span> <span class="n">lecture</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-6"></a>        <span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_620cebd9b5a544e2b404bb16362cdae5-7"></a>        <span class="k">yield</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="n">lecture</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
 </pre>
 </div>
 <div class="section" id="summary">

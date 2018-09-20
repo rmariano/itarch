@@ -27,5 +27,5 @@ programming, distributed systems, and :doc:`speaking at conferences <talks>`.
 Contact
 ^^^^^^^
 * Twitter: `@rmarianoa <https://twitter.com/rmarianoa>`__
-* GitHub: `rmariano <https://github.com/rmariano>`__
+* GitHub, GitLab: `rmariano <https://github.com/rmariano>`__, `rmariano <https://gitlab.com/rmariano>`__
 * Speaker deck: `rmariano <https://speakerdeck.com/rmariano>`__
