@@ -12,6 +12,8 @@ Collection of talks presented at conferences.
 Upcoming
 ========
 
+* PyCon San Sebastián 2018 - Demystifying Coroutines and Asynchronous Programming in Python
+
 
 2018
 ====
