@@ -9,15 +9,11 @@
 
 Collection of talks presented at conferences.
 
-Upcoming
-========
-
-* PyCon San Sebastián 2018 - Demystifying Coroutines and Asynchronous Programming in Python
-
-
 2018
 ====
 
+* ``PyCon San Sebastián 2018`` | Demystifying Coroutines and Asynchronous Programming in Python | 13 Oct
+  `slides <https://speakerdeck.com/rmariano/demystifying-coroutines-and-asynchronous-programming-in-pyhon>`__
 * ``Python BCN Meetup`` | :doc:`exploring-generators-and-coroutines` | 17 Jan
   `slides <https://speakerdeck.com/rmariano/exploring-generators-and-coroutines>`__
 

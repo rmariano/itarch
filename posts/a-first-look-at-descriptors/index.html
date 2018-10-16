@@ -141,86 +141,86 @@ spec­i­fied on the class&nbsp;def­i­ni­tion.</p>
  <p>A pos­si­ble im­ple­men­ta­tion could look like&nbsp;this.</p> 
  <p><a class="reference external" href="../../listings/descriptors0_get0.py.html">de­scrip­tors0_get0.py</a>    <a class="reference external" href="../../listings/descriptors0_get0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-1"> 1</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-2"> 2</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-3"> 3</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-4"> 4</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-5"> 5</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-6"> 6</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-7"> 7</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-8"> 8</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-9"> 9</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-10">10</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-11">11</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-12">12</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-13">13</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-14">14</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-15">15</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-16">16</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-17">17</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-18">18</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-19">19</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-20">20</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-21">21</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-22">22</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-23">23</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-24">24</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-25">25</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-26">26</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-27">27</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-28">28</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-29">29</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-30">30</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-31">31</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-32">32</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-33">33</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-34">34</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-35">35</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-36">36</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-37">37</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-38">38</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-39">39</a>
-<a href="#rest_code_f7c13b42537d4808a768860bbe5cfc72-40">40</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-1"></a><span class="k">class</span> <span class="nc">Resolution</span><span class="p">:</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-2"></a>    <span class="sd">"""Represents the resolution for a video display. In case there is no</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-3"></a><span class="sd">    resolution set, return a default value, previously indicated.</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-4"></a><span class="sd">    """</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-5"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">default_resolution</span><span class="p">):</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span> <span class="o">=</span> <span class="n">default_resolution</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-8"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-9"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-10"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-11"></a>            <span class="k">return</span> <span class="bp">self</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-13"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-14"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-15"></a><span class="k">class</span> <span class="nc">VideoDriver</span><span class="p">:</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-16"></a>    <span class="sd">"""Contains multiple display devices, each one with a resolution</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-17"></a><span class="sd">    configured. If a resolution is not set for a device, return a default one,</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-18"></a><span class="sd">    provided by this class, as a fallback.</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-19"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-20"></a><span class="sd">    &gt;&gt;&gt; media = VideoDriver()</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-21"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-22"></a><span class="sd">    (1024, 768)</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-23"></a><span class="sd">    &gt;&gt;&gt; media.tv = (4096, 2160)</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-24"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-25"></a><span class="sd">    (4096, 2160)</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-26"></a><span class="sd">    &gt;&gt;&gt; del media.tv</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-27"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-28"></a><span class="sd">    (1024, 768)</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-29"></a><span class="sd">    &gt;&gt;&gt; media.screen</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-30"></a><span class="sd">    (1920, 1080)</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-31"></a><span class="sd">    &gt;&gt;&gt; VideoDriver.tv  # doctest: +ELLIPSIS</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-32"></a><span class="sd">    &lt;__main__.Resolution object at 0x...&gt;</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-33"></a><span class="sd">    """</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-34"></a>    <span class="n">tv</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'tv'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">))</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-35"></a>    <span class="n">screen</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'screen'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-36"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-37"></a>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-38"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-39"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_f7c13b42537d4808a768860bbe5cfc72-40"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_593d9b627f5142a196e511f9a8666338-1"> 1</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-2"> 2</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-3"> 3</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-4"> 4</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-5"> 5</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-6"> 6</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-7"> 7</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-8"> 8</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-9"> 9</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-10">10</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-11">11</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-12">12</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-13">13</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-14">14</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-15">15</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-16">16</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-17">17</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-18">18</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-19">19</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-20">20</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-21">21</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-22">22</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-23">23</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-24">24</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-25">25</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-26">26</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-27">27</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-28">28</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-29">29</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-30">30</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-31">31</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-32">32</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-33">33</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-34">34</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-35">35</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-36">36</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-37">37</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-38">38</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-39">39</a>
+<a href="#rest_code_593d9b627f5142a196e511f9a8666338-40">40</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_593d9b627f5142a196e511f9a8666338-1"></a><span class="k">class</span> <span class="nc">Resolution</span><span class="p">:</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-2"></a>    <span class="sd">"""Represents the resolution for a video display. In case there is no</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-3"></a><span class="sd">    resolution set, return a default value, previously indicated.</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-4"></a><span class="sd">    """</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-5"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">default_resolution</span><span class="p">):</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">attr_name</span> <span class="o">=</span> <span class="n">attr_name</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span> <span class="o">=</span> <span class="n">default_resolution</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-8"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-9"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-10"></a>        <span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-11"></a>            <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-12"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_resolution</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-13"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-14"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-15"></a><span class="k">class</span> <span class="nc">VideoDriver</span><span class="p">:</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-16"></a>    <span class="sd">"""Contains multiple display devices, each one with a resolution</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-17"></a><span class="sd">    configured. If a resolution is not set for a device, return a default one,</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-18"></a><span class="sd">    provided by this class, as a fallback.</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-19"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-20"></a><span class="sd">    &gt;&gt;&gt; media = VideoDriver()</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-21"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-22"></a><span class="sd">    (1024, 768)</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-23"></a><span class="sd">    &gt;&gt;&gt; media.tv = (4096, 2160)</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-24"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-25"></a><span class="sd">    (4096, 2160)</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-26"></a><span class="sd">    &gt;&gt;&gt; del media.tv</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-27"></a><span class="sd">    &gt;&gt;&gt; media.tv</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-28"></a><span class="sd">    (1024, 768)</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-29"></a><span class="sd">    &gt;&gt;&gt; media.screen</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-30"></a><span class="sd">    (1920, 1080)</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-31"></a><span class="sd">    &gt;&gt;&gt; VideoDriver.tv  # doctest: +ELLIPSIS</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-32"></a><span class="sd">    &lt;__main__.Resolution object at 0x...&gt;</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-33"></a><span class="sd">    """</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-34"></a>    <span class="n">tv</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'tv'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">768</span><span class="p">))</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-35"></a>    <span class="n">screen</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="s1">'screen'</span><span class="p">,</span> <span class="p">(</span><span class="mi">1920</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-36"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-37"></a>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-38"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-39"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_593d9b627f5142a196e511f9a8666338-40"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>In this case resolution is a descriptor that implements only
@@ -248,8 +248,8 @@ sep­a­rate pa­ram­e­ter­s, in­stead of just let the us­er de­rive the c
 in­stance, it al­lows even more&nbsp;flex­i­bil­i­ty).</p> 
  <p>For this rea­son, is com­mon to han­dle this case, and re­turn the de­scrip­tor
 it­self, which is the ra­tio­nale be­hind the&nbsp;line:</p> 
- <pre class="code python"><a name="rest_code_12a0a78a534342cf852cd6f8d1e2de39-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-<a name="rest_code_12a0a78a534342cf852cd6f8d1e2de39-2"></a>    <span class="k">return</span> <span class="bp">self</span>
+ <pre class="code python"><a name="rest_code_d6ddb915e18a41f3b236c14be05a2be5-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+<a name="rest_code_d6ddb915e18a41f3b236c14be05a2be5-2"></a>    <span class="k">return</span> <span class="bp">self</span>
 </pre>
 <p>That is why when you de­fine a prop­er­ty in a class, and call it from an in­stance
 ob­jec­t, you&#8217;ll get the re­sult of the com­pu­ta­tion of the method. How­ev­er, if
@@ -278,116 +278,116 @@ might get&nbsp;overcomplicated.</p>
 <p>These two op­tions seem rather con­vo­lut­ed. De­scrip­tors it is,&nbsp;then.</p> 
  <p><a class="reference external" href="../../listings/descriptors0_set0.py.html">de­scrip­tors0_set0.py</a>    <a class="reference external" href="../../listings/descriptors0_set0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-1"> 1</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-2"> 2</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-3"> 3</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-4"> 4</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-5"> 5</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-6"> 6</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-7"> 7</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-8"> 8</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-9"> 9</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-10">10</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-11">11</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-12">12</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-13">13</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-14">14</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-15">15</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-16">16</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-17">17</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-18">18</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-19">19</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-20">20</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-21">21</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-22">22</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-23">23</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-24">24</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-25">25</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-26">26</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-27">27</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-28">28</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-29">29</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-30">30</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-31">31</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-32">32</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-33">33</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-34">34</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-35">35</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-36">36</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-37">37</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-38">38</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-39">39</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-40">40</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-41">41</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-42">42</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-43">43</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-44">44</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-45">45</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-46">46</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-47">47</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-48">48</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-49">49</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-50">50</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-51">51</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-52">52</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-53">53</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-54">54</a>
-<a href="#rest_code_2ed9c9f7126e43a981942a3abe705dca-55">55</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-1"></a><span class="k">class</span> <span class="nc">TracedProperty</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-2"></a>    <span class="sd">"""Keep count of how many times an attribute changed its value"""</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-3"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-4"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">count_name</span> <span class="o">=</span> <span class="n">f</span><span class="s1">'count_{name}'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-7"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-8"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-9"></a>        <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-10"></a>            <span class="n">current_value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-11"></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-12"></a>            <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-13"></a>        <span class="k">else</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-14"></a>            <span class="k">if</span> <span class="n">current_value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-15"></a>                <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-16"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-17"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-18"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-19"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-20"></a><span class="k">class</span> <span class="nc">Traveller</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-21"></a>    <span class="sd">"""</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-22"></a><span class="sd">    &gt;&gt;&gt; tourist = Traveller('John Smith')</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-23"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Barcelona'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-24"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Spain'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-25"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-26"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-27"></a><span class="sd">    0</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-28"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-29"></a><span class="sd">    0</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-30"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-31"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Stockholm'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-32"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-33"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-34"></a><span class="sd">    1</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-35"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-36"></a><span class="sd">    1</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-37"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Gothenburg'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-38"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-39"></a><span class="sd">    2</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-40"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-41"></a><span class="sd">    1</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-42"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-43"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-44"></a><span class="sd">    1</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-45"></a><span class="sd">    """</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-46"></a>    <span class="n">city</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-47"></a>    <span class="n">country</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-48"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-49"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-50"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-51"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-52"></a>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-53"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-54"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_2ed9c9f7126e43a981942a3abe705dca-55"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-1"> 1</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-2"> 2</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-3"> 3</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-4"> 4</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-5"> 5</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-6"> 6</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-7"> 7</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-8"> 8</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-9"> 9</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-10">10</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-11">11</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-12">12</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-13">13</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-14">14</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-15">15</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-16">16</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-17">17</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-18">18</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-19">19</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-20">20</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-21">21</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-22">22</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-23">23</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-24">24</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-25">25</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-26">26</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-27">27</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-28">28</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-29">29</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-30">30</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-31">31</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-32">32</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-33">33</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-34">34</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-35">35</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-36">36</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-37">37</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-38">38</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-39">39</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-40">40</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-41">41</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-42">42</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-43">43</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-44">44</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-45">45</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-46">46</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-47">47</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-48">48</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-49">49</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-50">50</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-51">51</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-52">52</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-53">53</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-54">54</a>
+<a href="#rest_code_9ebafb0e39504a45ab30a1e07cfca22d-55">55</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-1"></a><span class="k">class</span> <span class="nc">TracedProperty</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-2"></a>    <span class="sd">"""Keep count of how many times an attribute changed its value"""</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-3"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-4"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">count_name</span> <span class="o">=</span> <span class="n">f</span><span class="s1">'count_{name}'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-7"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-8"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-9"></a>        <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-10"></a>            <span class="n">current_value</span> <span class="o">=</span> <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-11"></a>        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-12"></a>            <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-13"></a>        <span class="k">else</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-14"></a>            <span class="k">if</span> <span class="n">current_value</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-15"></a>                <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">count_name</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-16"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-17"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-18"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-19"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-20"></a><span class="k">class</span> <span class="nc">Traveller</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-21"></a>    <span class="sd">"""</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-22"></a><span class="sd">    &gt;&gt;&gt; tourist = Traveller('John Smith')</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-23"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Barcelona'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-24"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Spain'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-25"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-26"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-27"></a><span class="sd">    0</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-28"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-29"></a><span class="sd">    0</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-30"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-31"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Stockholm'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-32"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-33"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-34"></a><span class="sd">    1</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-35"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-36"></a><span class="sd">    1</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-37"></a><span class="sd">    &gt;&gt;&gt; tourist.city = 'Gothenburg'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-38"></a><span class="sd">    &gt;&gt;&gt; tourist.count_city</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-39"></a><span class="sd">    2</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-40"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-41"></a><span class="sd">    1</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-42"></a><span class="sd">    &gt;&gt;&gt; tourist.country = 'Sweden'</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-43"></a><span class="sd">    &gt;&gt;&gt; tourist.count_country</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-44"></a><span class="sd">    1</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-45"></a><span class="sd">    """</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-46"></a>    <span class="n">city</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-47"></a>    <span class="n">country</span> <span class="o">=</span> <span class="n">TracedProperty</span><span class="p">()</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-48"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-49"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-50"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-51"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-52"></a>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-53"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-54"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_9ebafb0e39504a45ab30a1e07cfca22d-55"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>The  <tt class="docutils literal">doc­string</tt>  on the  <tt class="docutils literal">Trav­eller</tt>  class, pret­ty much ex­plains its in­tend­ed
@@ -400,20 +400,20 @@ they in­ter­act to­wards a com­mon goal.  <tt class="docutils literal">Trav�
 that, are ob­ject­s, in­stances of the&nbsp;de­scrip­tor.</p> 
  <p>Now let&#8217;s take a look at the oth­er side of it, the in­ter­nal work­ing  of the&nbsp;de­scrip­tor.</p> 
  <p>Un­der this schema, Python will trans­late a call&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_6433080a4b0241eeb4427439c6058f4e-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
-<a name="rest_code_6433080a4b0241eeb4427439c6058f4e-2"></a><span class="n">traveller</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Stockholm'</span>
+ <pre class="code python"><a name="rest_code_12b81a274be14de99000d8c644a634e2-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
+<a name="rest_code_12b81a274be14de99000d8c644a634e2-2"></a><span class="n">traveller</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Stockholm'</span>
 </pre>
 <p>To the one using the <code>__set__</code> method in the descriptor,&nbsp;like:</p>
-<pre class="code python"><a name="rest_code_f8216c7838e7412098331c85f978b667-1"></a><span class="n">Traveller</span><span class="o">.</span><span class="n">city</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">traveller</span><span class="p">,</span> <span class="s1">'Stockholm'</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_368fdce8f15f4955b2e91583c403cc42-1"></a><span class="n">Traveller</span><span class="o">.</span><span class="n">city</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">traveller</span><span class="p">,</span> <span class="s1">'Stockholm'</span><span class="p">)</span>
 </pre>
 <p>Which means that the  <tt class="docutils literal">__set__</tt>  method on the de­scrip­tor is go­ing to re­ceive
 the in­stance of the ob­ject be­ing ac­cessed, as a first pa­ram­e­ter, and then the
 ­val­ue that is be­ing&nbsp;as­signed.</p> 
  <p>More gen­er­al­ly we could say that some­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_357ce92f862d4cac8a61c8ac5822c139-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+ <pre class="code python"><a name="rest_code_41e3be9455f74847862a9142df3c9b98-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
 </pre>
 <p>Trans­lates&nbsp;to:</p> 
- <pre class="code python"><a name="rest_code_13a628e7e6cc42afa836184f390f83f5-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_9eb3a9d540454a7e9129e906b27e92eb-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
 </pre>
 <p>With these two pa­ram­e­ter­s, we can ma­nip­u­late the in­ter­ac­tion any way we wan­t,
 which makes the pro­to­col re­al­ly&nbsp;pow­er­ful.</p> 
@@ -437,104 +437,104 @@ frame­works in Python use de­scrip­tors to ex­pose their&nbsp;API.</p>
 the type <code>del &lt;instance&gt;.&lt;descriptor&gt;</code> is executed. See the following&nbsp;example.</p>
 <p><a class="reference external" href="../../listings/descriptors0_delete0.py.html">de­scrip­tors0_delete0.py</a>    <a class="reference external" href="../../listings/descriptors0_delete0.py">(Source)</a></p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-1"> 1</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-2"> 2</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-3"> 3</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-4"> 4</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-5"> 5</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-6"> 6</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-7"> 7</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-8"> 8</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-9"> 9</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-10">10</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-11">11</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-12">12</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-13">13</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-14">14</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-15">15</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-16">16</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-17">17</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-18">18</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-19">19</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-20">20</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-21">21</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-22">22</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-23">23</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-24">24</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-25">25</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-26">26</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-27">27</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-28">28</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-29">29</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-30">30</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-31">31</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-32">32</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-33">33</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-34">34</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-35">35</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-36">36</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-37">37</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-38">38</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-39">39</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-40">40</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-41">41</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-42">42</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-43">43</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-44">44</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-45">45</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-46">46</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-47">47</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-48">48</a>
-<a href="#rest_code_a57f5a2e4b194556be5cb86ff52bde2d-49">49</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-1"></a><span class="sd">"""An example of a descriptor with a ``__delete__()`` method.</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-2"></a><span class="sd">The code is for illustration purposes only, and it does not correspond to any</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-3"></a><span class="sd">actual implementation.</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-4"></a><span class="sd">"""</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-5"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-6"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-7"></a><span class="k">class</span> <span class="nc">ProtectedAttribute</span><span class="p">:</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-8"></a>    <span class="sd">"""A class attribute that can be protected against deletion"""</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-9"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-10"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-12"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-13"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-14"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-15"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-16"></a>    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-17"></a>        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Can't delete {self.name} for {instance!s}"</span><span class="p">)</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-18"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-19"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-20"></a><span class="k">class</span> <span class="nc">ProtectedUser</span><span class="p">:</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-21"></a>    <span class="sd">"""</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-22"></a><span class="sd">    &gt;&gt;&gt; usr = ProtectedUser('jsmith', '127.0.0.1')</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-23"></a><span class="sd">    &gt;&gt;&gt; usr.username</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-24"></a><span class="sd">    'jsmith'</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-25"></a><span class="sd">    &gt;&gt;&gt; del usr.username</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-26"></a><span class="sd">    Traceback (most recent call last):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-27"></a><span class="sd">    ...</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-28"></a><span class="sd">    AttributeError: Can't delete username for ProtectedUser[jsmith]</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-29"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-30"></a><span class="sd">    '127.0.0.1'</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-31"></a><span class="sd">    &gt;&gt;&gt; del usr.location</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-32"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-33"></a><span class="sd">    Traceback (most recent call last):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-34"></a><span class="sd">    ...</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-35"></a><span class="sd">    AttributeError: 'ProtectedUser' object has no attribute 'location'</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-36"></a><span class="sd">    """</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-37"></a>    <span class="n">username</span> <span class="o">=</span> <span class="n">ProtectedAttribute</span><span class="p">()</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-38"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-39"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-42"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-43"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-44"></a>        <span class="k">return</span> <span class="n">f</span><span class="s2">"{self.__class__.__name__}[{self.username}]"</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-45"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-46"></a>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-48"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
-<a name="rest_code_a57f5a2e4b194556be5cb86ff52bde2d-49"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_78b454524c854f12ae931fcd3525ed60-1"> 1</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-2"> 2</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-3"> 3</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-4"> 4</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-5"> 5</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-6"> 6</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-7"> 7</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-8"> 8</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-9"> 9</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-10">10</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-11">11</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-12">12</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-13">13</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-14">14</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-15">15</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-16">16</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-17">17</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-18">18</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-19">19</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-20">20</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-21">21</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-22">22</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-23">23</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-24">24</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-25">25</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-26">26</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-27">27</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-28">28</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-29">29</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-30">30</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-31">31</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-32">32</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-33">33</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-34">34</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-35">35</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-36">36</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-37">37</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-38">38</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-39">39</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-40">40</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-41">41</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-42">42</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-43">43</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-44">44</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-45">45</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-46">46</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-47">47</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-48">48</a>
+<a href="#rest_code_78b454524c854f12ae931fcd3525ed60-49">49</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_78b454524c854f12ae931fcd3525ed60-1"></a><span class="sd">"""An example of a descriptor with a ``__delete__()`` method.</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-2"></a><span class="sd">The code is for illustration purposes only, and it does not correspond to any</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-3"></a><span class="sd">actual implementation.</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-4"></a><span class="sd">"""</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-5"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-6"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-7"></a><span class="k">class</span> <span class="nc">ProtectedAttribute</span><span class="p">:</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-8"></a>    <span class="sd">"""A class attribute that can be protected against deletion"""</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-9"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-10"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-12"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-13"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-14"></a>        <span class="n">instance</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-15"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-16"></a>    <span class="k">def</span> <span class="fm">__delete__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-17"></a>        <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">f</span><span class="s2">"Can't delete {self.name} for {instance!s}"</span><span class="p">)</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-18"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-19"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-20"></a><span class="k">class</span> <span class="nc">ProtectedUser</span><span class="p">:</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-21"></a>    <span class="sd">"""</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-22"></a><span class="sd">    &gt;&gt;&gt; usr = ProtectedUser('jsmith', '127.0.0.1')</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-23"></a><span class="sd">    &gt;&gt;&gt; usr.username</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-24"></a><span class="sd">    'jsmith'</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-25"></a><span class="sd">    &gt;&gt;&gt; del usr.username</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-26"></a><span class="sd">    Traceback (most recent call last):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-27"></a><span class="sd">    ...</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-28"></a><span class="sd">    AttributeError: Can't delete username for ProtectedUser[jsmith]</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-29"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-30"></a><span class="sd">    '127.0.0.1'</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-31"></a><span class="sd">    &gt;&gt;&gt; del usr.location</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-32"></a><span class="sd">    &gt;&gt;&gt; usr.location</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-33"></a><span class="sd">    Traceback (most recent call last):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-34"></a><span class="sd">    ...</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-35"></a><span class="sd">    AttributeError: 'ProtectedUser' object has no attribute 'location'</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-36"></a><span class="sd">    """</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-37"></a>    <span class="n">username</span> <span class="o">=</span> <span class="n">ProtectedAttribute</span><span class="p">()</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-38"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-39"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">location</span><span class="p">):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-40"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">username</span> <span class="o">=</span> <span class="n">username</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-42"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-43"></a>    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-44"></a>        <span class="k">return</span> <span class="n">f</span><span class="s2">"{self.__class__.__name__}[{self.username}]"</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-45"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-46"></a>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-47"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-48"></a>    <span class="kn">import</span> <span class="nn">doctest</span>
+<a name="rest_code_78b454524c854f12ae931fcd3525ed60-49"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
 <p>In this ex­am­ple, we just want a prop­er­ty in the ob­jec­t, that can­not be delet­ed,
