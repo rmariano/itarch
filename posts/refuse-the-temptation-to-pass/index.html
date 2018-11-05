@@ -122,13 +122,13 @@ has, and how hard it is to in­tro­duce a new one, so it&#8217;s there for a go
  <p>How­ev­er, what I do ar­gue, is that some of the nice fea­tures of Python are of­ten
 over-used, and the temp­ta­tion to abuse a nice fea­ture shad­ows bet­ter&nbsp;op­por­tu­ni­ties.</p> 
  <p>For ex­am­ple, when defin­ing&nbsp;ex­cep­tion­s:</p> 
- <pre class="code python"><a name="rest_code_ff690aa87d0844ef99c36e800e3b1fb8-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_ff690aa87d0844ef99c36e800e3b1fb8-2"></a>    <span class="k">pass</span>
+ <pre class="code python"><a name="rest_code_00ec201996884b539b71a356557e677f-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_00ec201996884b539b71a356557e677f-2"></a>    <span class="k">pass</span>
 </pre>
 <p>It&#8217;s bet­ter to place a  <em>doc­string</em>  ex­plain­ing its rai­son d&#8217;e­tre, which
 e­lim­i­nates the ne­ces­si­ty for the  <em>pass</em>  and the emp­ty&nbsp;body:</p> 
- <pre class="code python"><a name="rest_code_ba83ed55e541427baa70128f6613f746-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_ba83ed55e541427baa70128f6613f746-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
+ <pre class="code python"><a name="rest_code_f06fe470f9854084ba8b699c547c205c-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_f06fe470f9854084ba8b699c547c205c-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
 </pre>
 <p>This al­so com­plies with the gen­er­al good prac­tice of  <em>&#8220;use doc­strings in eveery
 ­func­tion, class, and mod­ule de­fined&#8221;</em>. In my opin­ion, it&#8217;s a much bet­ter&nbsp;­choice.</p> 
@@ -136,23 +136,23 @@ e­lim­i­nates the ne­ces­si­ty for the  <em>pass</em>  and the emp­ty&nbs
  <p>How about when deal­ing with&nbsp;ex­cep­tion­s?</p> 
  <p>Some­times, the oc­cur­rence of an ex­cep­tion is a con­trolled sce­nar­i­o, and again
  <em>pass</em>  looks re­al­ly&nbsp;tempt­ing:</p> 
- <pre class="code python"><a name="rest_code_c1601c4a351f48feac331770ebc29234-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_c1601c4a351f48feac331770ebc29234-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_c1601c4a351f48feac331770ebc29234-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_c1601c4a351f48feac331770ebc29234-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
+ <pre class="code python"><a name="rest_code_167fd3d6b5cd48fbb9c372b675ca9c18-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_167fd3d6b5cd48fbb9c372b675ca9c18-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_167fd3d6b5cd48fbb9c372b675ca9c18-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_167fd3d6b5cd48fbb9c372b675ca9c18-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
 </pre>
 <p>Here the worst part is not even the  <em>pass</em>, but the com­men­t! Yes, com­ments
 rep­re­sent our fail­ure to ex­press our ideas in­to code, and they are there­fore,
 bad. We can cheat a lit­tle bit here, but (on the bright side), do some­thing
 ­more use­ful: How about log­ging the&nbsp;mes­sage?</p> 
- <pre class="code python"><a name="rest_code_b812e6f7bcb04544b87903c14167d166-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_b812e6f7bcb04544b87903c14167d166-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_b812e6f7bcb04544b87903c14167d166-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_b812e6f7bcb04544b87903c14167d166-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_bbf69cc8d6c642e1be0f6c336ea586cf-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_bbf69cc8d6c642e1be0f6c336ea586cf-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_bbf69cc8d6c642e1be0f6c336ea586cf-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_bbf69cc8d6c642e1be0f6c336ea586cf-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
 </pre>
 <p>If all of this seems un­nec­es­sary, we can  <a class="reference external" href="https://docs.python.org/3/library/contextlib.html#contextlib.suppress">sup­press</a>  the&nbsp;ex­cep­tion:</p> 
- <pre class="code python"><a name="rest_code_3d45728766ae41b984ba7ac92daee104-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
-<a name="rest_code_3d45728766ae41b984ba7ac92daee104-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_a560cf73f9bd4274bac4169cb82042d5-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
+<a name="rest_code_a560cf73f9bd4274bac4169cb82042d5-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre>
 <p>There are lots of cas­es like this when us­ing the key­word  <em>pass</em>  seems like a
 vi­able op­tion. And again, I&#8217;m not say­ing it&#8217;s a bad choice. I&#8217;m on­ly invit­ing
