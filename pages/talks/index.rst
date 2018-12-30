@@ -9,6 +9,11 @@
 
 Collection of talks presented at conferences.
 
+Upcoming
+========
+
+* ``FOSDEM 2019`` | Demystifying Coroutines and Asynchronous Programming in Python | 03 Feb
+
 2018
 ====
 
