@@ -19,7 +19,7 @@ BLOG_AUTHOR = "Mariano Anaya"  # (translatable)
 BLOG_TITLE = "IT Arch"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link
-SITE_URL = "https://rmariano.github.io/itarch/"
+SITE_URL = "https://blog.rmariano.eu"
 # This is the URL where nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 BASE_URL = "https://rmariano.github.io/itarch/"
@@ -634,18 +634,7 @@ FUTURE_IS_NOW = True
 # Google Analytics or whatever else you use. Added to the bottom of <body>
 # in the default template (base.tmpl).
 # (translatable)
-BODY_END = """
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-32356464-1', 'rmariano.github.io');
-  ga('send', 'pageview');
-
-</script>
-"""
+BODY_END = ""
 
 # The possibility to extract metadata from the filename by using a
 # regular expression.
