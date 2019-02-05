@@ -122,13 +122,13 @@ has, and how hard it is to in­tro­duce a new one, so it&#8217;s there for a go
  <p>How­ev­er, what I do ar­gue, is that some of the nice fea­tures of Python are of­ten
 over-used, and the temp­ta­tion to abuse a nice fea­ture shad­ows bet­ter&nbsp;op­por­tu­ni­ties.</p> 
  <p>For ex­am­ple, when defin­ing&nbsp;ex­cep­tion­s:</p> 
- <pre class="code python"><a name="rest_code_741b24eca81b497188e70c0694ff0f91-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_741b24eca81b497188e70c0694ff0f91-2"></a>    <span class="k">pass</span>
+ <pre class="code python"><a name="rest_code_dd2f58e781704405ac020b1e5560ea68-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_dd2f58e781704405ac020b1e5560ea68-2"></a>    <span class="k">pass</span>
 </pre>
 <p>It&#8217;s bet­ter to place a  <em>doc­string</em>  ex­plain­ing its rai­son d&#8217;e­tre, which
 e­lim­i­nates the ne­ces­si­ty for the  <em>pass</em>  and the emp­ty&nbsp;body:</p> 
- <pre class="code python"><a name="rest_code_192611d8a16d4c67a592a24a3aeaab6f-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a name="rest_code_192611d8a16d4c67a592a24a3aeaab6f-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
+ <pre class="code python"><a name="rest_code_518e53b0533e42f7ac130b60984ebd42-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a name="rest_code_518e53b0533e42f7ac130b60984ebd42-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
 </pre>
 <p>This al­so com­plies with the gen­er­al good prac­tice of  <em>&#8220;use doc­strings in eveery
 ­func­tion, class, and mod­ule de­fined&#8221;</em>. In my opin­ion, it&#8217;s a much bet­ter&nbsp;­choice.</p> 
@@ -136,23 +136,23 @@ e­lim­i­nates the ne­ces­si­ty for the  <em>pass</em>  and the emp­ty&nbs
  <p>How about when deal­ing with&nbsp;ex­cep­tion­s?</p> 
  <p>Some­times, the oc­cur­rence of an ex­cep­tion is a con­trolled sce­nar­i­o, and again
  <em>pass</em>  looks re­al­ly&nbsp;tempt­ing:</p> 
- <pre class="code python"><a name="rest_code_de221891e3b444be88c6156d3926e508-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_de221891e3b444be88c6156d3926e508-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_de221891e3b444be88c6156d3926e508-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_de221891e3b444be88c6156d3926e508-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
+ <pre class="code python"><a name="rest_code_ee92810dd86c431e88b82c8f01f6d510-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_ee92810dd86c431e88b82c8f01f6d510-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_ee92810dd86c431e88b82c8f01f6d510-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_ee92810dd86c431e88b82c8f01f6d510-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
 </pre>
 <p>Here the worst part is not even the  <em>pass</em>, but the com­men­t! Yes, com­ments
 rep­re­sent our fail­ure to ex­press our ideas in­to code, and they are there­fore,
 bad. We can cheat a lit­tle bit here, but (on the bright side), do some­thing
 ­more use­ful: How about log­ging the&nbsp;mes­sage?</p> 
- <pre class="code python"><a name="rest_code_417f050cdac24edf9f665f818a2cc240-1"></a><span class="k">try</span><span class="p">:</span>
-<a name="rest_code_417f050cdac24edf9f665f818a2cc240-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<a name="rest_code_417f050cdac24edf9f665f818a2cc240-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-<a name="rest_code_417f050cdac24edf9f665f818a2cc240-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_5f34584c3e6a477c87385eed2cc39b05-1"></a><span class="k">try</span><span class="p">:</span>
+<a name="rest_code_5f34584c3e6a477c87385eed2cc39b05-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<a name="rest_code_5f34584c3e6a477c87385eed2cc39b05-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+<a name="rest_code_5f34584c3e6a477c87385eed2cc39b05-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
 </pre>
 <p>If all of this seems un­nec­es­sary, we can  <a class="reference external" href="https://docs.python.org/3/library/contextlib.html#contextlib.suppress">sup­press</a>  the&nbsp;ex­cep­tion:</p> 
- <pre class="code python"><a name="rest_code_fa4990e8a39d4be498eed67956094fe4-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
-<a name="rest_code_fa4990e8a39d4be498eed67956094fe4-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_c1ad4293990449f5b09a831d86b81935-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
+<a name="rest_code_c1ad4293990449f5b09a831d86b81935-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre>
 <p>There are lots of cas­es like this when us­ing the key­word  <em>pass</em>  seems like a
 vi­able op­tion. And again, I&#8217;m not say­ing it&#8217;s a bad choice. I&#8217;m on­ly invit­ing
@@ -172,7 +172,7 @@ y­ou to think more about it, and try to find a bet­ter&nbsp;al­ter­na­tive.
                 <a href="../2017-in-review/" rel="next" title="2017 in Review">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2018         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2019         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -192,15 +192,6 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         captions: function(element) {
             return element.getElementsByTagName('img')[0].alt;
     }});
-    </script><script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-32356464-1', 'rmariano.github.io');
-  ga('send', 'pageview');
-
-</script>
+    </script>
 </body>
 </html>
