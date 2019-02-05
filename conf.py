@@ -19,7 +19,7 @@ BLOG_AUTHOR = "Mariano Anaya"  # (translatable)
 BLOG_TITLE = "IT Arch"  # (translatable)
 # This is the main URL for your site. It will be used
 # in a prominent link
-SITE_URL = "https://blog.rmariano.eu"
+SITE_URL = "https://rmariano.eu"
 # This is the URL where nikola's output will be deployed.
 # If not set, defaults to SITE_URL
 BASE_URL = "https://rmariano.github.io/itarch/"
