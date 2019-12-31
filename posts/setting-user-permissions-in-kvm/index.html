@@ -17,9 +17,10 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Setting user permissions in KVM">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/setting-user-permissions-in-kvm/">
-<meta property="og:description" content="In a  pre­vi­ous ar­ti­cle  I men­tioned
-how to in­stall a li­brary in Fe­do­ra, in or­der to make  KVM vir­tu­al­iza­tion 
-easier, man­ag­ing the  NAT  net­work con­fig­u­ra­tion be­tween the guest v">
+<meta property="og:description" content="In a previous article I mentioned
+how to install a library in Fedora, in order to make KVM virtualization
+easier, managing the NAT network configuration between the guest virtual
+machine and the host,">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-06-20T20:46:58-03:00">
 <meta property="article:tag" content="infrastructure">
@@ -91,11 +92,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Setting user permissions in&nbsp;KVM</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -109,20 +111,20 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>In a  <a class="reference external" href="../libvirt-networking-libraries/">pre­vi­ous ar­ti­cle</a>  I men­tioned
-how to in­stall a li­brary in Fe­do­ra, in or­der to make  <tt class="docutils literal">KVM vir­tu­al­iza­tion</tt> 
-easier, man­ag­ing the  <tt class="docutils literal">NAT</tt>  net­work con­fig­u­ra­tion be­tween the guest vir­tu­al
-­ma­chine and the host, by means of  <tt class="docutils literal">lib­virt</tt>.</p> 
- <p>Be­sides that, while us­ing  <tt class="docutils literal">KVM</tt>  lo­cal­ly for de­vel­op­men­t, I use
- <tt class="docutils literal"><span class="pre">virt-­­man­ag­er</span></tt>, a help­ful ap­pli­ca­tion that man­ages the dif­fer­ent vir­tu­al
-­ma­chines. This ap­pli­ca­tion, as well as the rest of the com­mands that in­ter­ac­t
-with  <tt class="docutils literal">lib­virt</tt>  (<tt class="docutils literal">virsh</tt>  for ex­am­ple), re­quire su­per us­er priv­i­leges, so it
-will prompt for the  <tt class="docutils literal">su­do</tt>  pass­word ev­ery&nbsp;time.</p> 
- <p>This can be avoid­ed by in­clud­ing the us­er in­to the fol­low­ing group­s:  <tt class="docutils literal">kvm</tt>,
-and  <tt class="docutils literal">lib­virt</tt>.</p> 
- <p>There­fore, just by run­ning the fol­low­ing com­mand we can skip the pass­word
+<p>In a <a class="reference external" href="../libvirt-networking-libraries/">previous article</a> I mentioned
+how to install a library in Fedora, in order to make <code class="docutils literal">KVM virtualization</code>
+easier, managing the <code class="docutils literal">NAT</code> network configuration between the guest virtual
+machine and the host, by means of <code class="docutils literal">libvirt</code>.</p>
+<p>Besides that, while using <code class="docutils literal">KVM</code> locally for development, I use
+<code class="docutils literal"><span class="pre">virt-­man­ag­er</span></code>, a helpful application that manages the different virtual
+machines. This application, as well as the rest of the commands that interact
+with <code class="docutils literal">libvirt</code> (<code class="docutils literal">virsh</code> for example), require super user privileges, so it
+will prompt for the <code class="docutils literal">sudo</code> password every&nbsp;time.</p>
+<p>This can be avoided by including the user into the following groups: <code class="docutils literal">kvm</code>,
+and <code class="docutils literal">libvirt</code>.</p>
+<p>There­fore, just by run­ning the fol­low­ing com­mand we can skip the pass­word
 prompt ev­ery&nbsp;time.</p> 
- <pre class="code bash"><a name="rest_code_a04230792048441892340fd109c28d13-1"></a>sudo usermod -a -G kvm,libvirt mariano
+ <pre class="code bash"><a name="rest_code_bcc395bd7b3d473a95b90b5982de8aa2-1"></a>sudo usermod -a -G kvm,libvirt mariano
 </pre>
 <p>This is an op­tion I would use on­ly for lo­cal de­vel­op­ment on my ma­chine.
 Pro­duc­tive en­vi­ron­ments must have an strict per­mis­sions&nbsp;man­age­men­t.</p>
@@ -147,15 +149,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

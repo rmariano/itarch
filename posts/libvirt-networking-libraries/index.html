@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Libvirt networking libraries">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/libvirt-networking-libraries/">
-<meta property="og:description" content="Fe­do­ra 21 work­sta­tion seems to come with a lot of vir­tu­al­iza­tion fea­tures and most of the
- lib­virt  li­braries in­stalled. I on­ly had to add the  KVM  vir­­tu­al-­­man­ag­er  which is
-the K">
+<meta property="og:description" content="Fedora 21 workstation seems to come with a lot of virtualization features and most of the
+libvirt libraries installed. I only had to add the KVM vir­tu­al-­man­ag­er which is
+the KVM application I am ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-01-14T21:06:57-03:00">
 <meta property="article:tag" content="infrastructure">
@@ -92,11 +92,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Libvirt networking&nbsp;libraries</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -110,16 +111,16 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Fe­do­ra 21 work­sta­tion seems to come with a lot of vir­tu­al­iza­tion fea­tures and most of the
- <tt class="docutils literal">lib­virt</tt>  li­braries in­stalled. I on­ly had to add the  <tt class="docutils literal">KVM  <span class="pre">vir­­tu­al-­­man­ag­er</span></tt>  which is
-the KVM ap­pli­ca­tion I am more fa­mil­iar with. How­ev­er, the new ver­sion of the  <tt class="docutils literal">lib­virt*</tt>  li­braries
-have net­work­ing fea­tures that are great for the da­ta cen­tre en­vi­ron­men­t, but maybe not the best op­tion
-­for a par­tic­u­lar work­sta­tion, so I added the fol­low­ing pack­ages in or­der to set up an eas­ier
-net­work con­fig­u­ra­tion for my lo­cal vir­tu­al&nbsp;ma­chines.</p> 
- <pre class="code bash"><a name="rest_code_ee79f50b0be84652b267a954b686d099-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
+<p>Fedora 21 workstation seems to come with a lot of virtualization features and most of the
+<code class="docutils literal">libvirt</code> libraries installed. I only had to add the <code class="docutils literal">KVM <span class="pre">vir­tu­al-­man­ag­er</span></code> which is
+the KVM application I am more familiar with. However, the new version of the <code class="docutils literal">libvirt*</code> libraries
+have networking features that are great for the data centre environment, but maybe not the best option
+for a particular workstation, so I added the following packages in order to set up an easier
+network configuration for my local virtual&nbsp;machines.</p>
+<pre class="code bash"><a name="rest_code_cb62b91006c94ce2ac6b5f84f97f2920-1"></a>sudo dnf install virt-install libvirt-daemon-config-network
 </pre>
 <p>In or­der to re­flect the changes and start us­ing the new fea­tures, we need to restart its&nbsp;ser­vice:</p> 
- <pre class="code bash"><a name="rest_code_e3e815d6d8e6449bb9f9e36b776ac0f1-1"></a>systemctl restart libvirtd.service
+ <pre class="code bash"><a name="rest_code_8c7a45d85f274963b2c3d4f43ec775ce-1"></a>systemctl restart libvirtd.service
 </pre>
 <p>Af­ter that, when cre­at­ing a new vir­tu­al ma­chine, the NAT op­tion is en­abled, and the vir­tu­al
 ­man­ag­er with han­dle the NAT or bridg­ing con­fig­u­ra­tion au­to­mat­i­cal­ly, which al­lows me to de­ploy new
@@ -146,15 +147,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

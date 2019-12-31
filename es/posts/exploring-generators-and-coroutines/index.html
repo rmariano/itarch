@@ -94,11 +94,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Exploring Generators and&nbsp;Coroutines</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -130,116 +131,112 @@ a­s­yn­ch­ro­nous pro­gra­m­min­g, star­ting wi­th  <a class="referen
 ­good trait to ha­ve in so­ftwa­re, be­cau­se in this ca­se it means that le­ss
 ­me­mo­ry is us­e­d. It&#8217;s al­so a key con­cept in other pro­gra­m­ming lan­gua­ges, and one
 of the main ideas be­hind func­tio­nal&nbsp;pro­gra­m­min­g.</p> 
- <p>The new  <tt class="docutils literal">yield</tt>  ke­yword was added to Py­tho­n, wi­th the mea­ning of pro­du­cing an
-e­le­ment that wi­ll be con­su­med by ano­ther ca­ller&nbsp;func­tio­n.</p> 
- <p>The me­re pre­sen­ce of the  <tt class="docutils literal">yield</tt>  ke­yword on any part of the func­tio­n,
-au­to­ma­ti­ca­lly makes that a  <em>ge­ne­ra­tor func­tion</em>. When ca­lle­d, this func­tio­n
-wi­ll crea­te a  <em>ge­ne­ra­tor ob­ject</em>, whi­ch can be ad­van­ce­d, pro­du­cing its
-e­le­men­ts, one at the ti­me. By ca­lling the ge­ne­ra­tor suc­ce­s­si­ve ti­mes wi­th the
- <tt class="docutils literal">nex­t()</tt>  func­tio­n, the ge­ne­ra­tor ad­van­ces to the next  <tt class="docutils literal">yield</tt>  sta­te­men­t,
-­pro­du­cing va­lues. After the ge­ne­ra­tor pro­du­ced a va­lue, the ge­ne­ra­tor is
- <em>sus­pen­ded</em>, wai­ting to be ca­lled&nbsp;agai­n.</p> 
- <p>Take the  <cite>ran­ge</cite>  buil­t-in func­tio­n, for exam­ple. In Py­thon 2, this func­tio­n
+ <p>The new <code class="docutils literal">yield</code> keyword was added to Python, with the meaning of producing an
+element that will be consumed by another caller&nbsp;function.</p>
+<p>The mere presence of the <code class="docutils literal">yield</code> keyword on any part of the function,
+automatically makes that a <em>generator function</em>. When called, this function
+will create a <em>generator object</em>, which can be advanced, producing its
+elements, one at the time. By calling the generator successive times with the
+<code class="docutils literal">next()</code> function, the generator advances to the next <code class="docutils literal">yield</code> statement,
+producing values. After the generator produced a value, the generator is
+<em>suspended</em>, waiting to be called&nbsp;again.</p>
+<p>Take the  <cite>ran­ge</cite>  buil­t-in func­tio­n, for exam­ple. In Py­thon 2, this func­tio­n
 ­re­turns a list wi­th all the num­bers on the in­ter­va­l. Ima­gi­ne we want to co­me up
 wi­th a si­mi­lar im­ple­men­ta­tion of it, in or­der to get the sum of all num­bers up
 ­to a cer­tain&nbsp;li­mi­t.</p> 
- <pre class="code python3"><a name="rest_code_318826cfec294f37abcfc720a10b10a6-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-2"></a><span class="k">def</span> <span class="nf">old_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-3"></a>    <span class="n">numbers</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-4"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-5"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-6"></a>        <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-7"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-8"></a>    <span class="k">return</span> <span class="n">numbers</span>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-9"></a>
-<a name="rest_code_318826cfec294f37abcfc720a10b10a6-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">old_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
+ <pre class="code python3"><a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-2"></a><span class="k">def</span> <span class="nf">old_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-3"></a>    <span class="n">numbers</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-4"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-5"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-6"></a>        <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-7"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-8"></a>    <span class="k">return</span> <span class="n">numbers</span>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-9"></a>
+<a name="rest_code_316ad51b97dd41c7b6ea4a412c4f1ecb-10"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">old_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
 </pre>
 <p>Now le­t&#8217;s see how mu­ch me­mo­ry is&nbsp;us­e­d:</p> 
- <pre class="literal-block">
-$ /usr/bin/time -f %M python rangesum.py
+ <pre class="literal-block">$ /usr/bin/time -f %M python rangesum.py
 499999500000
-48628
-</pre>
+48628</pre>
 <p>The first num­ber is the re­sult of the prin­t, whilst the se­cond one is the
 ou­tput of the  <cite>ti­me</cite>  co­m­man­d, prin­ting out the me­mo­ry us­ed by the pro­gram (~48&nbsp;­Mi­B).</p> 
  <p>No­w, what if this is im­ple­men­ted wi­th a ge­ne­ra­tor&nbsp;ins­tea­d?</p> 
  <p>We just ha­ve to get rid of the lis­t, and pla­ce the  <cite>yield</cite>  sta­te­ment ins­tea­d,
 in­di­ca­ting that we want to pro­du­ce the va­lue on the ex­pres­sion that fo­llo­ws the&nbsp;ke­ywor­d.</p> 
- <pre class="code python3"><a name="rest_code_479458df05b649e3983bd6af9ce8726b-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-2"></a><span class="k">def</span> <span class="nf">new_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-3"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-4"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-5"></a>        <span class="k">yield</span> <span class="n">i</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-6"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-7"></a>
-<a name="rest_code_479458df05b649e3983bd6af9ce8726b-8"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">new_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
+ <pre class="code python3"><a name="rest_code_3a043f1595c44261a846680862faf910-1"></a><span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">1_000_000</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-2"></a><span class="k">def</span> <span class="nf">new_range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-3"></a>    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-4"></a>    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-5"></a>        <span class="k">yield</span> <span class="n">i</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-6"></a>        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_3a043f1595c44261a846680862faf910-7"></a>
+<a name="rest_code_3a043f1595c44261a846680862faf910-8"></a><span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">new_range</span><span class="p">(</span><span class="n">LIMIT</span><span class="p">)))</span>
 </pre>
 <p>This ti­me, the re­sult&nbsp;is:</p> 
- <pre class="literal-block">
-$ /usr/bin/time -f %M python rangesum.py
+ <pre class="literal-block">$ /usr/bin/time -f %M python rangesum.py
 499999500000
-8992
-</pre>
+8992</pre>
 <p>We see a hu­ge di­ffe­ren­ce: the im­ple­men­ta­tion that hol­ds all num­bers in a lis­t
 in me­mo­r­y, uses ~48­Mi­B, whe­reas the im­ple­men­ta­tion that just uses one num­ber at
-­the ti­me, uses mu­ch le­ss me­mo­ry (&lt; 9 Mi­B)  <a class="footnote-reference" href="#id3" id="id1">[1]</a>.</p> 
+­the ti­me, uses mu­ch le­ss me­mo­ry (&lt; 9 Mi­B)  <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p> 
  <p>We see the idea: when the  <cite>yield &lt;ex­pres­sio­n&gt;</cite>  is rea­che­d, the re­sult of the
 ex­pres­sion wi­ll be pa­ss­ed to the ca­ller co­de, and the ge­ne­ra­tor wi­ll re­mai­n
  <em>sus­pen­ded</em>  at that li­ne in the&nbsp;meanwhi­le.</p> 
- <pre class="code python3"><a name="rest_code_210e21a727264e56ab730d217e89b24e-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">inspect</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-4"></a><span class="s1">'GEN_CREATED'</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-6"></a><span class="mi">0</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-8"></a><span class="mi">1</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-<a name="rest_code_210e21a727264e56ab730d217e89b24e-10"></a><span class="s1">'GEN_SUSPENDED'</span>
+ <pre class="code python3"><a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">inspect</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">r</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">)</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-4"></a><span class="s1">'GEN_CREATED'</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-6"></a><span class="mi">0</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-8"></a><span class="mi">1</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+<a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-10"></a><span class="s1">'GEN_SUSPENDED'</span>
 </pre>
-<p>Ge­ne­ra­tors are  <em>ite­ra­ble</em>  ob­jec­ts. An  <em>ite­ra­ble</em>  is an ob­ject who­se
- <tt class="docutils literal">__i­te­r__</tt>  me­tho­d, cons­truc­ts a new  <em>ite­ra­tor</em>, eve­ry ti­me is ca­lled (wi­th
- <tt class="docutils literal">ite­r(i­t)</tt>, for ins­tan­ce).  An  <em>ite­ra­tor</em>  is an ob­ject who­se  <tt class="docutils literal">__i­te­r__</tt> 
-re­turns itsel­f, and its  <tt class="docutils literal">__­nex­t__</tt>  me­thod con­tains the lo­gic to pro­du­ce new
-­va­lues ea­ch ti­me is ca­lle­d, and how to sig­nal the stop (by rai­sin­g
- <tt class="docutils literal">Sto­pI­te­ra­tion</tt>).</p> 
- <p>The idea of  <em>ite­ra­bles</em>  is that they ad­van­ce th­rou­gh va­lues, by ca­lling the
-­buil­t-in  <tt class="docutils literal">nex­t()</tt>  func­tion on it, and this wi­ll pro­du­ce va­lues un­til the
- <tt class="docutils literal">Sto­pI­te­ra­tion</tt>  ex­cep­tion is rai­s­e­d, sig­na­lling the end of the&nbsp;ite­ra­tio­n.</p> 
- <pre class="code python3"><a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-2"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">1</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-3"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">2</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-4"></a>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">()</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-7"></a><span class="mi">1</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-9"></a><span class="mi">2</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-11"></a><span class="ne">StopIteration</span><span class="p">:</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-12"></a>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
-<a name="rest_code_7fb8ee373765401b96a6d58a5bccd986-14"></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<p>Generators are <em>iterable</em> objects. An <em>iterable</em> is an object whose
+<code class="docutils literal">__iter__</code> method, constructs a new <em>iterator</em>, every time is called (with
+<code class="docutils literal">iter(it)</code>, for instance).  An <em>iterator</em> is an object whose <code class="docutils literal">__iter__</code>
+returns itself, and its <code class="docutils literal">__next__</code> method contains the logic to produce new
+values each time is called, and how to signal the stop (by raising
+<code class="docutils literal">StopIteration</code>).</p>
+<p>The idea of <em>iterables</em> is that they advance through values, by calling the
+built-in <code class="docutils literal">next()</code> function on it, and this will produce values until the
+<code class="docutils literal">StopIteration</code> exception is raised, signalling the end of the&nbsp;iteration.</p>
+<pre class="code python3"><a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-2"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">1</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-3"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">2</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-4"></a>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">f</span><span class="p">()</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-7"></a><span class="mi">1</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-9"></a><span class="mi">2</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-11"></a><span class="ne">StopIteration</span><span class="p">:</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-12"></a>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
+<a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-14"></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 </pre>
-<p>In the first ca­se, when ca­lling  <tt class="docutils literal">f()</tt>, this crea­tes a new ge­ne­ra­to­r. The
-­first two ca­lls to  <tt class="docutils literal">nex­t()</tt>, wi­ll ad­van­ce un­til the next  <tt class="docutils literal">yield</tt>  sta­te­men­t,
-­pro­du­cing the va­lues they ha­ve se­t. When the­re is no­thing el­se to pro­du­ce, the
- <tt class="docutils literal">Sto­pI­te­ra­tion</tt>  ex­cep­tion is rai­s­e­d. So­me­thing si­mi­lar to this, is ac­tua­ll­y
-­run, when we ite­ra­te over this ob­ject in the form of  <cite>for x in ite­ra­ble: &#8230;</cite>.
-On­ly that Py­thon in­ter­na­lly hand­les the ex­cep­tion that de­ter­mi­nes when the fo­r
-­lo­op&nbsp;stop­s.</p> 
- <p>Be­fo­re wra­pping up the in­tro­duc­tion to ge­ne­ra­tor­s, I want to make a qui­ck
+<p>In the first case, when calling <code class="docutils literal">f()</code>, this creates a new generator. The
+first two calls to <code class="docutils literal">next()</code>, will advance until the next <code class="docutils literal">yield</code> statement,
+producing the values they have set. When there is nothing else to produce, the
+<code class="docutils literal">StopIteration</code> exception is raised. Something similar to this, is actually
+run, when we iterate over this object in the form of <cite>for x in iterable: &#8230;</cite>.
+Only that Python internally handles the exception that determines when the for
+loop&nbsp;stops.</p>
+<p>Be­fo­re wra­pping up the in­tro­duc­tion to ge­ne­ra­tor­s, I want to make a qui­ck
 ­co­m­men­t, and hi­gh­li­ght so­me­thing im­por­tant about the ro­le of ge­ne­ra­tors in the
 ­lan­gua­ge, and why the­y&#8217;­re su­ch a neat abs­trac­tion to&nbsp;ha­ve.</p> 
  <p>Ins­tead of using the ea­ger ver­sion (the one that sto­res eve­r­y­thing in a lis­t),
 ­you mi­ght con­si­der avoi­ding that by just using a lo­op and coun­ting in­si­de it.
 I­t’s like sa­ying “a­ll I need is just the coun­t, so I mi­ght as we­ll jus­t
 ac­cu­mu­la­te the va­lue in a lo­op, and tha­t’s it”. So­me­thing sli­gh­tly si­mi­lar&nbsp;to:</p> 
- <pre class="code python3"><a name="rest_code_3c63acfa2b5e4143a58c1cde9873f3c0-1"></a><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_3c63acfa2b5e4143a58c1cde9873f3c0-2"></a><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_3c63acfa2b5e4143a58c1cde9873f3c0-3"></a><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_3c63acfa2b5e4143a58c1cde9873f3c0-4"></a>    <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span>
-<a name="rest_code_3c63acfa2b5e4143a58c1cde9873f3c0-5"></a>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+ <pre class="code python3"><a name="rest_code_f1b86949dd704a86b93b2df4bc7a1758-1"></a><span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_f1b86949dd704a86b93b2df4bc7a1758-2"></a><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_f1b86949dd704a86b93b2df4bc7a1758-3"></a><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_f1b86949dd704a86b93b2df4bc7a1758-4"></a>    <span class="n">total</span> <span class="o">+=</span> <span class="n">i</span>
+<a name="rest_code_f1b86949dd704a86b93b2df4bc7a1758-5"></a>    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre>
 <p>This is so­me­thing I mi­ght con­si­der doing in a lan­gua­ge that does­n&#8217;t ha­ve
 ­ge­ne­ra­tor­s. Do­n’t do this. Ge­ne­ra­tors are the ri­ght way to go. By using a
@@ -248,12 +245,12 @@ ac­cu­mu­la­te the va­lue in a lo­op, and tha­t’s it”. So­me­thing 
 ­se­quen­ce we ha­ve, is an ob­ject we can use in the rest of the co­de. It’s an
 a­bs­trac­tio­n. As su­ch, we can com­bi­ne it wi­th the rest of the co­de (for exam­ple
 ­to fil­ter on it), reu­se it, pa­ss it along to other ob­jec­ts, and&nbsp;mo­re.</p> 
- <p>For exam­ple, le­t’s say we ha­ve the se­quen­ce created wi­th  <tt class="docutils literal">new_­ran­ge()</tt>, an­d
-­then we rea­li­ze that we need the first 10 even num­bers of it. This is as sim­ple
-as&nbsp;doin­g.</p> 
- <pre class="code python3"><a name="rest_code_e98d31b8c9424577817405e1093fee55-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">itertools</span>
-<a name="rest_code_e98d31b8c9424577817405e1093fee55-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">rg</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1</span><span class="n">_000_000</span><span class="p">)</span>
-<a name="rest_code_e98d31b8c9424577817405e1093fee55-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rg</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+ <p>For example, let’s say we have the sequence created with <code class="docutils literal">new_range()</code>, and
+then we realize that we need the first 10 even numbers of it. This is as simple
+as&nbsp;doing.</p>
+<pre class="code python3"><a name="rest_code_bdb840d74c2740ff96529efe72039faf-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">itertools</span>
+<a name="rest_code_bdb840d74c2740ff96529efe72039faf-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">rg</span> <span class="o">=</span> <span class="n">new_range</span><span class="p">(</span><span class="mi">1_000_000</span><span class="p">)</span>
+<a name="rest_code_bdb840d74c2740ff96529efe72039faf-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">n</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="n">rg</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
 </pre>
 <p>And this is so­me­thing we could not so ea­si­ly ac­com­plis­h, had we cho­sen to­
 ig­no­re&nbsp;ge­ne­ra­tor­s.</p> 
@@ -268,66 +265,66 @@ we­re in­tro­du­ced wi­th the idea of ite­ra­tion and la­zy com­pu­ta�
 ­func­tion at a gi­ven poin­t, from whe­re it can be la­ter re­su­me­d. The idea is tha­t
 whi­le a co­rou­ti­ne is  <em>sus­pen­ded</em>, the pro­gram can swi­tch to run ano­ther part of
 ­the co­de. Ba­si­ca­ll­y, we need func­tions that can be&nbsp;pau­s­e­d.</p> 
- <p>As we ha­ve seen from the pre­vious exam­ple, ge­ne­ra­tors ha­ve this fea­tu­re: when
-­the  <tt class="docutils literal">yield &lt;ex­pres­so­n&gt;</tt>, is rea­che­d, a va­lue is pro­du­ced to the ca­lle­r
-ob­jec­t, and in the meanti­me the ge­ne­ra­tor ob­ject is sus­pen­de­d. This su­gges­te­d
-­that ge­ne­ra­tors can be us­ed to su­pport co­rou­ti­nes in Py­tho­n, hen­ce the na­me of
-­the PEP being &#8220;Co­rou­ti­nes via Enhan­ced&nbsp;Ge­ne­ra­tor­s&#8221;.</p> 
- <p>The­re is mo­re, thou­gh. Co­rou­ti­nes ha­ve to su­pport to be re­su­med fro­m
+ <p>As we have seen from the previous example, generators have this feature: when
+the <code class="docutils literal">yield &lt;expresson&gt;</code>, is reached, a value is produced to the caller
+object, and in the meantime the generator object is suspended. This suggested
+that generators can be used to support coroutines in Python, hence the name of
+the PEP being &#8220;Coroutines via Enhanced&nbsp;Generators&#8221;.</p>
+<p>The­re is mo­re, thou­gh. Co­rou­ti­nes ha­ve to su­pport to be re­su­med fro­m
 ­mul­ti­ple en­try poin­ts to con­ti­nue their exe­cu­tio­n. The­re­fo­re, mo­re chan­ges are
 ­re­qui­re­d. We need to be able to pa­ss da­ta ba­ck to the­m, and hand­le ex­cep­tion­s.
 ­For this, mo­re me­tho­ds we­re added to their&nbsp;in­ter­fa­ce.</p> 
  <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">sen­­d(&lt;­­va­­lue&gt;)</span></tt></li> 
- <li><tt class="docutils literal">th­ro­w(ex_­ty­pe[, ex_­va­lue[,  <span class="pre">ex_­­tra­­ce­­ba­­ck]])</span></tt></li> 
- <li><tt class="docutils literal">clo­se()</tt></li> 
+<li><p><code class="docutils literal"><span class="pre">sen­­d(&lt;­­va­­lue&gt;)</span></code></p></li> 
+ <li><p><code class="docutils literal">th­ro­w(ex_­ty­pe[, ex_­va­lue[,  <span class="pre">ex_­­tra­­ce­­ba­­ck]])</span></code></p></li> 
+ <li><p><code class="docutils literal">clo­se()</code></p></li> 
  </ul>
 <p>The­se me­tho­ds allow sen­ding a va­lue to a ge­ne­ra­to­r, th­ro­wing an ex­cep­tio­n
 in­si­de it, and clo­sing it,&nbsp;res­pec­ti­ve­l­y.</p> 
- <p>The  <tt class="docutils literal">sen­d()</tt>  me­thod im­plies that  <cite>yield</cite>  be­co­mes an  <em>ex­pres­sion</em>, ra­ther than
-a  <em>sta­te­ment</em>  (as it was be­fo­re). Wi­th this, is po­s­si­ble to as­sign the re­sul­t
-of a  <cite>yield</cite>  to a va­ria­ble, and the va­lue wi­ll be whate­ver it was sent to&nbsp;it.</p> 
- <pre class="code python3"><a name="rest_code_21e3199c86a64ae790454b26ffd20063-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-2"></a><span class="o">...</span>     <span class="n">step</span> <span class="o">=</span> <span class="n">start</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-3"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-4"></a><span class="o">...</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">step</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-5"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Got </span><span class="si">{value}</span><span class="s2">"</span><span class="p">)</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-6"></a><span class="o">...</span>         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-7"></a><span class="o">...</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span>  <span class="n">gen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-10"></a><span class="mi">1</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-12"></a><span class="n">Got</span> <span class="n">hello</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-13"></a><span class="mi">2</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-15"></a><span class="n">Got</span> <span class="mi">42</span>
-<a name="rest_code_21e3199c86a64ae790454b26ffd20063-16"></a><span class="mi">3</span>
+ <p>The <code class="docutils literal">send()</code> method implies that <cite>yield</cite> becomes an <em>expression</em>, rather than
+a <em>statement</em> (as it was before). With this, is possible to assign the result
+of a <cite>yield</cite> to a variable, and the value will be whatever it was sent to&nbsp;it.</p>
+<pre class="code python3"><a name="rest_code_1583c330acf44c72b22046f7d7f85799-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-2"></a><span class="o">...</span>     <span class="n">step</span> <span class="o">=</span> <span class="n">start</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-3"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-4"></a><span class="o">...</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">step</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-5"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Got </span><span class="si">{value}</span><span class="s2">"</span><span class="p">)</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-6"></a><span class="o">...</span>         <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-7"></a><span class="o">...</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span>  <span class="n">gen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-10"></a><span class="mi">1</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-12"></a><span class="n">Got</span> <span class="n">hello</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-13"></a><span class="mi">2</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-15"></a><span class="n">Got</span> <span class="mi">42</span>
+<a name="rest_code_1583c330acf44c72b22046f7d7f85799-16"></a><span class="mi">3</span>
 </pre>
-<p>As we can see from this pre­vious co­de, the va­lue sent by  <tt class="docutils literal">yield</tt>  is going to­
-­be the re­sult of the  <tt class="docutils literal">send</tt>, (in this ca­se, the con­se­cu­ti­ve num­bers of the
-­se­quen­ce), whi­le the va­lue pa­ss­ed in the  <tt class="docutils literal">sen­d()</tt>, the pa­ra­me­te­r, is the
-­re­sult that is as­sig­ned to  <tt class="docutils literal">va­lue</tt>  as re­tur­ned by the  <tt class="docutils literal">yield</tt>, and printe­d
-out on the next&nbsp;li­ne.</p> 
- <p>Be­fo­re sen­ding any va­lues to the ge­ne­ra­to­r, this has to be ad­van­ced to the nex­t
- <tt class="docutils literal">yield</tt>. In fac­t, ad­van­cing is the on­ly allo­wed ope­ra­tion on a new­l­y-­create­d
-­ge­ne­ra­to­r. This can be do­ne by ca­lling  <tt class="docutils literal">nex­t(­g)</tt>  or  <tt class="docutils literal">g.sen­d(­No­ne)</tt>, whi­ch
-a­re&nbsp;equi­va­len­t.</p> 
- <div class="admonition warning">
-<p class="first admonition-title">War­ning</p> 
- <p class="last">Re­mem­ber to alwa­ys ad­van­ce a ge­ne­ra­tor that was just create­d, or you wi­ll
+<p>As we can see from this previous code, the value sent by <code class="docutils literal">yield</code> is going to
+be the result of the <code class="docutils literal">send</code>, (in this case, the consecutive numbers of the
+sequence), while the value passed in the <code class="docutils literal">send()</code>, the parameter, is the
+result that is assigned to <code class="docutils literal">value</code> as returned by the <code class="docutils literal">yield</code>, and printed
+out on the next&nbsp;line.</p>
+<p>Before sending any values to the generator, this has to be advanced to the next
+<code class="docutils literal">yield</code>. In fact, advancing is the only allowed operation on a newly-created
+generator. This can be done by calling <code class="docutils literal">next(g)</code> or <code class="docutils literal">g.send(None)</code>, which
+are&nbsp;equivalent.</p>
+<div class="admonition warning">
+<p class="admonition-title">War­ning</p> 
+ <p>Re­mem­ber to alwa­ys ad­van­ce a ge­ne­ra­tor that was just create­d, or you wi­ll
 ­get a  <cite>Ty­peE­rror</cite>.</p> 
  </div>
-<p>Wi­th the  <tt class="docutils literal">.th­ro­w()</tt>  me­thod the ca­ller can make the ge­ne­ra­tor rai­se an
-ex­cep­tion at the point whe­re is sus­pen­de­d. If this ex­cep­tion is hand­le­d
-in­ter­na­lly in the ge­ne­ra­to­r, it wi­ll con­ti­nue nor­ma­lly and the re­turn va­lue
-wi­ll be the one of the next  <tt class="docutils literal">yield</tt>  li­ne that rea­che­d. If it&#8217;s not hand­led by
-­the ge­ne­ra­to­r, it wi­ll fai­l, and the ex­cep­tion wi­ll pro­pa­ga­te to the&nbsp;ca­lle­r.</p> 
- <p>The  <tt class="docutils literal">.clo­se()</tt>  me­thod is us­ed to ter­mi­na­te the ge­ne­ra­to­r. It wi­ll rai­se the
- <tt class="docutils literal">Ge­ne­ra­to­rE­xit</tt>  ex­cep­tion in­si­de the ge­ne­ra­to­r. If we wish to run so­me clean
-up co­de, this is the ex­cep­tion to hand­le. When hand­ling this ex­cep­tio­n, the
-on­ly allo­wed ac­tion is to re­turn a&nbsp;va­lue.</p> 
- <p>Wi­th the­se addi­tion­s, ge­ne­ra­tors ha­ve now evol­ved in­to co­rou­ti­nes. This mean­s
+<p>With the <code class="docutils literal">.throw()</code> method the caller can make the generator raise an
+exception at the point where is suspended. If this exception is handled
+internally in the generator, it will continue normally and the return value
+will be the one of the next <code class="docutils literal">yield</code> line that reached. If it&#8217;s not handled by
+the generator, it will fail, and the exception will propagate to the&nbsp;caller.</p>
+<p>The <code class="docutils literal">.close()</code> method is used to terminate the generator. It will raise the
+<code class="docutils literal">GeneratorExit</code> exception inside the generator. If we wish to run some clean
+up code, this is the exception to handle. When handling this exception, the
+only allowed action is to return a&nbsp;value.</p>
+<p>Wi­th the­se addi­tion­s, ge­ne­ra­tors ha­ve now evol­ved in­to co­rou­ti­nes. This mean­s
 our co­de can now su­pport  <em>con­cu­rrent pro­gra­m­ming</em>, sus­pend the exe­cu­tion of
 ­ta­sks, com­pu­te no­n-­blo­cking I/O, and&nbsp;su­ch.</p> 
  <p>Whi­le this wo­rks, hand­ling many co­rou­ti­nes, re­fac­tor ge­ne­ra­tor­s, and or­ga­ni­zin­g
@@ -340,35 +337,35 @@ keep a Py­tho­nic way of doing con­cu­rrent&nbsp;pro­gra­m­min­g.</p>
 ­de­le­ga­tion to su­b-­ge­ne­ra­tor­s. Two main things chan­ged in ge­ne­ra­tors to make
 ­them mo­re use­ful as&nbsp;co­rou­ti­nes:</p> 
  <ul class="simple">
-<li>Ge­ne­ra­tors can now re­turn&nbsp;va­lues.</li> 
- <li>The  <tt class="docutils literal">yield from</tt>  syn­ta­x.</li> 
+<li><p>Ge­­ne­­ra­­tors can now re­­turn&nbsp;va­­lues.</p></li> 
+ <li><p>The  <code class="docutils literal">yield from</code>  syn­ta­x.</p></li> 
  </ul>
 <div class="section" id="return-values-in-generators">
 <h3>Return Values in&nbsp;Generators</h3>
-<p>The ke­yword  <tt class="docutils literal">def</tt>, de­fi­nes a func­tio­n, whi­ch re­turns va­lues (wi­th the
- <tt class="docutils literal">re­turn</tt>  ke­ywor­d). Ho­we­ve­r, as stated on the first sec­tio­n, if that  <tt class="docutils literal">def</tt> 
-con­tains a  <tt class="docutils literal">yield</tt>, is a  <em>ge­ne­ra­tor func­tion</em>. Be­fo­re this PEP it would ha­ve
-­been a syn­tax error to ha­ve a  <tt class="docutils literal">re­turn</tt>  in a ge­ne­ra­tor func­tion (a func­tio­n
-­that al­so has a  <tt class="docutils literal">yield</tt>. Ho­we­ve­r, this is no lon­ger the&nbsp;ca­se.</p> 
- <p>Re­mem­ber how ge­ne­ra­tors stop by rai­sing  <tt class="docutils literal">Sto­pI­te­ra­tion</tt>. What does it mean
-­that a ge­ne­ra­tor re­turns a va­lue? It means that it stop­s. And whe­re does tha­t
-­va­lue do? It&#8217;s con­tai­ned in­si­de the ex­cep­tio­n, as an attri­bu­te in
- <tt class="docutils literal">Sto­pI­te­ra­tio­n.­va­lue</tt>.</p> 
- <pre class="code python3"><a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-1"></a><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-2"></a>        <span class="k">yield</span> <span class="mi">1</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-3"></a>        <span class="k">yield</span> <span class="mi">2</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-4"></a>        <span class="k">return</span> <span class="s2">"returned value"</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-5"></a>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-8"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-9"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-10"></a><span class="o">...</span> <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-11"></a><span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-12"></a><span class="o">...</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-13"></a><span class="mi">1</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-14"></a><span class="mi">2</span>
-<a name="rest_code_74ebd28fa1544af7bfa59bc805ecc044-15"></a><span class="n">returned</span> <span class="n">value</span>
+<p>The keyword <code class="docutils literal">def</code>, defines a function, which returns values (with the
+<code class="docutils literal">return</code> keyword). However, as stated on the first section, if that <code class="docutils literal">def</code>
+contains a <code class="docutils literal">yield</code>, is a <em>generator function</em>. Before this PEP it would have
+been a syntax error to have a <code class="docutils literal">return</code> in a generator function (a function
+that also has a <code class="docutils literal">yield</code>. However, this is no longer the&nbsp;case.</p>
+<p>Remember how generators stop by raising <code class="docutils literal">StopIteration</code>. What does it mean
+that a generator returns a value? It means that it stops. And where does that
+value do? It&#8217;s contained inside the exception, as an attribute in
+<code class="docutils literal">StopIteration.value</code>.</p>
+<pre class="code python3"><a name="rest_code_14cde4271eea4bbea94f659006561629-1"></a><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-2"></a>        <span class="k">yield</span> <span class="mi">1</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-3"></a>        <span class="k">yield</span> <span class="mi">2</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-4"></a>        <span class="k">return</span> <span class="s2">"returned value"</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-5"></a>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-8"></a><span class="o">...</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-9"></a><span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-10"></a><span class="o">...</span> <span class="k">except</span> <span class="ne">StopIteration</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-11"></a><span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-12"></a><span class="o">...</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-13"></a><span class="mi">1</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-14"></a><span class="mi">2</span>
+<a name="rest_code_14cde4271eea4bbea94f659006561629-15"></a><span class="n">returned</span> <span class="n">value</span>
 </pre>
 <p>No­ti­ce that the va­lue re­tur­ned by the ge­ne­ra­tor is sto­red in­si­de the ex­cep­tio­n,
 in  <cite>Sto­pI­te­ra­tio­n.­va­lue</cite>. This mi­ght sound like is not the most ele­gan­t
@@ -379,238 +376,232 @@ in  <cite>Sto­pI­te­ra­tio­n.­va­lue</cite>. This mi­ght sound like is n
 <div class="section" id="yield-from">
 <h3>yield&nbsp;from</h3>
 <p>Ano­ther syn­tax chan­ge to the&nbsp;lan­gua­ge.</p> 
- <p>In its most ba­sic for­m, the cons­truc­tion  <tt class="docutils literal">yield from &lt;i­te­ra­ble&gt;</tt>, can be­
-­thou­ght of&nbsp;as:</p> 
- <pre class="literal-block">
-for e in iterable:
-    yield e
-</pre>
+ <p>In its most basic form, the construction <code class="docutils literal">yield from &lt;iterable&gt;</code>, can be
+thought of&nbsp;as:</p>
+<pre class="literal-block">for e in iterable:
+    yield e</pre>
 <p>Ba­si­ca­lly this means that it ex­ten­ds an  <em>ite­ra­ble</em>, yiel­ding all ele­men­ts tha­t
 ­this in­ter­nal  <em>ite­ra­ble</em>  can&nbsp;pro­du­ce.</p> 
- <p>For exam­ple, this way we could crea­te a clo­ne of the  <tt class="docutils literal">iter­tool­s.­chain</tt> 
-func­tion from the stan­dard&nbsp;li­bra­r­y.</p> 
- <pre class="code python3"><a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">chain2</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
-<a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
-<a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-3"></a><span class="o">...</span><span class="p">:</span>         <span class="k">yield from</span> <span class="n">it</span>
-<a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-4"></a>
-<a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">))</span>
-<a name="rest_code_c08e60fd3efd4fa2836bc8ea5d940399-6"></a><span class="p">[</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
+ <p>For example, this way we could create a clone of the <code class="docutils literal">itertools.chain</code>
+function from the standard&nbsp;library.</p>
+<pre class="code python3"><a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">chain2</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
+<a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
+<a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-3"></a><span class="o">...</span><span class="p">:</span>         <span class="k">yield from</span> <span class="n">it</span>
+<a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-4"></a>
+<a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">chain2</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">,</span> <span class="s2">"world"</span><span class="p">))</span>
+<a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-6"></a><span class="p">[</span><span class="s1">'h'</span><span class="p">,</span> <span class="s1">'e'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">' '</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">,</span> <span class="s1">'o'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="s1">'l'</span><span class="p">,</span> <span class="s1">'d'</span><span class="p">]</span>
 </pre>
 <p>Ho­we­ve­r, saving two li­nes of co­de is not the rea­son why this cons­truc­tion wa­s
 a­dded to the lan­gua­ge. The rai­son d&#8217;e­tre of this cons­truc­tion is to ac­tua­ll­y
 ­de­le­ga­te res­pon­si­bi­li­ty in­to sma­ller ge­ne­ra­tor­s, and chain&nbsp;the­m.</p> 
- <pre class="code python3"><a name="rest_code_240b22aa19124c5cb36511cbce00539b-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">internal</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-3"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">i</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-4"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> got: </span><span class="si">{got}</span><span class="s2">"</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-5"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="n">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> finished"</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-6"></a>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-8"></a><span class="o">...</span><span class="p">:</span>     <span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-9"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-10"></a>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-12"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-13"></a><span class="mi">0</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-15"></a><span class="n">A</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-16"></a><span class="mi">1</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-17"></a>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># a few more calls until the generator ends</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-19"></a><span class="n">B</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-20"></a><span class="o">------------------------------------------------------</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-21"></a><span class="ne">StopIteration</span>        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-22"></a><span class="o">...</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-23"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_240b22aa19124c5cb36511cbce00539b-24"></a><span class="ne">StopIteration</span><span class="p">:</span> <span class="n">B</span> <span class="n">finished</span>
+ <pre class="code python3"><a name="rest_code_7f7e09ef384844628a95f96744a21bb5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">internal</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">limit</span><span class="p">):</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">limit</span><span class="p">):</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-3"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">i</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-4"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> got: </span><span class="si">{got}</span><span class="s2">"</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-5"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> finished"</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-6"></a>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-8"></a><span class="o">...</span><span class="p">:</span>     <span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"A"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-9"></a><span class="o">...</span><span class="p">:</span>     <span class="k">return</span> <span class="p">(</span><span class="k">yield from</span> <span class="n">internal</span><span class="p">(</span><span class="s2">"B"</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-10"></a>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span> <span class="o">=</span> <span class="n">gen</span><span class="p">()</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-12"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">next</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-13"></a><span class="mi">0</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-15"></a><span class="n">A</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-16"></a><span class="mi">1</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-17"></a>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>   <span class="c1"># a few more calls until the generator ends</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-19"></a><span class="n">B</span> <span class="n">got</span><span class="p">:</span> <span class="mi">1</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-20"></a><span class="o">------------------------------------------------------</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-21"></a><span class="ne">StopIteration</span>        <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-22"></a><span class="o">...</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-23"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_7f7e09ef384844628a95f96744a21bb5-24"></a><span class="ne">StopIteration</span><span class="p">:</span> <span class="n">B</span> <span class="n">finished</span>
 </pre>
-<p>He­re we see how  <tt class="docutils literal">yield from</tt>  hand­les pro­per de­le­ga­tion to an in­ter­na­l
-­ge­ne­ra­to­r. No­ti­ce that we ne­ver send va­lues di­rec­tly to  <tt class="docutils literal">in­ter­nal</tt>, but to
- <tt class="docutils literal">gen</tt>, ins­tea­d, and the­se va­lues end up on the nes­ted ge­ne­ra­to­r. Wha­t
- <tt class="docutils literal">yield from</tt>  is ac­tua­lly doing is crea­ting a ge­ne­ra­tor that has a chan­nel to­
-a­ll nes­ted ge­ne­ra­tor­s. Va­lues pro­du­ced by the­se wi­ll be pro­vi­ded to the ca­lle­r
-of  <tt class="docutils literal">gen</tt>. Va­lues sent to it, wi­ll be pa­ss­ed along to the in­ter­nal ge­ne­ra­tor­s
-(­the sa­me for ex­cep­tion­s). Even the re­turn va­lue is hand­le­d, and be­co­mes the
-­re­turn va­lue of the to­p-­le­vel ge­ne­ra­tor (in this ca­se the string that sta­tes
-­the na­me of the last ge­ne­ra­tor be­co­mes the re­sul­ting  <tt class="docutils literal">Sto­pI­te­ra­tio­n.­va­lue</tt>).</p> 
- <p>We see now the real va­lue of this cons­truc­tio­n. Wi­th this, it&#8217;s ea­sier to­
+<p>Here we see how <code class="docutils literal">yield from</code> handles proper delegation to an internal
+generator. Notice that we never send values directly to <code class="docutils literal">internal</code>, but to
+<code class="docutils literal">gen</code>, instead, and these values end up on the nested generator. What
+<code class="docutils literal">yield from</code> is actually doing is creating a generator that has a channel to
+all nested generators. Values produced by these will be provided to the caller
+of <code class="docutils literal">gen</code>. Values sent to it, will be passed along to the internal generators
+(the same for exceptions). Even the return value is handled, and becomes the
+return value of the top-level generator (in this case the string that states
+the name of the last generator becomes the resulting <code class="docutils literal">StopIteration.value</code>).</p>
+<p>We see now the real va­lue of this cons­truc­tio­n. Wi­th this, it&#8217;s ea­sier to­
 ­re­fac­tor ge­ne­ra­tors in­to sma­ller pie­ce­s, com­po­se them and chain them to­ge­the­r
 whi­le pre­ser­ving the be­ha­viour of&nbsp;co­rou­ti­nes.</p> 
- <p>The new  <tt class="docutils literal">yield from</tt>  syn­tax is a great step to­war­ds su­ppor­ting be­tte­r
-­con­cu­rren­c­y. We can now thi­nk ge­ne­ra­tors as being &#8220;li­gh­twe­ight th­rea­d­s&#8221;, tha­t
-­de­le­ga­te func­tio­na­li­ty to an in­ter­nal ge­ne­ra­to­r, pau­se the exe­cu­tio­n, so tha­t
-o­ther things can be com­puted in that&nbsp;ti­me.</p> 
- <p>Be­cau­se syn­tac­ti­ca­lly ge­ne­ra­tors are like co­rou­ti­nes, it was po­s­si­ble to­
-ac­ci­den­ta­lly con­fu­se the­m, and end up pla­cing a ge­ne­ra­tor whe­re a co­rou­ti­ne
-would ha­ve been ex­pec­ted (the  <tt class="docutils literal">yield from</tt>  would ac­cept it, after all). Fo­r
-­this rea­so­n, the next step is to ac­tua­lly de­fi­ne the con­cept of co­rou­ti­ne as a
-­pro­per ty­pe. Wi­th this chan­ge, it al­so fo­llo­wed that  <tt class="docutils literal">yield from</tt>  evol­ve­d
-in­to  <tt class="docutils literal">await</tt>, and a new syn­tax for de­fi­ning co­rou­ti­nes was in­tro­du­ce­d:
- <tt class="docutils literal">as­ync</tt>.</p> 
- </div>
+ <p>The new <code class="docutils literal">yield from</code> syntax is a great step towards supporting better
+concurrency. We can now think generators as being &#8220;lightweight threads&#8221;, that
+delegate functionality to an internal generator, pause the execution, so that
+other things can be computed in that&nbsp;time.</p>
+<p>Because syntactically generators are like coroutines, it was possible to
+accidentally confuse them, and end up placing a generator where a coroutine
+would have been expected (the <code class="docutils literal">yield from</code> would accept it, after all). For
+this reason, the next step is to actually define the concept of coroutine as a
+proper type. With this change, it also followed that <code class="docutils literal">yield from</code> evolved
+into <code class="docutils literal">await</code>, and a new syntax for defining coroutines was introduced:
+<code class="docutils literal">async</code>.</p>
+</div>
 <div class="section" id="async-def-await">
 <h3>async def /&nbsp;await</h3>
 <p>A qui­ck no­te on how this re­la­tes to as­yn­ch­ro­nous pro­gra­m­ming in&nbsp;Py­tho­n.</p> 
- <p>On  <tt class="docutils literal">as­yn­cio</tt>, or any other event lo­op, the idea is that we de­fi­ne co­rou­ti­nes,
-and make them part of the event lo­op. Broad­ly speaking the event lo­op wi­ll kee­p
-a list of the ta­sks (whi­ch wrap our co­rou­ti­nes) that ha­ve to run, and wi­ll
-s­che­du­le them&nbsp;to.</p> 
- <p>On our co­rou­ti­nes we de­le­ga­te the I/O func­tio­na­li­ty we want to achie­ve, to so­me
-o­ther co­rou­ti­ne or  <em>awai­ta­ble</em>  ob­jec­t, by ca­lling  <tt class="docutils literal">yield from</tt>  or  <tt class="docutils literal">await</tt> 
-on&nbsp;it.</p> 
- <p>Then the event lo­op wi­ll ca­ll our co­rou­ti­ne, whi­ch wi­ll rea­ch this li­ne,
-­de­le­ga­ting to the in­ter­nal co­rou­ti­ne, and pau­sing the exe­cu­tio­n, whi­ch gi­ve­s
-­the con­trol ba­ck to the sche­du­ler (so it can run ano­ther co­rou­ti­ne). The even­t
-­lo­op wi­ll mo­ni­tor the fu­tu­re ob­ject that wraps our co­rou­ti­ne un­til is fi­nis­he­d,
-and when it&#8217;s nee­de­d, it wi­ll up­da­te it by ca­lling the  <tt class="docutils literal">.sen­d()</tt>  me­thod on
-i­t. Whi­ch in tur­n, wi­ll pa­ss along to the in­ter­nal co­rou­ti­ne, and so&nbsp;on.</p> 
- <p>Be­fo­re the new syn­tax for  <tt class="docutils literal">as­ync</tt>  and  <tt class="docutils literal">await</tt>  was in­tro­du­ce­d, co­rou­ti­nes
-we­re de­fi­ned as ge­ne­ra­tors de­co­ra­ted wi­th  <tt class="docutils literal">as­yn­cio­.­co­rou­ti­ne</tt> 
-(<tt class="docutils literal">ty­pes.­co­rou­ti­ne</tt>  was added in Py­thon 3.5, when the co­rou­ti­ne ty­pe itsel­f
-was create­d). No­wa­da­ys,  <tt class="docutils literal">as­ync def</tt>  crea­tes a na­ti­ve co­rou­ti­ne, and in­si­de
-i­t, on­ly the  <tt class="docutils literal">await</tt>  ex­pres­sion is ac­cep­ted (not  <tt class="docutils literal">yield from</tt>).</p> 
- <p>The fo­llo­wing two co­rou­ti­nes  <tt class="docutils literal">step</tt>  and  <tt class="docutils literal">co­ro</tt>  are a sim­ple exam­ple, of ho­w
- <tt class="docutils literal">await</tt>  wo­rks si­mi­lar to  <tt class="docutils literal">yield from</tt>  de­le­ga­ting the va­lues to the
-in­ter­nal&nbsp;ge­ne­ra­to­r.</p> 
- <pre class="code python3"><a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-1"></a><span class="o">&gt;&gt;&gt;</span>  <span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-2"></a><span class="o">...</span><span class="p">:</span> <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-3"></a><span class="o">...</span><span class="p">:</span>     <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-4"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-5"></a><span class="o">...</span><span class="p">:</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">s</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-6"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"Step got value "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-7"></a><span class="o">...</span><span class="p">:</span>         <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-8"></a>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-9"></a><span class="o">&gt;&gt;&gt;</span>  <span class="k">async</span> <span class="k">def</span> <span class="nf">coro</span><span class="p">():</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-10"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-11"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">await</span> <span class="n">step</span><span class="p">()</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-12"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">got</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-13"></a>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-14"></a>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coro</span><span class="p">()</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-16"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-17"></a><span class="mi">0</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"first"</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-19"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">first</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-20"></a><span class="mi">1</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-21"></a>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-22"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"second"</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-23"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">second</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-24"></a><span class="mi">2</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-25"></a>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-26"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"third"</span><span class="p">)</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-27"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">third</span>
-<a name="rest_code_feee56ec5fb745e5a9a6697e1d8aae17-28"></a><span class="mi">3</span>
+ <p>On <code class="docutils literal">asyncio</code>, or any other event loop, the idea is that we define coroutines,
+and make them part of the event loop. Broadly speaking the event loop will keep
+a list of the tasks (which wrap our coroutines) that have to run, and will
+schedule them&nbsp;to.</p>
+<p>On our coroutines we delegate the I/O functionality we want to achieve, to some
+other coroutine or <em>awaitable</em> object, by calling <code class="docutils literal">yield from</code> or <code class="docutils literal">await</code>
+on&nbsp;it.</p>
+<p>Then the event loop will call our coroutine, which will reach this line,
+delegating to the internal coroutine, and pausing the execution, which gives
+the control back to the scheduler (so it can run another coroutine). The event
+loop will monitor the future object that wraps our coroutine until is finished,
+and when it&#8217;s needed, it will update it by calling the <code class="docutils literal">.send()</code> method on
+it. Which in turn, will pass along to the internal coroutine, and so&nbsp;on.</p>
+<p>Before the new syntax for <code class="docutils literal">async</code> and <code class="docutils literal">await</code> was introduced, coroutines
+were defined as generators decorated with <code class="docutils literal">asyncio.coroutine</code>
+(<code class="docutils literal">types.coroutine</code> was added in Python 3.5, when the coroutine type itself
+was created). Nowadays, <code class="docutils literal">async def</code> creates a native coroutine, and inside
+it, only the <code class="docutils literal">await</code> expression is accepted (not <code class="docutils literal">yield from</code>).</p>
+<p>The following two coroutines <code class="docutils literal">step</code> and <code class="docutils literal">coro</code> are a simple example, of how
+<code class="docutils literal">await</code> works similar to <code class="docutils literal">yield from</code> delegating the values to the
+internal&nbsp;generator.</p>
+<pre class="code python3"><a name="rest_code_79dadb15c18b452c8434f531e174ec09-1"></a><span class="o">&gt;&gt;&gt;</span>  <span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-2"></a><span class="o">...</span><span class="p">:</span> <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-3"></a><span class="o">...</span><span class="p">:</span>     <span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-4"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-5"></a><span class="o">...</span><span class="p">:</span>         <span class="n">value</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">s</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-6"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"Step got value "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-7"></a><span class="o">...</span><span class="p">:</span>         <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-8"></a>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-9"></a><span class="o">&gt;&gt;&gt;</span>  <span class="k">async</span> <span class="k">def</span> <span class="nf">coro</span><span class="p">():</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-10"></a><span class="o">...</span><span class="p">:</span>     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-11"></a><span class="o">...</span><span class="p">:</span>         <span class="n">got</span> <span class="o">=</span> <span class="k">await</span> <span class="n">step</span><span class="p">()</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-12"></a><span class="o">...</span><span class="p">:</span>         <span class="nb">print</span><span class="p">(</span><span class="n">got</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-13"></a>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-14"></a>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span> <span class="o">=</span> <span class="n">coro</span><span class="p">()</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-16"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-17"></a><span class="mi">0</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-18"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"first"</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-19"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">first</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-20"></a><span class="mi">1</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-21"></a>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-22"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"second"</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-23"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">second</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-24"></a><span class="mi">2</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-25"></a>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-26"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">c</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s2">"third"</span><span class="p">)</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-27"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">third</span>
+<a name="rest_code_79dadb15c18b452c8434f531e174ec09-28"></a><span class="mi">3</span>
 </pre>
-<p>On­ce agai­n, like in the  <tt class="docutils literal">yield from</tt>  exam­ple, when we send a va­lue to
- <tt class="docutils literal">co­ro</tt>, this rea­ches the  <tt class="docutils literal">await</tt>  ins­truc­tio­n, whi­ch means that wi­ll pa­ss to­
-­the  <tt class="docutils literal">step</tt>  co­rou­ti­ne. In this sim­ple exam­ple  <tt class="docutils literal">co­ro</tt>  is so­me­thing like wha­t
-we would wri­te, whi­le  <tt class="docutils literal">step</tt>  would be an ex­ter­nal func­tion we&nbsp;ca­ll.</p> 
- <p>The fo­llo­wing two co­rou­ti­nes are di­ffe­rent wa­ys of de­fi­ning&nbsp;co­rou­ti­nes.</p> 
- <pre class="code python3"><a name="rest_code_fe44bf37913143b79b93362267d11910-1"></a><span class="c1"># py 3.4</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-2"></a><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-3"></a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-4"></a>    <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-5"></a>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-6"></a><span class="c1"># py 3.5+</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-7"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
-<a name="rest_code_fe44bf37913143b79b93362267d11910-8"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<p>Once again, like in the <code class="docutils literal">yield from</code> example, when we send a value to
+<code class="docutils literal">coro</code>, this reaches the <code class="docutils literal">await</code> instruction, which means that will pass to
+the <code class="docutils literal">step</code> coroutine. In this simple example <code class="docutils literal">coro</code> is something like what
+we would write, while <code class="docutils literal">step</code> would be an external function we&nbsp;call.</p>
+<p>The fo­llo­wing two co­rou­ti­nes are di­ffe­rent wa­ys of de­fi­ning&nbsp;co­rou­ti­nes.</p> 
+ <pre class="code python3"><a name="rest_code_851731ccbb1b4106befce6906ed41aad-1"></a><span class="c1"># py 3.4</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-2"></a><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-3"></a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-4"></a>    <span class="k">yield from</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-5"></a>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-6"></a><span class="c1"># py 3.5+</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-7"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
+<a name="rest_code_851731ccbb1b4106befce6906ed41aad-8"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre>
-<p>Ba­si­ca­lly this means that this as­yn­ch­ro­nous way of pro­gra­m­ming is kind of like
-an API, for wo­rking wi­th event lo­op­s. It does­n&#8217;t rea­lly re­la­te to  <tt class="docutils literal">as­yn­cio</tt>,
-we could use any event lo­op (<tt class="docutils literal">cu­rio</tt>,  <tt class="docutils literal">uv­lo­op</tt>, etc.), for this. The
-im­por­tant part is to un­ders­tan­d, that an event lo­op wi­ll ca­ll our co­rou­ti­ne,
-whi­ch wi­ll even­tua­lly rea­ch the li­ne whe­re we de­fi­ned the  <tt class="docutils literal">await</tt>, and this
-wi­ll de­le­ga­te the func­tion to an ex­ter­nal func­tion (in this ca­se
- <tt class="docutils literal">as­yn­cio­.s­leep</tt>).  When the event lo­op ca­lls  <tt class="docutils literal">sen­d()</tt>, this is al­so pa­ss­e­d,
-and the  <tt class="docutils literal">await</tt>  gi­ves ba­ck con­trol to the event lo­op, so a di­ffe­ren­t
-­co­rou­ti­ne can&nbsp;run.</p> 
- <p>The co­rou­ti­nes we de­fi­ne are the­re­fo­re in be­tween the event lo­op, and 3r­d-­par­ty
+<p>Basically this means that this asynchronous way of programming is kind of like
+an API, for working with event loops. It doesn&#8217;t really relate to <code class="docutils literal">asyncio</code>,
+we could use any event loop (<code class="docutils literal">curio</code>, <code class="docutils literal">uvloop</code>, etc.), for this. The
+important part is to understand, that an event loop will call our coroutine,
+which will eventually reach the line where we defined the <code class="docutils literal">await</code>, and this
+will delegate the function to an external function (in this case
+<code class="docutils literal">asyncio.sleep</code>).  When the event loop calls <code class="docutils literal">send()</code>, this is also passed,
+and the <code class="docutils literal">await</code> gives back control to the event loop, so a different
+coroutine can&nbsp;run.</p>
+<p>The co­rou­ti­nes we de­fi­ne are the­re­fo­re in be­tween the event lo­op, and 3r­d-­par­ty
 ­func­tions that know how to hand­le the I/O in a no­n-­blo­cking&nbsp;fas­hio­n.</p> 
- <p>The event lo­op wo­rks then by a chain of  <tt class="docutils literal">await</tt>  ca­ll­s. Ul­ti­ma­te­l­y, at the en­d
-of that chain the­re is a ge­ne­ra­to­r, that pau­ses the exe­cu­tion of the func­tio­n,
-and hand­les the&nbsp;I/O.</p> 
- <p>In fact if we che­ck the ty­pe of  <tt class="docutils literal">as­yn­cio­.s­leep</tt>, we&#8217;­ll see that is in­deed a&nbsp;­ge­ne­ra­to­r:</p> 
- <pre class="literal-block">
-&gt;&gt;&gt; asyncio.sleep(1)
-&lt;generator object sleep at 0x...&gt;
-</pre>
-<p>So wi­th this new syn­ta­x, does this mean that  <tt class="docutils literal">await</tt>  is like  <tt class="docutils literal">yield from</tt>?</p> 
- <p>On­ly wi­th res­pect to co­rou­ti­nes. It&#8217;s co­rrect to wri­te  <tt class="docutils literal">await &lt;co­rou­ti­ne&gt;</tt>,
-as we­ll as  <tt class="docutils literal">yield from &lt;co­rou­ti­ne&gt;</tt>, the for­mer wo­n&#8217;t wo­rk wi­th othe­r
- <em>ite­ra­bles</em>  (for exam­ple ge­ne­ra­tors that aren&#8217;t co­rou­ti­nes, se­quen­ce­s, etc.).
-­Con­ver­se­l­y, the la­tter wo­n&#8217;t wo­rk wi­th  <em>awai­ta­ble</em>&nbsp;ob­jec­ts.</p> 
- <p>The rea­son for this syn­tax chan­ge is for co­rrec­tness. Ac­tua­lly it&#8217;s not just a
+ <p>The event loop works then by a chain of <code class="docutils literal">await</code> calls. Ultimately, at the end
+of that chain there is a generator, that pauses the execution of the function,
+and handles the&nbsp;I/O.</p>
+<p>In fact if we check the type of <code class="docutils literal">asyncio.sleep</code>, we&#8217;ll see that is indeed a&nbsp;generator:</p>
+<pre class="literal-block">&gt;&gt;&gt; asyncio.sleep(1)
+&lt;generator object sleep at 0x...&gt;</pre>
+<p>So with this new syntax, does this mean that <code class="docutils literal">await</code> is like <code class="docutils literal">yield from</code>?</p>
+<p>Only with respect to coroutines. It&#8217;s correct to write <code class="docutils literal">await &lt;coroutine&gt;</code>,
+as well as <code class="docutils literal">yield from &lt;coroutine&gt;</code>, the former won&#8217;t work with other
+<em>iterables</em> (for example generators that aren&#8217;t coroutines, sequences, etc.).
+Conversely, the latter won&#8217;t work with <em>awaitable</em>&nbsp;objects.</p>
+<p>The rea­son for this syn­tax chan­ge is for co­rrec­tness. Ac­tua­lly it&#8217;s not just a
 s­yn­tax chan­ge, the new co­rou­ti­ne ty­pe is pro­per­ly&nbsp;de­fi­ne­d.:</p> 
- <pre class="literal-block">
-&gt;&gt;&gt; from collections import abc
+ <pre class="literal-block">&gt;&gt;&gt; from collections import abc
 &gt;&gt;&gt; issubclass(abc.Coroutine, abc.Awaitable)
-True
-</pre>
-<p>Gi­ven that co­rou­ti­nes are  <em>syn­tac­ti­ca­lly</em>  like ge­ne­ra­tor­s, it would be po­s­si­ble
-­to mix the­m, and pla­ce a ge­ne­ra­tor in an as­yn­ch­ro­nous co­de whe­re in fact we
-ex­pec­ted a co­rou­ti­ne. By using  <tt class="docutils literal">await</tt>, the ty­pe of the ob­ject in the
-ex­pres­sion is che­cked by Py­tho­n, and if it does­n&#8217;t com­pl­y, it wi­ll rai­se an&nbsp;ex­cep­tio­n.</p> 
- </div>
+True</pre>
+<p>Given that coroutines are <em>syntactically</em> like generators, it would be possible
+to mix them, and place a generator in an asynchronous code where in fact we
+expected a coroutine. By using <code class="docutils literal">await</code>, the type of the object in the
+expression is checked by Python, and if it doesn&#8217;t comply, it will raise an&nbsp;exception.</p>
+</div>
 </div>
 <div class="section" id="asynchronous-generators">
 <h2>Asynchronous&nbsp;Generators</h2>
-<p>In Py­thon 3.5 not on­ly the pro­per syn­tax for co­rou­ti­nes was added (<tt class="docutils literal">as­ync de­f
-/ await</tt>), but al­so the con­cept of as­yn­ch­ro­nous ite­ra­tor­s. The idea of ha­vin­g
-an as­yn­ch­ro­nous  <em>ite­ra­ble</em>  is to ite­ra­te whi­le run­ning as­yn­ch­ro­nous co­de. Fo­r
-­this new me­tho­ds su­ch as  <tt class="docutils literal">__ai­te­r__</tt>  and  <tt class="docutils literal">__a­nex­t__</tt>  whe­re added un­der the
-­con­cept of as­yn­ch­ro­nous&nbsp;ite­ra­tor­s.</p> 
- <p>Ho­we­ver the­re was no su­pport for as­yn­ch­ro­nous ge­ne­ra­tor­s. That is ana­lo­gous to­
-s­a­ying that for as­yn­ch­ro­nous co­de we had to use  <em>ite­ra­bles</em>  (like  <tt class="docutils literal">__i­te­r__ /
-__­nex­t__</tt>  on re­gu­lar co­de), but we could­n&#8217;t use ge­ne­ra­tors (ha­ving a
- <tt class="docutils literal">yield</tt>  in an  <tt class="docutils literal">as­ync def</tt>  func­tion was an&nbsp;erro­r).</p> 
- <p>This chan­ged in Py­thon 3.6, and now this syn­tax is su­pporte­d, wi­th the
+<p>In Python 3.5 not only the proper syntax for coroutines was added (<code class="docutils literal">async def
+/ await</code>), but also the concept of asynchronous iterators. The idea of having
+an asynchronous <em>iterable</em> is to iterate while running asynchronous code. For
+this new methods such as <code class="docutils literal">__aiter__</code> and <code class="docutils literal">__anext__</code> where added under the
+concept of asynchronous&nbsp;iterators.</p>
+<p>However there was no support for asynchronous generators. That is analogous to
+saying that for asynchronous code we had to use <em>iterables</em> (like <code class="docutils literal">__iter__ /
+__next__</code> on regular code), but we couldn&#8217;t use generators (having a
+<code class="docutils literal">yield</code> in an <code class="docutils literal">async def</code> function was an&nbsp;error).</p>
+<p>This chan­ged in Py­thon 3.6, and now this syn­tax is su­pporte­d, wi­th the
 se­man­ti­cs of a re­gu­lar ge­ne­ra­tor (la­zy eva­lua­tio­n, sus­pend and pro­du­ce one
 e­le­ment at the ti­me, etc.), whi­le&nbsp;ite­ra­tin­g.</p> 
  <p>Con­si­der this sim­ple exam­ple on whi­ch we want to ite­ra­te whi­le ca­lling so­me I/O­
 ­co­de that we do­n&#8217;t want to blo­ck&nbsp;upo­n.</p> 
- <pre class="code python3"><a name="rest_code_48ff9c667f494c5f98bd9106df12f830-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-2"></a>    <span class="sd">"""Simulate reading &lt;size&gt; bytes from a remote source, asynchronously.</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-3"></a><span class="sd">    It takes a time proportional to the bytes requested to read.</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-4"></a><span class="sd">    """</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-5"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">((</span><span class="n">size</span> <span class="o">//</span> <span class="mi">512</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-6"></a>    <span class="n">chunk</span> <span class="o">=</span> <span class="n">f</span><span class="s2">"[chunk </span><span class="si">{no}</span><span class="s2"> (</span><span class="si">{size}</span><span class="s2">)]"</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-7"></a>    <span class="k">return</span> <span class="n">chunk</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-8"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-9"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-10"></a><span class="k">class</span> <span class="nc">AsyncDataStreamer</span><span class="p">:</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-11"></a>    <span class="sd">"""Read 10 times into data"""</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-12"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-13"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-14"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-15"></a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-17"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-18"></a>    <span class="k">def</span> <span class="nf">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-19"></a>        <span class="k">return</span> <span class="bp">self</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-20"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-21"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">__anext__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-22"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-23"></a>            <span class="k">raise</span> <span class="n">StopAsyncIteration</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-24"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-25"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lecture</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-27"></a>        <span class="k">return</span> <span class="n">result</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-28"></a>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-29"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-30"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">read</span> <span class="ow">in</span> <span class="n">AsyncDataStreamer</span><span class="p">():</span>
-<a name="rest_code_48ff9c667f494c5f98bd9106df12f830-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"collector on read </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
+ <pre class="code python3"><a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">recv</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-2"></a>    <span class="sd">"""Simulate reading &lt;size&gt; bytes from a remote source, asynchronously.</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-3"></a><span class="sd">    It takes a time proportional to the bytes requested to read.</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-4"></a><span class="sd">    """</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-5"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">((</span><span class="n">size</span> <span class="o">//</span> <span class="mi">512</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-6"></a>    <span class="n">chunk</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"[chunk </span><span class="si">{no}</span><span class="s2"> (</span><span class="si">{size}</span><span class="s2">)]"</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-7"></a>    <span class="k">return</span> <span class="n">chunk</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-8"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-9"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-10"></a><span class="k">class</span> <span class="nc">AsyncDataStreamer</span><span class="p">:</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-11"></a>    <span class="sd">"""Read 10 times into data"""</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-12"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-13"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-14"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-15"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-17"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-18"></a>    <span class="k">def</span> <span class="fm">__aiter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-19"></a>        <span class="k">return</span> <span class="bp">self</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-20"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-21"></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__anext__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-22"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-23"></a>            <span class="k">raise</span> <span class="ne">StopAsyncIteration</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-24"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-25"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lecture</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">CHUNK_SIZE</span><span class="p">)</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-27"></a>        <span class="k">return</span> <span class="n">result</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-28"></a>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-29"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-30"></a>    <span class="k">async</span> <span class="k">for</span> <span class="n">read</span> <span class="ow">in</span> <span class="n">AsyncDataStreamer</span><span class="p">():</span>
+<a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"collector on read </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
 </pre>
-<p>The test func­tion wi­ll sim­ply exer­ci­se the ite­ra­to­r, on whi­ch ele­men­ts are
-­pro­du­ce­d, one at the ti­me, whi­le ca­lling an I/O ta­sk (in this exam­ple
- <tt class="docutils literal">as­yn­cio­.s­leep</tt>).</p> 
- <p>Wi­th as­yn­ch­ro­nous ge­ne­ra­tor­s, the sa­me could be rew­ri­tten in a mo­re com­pac­t&nbsp;wa­y.</p> 
- <pre class="code python3"><a name="rest_code_757535a427854e6385469251eeb2c63e-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_data_streamer</span><span class="p">():</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-2"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-3"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-4"></a>    <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-5"></a>    <span class="k">while</span> <span class="n">lecture</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-6"></a>        <span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
-<a name="rest_code_757535a427854e6385469251eeb2c63e-7"></a>        <span class="k">yield</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="n">lecture</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
+<p>The test function will simply exercise the iterator, on which elements are
+produced, one at the time, while calling an I/O task (in this example
+<code class="docutils literal">asyncio.sleep</code>).</p>
+<p>Wi­th as­yn­ch­ro­nous ge­ne­ra­tor­s, the sa­me could be rew­ri­tten in a mo­re com­pac­t&nbsp;wa­y.</p> 
+ <pre class="code python3"><a name="rest_code_1952cc84c49f4f6498be02e0d919052e-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_data_streamer</span><span class="p">():</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-2"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-3"></a>    <span class="n">CHUNK_SIZE</span> <span class="o">=</span> <span class="mi">1024</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-4"></a>    <span class="n">lecture</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-5"></a>    <span class="k">while</span> <span class="n">lecture</span> <span class="o">&lt;</span> <span class="n">LIMIT</span><span class="p">:</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-6"></a>        <span class="n">lecture</span> <span class="o">+=</span> <span class="mi">1</span>
+<a name="rest_code_1952cc84c49f4f6498be02e0d919052e-7"></a>        <span class="k">yield</span> <span class="k">await</span> <span class="n">recv</span><span class="p">(</span><span class="n">lecture</span><span class="p">,</span> <span class="n">CHUNK_SIZE</span><span class="p">)</span>
 </pre>
 </div>
 <div class="section" id="summary">
@@ -620,21 +611,21 @@ in Py­tho­n, and run­ning mo­re effi­cient pro­gra­ms, that use le­ss&nb
  <p>This evol­ved in­to co­rou­ti­nes, taking ad­van­ta­ge of the fact that ge­ne­ra­tors can
 ­sus­pend their exe­cu­tio­n. By ex­ten­ding the in­ter­fa­ce of ge­ne­ra­tor­s, co­rou­ti­nes
 ­pro­vi­ded mo­re po­wer­ful fea­tu­res to&nbsp;Py­tho­n.</p> 
- <p>Co­rou­ti­nes we­re al­so im­pro­ved to su­pport be­tter pa­ttern­s, and the addi­tion of
- <tt class="docutils literal">yield from</tt>  was a ga­me chan­ge­r, that allo­ws to ha­ve be­tter ge­ne­ra­tor­s,
-­re­fac­tor in­to sma­ller pie­ce­s, and reor­ga­ni­ze the lo­gic&nbsp;be­tte­r.</p> 
- <p>The addi­tion of an event lo­op to the stan­dard li­bra­r­y, helps to pro­vi­de a
-­re­fe­ren­tial way of doing as­yn­ch­ro­nous pro­gra­m­min­g. Ho­we­ve­r, the lo­gic of the
-­co­rou­ti­nes and the  <tt class="docutils literal">await</tt>  syn­tax it not bound to any par­ti­cu­lar event lo­op.
-I­t&#8217;s an API  <a class="footnote-reference" href="#id4" id="id2">[2]</a>  for doing as­yn­ch­ro­nous&nbsp;pro­gra­m­min­g.</p> 
- <p>As­yn­ch­ro­nous ge­ne­ra­tor was the la­test addi­tion to Py­thon that re­la­tes to­
+ <p>Coroutines were also improved to support better patterns, and the addition of
+<code class="docutils literal">yield from</code> was a game changer, that allows to have better generators,
+refactor into smaller pieces, and reorganize the logic&nbsp;better.</p>
+<p>The addition of an event loop to the standard library, helps to provide a
+referential way of doing asynchronous programming. However, the logic of the
+coroutines and the <code class="docutils literal">await</code> syntax it not bound to any particular event loop.
+It&#8217;s an API <a class="footnote-reference brackets" href="#id4" id="id2">2</a> for doing asynchronous&nbsp;programming.</p>
+<p>As­yn­ch­ro­nous ge­ne­ra­tor was the la­test addi­tion to Py­thon that re­la­tes to­
 ­ge­ne­ra­tor­s, and they help build mo­re com­pact (and effi­cien­t!) co­de fo­r
 a­s­yn­ch­ro­nous&nbsp;ite­ra­tio­n.</p> 
- <p>In the en­d, be­hind all the lo­gic of  <tt class="docutils literal">as­ync / await</tt>, eve­r­y­thing is a
-­ge­ne­ra­to­r. Co­rou­ti­nes are in fact (te­ch­ni­ca­ll­y), ge­ne­ra­tor­s. Con­cep­tua­lly the­y
-a­re di­ffe­ren­t, and ha­ve di­ffe­rent pur­po­ses, but in ter­ms of im­ple­men­ta­tio­n
-­ge­ne­ra­tors are what make all this as­yn­ch­ro­nous pro­gra­m­ming&nbsp;po­s­si­ble.</p> 
- </div>
+ <p>In the end, behind all the logic of <code class="docutils literal">async / await</code>, everything is a
+generator. Coroutines are in fact (technically), generators. Conceptually they
+are different, and have different purposes, but in terms of implementation
+generators are what make all this asynchronous programming&nbsp;possible.</p>
+</div>
 <div class="section" id="slides">
 <h2>Slides</h2>
 <script async class="speakerdeck-embed" data-id="9d8c57392f9a4a248f9f27203ca289ee" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
@@ -642,36 +633,24 @@ a­re di­ffe­ren­t, and ha­ve di­ffe­rent pur­po­ses, but in ter­ms of 
 <div class="section" id="references">
 <h2>References</h2>
 <ul class="simple">
-<li>
-<cite>Fluent Py­thon - Lu­ciano Ra­malho</cite>: Chap­ters 14 <span class="amp">&amp;</span>&nbsp;16</li> 
- <li><a class="reference external" href="https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/">http­s://s­na­rk­y.­ca/ho­w-­the-he­ck-­does-a­s­yn­c-awai­t-wo­rk-i­n-­p­y­tho­n-3-5/</a></li> 
+<li><p><cite>Fluent Py­­thon - Lu­­ciano Ra­­malho</cite>: Cha­p­­ters 14 <span class="amp">&amp;</span>&nbsp;16</p></li> 
+ <li><p><a class="reference external" href="https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/">http­s://s­­na­­rk­­y.­­ca/ho­­w-­­the-he­­ck-­­does-a­s­­yn­­c-awai­­t-wo­­­rk-i­n-­­p­­y­­tho­­n-3-5/</a></p></li> 
  </ul>
 </div>
 <div class="section" id="notes">
 <h2>Notes</h2>
-<table class="docutils footnote" frame="void" id="id3" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
-<td>Needless to say, the results will vary from system to system, but we get
-an idea of the difference between both implementations.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id2">[2]</a></td>
-<td>This is an idea by David Beazley, that you can see at
-<a class="reference external" href="https://youtu.be/ZzfHjytDceU">https://youtu.be/ZzfHjytDceU</a>
-</td>
-</tr></tbody>
-</table>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd>
+<p>Nee­d­le­ss to sa­y, the re­sul­ts wi­ll va­ry from sys­tem to sys­te­m, but we ge­t
+an idea of the di­ffe­ren­ce be­tween bo­th&nbsp;im­ple­men­ta­tion­s.</p> 
+ </dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd>
+<p>This is an idea by Da­vid Bea­z­le­y, that you can see at
+ <a class="reference external" href="https://youtu.be/ZzfHjytDceU">http­s://­you­tu.­be­/­Z­z­fH­j­y­tDceU</a></p> 
+ </dd>
+</dl>
 </div>
 </div>
     </div>
@@ -697,15 +676,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

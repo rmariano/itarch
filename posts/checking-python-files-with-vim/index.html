@@ -17,8 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Checking Python files with Vim">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/checking-python-files-with-vim/">
-<meta property="og:description" content="Vim is an ex­cel­lent ed­i­tor, and mas­ter­ing it leads to more pro­duc­tiv­i­ty. Even though is very
-ex­ten­si­ble and al­lows to be con­fig­ured by many plug-ins I rather keep it as sim­ple as pos­">
+<meta property="og:description" content="Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
+trying not ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-03-07T16:21:49-03:00">
 <meta property="article:tag" content="linux">
@@ -91,11 +92,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Checking Python files with&nbsp;Vim</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -109,33 +111,29 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Vim is an ex­cel­lent ed­i­tor, and mas­ter­ing it leads to more pro­duc­tiv­i­ty. Even though is very
-ex­ten­si­ble and al­lows to be con­fig­ured by many plug-ins I rather keep it as sim­ple as pos­si­ble,
-try­ing not to use many plug-ins (nei­ther pack­agers like  <tt class="docutils literal">Vun­dle</tt>,&nbsp;etc.).</p> 
- <p>How­ev­er, I do make use of an ex­ten­sion that checks Python files for er­rors,  <tt class="docutils literal">PEP8</tt>,
-a­mong oth­er things:  <a class="reference external" href="https://github.com/nvie/vim-flake8">flake8</a>. Be­cause I do not use plug-in plat­forms for Vim,
-I in­stall just this one man­u­al­ly, by mak­ing the com­mand  <tt class="docutils literal">flake8</tt>  avail­able sys­tem-wide  <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</p> 
- <p>Then the in­stal­la­tion is as sim­ple as down­load­ing the project and coy­ing the files in­to the  <tt class="docutils literal"><span class="pre">~/.vim/ft­­plug­in/python</span></tt> 
-di­rec­to­ry. Make sure you have the fol­low­ing line added on your  <tt class="docutils literal"><span class="pre">~/.vim­rc</span></tt>:</p> 
- <pre class="code vim"><a name="rest_code_b1830ce8b025424792e9ae800d352d9b-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
+<p>Vim is an excellent editor, and mastering it leads to more productivity. Even though is very
+extensible and allows to be configured by many plug-ins I rather keep it as simple as possible,
+trying not to use many plug-ins (neither packagers like <code class="docutils literal">Vundle</code>,&nbsp;etc.).</p>
+<p>However, I do make use of an extension that checks Python files for errors, <code class="docutils literal">PEP8</code>,
+among other things: <a class="reference external" href="https://github.com/nvie/vim-flake8">flake8</a>. Because I do not use plug-in platforms for Vim,
+I install just this one manually, by making the command <code class="docutils literal">flake8</code> available system-wide <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+<p>Then the installation is as simple as downloading the project and coying the files into the <code class="docutils literal"><span class="pre">~/.vim/ft­plug­in/python</span></code>
+directory. Make sure you have the following line added on your <code class="docutils literal"><span class="pre">~/.vim­rc</span></code>:</p>
+<pre class="code vim"><a name="rest_code_1f5da366cd8148b198d568420060c42a-1"></a><span class="k">filetype</span> plugin indent <span class="k">on</span>
 </pre>
-<p>The fea­tures I use are main­ly the syn­tax and  <tt class="docutils literal"><span class="pre">PEP-8</span></tt>  com­pli­ance check­er­s. It can al­so warn you about un­used im­port­s,
-and  <a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cy­clo­mat­ic com­plex­i­ty</a>.</p> 
- <p>It is use­ful be­cause things like  <tt class="docutils literal"><span class="pre">PEP-8</span></tt>  com­pli­ance help to have a good code qual­i­ty, and there­fore a more read­able
-and main­tain­able code base, spe­cial­ly on large projects with lots of files and&nbsp;mod­ules.</p> 
- <p>That&#8217;s al­l. For more de­tails and oth­er con­fig­u­ra­tion tips check­out  <a class="reference external" href="https://github.com/rmariano/vim-config">my Vim set­up</a>.</p> 
- <table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
-<td>Another option would be to install it on your virtual environment, but then you have to
-make sure to install it once per project. It is actually better, because you are not using the
-global system environment, but for packages like this, it should not be an issue, it&#8217;s your choice.</td>
-</tr></tbody>
-</table>
+<p>The features I use are mainly the syntax and <code class="docutils literal"><span class="pre">PEP-8</span></code> compliance checkers. It can also warn you about unused imports,
+and <a class="reference external" href="https://en.wikipedia.org/wiki/Cyclomatic_complexity">cyclomatic complexity</a>.</p>
+<p>It is useful because things like <code class="docutils literal"><span class="pre">PEP-8</span></code> compliance help to have a good code quality, and therefore a more readable
+and maintainable code base, specially on large projects with lots of files and&nbsp;modules.</p>
+<p>That&#8217;s al­l. For more de­tails and oth­er con­fig­u­ra­tion tips check­out  <a class="reference external" href="https://github.com/rmariano/vim-config">my Vim set­up</a>.</p> 
+ <dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd>
+<p>An­oth­er op­tion would be to in­stall it on your vir­tu­al en­vi­ron­men­t, but then you have to
+­make sure to in­stall it once per projec­t. It is ac­tu­al­ly bet­ter, be­cause you are not us­ing the
+­glob­al sys­tem en­vi­ron­men­t, but for pack­ages like this, it should not be an is­sue, it&#8217;s your&nbsp;choice.</p> 
+ </dd>
+</dl>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
@@ -158,15 +156,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("en");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

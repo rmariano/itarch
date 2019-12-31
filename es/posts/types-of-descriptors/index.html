@@ -92,11 +92,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Types of&nbsp;Descriptors</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -117,316 +118,282 @@ and how they wo­rk&nbsp;in­ter­na­ll­y.</p>
 dictionaries. Classes are objects, hence they also are contained into a
 dictionary. This is denoted by the <code>__dict__</code> attribute that objects&nbsp;have.</p>
 <p>There are two types of descriptors: data descriptors and non-data ones. If a
-descriptor implements both <a class="footnote-reference" href="#id6" id="id1">[1]</a> <code>__get__()</code> and <code>__set__()</code>, it&#8217;s
+descriptor implements both <a class="footnote-reference brackets" href="#id6" id="id1">1</a> <code>__get__()</code> and <code>__set__()</code>, it&#8217;s
 called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.</p>
 <!-- TEASER_END -->
 <div class="admonition note">
-<p class="first admonition-title">No­te</p> 
- <p class="last">Da­ta des­crip­tors take pre­ce­den­ce over the ins­tan­ce&#8217;s dic­tio­na­ry of
+<p class="admonition-title">No­te</p> 
+ <p>Da­ta des­crip­tors take pre­ce­den­ce over the ins­tan­ce&#8217;s dic­tio­na­ry of
 a­ttri­bu­tes, whe­reas in the ca­se of a no­n-­da­ta des­crip­to­r, the ins­tan­ce&#8217;s
 in­ter­nal dic­tio­na­ry may be looked up&nbsp;firs­t.</p> 
  </div>
-<p>The di­ffe­ren­ce be­tween the­m, lies on how the pro­per­ties in the ob­ject are
-ac­ce­ss­e­d, mea­ning whi­ch pa­th wi­ll the  <tt class="docutils literal">MRO</tt>  (Me­thod Re­so­lu­tion Or­de­r) of
-­P­y­thon fo­llo­w, in or­der to com­ply wi­th our&nbsp;ins­truc­tio­n.</p> 
- <p>For a no­n-­da­ta des­crip­to­r, when we ha­ve an sta­te­ment&nbsp;like:</p> 
- <pre class="literal-block">
-&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;
-</pre>
-<p>Py­thon wi­ll up­da­te the ins­tan­ce&#8217;s in­ter­nal dic­tio­na­ry un­der the key for the
-­na­me of the attri­bu­te, and sto­re the va­lue in it. This fo­llo­ws the de­faul­t
-­be­ha­viour of se­tting an attri­bu­te in an ins­tan­ce be­cau­se the­re is no
- <tt class="docutils literal">__se­t__</tt>  de­fi­ned to ove­rri­de&nbsp;it.</p> 
- <p>On the other han­d, if we ha­ve a  <em>da­ta des­crip­tor</em>  (al­so ca­lled  <em>ove­rri­ding</em> 
-des­crip­to­r), for the sa­me ins­truc­tion the  <tt class="docutils literal">__se­t__</tt>  me­thod wi­ll be ran
-­be­cau­se it&#8217;s de­fi­ne­d. And ana­lo­gous­l­y, when we ac­ce­ss the pro­per­ty&nbsp;like:</p> 
- <pre class="literal-block">
-&lt;instance&gt;.&lt;descriptor&gt;
-</pre>
-<p>The  <tt class="docutils literal">__­ge­t__</tt>  on des­crip­tor is wha­t&#8217;s going to be&nbsp;ca­lle­d.</p> 
- <p>So, agai­n, da­ta (o­ve­rri­din­g) des­crip­tors take pre­ce­den­ce over the in­ter­na­l
+<p>The difference between them, lies on how the properties in the object are
+accessed, meaning which path will the <code class="docutils literal">MRO</code> (Method Resolution Order) of
+Python follow, in order to comply with our&nbsp;instruction.</p>
+<p>For a no­n-­da­ta des­crip­to­r, when we ha­ve an sta­te­ment&nbsp;like:</p> 
+ <pre class="literal-block">&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;</pre>
+<p>Python will update the instance&#8217;s internal dictionary under the key for the
+name of the attribute, and store the value in it. This follows the default
+behaviour of setting an attribute in an instance because there is no
+<code class="docutils literal">__set__</code> defined to override&nbsp;it.</p>
+<p>On the other hand, if we have a <em>data descriptor</em> (also called <em>overriding</em>
+descriptor), for the same instruction the <code class="docutils literal">__set__</code> method will be ran
+because it&#8217;s defined. And analogously, when we access the property&nbsp;like:</p>
+<pre class="literal-block">&lt;instance&gt;.&lt;descriptor&gt;</pre>
+<p>The <code class="docutils literal">__get__</code> on descriptor is what&#8217;s going to be&nbsp;called.</p>
+<p>So, agai­n, da­ta (o­ve­rri­din­g) des­crip­tors take pre­ce­den­ce over the in­ter­na­l
 ­dic­tio­na­ry of an ob­jec­t, whe­reas non da­ta (no­n-o­ve­rri­din­g) ones do&nbsp;no­t.</p> 
  <div class="section" id="lookup-on-non-data-descriptors">
 <h2>Lookup on Non-data&nbsp;Descriptors</h2>
-<p>On the  <a class="reference external" href="../../../listings/descriptors0_get0.py">pre­vious exam­ple</a>, when
-­the ob­ject was first created it did­n&#8217;t ha­ve any va­lues for their pro­per­tie­s. If
-we ins­pect the ob­jec­t, and its cla­ss, we&#8217;­ll see that it does­n&#8217;t ha­ve any ke­ys
-set for  <tt class="docutils literal">'tv'</tt>, but the cla­ss&nbsp;does:</p> 
- <pre class="code python"><a name="rest_code_6e18910530784f25ad5599573fa78b0c-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-2"></a><span class="p">{}</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-3"></a>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="s1">'__dict__'</span> <span class="n">of</span> <span class="s1">'VideoDriver'</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">,</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-6"></a>              <span class="s1">'__doc__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-7"></a>              <span class="s1">'__module__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-8"></a>              <span class="s1">'__weakref__'</span><span class="p">:</span> <span class="o">...</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-9"></a>              <span class="s1">'screen'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">,</span>
-<a name="rest_code_6e18910530784f25ad5599573fa78b0c-10"></a>              <span class="s1">'tv'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">})</span>
+<p>On the <a class="reference external" href="../../../listings/descriptors0_get0.py">previous example</a>, when
+the object was first created it didn&#8217;t have any values for their properties. If
+we inspect the object, and its class, we&#8217;ll see that it doesn&#8217;t have any keys
+set for <code class="docutils literal">'tv'</code>, but the class&nbsp;does:</p>
+<pre class="code python"><a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-2"></a><span class="p">{}</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-3"></a>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">attribute</span> <span class="s1">'__dict__'</span> <span class="n">of</span> <span class="s1">'VideoDriver'</span> <span class="n">objects</span><span class="o">&gt;</span><span class="p">,</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-6"></a>              <span class="s1">'__doc__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-7"></a>              <span class="s1">'__module__'</span><span class="p">:</span> <span class="s1">'...'</span><span class="p">,</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-8"></a>              <span class="s1">'__weakref__'</span><span class="p">:</span> <span class="o">...</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-9"></a>              <span class="s1">'screen'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">,</span>
+<a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-10"></a>              <span class="s1">'tv'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">})</span>
 </pre>
-<p>When we run  <tt class="docutils literal">me­dia.­tv</tt>  the first ti­me, the­re is no key  <tt class="docutils literal">'tv'</tt>  on
- <tt class="docutils literal">me­dia.__­dic­t__</tt>, so Py­thon tries to sear­ch in the cla­ss, and foun­ds one, it
-­ge­ts the ob­jec­t, sees that the ob­ject has a  <tt class="docutils literal">__­ge­t__</tt>, and re­turns whate­ve­r
-­that me­thod&nbsp;re­turn­s.</p> 
- <p>Ho­we­ver when we set the va­lue like  <tt class="docutils literal">me­dia.­tv = (4096, 2160)</tt>, the­re is no
- <tt class="docutils literal">__se­t__</tt>  de­fi­ned for the des­crip­to­r, so Py­thon runs wi­th the de­faul­t
-­be­ha­viour in this ca­se, whi­ch is up­da­ting  <tt class="docutils literal">me­dia.__­dic­t__</tt>. The­re­fo­re, nex­t
-­ti­me we ask for this attri­bu­te, it&#8217;s going to be found in the ins­tan­ce&#8217;s
-­dic­tio­na­ry and re­tur­ne­d. By ana­lo­gy we can see that it does­n&#8217;t ha­ve a
- <tt class="docutils literal">__­de­le­te__</tt>  me­thod ei­the­r, so when the ins­truc­tion  <tt class="docutils literal">del me­dia.­tv</tt>  run­s,
-­this attri­bu­te wi­ll be de­le­ted from  <tt class="docutils literal">me­dia.__­dic­t__</tt>, whi­ch lea­ves us ba­ck in
-­the ori­gi­nal sce­na­rio, whe­re the des­crip­tor takes pla­ce, ac­ting as a de­faul­t
-­va­lue&nbsp;hol­de­r.</p> 
- <div class="section" id="functions-are-non-data-descriptors">
+<p>When we run <code class="docutils literal">media.tv</code> the first time, there is no key <code class="docutils literal">'tv'</code> on
+<code class="docutils literal">media.__dict__</code>, so Python tries to search in the class, and founds one, it
+gets the object, sees that the object has a <code class="docutils literal">__get__</code>, and returns whatever
+that method&nbsp;returns.</p>
+<p>However when we set the value like <code class="docutils literal">media.tv = (4096, 2160)</code>, there is no
+<code class="docutils literal">__set__</code> defined for the descriptor, so Python runs with the default
+behaviour in this case, which is updating <code class="docutils literal">media.__dict__</code>. Therefore, next
+time we ask for this attribute, it&#8217;s going to be found in the instance&#8217;s
+dictionary and returned. By analogy we can see that it doesn&#8217;t have a
+<code class="docutils literal">__delete__</code> method either, so when the instruction <code class="docutils literal">del media.tv</code> runs,
+this attribute will be deleted from <code class="docutils literal">media.__dict__</code>, which leaves us back in
+the original scenario, where the descriptor takes place, acting as a default
+value&nbsp;holder.</p>
+<div class="section" id="functions-are-non-data-descriptors">
 <h3>Functions are non-data&nbsp;descriptors</h3>
 <p>This is how methods work in Python: function objects, are non-data descriptors
 that implement <code>__get__()</code>.</p>
 <p>If we thi­nk about it, ac­cor­ding to ob­jec­t-o­rien­ted so­ftwa­re theo­r­y, an ob­jec­t
 is a com­pu­ta­tio­nal abs­trac­tion that re­pre­sen­ts an en­ti­ty of the do­main pro­ble­m.
 An ob­ject has a set of me­tho­ds that can wo­rk wi­th, whi­ch de­ter­mi­nes its
-in­ter­fa­ce (what the ob­ject is and can do)  <a class="footnote-reference" href="#id7" id="id2">[2]</a>.</p> 
+in­ter­fa­ce (what the ob­ject is and can do)  <a class="footnote-reference brackets" href="#id7" id="id2">2</a>.</p> 
  <p>Ho­we­ve­r, in mo­re te­ch­ni­cal ter­ms, ob­jec­ts are just im­ple­men­ted wi­th a da­ta
 s­truc­tu­re (that in Py­thon are dic­tio­na­rie­s), and it&#8217;s be­ha­viou­r, de­ter­mi­ne­d
 by their me­tho­d­s, are just func­tion­s. Agai­n, me­tho­ds are just func­tion­s. Le­t&#8217;s
-­pro­ve it  <a class="footnote-reference" href="#id8" id="id3">[3]</a>.</p> 
+­pro­ve it  <a class="footnote-reference brackets" href="#id8" id="id3">3</a>.</p> 
  <p>If we ha­ve a cla­ss like this and ins­pect its dic­tio­na­ry we&#8217;­ll see that whate­ve­r
 we de­fi­ned as me­tho­d­s, are ac­tua­lly func­tions sto­red in­ter­na­lly in the
 ­dic­tio­na­ry of the&nbsp;cla­ss.</p> 
- <pre class="code python"><a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
-<a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-4"></a>
-<a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-5"></a>    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_person</span><span class="p">):</span>
-<a name="rest_code_2cd67c03d88c412dbba419c16bff17a6-6"></a>        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">"Hi {other_person.name}, I'm {self.name}!"</span><span class="p">)</span>
+ <pre class="code python"><a name="rest_code_b5e7a6641380407c806633c3106ea0f2-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+<a name="rest_code_b5e7a6641380407c806633c3106ea0f2-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_b5e7a6641380407c806633c3106ea0f2-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_b5e7a6641380407c806633c3106ea0f2-4"></a>
+<a name="rest_code_b5e7a6641380407c806633c3106ea0f2-5"></a>    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_person</span><span class="p">):</span>
+<a name="rest_code_b5e7a6641380407c806633c3106ea0f2-6"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hi </span><span class="si">{other_person.name}</span><span class="s2">, I'm </span><span class="si">{self.name}</span><span class="s2">!"</span><span class="p">)</span>
 </pre>
 <p>We can see that among all the things de­fi­ned in the cla­ss, it&#8217;s dic­tio­na­r­y
 ­con­tains an en­try for &#8216;gree­t&#8217;, who­se va­lue is a&nbsp;func­tio­n.</p> 
- <pre class="code python"><a name="rest_code_af3104c97661434bb9fde4d192f48b27-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
-<a name="rest_code_af3104c97661434bb9fde4d192f48b27-2"></a><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">function</span><span class="s1">'&gt;</span>
-<a name="rest_code_af3104c97661434bb9fde4d192f48b27-3"></a>
-<a name="rest_code_af3104c97661434bb9fde4d192f48b27-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">Person</span><span class="o">.</span><span class="vm">__dict__</span>
-<a name="rest_code_af3104c97661434bb9fde4d192f48b27-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">...</span>
-<a name="rest_code_af3104c97661434bb9fde4d192f48b27-6"></a>              <span class="s1">'greet'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="o">...</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="o">&gt;</span><span class="p">})</span>
+ <pre class="code python"><a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
+<a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-2"></a><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">function</span><span class="s1">'&gt;</span>
+<a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-3"></a>
+<a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">Person</span><span class="o">.</span><span class="vm">__dict__</span>
+<a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-5"></a><span class="n">mappingproxy</span><span class="p">({</span><span class="s1">'__dict__'</span><span class="p">:</span> <span class="o">...</span>
+<a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-6"></a>              <span class="s1">'greet'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">function</span> <span class="o">...</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="o">&gt;</span><span class="p">})</span>
 </pre>
-<p>This means that in fac­t, it&#8217;s the sa­me as ha­ving a func­tion de­fi­ned ou­tsi­de the
-­cla­ss, that kno­ws how to wo­rk wi­th an ins­tan­ce of that sa­me cla­ss, whi­ch by
-­con­ven­tion in Py­thon is ca­lled  <em>se­lf</em>. The­re­fo­re in­si­de the cla­ss, we&#8217;­re jus­t
-­crea­ting func­tions that know how to wo­rk wi­th an ins­tan­ce of that cla­ss, an­d
-­P­y­thon wi­ll pro­vi­de this ob­jec­t, as a first pa­ra­me­te­r, un­der the na­me that we
-u­sua­lly ca­ll  <em>se­lf</em>. This is ba­si­ca­lly what the  <tt class="docutils literal">__­ge­t__</tt>  me­thod does fo­r
-­func­tion­s: it re­turns a bound ins­tan­ce of the func­tion to that&nbsp;ob­jec­t.</p> 
- <p>In  <tt class="docutils literal">CP­y­thon</tt>, this lo­gic is im­ple­men­ted in  <tt class="docutils literal">C</tt>, but le­t&#8217;s see if we can
-­crea­te an equi­va­lent exam­ple, just to get a clear pic­tu­re. Ima­gi­ne we ha­ve a
-­cus­tom func­tio­n, and we want to apply it to a cla­ss, as an ins­tan­ce&nbsp;me­tho­d.</p> 
- <p>First we ha­ve an iso­lated func­tio­n, that com­pu­tes the mean ti­me be­tween
-­fai­lu­res for an ob­ject that co­llec­ts me­tri­cs on sys­te­ms that mo­ni­tor­s. Then we
-ha­ve a cla­ss ca­lled  <tt class="docutils literal">Sys­te­m­Mo­ni­tor</tt>, that re­pre­sen­ts all sort of ob­jec­ts tha­t
-­co­llect me­tri­cs on mo­ni­to­red&nbsp;sys­te­ms.</p> 
- <pre class="code python"><a name="rest_code_f41c982f5b96449781a8c50df9a5a223-1"></a><span class="k">def</span> <span class="nf">mtbf</span><span class="p">(</span><span class="n">system_monitor</span><span class="p">):</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-2"></a>    <span class="sd">"""Mean Time Between Failures</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-3"></a><span class="sd">    https://en.wikipedia.org/wiki/Mean_time_between_failures</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-4"></a><span class="sd">    """</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-5"></a>    <span class="n">operational_intervals</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-6"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">,</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-7"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">uptimes</span><span class="p">)</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-8"></a>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-9"></a>    <span class="n">operational_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-10"></a>        <span class="p">(</span><span class="n">start_downtime</span> <span class="o">-</span> <span class="n">start_uptime</span><span class="p">)</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-11"></a>        <span class="k">for</span> <span class="n">start_downtime</span><span class="p">,</span> <span class="n">start_uptime</span> <span class="ow">in</span> <span class="n">operational_intervals</span><span class="p">)</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-12"></a>    <span class="k">try</span><span class="p">:</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-13"></a>        <span class="k">return</span> <span class="n">operational_time</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">)</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-14"></a>    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-15"></a>        <span class="k">return</span> <span class="mi">0</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-16"></a>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-17"></a>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-18"></a><span class="k">class</span> <span class="nc">SystemMonitor</span><span class="p">:</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-19"></a>    <span class="sd">"""Collect metrics on software <span class="amp">&amp;</span> hardware components."""</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-20"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[]</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-24"></a>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-25"></a>    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-27"></a>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-28"></a>    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
-<a name="rest_code_f41c982f5b96449781a8c50df9a5a223-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
+<p>This means that in fact, it&#8217;s the same as having a function defined outside the
+class, that knows how to work with an instance of that same class, which by
+convention in Python is called <em>self</em>. Therefore inside the class, we&#8217;re just
+creating functions that know how to work with an instance of that class, and
+Python will provide this object, as a first parameter, under the name that we
+usually call <em>self</em>. This is basically what the <code class="docutils literal">__get__</code> method does for
+functions: it returns a bound instance of the function to that&nbsp;object.</p>
+<p>In <code class="docutils literal">CPython</code>, this logic is implemented in <code class="docutils literal">C</code>, but let&#8217;s see if we can
+create an equivalent example, just to get a clear picture. Imagine we have a
+custom function, and we want to apply it to a class, as an instance&nbsp;method.</p>
+<p>First we have an isolated function, that computes the mean time between
+failures for an object that collects metrics on systems that monitors. Then we
+have a class called <code class="docutils literal">SystemMonitor</code>, that represents all sort of objects that
+collect metrics on monitored&nbsp;systems.</p>
+<pre class="code python"><a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-1"></a><span class="k">def</span> <span class="nf">mtbf</span><span class="p">(</span><span class="n">system_monitor</span><span class="p">):</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-2"></a>    <span class="sd">"""Mean Time Between Failures</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-3"></a><span class="sd">    https://en.wikipedia.org/wiki/Mean_time_between_failures</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-4"></a><span class="sd">    """</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-5"></a>    <span class="n">operational_intervals</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-6"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">,</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-7"></a>        <span class="n">system_monitor</span><span class="o">.</span><span class="n">uptimes</span><span class="p">)</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-8"></a>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-9"></a>    <span class="n">operational_time</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-10"></a>        <span class="p">(</span><span class="n">start_downtime</span> <span class="o">-</span> <span class="n">start_uptime</span><span class="p">)</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-11"></a>        <span class="k">for</span> <span class="n">start_downtime</span><span class="p">,</span> <span class="n">start_uptime</span> <span class="ow">in</span> <span class="n">operational_intervals</span><span class="p">)</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-12"></a>    <span class="k">try</span><span class="p">:</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-13"></a>        <span class="k">return</span> <span class="n">operational_time</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">system_monitor</span><span class="o">.</span><span class="n">downtimes</span><span class="p">)</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-14"></a>    <span class="k">except</span> <span class="ne">ZeroDivisionError</span><span class="p">:</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-15"></a>        <span class="k">return</span> <span class="mi">0</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-16"></a>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-17"></a>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-18"></a><span class="k">class</span> <span class="nc">SystemMonitor</span><span class="p">:</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-19"></a>    <span class="sd">"""Collect metrics on software <span class="amp">&amp;</span> hardware components."""</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-20"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[]</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-24"></a>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-25"></a>    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-26"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-27"></a>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-28"></a>    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">when</span><span class="p">):</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
 </pre>
-<p>For now we just test the func­tio­n, but soon we&#8217;­ll want this as a me­thod of the
-­cla­ss. We can ea­si­ly apply the func­tion to wo­rk wi­th a  <tt class="docutils literal">Sys­te­m­Mo­ni­tor</tt> 
-ins­tan­ce:</p> 
- <pre class="code python"><a name="rest_code_07108427e3234845b116a80849d1309b-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span> <span class="o">=</span> <span class="n">SystemMonitor</span><span class="p">(</span><span class="s1">'prod'</span><span class="p">)</span>
-<a name="rest_code_07108427e3234845b116a80849d1309b-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
-<a name="rest_code_07108427e3234845b116a80849d1309b-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
-<a name="rest_code_07108427e3234845b116a80849d1309b-4"></a>
-<a name="rest_code_07108427e3234845b116a80849d1309b-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
-<a name="rest_code_07108427e3234845b116a80849d1309b-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">5.0</span>
+<p>For now we just test the function, but soon we&#8217;ll want this as a method of the
+class. We can easily apply the function to work with a <code class="docutils literal">SystemMonitor</code>
+instance:</p>
+<pre class="code python"><a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span> <span class="o">=</span> <span class="n">SystemMonitor</span><span class="p">(</span><span class="s1">'prod'</span><span class="p">)</span>
+<a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-3"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">downtimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
+<a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-4"></a>
+<a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+<a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">5.0</span>
 </pre>
 <p>But now we want it to be part of the cla­ss, so that I can use it as a ins­tan­ce
 ­me­tho­d. If we try to as­sign the func­tion as a me­tho­d, it wi­ll just fai­l,
 ­be­cau­se it&#8217;s not&nbsp;boun­d:</p> 
- <pre class="code python"><a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-3"></a><span class="o">---------------------------------------------------------------------------</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-4"></a><span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-5"></a><span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-...&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-6"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-7"></a>
-<a name="rest_code_3f14e396d8b049b198b405c96e2ca99b-8"></a><span class="ne">TypeError</span><span class="p">:</span> <span class="n">mtbf</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s1">'system_monitor'</span>
+ <pre class="code python"><a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-3"></a><span class="o">---------------------------------------------------------------------------</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-4"></a><span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-5"></a><span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">7</span><span class="o">-...&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-6"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-7"></a>
+<a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-8"></a><span class="ne">TypeError</span><span class="p">:</span> <span class="n">mtbf</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s1">'system_monitor'</span>
 </pre>
-<p>In this ca­se the  <tt class="docutils literal">sys­te­m_­mo­ni­tor</tt>  po­si­tio­nal ar­gu­ment that re­qui­res, is the
-ins­tan­ce, whi­ch in me­tho­ds is re­fe­rred to as  <em>se­lf</em>.</p> 
- <p>Now, if the function is bound to the object, the scenario changes. We can do
+<p>In this case the <code class="docutils literal">system_monitor</code> positional argument that requires, is the
+instance, which in methods is referred to as <em>self</em>.</p>
+<p>Now, if the function is bound to the object, the scenario changes. We can do
 that the same way Python does: <code>__get__</code>.</p>
-<pre class="code python"><a name="rest_code_54dc54138bf24a13a5f340fa79f866e6-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
-<a name="rest_code_54dc54138bf24a13a5f340fa79f866e6-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
-<a name="rest_code_54dc54138bf24a13a5f340fa79f866e6-3"></a><span class="mf">5.0</span>
+<pre class="code python"><a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
+<a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
+<a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-3"></a><span class="mf">5.0</span>
 </pre>
 <p>Now, we want to be able to define this function inside the class, the same way
 we do with methods, like <code>def mtbf(self):...</code>. In this case, for
 simplicity, I&#8217;ll just use a callable object, that represents the actual object
-function (the body of <tt class="docutils literal">__call__</tt> would represent what we put on the body of
+function (the body of <code class="docutils literal">__call__</code> would represent what we put on the body of
 the function after it&#8217;s definition). And we&#8217;ll declare it as an attribute of
 the class, much like all&nbsp;methods:</p>
-<pre class="literal-block">
-class SystemMonitor:
+<pre class="literal-block">class SystemMonitor:
     ...
-    mtbf = MTBF()
-</pre>
-<p>Pro­vi­ded that  <tt class="docutils literal">MTBF</tt>  is a ca­lla­ble ob­ject (a­gai­n, re­pre­sen­ting ou­r
-&#8220;­func­tio­n&#8221;), is equi­va­lent to doing  <tt class="docutils literal">def mtbf(sel­f): ...</tt>  in­si­de the&nbsp;cla­ss.</p> 
- <p>In the body of the callable, we can just reuse the original function, for
+    mtbf = MTBF()</pre>
+<p>Provided that <code class="docutils literal">MTBF</code> is a callable object (again, representing our
+&#8220;function&#8221;), is equivalent to doing <code class="docutils literal">def mtbf(self): ...</code> inside the&nbsp;class.</p>
+<p>In the body of the callable, we can just reuse the original function, for
 simplicity. What&#8217;s really interesting is the <code>__get__</code> method, on which
 we return the callable object, exposed as a&nbsp;method.</p>
-<pre class="code python"><a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-1"></a><span class="k">class</span> <span class="nc">MTBF</span><span class="p">:</span>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-2"></a>    <span class="sd">"""Compute Mean Time Between Failures"""</span>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-3"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-4"></a>        <span class="k">return</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-5"></a>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-6"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-<a name="rest_code_dc058b0f74b844d48f311fa3090c4a8c-7"></a>        <span class="k">return</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-1"></a><span class="k">class</span> <span class="nc">MTBF</span><span class="p">:</span>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-2"></a>    <span class="sd">"""Compute Mean Time Between Failures"""</span>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-3"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">):</span>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-4"></a>        <span class="k">return</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">instance</span><span class="p">)</span>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-5"></a>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-6"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-7"></a>        <span class="k">return</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
 </pre>
-<p>To ex­plai­n: the attri­bu­te  <tt class="docutils literal">mtbf</tt>  is a &#8220;func­tio­n&#8221; (ca­lla­ble ac­tua­ll­y), de­fi­ne­d
-in the cla­ss. When we ca­ll it as a me­tho­d, Py­thon wi­ll see it has a
- <tt class="docutils literal">__­ge­t__</tt>, and when this is ca­lle­d, it wi­ll re­turn ano­ther ob­ject whi­ch is
-­the func­tion bound to the ins­tan­ce, pa­s­sing  <em>se­lf</em>  as first pa­ra­me­te­r, whi­ch in
-­turn is wha­t&#8217;s going to be&nbsp;exe­cute­d.</p> 
- <p>This does the tri­ck of making func­tions wo­rk as me­tho­d­s, whi­ch is a ve­r­y
-e­le­gant so­lu­tion of  <tt class="docutils literal">CP­y­thon</tt>.</p> 
- <p>We can now appre­cia­te the ele­gan­ce of the de­sign be­hind me­tho­d­s: ins­tead of
+<p>To explain: the attribute <code class="docutils literal">mtbf</code> is a &#8220;function&#8221; (callable actually), defined
+in the class. When we call it as a method, Python will see it has a
+<code class="docutils literal">__get__</code>, and when this is called, it will return another object which is
+the function bound to the instance, passing <em>self</em> as first parameter, which in
+turn is what&#8217;s going to be&nbsp;executed.</p>
+<p>This does the trick of making functions work as methods, which is a very
+elegant solution of <code class="docutils literal">CPython</code>.</p>
+<p>We can now appre­cia­te the ele­gan­ce of the de­sign be­hind me­tho­d­s: ins­tead of
 ­crea­ting a who­le new ob­jec­t, reu­se func­tions un­der the as­sump­tion that the
 ­first pa­ra­me­ter wi­ll be an ins­tan­ce of that cla­ss, that is going to be us­e­d
 in­ter­na­ll­y, and by con­ven­tion ca­lled  <em>se­lf</em>  (al­thou­gh, it can be ca­lle­d&nbsp;o­the­rwi­se).</p> 
- <p>Fo­llo­wing a si­mi­lar lo­gi­c,  <tt class="docutils literal">cla­ss­me­thod</tt>, and  <tt class="docutils literal">sta­ti­c­me­thod</tt>  de­co­ra­tor­s,
-a­re al­so des­crip­tor­s. The for­me­r, pa­s­ses the cla­ss as the first ar­gu­ment (whi­ch
-is why cla­ss me­tho­ds start wi­th  <tt class="docutils literal">cls</tt>  as a first ar­gu­men­t), and the la­tte­r,
-­sim­ply re­turns the func­tion as it&nbsp;is.</p> 
- </div>
+ <p>Following a similar logic, <code class="docutils literal">classmethod</code>, and <code class="docutils literal">staticmethod</code> decorators,
+are also descriptors. The former, passes the class as the first argument (which
+is why class methods start with <code class="docutils literal">cls</code> as a first argument), and the latter,
+simply returns the function as it&nbsp;is.</p>
+</div>
 </div>
 <div class="section" id="lookup-on-data-descriptors">
 <h2>Lookup on Data&nbsp;Descriptors</h2>
-<p>On the pre­vious exam­ple, when we as­sig­ned a va­lue to the pro­per­ty of the
-­des­crip­to­r, the ins­tan­ce dic­tio­na­ry was mo­di­fied be­cau­se the­re was no
- <tt class="docutils literal">__se­t__</tt>  me­thod on the&nbsp;des­crip­to­r.</p> 
- <p>For da­ta des­crip­tor­s, un­like on the pre­vious exam­ple, the me­tho­ds on the
+<p>On the previous example, when we assigned a value to the property of the
+descriptor, the instance dictionary was modified because there was no
+<code class="docutils literal">__set__</code> method on the&nbsp;descriptor.</p>
+<p>For da­ta des­crip­tor­s, un­like on the pre­vious exam­ple, the me­tho­ds on the
 ­des­crip­tor ob­ject take pre­ce­den­ce, mea­ning that the lookup star­ts by the cla­ss,
 and does­n&#8217;t affect the ins­tan­ce&#8217;s dic­tio­na­r­y. This is an as­y­m­me­tr­y, tha­t
 ­cha­rac­te­ri­ses da­ta&nbsp;des­crip­tor­s.</p> 
- <p>On the pre­vious exam­ple­s, if after run­ning the des­crip­to­r, the  <tt class="docutils literal">__­dic­t__</tt>  on
-­the ins­tan­ce was mo­di­fie­d, it was be­cau­se the co­de ex­pli­ci­tly did so, but it
-­could ha­ve had a di­ffe­rent&nbsp;lo­gi­c.</p> 
- <pre class="code python"><a name="rest_code_5720b18769c34da999d6bee7df3789b9-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-2"></a>    <span class="sd">"""This descriptor holds the same values for all instances."""</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-4"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-5"></a>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-6"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-8"></a>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-9"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
-<a name="rest_code_5720b18769c34da999d6bee7df3789b9-10"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">DataDescriptor</span><span class="p">()</span>
+ <p>On the previous examples, if after running the descriptor, the <code class="docutils literal">__dict__</code> on
+the instance was modified, it was because the code explicitly did so, but it
+could have had a different&nbsp;logic.</p>
+<pre class="code python"><a name="rest_code_d05e9651eee64825b3b1bc7719d45516-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-2"></a>    <span class="sd">"""This descriptor holds the same values for all instances."""</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-4"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-5"></a>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-6"></a>    <span class="k">def</span> <span class="fm">__set__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-8"></a>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-9"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
+<a name="rest_code_d05e9651eee64825b3b1bc7719d45516-10"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">DataDescriptor</span><span class="p">()</span>
 </pre>
-<p>If we run it, we can see, that sin­ce this des­crip­tor hol­ds the da­ta in­ter­na­ll­y,
- <tt class="docutils literal">__­dic­t__</tt>  is ne­ver mo­di­fied on the ins­tan­ce  <a class="footnote-reference" href="#id9" id="id4">[4]</a>:</p> 
- <pre class="code python"><a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-3"></a><span class="p">{}</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span> <span class="o">=</span> <span class="s1">'foo'</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-6"></a><span class="s1">'foo'</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-8"></a><span class="p">{}</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-9"></a>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed_2</span><span class="p">)</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-12"></a><span class="p">{}</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span><span class="o">.</span><span class="n">descriptor</span>
-<a name="rest_code_5bb0392921c84ee69efe2dcbc42915ba-14"></a><span class="s1">'foo'</span>
+<p>If we run it, we can see, that since this descriptor holds the data internally,
+<code class="docutils literal">__dict__</code> is never modified on the instance <a class="footnote-reference brackets" href="#id9" id="id4">4</a>:</p>
+<pre class="code python"><a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-3"></a><span class="p">{}</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span> <span class="o">=</span> <span class="s1">'foo'</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span><span class="o">.</span><span class="n">descriptor</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-6"></a><span class="s1">'foo'</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-7"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-8"></a><span class="p">{}</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-9"></a>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-10"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed_2</span><span class="p">)</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-12"></a><span class="p">{}</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed_2</span><span class="o">.</span><span class="n">descriptor</span>
+<a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-14"></a><span class="s1">'foo'</span>
 </pre>
 </div>
 <div class="section" id="method-lookup">
 <h2>Method&nbsp;Lookup</h2>
-<p>The des­crip­tors ma­chi­ne­ry is tri­gge­red by  <tt class="docutils literal">__­ge­ta­ttri­bu­te__</tt>, so we ha­ve to­
-­be ca­re­ful if we are ove­rri­ding this me­thod (be­tter no­t), be­cau­se if it&#8217;s no­t
-­do­ne pro­per­l­y, we mi­ght pre­vent the des­crip­tor ca­lls  <a class="footnote-reference" href="#id10" id="id5">[5]</a></p> 
- <div class="admonition warning">
-<p class="first admonition-title">War­ning</p> 
- <p class="last">Cla­s­ses mi­ght turn off the des­crip­tor pro­to­col by ove­rri­din­g
- <tt class="docutils literal">__­ge­ta­ttri­bu­te__</tt>.</p> 
- </div>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
-<td><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol">https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol</a></td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id7" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id2">[2]</a></td>
-<td>Duck typing</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id8" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id3">[3]</a></td>
-<td>This means that in reality, objects are just data structures with
-functions on it, much like ADT (Abstract Data Types) in C, or the
-structs defined in Go with the functions that work over them. A more
-detailed analysis and explanation of this, deserves a separate post.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id9" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id4">[4]</a></td>
-<td>This is not a good practice, (except for very particular scenarios that
-might require it, of course), but it&#8217;s shown only to support the idea.</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id10" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id5">[5]</a></td>
-<td><a class="reference external" href="https://docs.python.org/3/howto/descriptor.html#invoking-descriptors">https://docs.python.org/3/howto/descriptor.html#invoking-descriptors</a></td>
-</tr></tbody>
-</table>
+<p>The descriptors machinery is triggered by <code class="docutils literal">__getattribute__</code>, so we have to
+be careful if we are overriding this method (better not), because if it&#8217;s not
+done properly, we might prevent the descriptor calls <a class="footnote-reference brackets" href="#id10" id="id5">5</a></p>
+<div class="admonition warning">
+<p class="admonition-title">War­ning</p> 
+ <p>Classes might turn off the descriptor protocol by overriding
+<code class="docutils literal">__getattribute__</code>.</p>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd>
+<p><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol">http­s://­do­cs.­p­y­tho­n.or­g/3.6/ho­w­to­/­des­crip­to­r.ht­m­l#­des­crip­to­r-­pro­to­col</a></p> 
+ </dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd>
+<p>Du­ck&nbsp;ty­ping</p> 
+ </dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd>
+<p>This means that in rea­li­ty, ob­jec­ts are just da­ta struc­tu­res wi­th
+­func­tions on it, mu­ch like ADT (A­bs­tract Da­ta Ty­pes) in C, or the
+s­truc­ts de­fi­ned in Go wi­th the func­tions that wo­rk over the­m. A mo­re
+­de­tai­led ana­l­y­sis and ex­pla­na­tion of this, de­ser­ves a se­pa­ra­te&nbsp;pos­t.</p> 
+ </dd>
+<dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd>
+<p>This is not a good prac­ti­ce, (ex­cept for ve­ry par­ti­cu­lar sce­na­rios tha­t
+­mi­ght re­qui­re it, of cour­se), but it&#8217;s sho­wn on­ly to su­pport the&nbsp;idea.</p> 
+ </dd>
+<dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd>
+<p><a class="reference external" href="https://docs.python.org/3/howto/descriptor.html#invoking-descriptors">http­s://­do­cs.­p­y­tho­n.or­g/3/ho­w­to­/­des­crip­to­r.ht­m­l#in­vo­kin­g-­des­crip­tors</a></p> 
+ </dd>
+</dl>
 </div>
 </div>
     </div>
@@ -449,15 +416,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

@@ -90,11 +90,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">On returning consistent data&nbsp;types</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -115,28 +116,28 @@ navbar-dark bg-dark
  <p>Do you no­ti­ce so­me­thing odd&nbsp;he­re?</p> 
  <p>What if I want to use the re­sul­t? I can­not do it safe­l­y, for&nbsp;exam­ple:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-1">1</a>
-<a href="#rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-2">2</a>
-<a href="#rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-3">3</a></pre></div></td>
-<td class="code"><pre class="code python"><a name="rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
-<a name="rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<a name="rest_code_3ca45c0ee0d143bf9e9c6c395b0a6988-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_73cda22c249a43878830af787a8fa2cc-1">1</a>
+<a href="#rest_code_73cda22c249a43878830af787a8fa2cc-2">2</a>
+<a href="#rest_code_73cda22c249a43878830af787a8fa2cc-3">3</a></pre></div></td>
+<td class="code"><pre class="code python"><a name="rest_code_73cda22c249a43878830af787a8fa2cc-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># with the correct parameters and file name</span>
+<a name="rest_code_73cda22c249a43878830af787a8fa2cc-2"></a><span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">content</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<a name="rest_code_73cda22c249a43878830af787a8fa2cc-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
-<p>If con­tent is  <tt class="docutils literal">No­ne</tt>, it wi­ll rai­se an  <tt class="docutils literal">Attri­bu­teE­rror</tt>  sa­ying that No­ne has no­
-a­ttri­bu­te ca­lled &#8220;i­te­ms&#8221; (whi­ch is&nbsp;true).</p> 
- <p>The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
+<p>If content is <code class="docutils literal">None</code>, it will raise an <code class="docutils literal">AttributeError</code> saying that None has no
+attribute called &#8220;items&#8221; (which is&nbsp;true).</p>
+<p>The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
 by doing so­me­thing like the&nbsp;fo­llo­win­g:</p> 
- <pre class="code python"><a name="rest_code_ea0c29c40ce747e5bb4d0c7de972cf61-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+ <pre class="code python"><a name="rest_code_3ed7dad1e86a437c8cbaab5fd06322ea-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
-<p>That could be a ca­se of &#8220;co­ding de­fen­si­ve­l­y&#8221;, making su­re that the pro­gram wi­ll not fail un­de­r
-­most con­di­tions (it would al­so re­qui­re to add an  <tt class="docutils literal">as­sert</tt>  or to rai­se an ex­cep­tio­n
-­perhap­s, but that is a di­ffe­rent to­pi­c). I ac­tua­lly agree wi­th de­fen­si­ve pro­gra­m­min­g,
-­but I thi­nk it is be­tter if the li­bra­ry itself has a mo­re co­rrect be­ha­viou­r, res­pec­tin­g
-­the in­ter­fa­ce (that is: if you are going to re­turn a dic­tio­na­r­y, and the­re is not con­ten­t,
-­then the lo­gi­cal as­sump­tion is to ex­pect an emp­ty dic­tio­na­r­y).
-­This must be the de­fault be­ha­viou­r, not so­me­thing to be set by&nbsp;pa­ra­me­ter­s.</p> 
- <p>This could be thou­ght as an ins­tan­ce of a mo­re ge­ne­ral pro­blem that oc­curs when so­me func­tio­n
+<p>That could be a case of &#8220;coding defensively&#8221;, making sure that the program will not fail under
+most conditions (it would also require to add an <code class="docutils literal">assert</code> or to raise an exception
+perhaps, but that is a different topic). I actually agree with defensive programming,
+but I think it is better if the library itself has a more correct behaviour, respecting
+the interface (that is: if you are going to return a dictionary, and there is not content,
+then the logical assumption is to expect an empty dictionary).
+This must be the default behaviour, not something to be set by&nbsp;parameters.</p>
+<p>This could be thou­ght as an ins­tan­ce of a mo­re ge­ne­ral pro­blem that oc­curs when so­me func­tio­n
 is in­ten­ded to re­turn &#8220;X or Y&#8221;. In my opi­nio­n, if X and Y do not sha­re the sa­me in­ter­fa­ce,
 ­the­re is a po­ten­tial bug (in the Ob­jec­t-O­rien­ted pa­ra­digm we would say that the­re
 is no po­l­y­mor­phis­m, or ma­y­be that the &#8220;con­trac­t&#8221; is not being&nbsp;res­pec­te­d).</p> 
@@ -160,15 +161,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

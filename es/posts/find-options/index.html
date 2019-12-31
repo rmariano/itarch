@@ -17,8 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Find Options">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/find-options/">
-<meta property="og:description" content="Among the co­re-u­til­s,  find  is one of the most use­ful co­m­man­d­s. Thou­gh I use the ba­sic func­tion­s
-­most of the ti­me,  find  has a wi­de ran­ge of pa­ra­me­ter­s, and it co­mes in handy no">
+<meta property="og:description" content="Among the core-utils, find is one of the most useful commands. Though I use the basic functions
+most of the time, find has a wide range of parameters, and it comes in handy not only for finding
+files,">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-03-24T11:29:58-03:00">
 <meta property="article:tag" content="bash">
@@ -90,11 +91,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Find&nbsp;Options</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -108,31 +110,31 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Among the co­re-u­til­s,  <tt class="docutils literal">find</tt>  is one of the most use­ful co­m­man­d­s. Thou­gh I use the ba­sic func­tion­s
-­most of the ti­me,  <tt class="docutils literal">find</tt>  has a wi­de ran­ge of pa­ra­me­ter­s, and it co­mes in handy not on­ly for fin­din­g
-­fi­le­s, but al­so for ope­ra­ting a bun­ch of them at on­ce. He­re is a ve­ry sim­ple&nbsp;exam­ple.</p> 
- <p>Ima­gi­ne you ha­ve to mo­ve many fi­les to a di­rec­to­r­y, but they all ca­ll di­ffe­rent so a  <a class="reference external" href="https://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a>  is no use, an­d
-­ma­nua­lly mo­ving all of them is not an op­tio­n. A po­s­si­ble appro­ach would be to lo­ca­te the first of the ba­tch (for exam­ple
-by run­ning  <tt class="docutils literal">ls  <span class="pre">-l­r­­th</span></tt>). Su­ppo­se the first one of the ba­tch is ca­lled  <tt class="docutils literal">/t­m­p/­che­ck­point</tt>  (for this exam­ple
-­le­t&#8217;s as­su­me the fi­les re­si­de at  <tt class="docutils literal">/t­mp</tt>).</p> 
- <p>The co­m­mand would&nbsp;be:</p> 
- <pre class="code bash"><a name="rest_code_34d49cd9bd9545be93fd0cb5d4c8f5fc-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
+<p>Among the core-utils, <code class="docutils literal">find</code> is one of the most useful commands. Though I use the basic functions
+most of the time, <code class="docutils literal">find</code> has a wide range of parameters, and it comes in handy not only for finding
+files, but also for operating a bunch of them at once. Here is a very simple&nbsp;example.</p>
+<p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="https://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
+manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
+by running <code class="docutils literal">ls <span class="pre">-lr­th</span></code>). Suppose the first one of the batch is called <code class="docutils literal">/tmp/checkpoint</code> (for this example
+let&#8217;s assume the files reside at <code class="docutils literal">/tmp</code>).</p>
+<p>The co­m­mand would&nbsp;be:</p> 
+ <pre class="code bash"><a name="rest_code_3839e9021a52411e8c565d48403251a1-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
-<p>The  <tt class="docutils literal"><span class="pre">-ty­­pe</span>   f</tt>  part is im­por­tant in or­der not to mo­ve the en­ti­re di­rec­to­ry (find on­ly the fi­le­s). Then
-we ha­ve the  <tt class="docutils literal"><span class="pre">-a­­newer</span></tt>  that re­cei­ves a fi­le as a pa­ra­me­te­r, and it wi­ll fil­ter for tho­se fi­les who­se
-­mo­di­fi­ca­tion da­te is grea­ter than the fi­le us­ed as an exam­ple (hen­ce, this must be the start of the ba­tch), an­d
-­fi­na­lly the  <tt class="docutils literal"><span class="pre">-exec</span></tt>  part is in­te­res­ting be­cau­se as men­tio­ned at the be­gin­nin­g, it allo­ws to per­for­m
-ar­bi­tra­ry ope­ra­tions on the group of fi­les (in this ca­se to mo­ve them to ano­ther lo­ca­tio­n, bu­t
-o­ther ac­tions su­ch as mo­di­fi­ca­tion­s,  <tt class="docutils literal">sed</tt>, etc. are al­so&nbsp;po­s­si­ble).</p> 
- <p>Ano­ther trait I like about  <tt class="docutils literal">find</tt>  is that pre­sen­ts a se­cu­re and we­ll-­de­fi­ned in­ter­fa­ce, mea­ning that in
-­so­me ca­ses I can first che­ck the re­sul­ts prior to exe­cu­te an ac­tio­n. For exam­ple, if we would like to che­ck
-­for de­le­ting so­me un­ne­ce­ssary&nbsp;fi­le­s:</p> 
- <pre class="code bash"><a name="rest_code_f421c2ac50da4241b96b969d8759e0a0-1"></a>find . -name <span class="s2">"*.pyc"</span>
+<p>The <code class="docutils literal"><span class="pre">-ty­pe</span>  f</code> part is important in order not to move the entire directory (find only the files). Then
+we have the <code class="docutils literal"><span class="pre">-a­newer</span></code> that receives a file as a parameter, and it will filter for those files whose
+modification date is greater than the file used as an example (hence, this must be the start of the batch), and
+finally the <code class="docutils literal"><span class="pre">-exec</span></code> part is interesting because as mentioned at the beginning, it allows to perform
+arbitrary operations on the group of files (in this case to move them to another location, but
+other actions such as modifications, <code class="docutils literal">sed</code>, etc. are also&nbsp;possible).</p>
+<p>Another trait I like about <code class="docutils literal">find</code> is that presents a secure and well-defined interface, meaning that in
+some cases I can first check the results prior to execute an action. For example, if we would like to check
+for deleting some unnecessary&nbsp;files:</p>
+<pre class="code bash"><a name="rest_code_fa74652ffab144458c0c0bb54899df3b-1"></a>find . -name <span class="s2">"*.pyc"</span>
 </pre>
-<p>By is­suing this co­m­mand we list so­me fi­les to era­se. And then we can sim­ply do that by
-a­ppen­ding  <tt class="docutils literal"><span class="pre">-de­­le­­te</span></tt>  to the ve­ry sa­me&nbsp;co­m­man­d.</p> 
- <p>This is just the tip of the ice­berg of the things that are po­s­si­ble by means of the  <tt class="docutils literal">find</tt>  co­m­mand an­d
-i­ts va­rious&nbsp;op­tion­s.</p>
+<p>By issuing this command we list some files to erase. And then we can simply do that by
+appending <code class="docutils literal"><span class="pre">-de­le­te</span></code> to the very same&nbsp;command.</p>
+<p>This is just the tip of the iceberg of the things that are possible by means of the <code class="docutils literal">find</code> command and
+its various&nbsp;options.</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
@@ -154,15 +156,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

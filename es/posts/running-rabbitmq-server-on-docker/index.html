@@ -91,11 +91,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Running RabbitMQ server on&nbsp;Docker</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -121,8 +122,8 @@ try <code>docker</code> and see how it&nbsp;results.</p>
 ­con­fi­gu­ra­tion it can run as&nbsp;ex­pec­te­d.</p> 
  <p>The­re is al­ready a do­cker ima­ge for Ra­bbit­M­Q, whi­ch can be au­to­ma­ti­ca­lly pu­lle­d,
 and then run, for&nbsp;exam­ple:</p> 
- <pre class="code bash"><a name="rest_code_770b602eb9b147a1bf38e833b8921267-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_770b602eb9b147a1bf38e833b8921267-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+ <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
 passing <code>-e</code> we pass some environment variables (in this case,
@@ -142,8 +143,8 @@ which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
-<pre class="code bash"><a name="rest_code_d2c89e79c30b4f2aae0ae677e9c6e227-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_d2c89e79c30b4f2aae0ae677e9c6e227-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
@@ -171,15 +172,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {

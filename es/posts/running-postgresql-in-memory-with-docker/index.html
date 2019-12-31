@@ -92,11 +92,12 @@ navbar-dark bg-dark
         <!--Body content-->
         
         
+        
 <article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Running PostgreSQL in memory with&nbsp;docker</a></h1>
 
         <div class="metadata">
-            <p class="byline author vcard"><span class="byline-name fn" itemprop="author">
-                    <a href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
+            <p class="byline author vcard p-author h-card"><span class="byline-name fn p-name" itemprop="author">
+                    <a class="u-url" href="../../authors/mariano-anaya/">Mariano&nbsp;Anaya</a>
             </span></p>
             <p class="dateline">
             <a href="." rel="bookmark">
@@ -116,134 +117,113 @@ navbar-dark bg-dark
 we would like to en­su­re that we are de­ve­lo­ping and tes­ting in si­tua­tions clo­se
 ­to a real im­ple­men­ta­tio­n; the­re­fo­re, using the sa­me da­ta­ba­se as in
 ­pro­duc­tion can help de­tec­ting is­sues&nbsp;ear­l­y.</p> 
- <p>Ho­we­ve­r, se­tting up an en­ti­re da­ta­ba­se ser­ver for de­ve­lo­p­men­t, can be­
-­cum­ber­so­me. Ho­pe­fu­lly no­wa­da­ys, mo­dern ope­ra­ting sys­te­ms like  <tt class="docutils literal">Li­nux</tt>  ha­ve
-­great tools and fea­tu­res that we could take ad­van­ta­ge&nbsp;of.</p> 
- <p>In par­ti­cu­la­r, I would like to se­tup a sim­ple da­ta­ba­se lo­ca­lly usin­g
+ <p>However, setting up an entire database server for development, can be
+cumbersome. Hopefully nowadays, modern operating systems like <code class="docutils literal">Linux</code> have
+great tools and features that we could take advantage&nbsp;of.</p>
+<p>In par­ti­cu­la­r, I would like to se­tup a sim­ple da­ta­ba­se lo­ca­lly usin­g
  <a class="reference external" href="https://www.docker.com/what-docker">do­cker</a>, and sto­ring the da­ta in&nbsp;me­mo­r­y.</p> 
- <p>The idea is sim­ple: run a do­cker con­tai­ner wi­th the ima­ge for  <tt class="docutils literal">Pos­tgresS­QL</tt>,
-u­sing a  <tt class="docutils literal">tm­pfs</tt>   <a class="footnote-reference" href="#id4" id="id1">[1]</a>   <a class="footnote-reference" href="#id5" id="id2">[2]</a>  as sto­ra­ge for the da­ta­ba­se (a  <tt class="docutils literal">ra­m­fs</tt>  could al­so­
-­be&nbsp;us­e­d).</p> 
- <!-- TEASER_END -->
+ <p>The idea is simple: run a docker container with the image for <code class="docutils literal">PostgresSQL</code>,
+using a <code class="docutils literal">tmpfs</code> <a class="footnote-reference brackets" href="#id4" id="id1">1</a> <a class="footnote-reference brackets" href="#id5" id="id2">2</a> as storage for the database (a <code class="docutils literal">ramfs</code> could also
+be&nbsp;used).</p>
+<!-- TEASER_END -->
 </div>
 <div class="section" id="procedure">
 <h2>Procedure</h2>
-<p>Firs­t, we get the ima­ge of  <tt class="docutils literal">Pos­tgresS­QL</tt>  ac­cor­ding to the pla­tfor­m, fo­r&nbsp;e­xam­ple:</p> 
- <pre class="literal-block">
-docker pull fedora/postgresql
-</pre>
-<p>Then, I could crea­te a  <tt class="docutils literal">tm­pfs</tt>, for the da­ta and mount&nbsp;it</p> 
- <pre class="code bash"><a name="rest_code_2e2a3ce305444e78a66829542f171fe0-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_2e2a3ce305444e78a66829542f171fe0-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+<p>First, we get the image of <code class="docutils literal">PostgresSQL</code> according to the platform, for&nbsp;example:</p>
+<pre class="literal-block">docker pull fedora/postgresql</pre>
+<p>Then, I could create a <code class="docutils literal">tmpfs</code>, for the data and mount&nbsp;it</p>
+<pre class="code bash"><a name="rest_code_1152b34c42354e12a06b2a864d96dd76-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_1152b34c42354e12a06b2a864d96dd76-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the da­ta­ba­se con­tai­ner using this&nbsp;di­rec­to­r­y:</p> 
  <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_4585929185bb40559bdd50a79b457bbd-1">1</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-2">2</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-3">3</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-4">4</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-5">5</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-6">6</a>
-<a href="#rest_code_4585929185bb40559bdd50a79b457bbd-7">7</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_4585929185bb40559bdd50a79b457bbd-1"></a>docker run --name mempostgres <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
-<a name="rest_code_4585929185bb40559bdd50a79b457bbd-7"></a>    fedora/postgresql
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_431be205999045a08996122ec3be4095-1">1</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-2">2</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-3">3</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-4">4</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-5">5</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-6">6</a>
+<a href="#rest_code_431be205999045a08996122ec3be4095-7">7</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_431be205999045a08996122ec3be4095-1"></a>docker run --name mempostgres <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-2"></a>    -v <span class="s2">"/mnt/dbtempdisk:/var/lib/pgsql/data:Z"</span> <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-3"></a>    -e <span class="nv">POSTGRES_USER</span><span class="o">=</span>&lt;username-for-the-db&gt; <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-4"></a>    -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>&lt;password-for-the-user&gt; <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-5"></a>    -e <span class="nv">POSTGRES_DB</span><span class="o">=</span>&lt;name-of-the-db&gt; <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-6"></a>    -p <span class="m">5432</span>:5432 <span class="se">\</span>
+<a name="rest_code_431be205999045a08996122ec3be4095-7"></a>    fedora/postgresql
 </pre></td>
 </tr></table>
-<p>The first li­ne in­di­ca­tes the na­me for the con­tai­ner we are run­ning (if is no­t
-s­pe­ci­fie­d, do­cker wi­ll put a de­fault one); the se­cond li­ne is the im­por­tan­t
-o­ne, sin­ce it is what makes the ma­pping of di­rec­to­rie­s, mea­ning that wi­ll ma­p
-­the di­rec­to­ry for the  <tt class="docutils literal">tm­pfs</tt>  on the hos­t, mounted as  <tt class="docutils literal">/va­r/­li­b/­pgs­q­l/­da­ta</tt> 
-in­si­de the con­tai­ner (the tar­ge­t). The la­ter di­rec­to­ry is the one
- <tt class="docutils literal">Pos­tgreS­QL</tt>  uses by de­fault for ini­tia­li­zing and sto­ring the da­ta of the
-­da­ta­ba­se.  The  <tt class="docutils literal">Z</tt>  at the end of the ma­pping is an in­ter­nal de­tail fo­r
-­fla­gging that di­rec­to­ry in ca­se  <tt class="docutils literal">SE­Li­nux</tt>  is ena­ble­d, so it wi­ll not fail due
-­to a per­mis­sions errors (be­cau­se con­tai­ners run as ano­ther use­r, and we are
-­moun­ting so­me­thing that mi­ght be out of that sco­pe)  <a class="footnote-reference" href="#id6" id="id3">[3]</a>.</p> 
- <p>The rest of the th­ree li­nes, are en­vi­ron­ment va­ria­bles that do­cker wi­ll use fo­r
-­the ini­tia­li­za­tion of the da­ta­ba­se (they are op­tio­na­l, and de­faul­ts wi­ll be­
-u­s­e­d, in ca­se they are not pro­vi­de­d). Then fo­llo­ws the port ma­ppin­g, whi­ch in
-­this ca­se in­di­ca­tes to map the port  <tt class="docutils literal">5432</tt>  in­si­de the con­tai­ner to the sa­me
-o­ne on the hos­t. And fi­na­ll­y, the na­me of the  <tt class="docutils literal">do­cker</tt>  ima­ge we wi­ll&nbsp;run.</p> 
- <p>On­ce this is run­nin­g, it would look like we ha­ve an ac­tual ins­tan­ce of
- <tt class="docutils literal">Pos­tgreS­QL</tt>  up and run­ning on our ma­chi­ne (ac­tua­lly we do, but it is in­si­de
-a con­tai­ner :-), so we can con­nect wi­th any client (e­ven a  <tt class="docutils literal">Py­thon</tt> 
-a­ppli­ca­tio­n,&nbsp;etc.).</p> 
- <p>For exam­ple, if we want to use the  <tt class="docutils literal">ps­ql</tt>  client wi­th the con­tai­ne­r, the
-­co­m­mand would&nbsp;be:</p> 
- <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-1">1</a>
-<a href="#rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-2">2</a>
-<a href="#rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-3">3</a>
-<a href="#rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-4">4</a></pre></div></td>
-<td class="code"><pre class="code bash"><a name="rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-1"></a>docker run -it --rm <span class="se">\</span>
-<a name="rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-2"></a>--link mempostgres:postgres <span class="se">\</span>
-<a name="rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-3"></a>fedora/postgresql <span class="se">\</span>
-<a name="rest_code_b2a9cb9eb6dd4267b82e58d502b4a453-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<p>The first line indicates the name for the container we are running (if is not
+specified, docker will put a default one); the second line is the important
+one, since it is what makes the mapping of directories, meaning that will map
+the directory for the <code class="docutils literal">tmpfs</code> on the host, mounted as <code class="docutils literal">/var/lib/pgsql/data</code>
+inside the container (the target). The later directory is the one
+<code class="docutils literal">PostgreSQL</code> uses by default for initializing and storing the data of the
+database.  The <code class="docutils literal">Z</code> at the end of the mapping is an internal detail for
+flagging that directory in case <code class="docutils literal">SELinux</code> is enabled, so it will not fail due
+to a permissions errors (because containers run as another user, and we are
+mounting something that might be out of that scope) <a class="footnote-reference brackets" href="#id6" id="id3">3</a>.</p>
+<p>The rest of the three lines, are environment variables that docker will use for
+the initialization of the database (they are optional, and defaults will be
+used, in case they are not provided). Then follows the port mapping, which in
+this case indicates to map the port <code class="docutils literal">5432</code> inside the container to the same
+one on the host. And finally, the name of the <code class="docutils literal">docker</code> image we will&nbsp;run.</p>
+<p>Once this is running, it would look like we have an actual instance of
+<code class="docutils literal">PostgreSQL</code> up and running on our machine (actually we do, but it is inside
+a container :-), so we can connect with any client (even a <code class="docutils literal">Python</code>
+application,&nbsp;etc.).</p>
+<p>For example, if we want to use the <code class="docutils literal">psql</code> client with the container, the
+command would&nbsp;be:</p>
+<table class="codetable"><tr>
+<td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-1">1</a>
+<a href="#rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-2">2</a>
+<a href="#rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-3">3</a>
+<a href="#rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-4">4</a></pre></div></td>
+<td class="code"><pre class="code bash"><a name="rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-1"></a>docker run -it --rm <span class="se">\</span>
+<a name="rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-2"></a>--link mempostgres:postgres <span class="se">\</span>
+<a name="rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-3"></a>fedora/postgresql <span class="se">\</span>
+<a name="rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </pre></td>
 </tr></table>
 </div>
 <div class="section" id="applications">
 <h2>Applications</h2>
-<p>If we ha­ve  <tt class="docutils literal">Pos­tgreS­QL</tt>  ins­ta­lle­d, we could sim­ply start a new ins­tan­ce as
-our user wi­th the co­m­mand (<tt class="docutils literal">pos­tgres ...</tt>) and pa­ss the  <tt class="docutils literal"><span class="pre">-D</span></tt>  pa­ra­me­ter wi­th
-­the de­si­red pa­th whe­re the da­ta­ba­se is going to sto­re the da­ta (whi­ch wi­ll be­
-­the  <tt class="docutils literal">tm­pfs</tt>/<tt class="docutils literal">ra­m­disk</tt>). This would be ano­ther way of achie­ving the&nbsp;sa­me.</p> 
- <p>Re­gard­le­ss the im­ple­men­ta­tion­s, he­re are so­me po­ten­tial&nbsp;appli­ca­tion­s:</p> 
+<p>If we have <code class="docutils literal">PostgreSQL</code> installed, we could simply start a new instance as
+our user with the command (<code class="docutils literal">postgres ...</code>) and pass the <code class="docutils literal"><span class="pre">-D</span></code> parameter with
+the desired path where the database is going to store the data (which will be
+the <code class="docutils literal">tmpfs</code>/<code class="docutils literal">ramdisk</code>). This would be another way of achieving the&nbsp;same.</p>
+<p>Re­gard­le­ss the im­ple­men­ta­tion­s, he­re are so­me po­ten­tial&nbsp;appli­ca­tion­s:</p> 
  <ol class="arabic simple">
-<li>Lo­cal de­ve­lo­p­ment wi­thout re­qui­ring disk sto­ra­ge, and run­ning fas­ter at the
-sa­me&nbsp;ti­me.</li> 
- <li>Unit tes­tin­g: unit tes­ts should be fas­t, grante­d. So­me­ti­me­s, it makes
-­per­fect sen­se to run the tes­ts against an ac­tual da­ta­ba­se (prac­ti­ca­li­ty
-­bea­ts pu­ri­ty), even if this makes them &#8220;in­te­gra­tio­n/­func­tio­na­l&#8221; tes­ts. In
-­this re­gar­d, ha­ving a li­gh­twe­ight da­ta­ba­se con­tai­ner run­ning lo­ca­lly coul­d
-a­chie­ve the goal wi­thout com­pro­mi­sing&nbsp;per­for­man­ce.</li> 
- <li>Iso­la­tio­n: (this on­ly applies for the con­tai­ner appro­ach), run­nin­g
- <tt class="docutils literal">Pos­tgreS­QL</tt>  in a  <tt class="docutils literal">do­cker</tt>  con­tai­ne­r, en­cap­su­la­tes the li­bra­rie­s, tool­s,
-­pa­cka­ges, etc. in  <tt class="docutils literal">do­cker</tt>, so the rest of the sys­tem does not ha­ve to­
+<li><p>Lo­­­cal de­­ve­­lo­­­p­­ment wi­­thout re­­qui­­ring disk sto­­­ra­­ge, and run­­ning fa­s­­ter at the
+s­a­­me&nbsp;ti­­me.</p></li> 
+ <li><p>Unit tes­­ti­n­­g: unit tes­­ts should be fa­s­­t, gran­te­­d. So­­­me­­ti­­me­s, it makes
+­­pe­r­­fect sen­­se to run the tes­­ts against an ac­­tual da­­ta­­ba­­se (pra­c­­ti­­ca­­li­­ty
+­­bea­­ts pu­­ri­­ty), even if this makes them &#8220;i­n­­te­­gra­­tio­­n/­­fun­c­­tio­­­na­­l&#8221; tes­­ts. In
+­­this re­­ga­r­­d, ha­­ving a li­­gh­­twe­i­ght da­­ta­­ba­­se co­n­­tai­­ner run­­ning lo­­­ca­­lly cou­l­­d
+a­­chie­­ve the goal wi­­thout co­m­­pro­­­mi­­sing&nbsp;pe­r­­fo­r­­man­­ce.</p></li> 
+ <li><p>Iso­la­tio­n: (this on­ly applies for the con­tai­ner appro­ach), run­nin­g
+ <code class="docutils literal">Pos­tgreS­QL</code>  in a  <code class="docutils literal">do­cker</code>  con­tai­ne­r, en­cap­su­la­tes the li­bra­rie­s, tool­s,
+­pa­cka­ges, etc. in  <code class="docutils literal">do­cker</code>, so the rest of the sys­tem does not ha­ve to­
 ­main­tain mu­ch other pa­cka­ges ins­ta­lle­d. Thi­nk of if as a sort of &#8220;vir­tua­l
-en­vi­ron­men­t&#8221; for&nbsp;pa­cka­ges.</li> 
+en­vi­ron­men­t&#8221; for&nbsp;pa­cka­ges.</p></li> 
  </ol>
 <p>All in all, I thi­nk it&#8217;s an in­te­res­ting appro­ach, wor­th con­si­de­rin­g, at leas­t
 ­to ha­ve al­ter­na­ti­ves when wo­rking in pro­jec­ts that re­qui­re in­ten­se in­te­rac­tio­n
 wi­th the&nbsp;da­ta­ba­se.</p> 
- <table class="docutils footnote" frame="void" id="id4" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id1">[1]</a></td>
-<td>: <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt</a>
-</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id5" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id2">[2]</a></td>
-<td>: <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">https://en.wikipedia.org/wiki/Tmpfs</a>
-</td>
-</tr></tbody>
-</table>
-<table class="docutils footnote" frame="void" id="id6" rules="none">
-<colgroup>
-<col class="label">
-<col>
-</colgroup>
-<tbody valign="top"><tr>
-<td class="label"><a class="fn-backref" href="#id3">[3]</a></td>
-<td>: <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/</a>
-</td>
-</tr></tbody>
-</table>
+ <dl class="footnote brackets">
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd>
+<p>:  <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">http­s://www.ker­ne­l.or­g/­do­c/­Do­cu­men­ta­tio­n/­fi­le­s­ys­te­ms/t­m­pfs.­txt</a></p> 
+ </dd>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd>
+<p>:  <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">http­s://en.wiki­pe­dia.or­g/wiki/T­m­pfs</a></p> 
+ </dd>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd>
+<p>:  <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.­pro­jec­ta­to­mi­c.io­/­blo­g/2015/06/u­sin­g-­vo­lu­me­s-wi­th-­do­cke­r-­can-­cau­se-­pro­ble­ms-wi­th-se­li­nu­x/</a></p> 
+ </dd>
+</dl>
 </div>
 </div>
     </div>
@@ -266,15 +246,13 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
 4.0 International License</a>.
 
             
+            
         </footer>
 </div>
 </div>
 
 
-        <script src="../../../assets/js/all-nocdn.js"></script><!-- fancy dates --><script>
-    moment.locale("es");
-    fancydates(0, "YYYY-MM-DD HH:mm");
-    </script><!-- end fancy dates --><script>
+        <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
         captions: function(element) {
