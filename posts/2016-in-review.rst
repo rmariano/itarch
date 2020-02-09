@@ -1,7 +1,7 @@
 .. title: 2016 in review
 .. slug: 2016-in-review
 .. date: 2016-12-25 18:02:53 UTC+01:00
-.. tags: software engineering
+.. tags: software-engineering
 .. category: misc
 .. link:
 .. description: A review of the events occurred in 2016
