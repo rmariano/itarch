@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../find-options/" title="Find Options" type="text/html">
@@ -36,7 +36,7 @@ a lot of queues or tasks be­ing queued and">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -70,7 +70,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -112,17 +112,14 @@ navbar-dark bg-dark
     <div>
 <p>If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
 it us­es too much re­sources (it&#8217;s nor­mal while pro­gram­ming to have
-a lot of queues or tasks be­ing queued and that makes the CPU us­age to&nbsp;spike).</p> 
- <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+a lot of queues or tasks be­ing queued and that makes the CPU us­age to&nbsp;spike).</p>  <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
 on development I&#8217;d rather do something different, in order to isolate
 the process. I know I could bound it (for example order it not to start automatically
 as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
 try <code>docker</code> and see how it&nbsp;results.</p>
 <p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
-­con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p> 
- <p>There is al­ready a dock­er im­age for Rab­bit­MQ, which can be au­to­mat­i­cal­ly pulled,
-and then run, for&nbsp;ex­am­ple:</p> 
- <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
+con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­MQ, which can be au­to­mat­i­cal­ly pulled,
+and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
 <a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by

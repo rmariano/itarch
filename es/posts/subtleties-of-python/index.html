@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/subtleties-of-python/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../notes-on-pyss18/" title="Notes on PySS18" type="text/html">
@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Subtleties of Python">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/subtleties-of-python/">
-<meta property="og:description" content="In our pro­fe­s­sio­n, atten­tion to de­tail is of ut­most im­por­tan­ce. Any good
-­so­ftwa­re en­gi­neer un­ders­tan­ds that de­tails ma­tter a lo­t, as they make the
-­di­ffe­ren­ce be­tween a wo­rki">
+<meta property="og:description" content="In our pro­fes­sion, at­ten­tion to de­tail is of ut­most im­por­tance. Any good
+soft­ware en­gi­neer un­der­stands that de­tails mat­ter a lot, as they make the
+dif­fer­ence be­tween a work­ing unit ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2018-10-18T23:03:39+02:00">
 <meta property="article:tag" content="clean-code">
@@ -35,7 +35,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -69,7 +69,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -109,30 +109,21 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>In our pro­fe­s­sio­n, atten­tion to de­tail is of ut­most im­por­tan­ce. Any good
-­so­ftwa­re en­gi­neer un­ders­tan­ds that de­tails ma­tter a lo­t, as they make the
-­di­ffe­ren­ce be­tween a wo­rking unit or a di­sas­ter  <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p> 
- <p>This is why clean co­de is not just about for­ma­tting or arran­ging the co­de. It&#8217;s
-­nei­ther a foi­ble. It is ins­tea­d, pa­ying atten­tion exac­tly to tho­se de­tails tha­t
-wi­ll make a big di­ffe­ren­ce in&nbsp;pro­duc­tio­n.</p> 
- <p>Le­t&#8217;s see so­me exam­ples of this in&nbsp;Py­tho­n.</p> 
- <!-- TEASER_END -->
-<p>Dis­clai­me­r: The fo­llo­wing ca­ses being pre­sen­ted are just exam­ple­s. They are no­t
-­meant to be in­ter­pre­ted as pa­ttern­s, in the sen­se of &#8220;e­ve­ry ti­me you find X,
-a­pply&nbsp;Y&#8221;.</p> 
- <p>Be­low the­re are two short ca­ses of pro­ble­ma­tic co­de I ha­ve found in whils­t
-wo­rking on past co­de&nbsp;ba­ses.</p> 
- <div class="section" id="mutable-objects-and-attributes">
+<p>In our pro­fes­sion, at­ten­tion to de­tail is of ut­most im­por­tance. Any good
+soft­ware en­gi­neer un­der­stands that de­tails mat­ter a lot, as they make the
+dif­fer­ence be­tween a work­ing unit or a dis­as­ter  <a class="footnote-reference brackets" href="#id3" id="id1">1</a>.</p>  <p>This is why clean code is not just about for­mat­ting or ar­rang­ing the code. It&#8217;s
+nei­ther a foible. It is in­stead, pay­ing at­ten­tion ex­act­ly to those de­tails that
+will make a big dif­fer­ence in&nbsp;pro­duc­tion.</p>  <p>Let&#8217;s see some ex­am­ples of this in&nbsp;Python.</p>  <!-- TEASER_END -->
+<p>Dis­claimer: The fol­low­ing cas­es be­ing pre­sent­ed are just ex­am­ples. They are not
+meant to be in­ter­pret­ed as pat­tern­s, in the sense of &#8220;ev­ery time you find X,
+ap­ply&nbsp;Y&#8221;.</p>  <p>Be­low there are two short cas­es of prob­lem­at­ic code I have found in whilst
+work­ing on past code&nbsp;bases.</p>  <div class="section" id="mutable-objects-and-attributes">
 <h2>Mutable Objects and&nbsp;Attributes</h2>
-<p>This is one of the main rea­sons why I like func­tio­nal pro­gra­m­min­g:&nbsp;i­m­mu­ta­bi­li­ty.</p> 
- <p>In func­tio­nal so­ftwa­re, we would­n&#8217;t be ta­lking about mu­ta­tio­n, be­cau­se su­ch a
-­thing is sim­ply not allo­we­d. But I di­gress. The point is that in most of the
-­so­ftwa­re de­fi­ned wi­th ob­jec­ts, they mu­ta­te, they chan­ge their in­ter­nal sta­te or
-­re­pre­sen­ta­tio­n. It&#8217;s true that we could ha­ve im­mu­ta­ble ob­jec­ts, but tha­t&#8217;s
-u­sua­lly not the&nbsp;ca­se.</p> 
- <p>Con­si­der the fo­llo­wing co­de (s­poi­le­r: the­re is so­me­thing rea­lly wrong wi­th&nbsp;it).</p> 
- <p><a class="reference external" href="../../../listings/subtleties0.py.html">sub­tle­tie­s0.­py</a>    <a class="reference external" href="../../../listings/subtleties0.py">(Sour­ce)</a></p> 
- <pre class="code python3"><a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
+<p>This is one of the main rea­sons why I like func­tion­al pro­gram­ming:&nbsp;im­mutabil­i­ty.</p>  <p>In func­tion­al soft­ware, we would­n&#8217;t be talk­ing about mu­ta­tion, be­cause such a
+thing is sim­ply not al­lowed. But I di­gress. The point is that in most of the
+soft­ware de­fined with ob­ject­s, they mu­tate, they change their in­ter­nal state or
+rep­re­sen­ta­tion. It&#8217;s true that we could have im­mutable ob­ject­s, but that&#8217;s
+usu­al­ly not the&nbsp;case.</p>  <p>Con­sid­er the fol­low­ing code (spoil­er: there is some­thing re­al­ly wrong with&nbsp;it).</p>  <p><a class="reference external" href="../../../listings/subtleties0.py.html">sub­tleties0.py</a>    <a class="reference external" href="../../../listings/subtleties0.py">(Source)</a></p>  <pre class="code python3"><a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
 <a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-2"></a><span class="kn">import</span> <span class="nn">logging</span>
 <a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-3"></a>
 <a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-4"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -152,16 +143,14 @@ u­sua­lly not the&nbsp;ca­se.</p>
 <a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-18"></a>    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
 <a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-19"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"running </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
 </pre>
-<p>When tr­ying to use dic­tio­na­ries to pa­ss ke­yword ar­gu­men­ts, it mi­ght be temp­tin­g
-­to mu­ta­te them in or­der to adapt it to the sig­na­tu­re of the func­tion we want to­
-­ca­ll. But be­fo­re mu­ta­ting an ob­jec­t, we should thi­nk on it&#8217;s sco­pe and the
-­con­se­quen­ces this mu­ta­tion wi­ll&nbsp;brin­g.</p> 
- <p>In this ca­se, the dic­tio­na­ry that the me­thod mu­ta­tes be­longs to the cla­ss.
-­Chan­ging it, wi­ll chan­ge the cla­ss. After it has been mu­tate­d, the de­faul­t
-­va­lues wi­ll re­main from the last ti­me it was up­date­d. Mo­reo­ve­r, sin­ce this
-­dic­tio­na­ry be­longs to the cla­ss, all ins­tan­ces (in­clu­ding new ones), wi­ll ca­rr­y
-on wi­th&nbsp;this:</p> 
- <pre class="code python3"><a name="rest_code_bee6ce04cac1400b838cba247cf491ad-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+<p>When try­ing to use dic­tio­nar­ies to pass key­word ar­gu­ments, it might be tempt­ing
+to mu­tate them in or­der to adapt it to the sig­na­ture of the func­tion we want to
+cal­l. But be­fore mu­tat­ing an ob­jec­t, we should think on it&#8217;s scope and the
+con­se­quences this mu­ta­tion will&nbsp;bring.</p>  <p>In this case, the dic­tio­nary that the method mu­tates be­longs to the class.
+Chang­ing it, will change the class. Af­ter it has been mu­tat­ed, the de­fault
+val­ues will re­main from the last time it was up­dat­ed. More­over, since this
+dic­tio­nary be­longs to the class, all in­stances (in­clud­ing new ones), will car­ry
+on with&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_bee6ce04cac1400b838cba247cf491ad-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
 <a name="rest_code_bee6ce04cac1400b838cba247cf491ad-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">)</span>
 <a name="rest_code_bee6ce04cac1400b838cba247cf491ad-3"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 <a name="rest_code_bee6ce04cac1400b838cba247cf491ad-4"></a>
@@ -178,51 +167,36 @@ on wi­th&nbsp;this:</p>
 <a name="rest_code_bee6ce04cac1400b838cba247cf491ad-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">new_query</span><span class="o">.</span><span class="n">PARAMETERS</span>
 <a name="rest_code_bee6ce04cac1400b838cba247cf491ad-16"></a><span class="p">{</span><span class="s1">'limit'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'offset'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 </pre>
-<p>As we can ob­ser­ve, this is not what we wan­t, and it&#8217;s ex­tre­me­ly&nbsp;fra­gi­le.</p> 
- <p>He­re are so­me ge­ne­ral&nbsp;re­co­m­men­da­tion­s:</p> 
- <ol class="arabic simple">
-<li><p>Do­­n&#8217;t chan­­ge mu­­ta­­ble ob­­je­c­­ts pa­ss­ed by pa­­ra­­me­­ter to fun­c­­tio­n­s. Crea­­te new
-­­co­­­pies of the ob­­je­c­­ts whe­­ne­­ver po­­s­­si­­ble, and re­­turn them&nbsp;ac­­co­r­­di­n­­gl­­y.</p></li> 
- <li><p>Do­­n&#8217;t mu­­ta­­te cla­ss&nbsp;attri­­bu­­tes.</p></li> 
- <li><p>Try not to set mu­­ta­­ble ob­­je­c­­ts as cla­ss&nbsp;attri­­bu­­tes.</p></li> 
- </ol>
-<p>Nee­d­le­ss to sa­y, the­re are ex­cep­tions to the­se ru­le­s, after all  <em>prag­ma­tis­m
-­bea­ts pu­ri­ty</em>. He­re are so­me ob­vious ex­cep­tions to the­se ru­les  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>:&nbsp;:</p> 
- <ul class="simple">
-<li><p>For item 1, we alwa­ys ha­ve to con­si­der the tra­de-o­ff me­mo­r­y/s­pee­d. If the
-ob­ject it&#8217;s too big (perhaps a lar­ge dic­tio­na­r­y), run­nin­g
- <code>co­p­y.­deep­co­p­y()</code>  on it wi­ll be slo­w, and it wi­ll take a lot of me­mo­r­y,
-­so it&#8217;s pro­ba­bly fas­ter to just mo­di­fy it in&nbsp;pla­ce.</p></li> 
- <li><p>The ob­­vious ex­­ce­p­­tion for ru­­le [2] is when using des­­cri­p­­to­r­s, but be­­­cau­se
-i­­t&#8217;s like­­ly an sce­­na­­rio on whi­­ch we are coun­­ting on that si­­de effe­c­­t. Othe­­r
-­­than tha­­t, the­­re shoul­d­n&#8217;t be any rea­­son to go on su­­ch a dan­­ge­­rous&nbsp;pa­­th.</p></li> 
- <li><p>Ru­­le [3] shoul­d­n&#8217;t be a pro­­­blem if the attri­­bu­­tes are rea­­d-o­n­­l­­y, and we&#8217;­­re
-­­su­­re they are ne­­ver going to be mu­­ta­te­­d. In that ca­se, se­­tting di­c­­tio­­­na­­rie­s
-and lis­­ts as cla­ss attri­­bu­­tes, mi­­ght be fi­­ne, but I&#8217;m on­­ly wo­­­rried about the
-­­fact that even thou­­gh you can be su­­re that ri­­ght now the­­re is no me­­tho­­­d
-­­mu­­ta­­ting the­­m, you can&#8217;t as­­su­­re no­­­body wi­­ll break that ru­­le in the&nbsp;fu­­tu­­re.</p></li> 
- </ul>
+<p>As we can ob­serve, this is not what we wan­t, and it&#8217;s ex­treme­ly&nbsp;frag­ile.</p>  <p>Here are some gen­er­al&nbsp;rec­om­men­da­tion­s:</p>  <ol class="arabic simple">
+<li><p>Don&#8217;t change mu­­ta­ble ob­­jects passed by pa­ram­e­ter to func­­tion­s. Cre­ate new
+copies of the ob­­jects when­ev­er pos­si­ble, and re­­turn them&nbsp;ac­­cord­ing­­ly.</p></li>  <li><p>Don&#8217;t mu­­tate class&nbsp;at­tributes.</p></li>  <li><p>Try not to set mu­­ta­ble ob­­jects as class&nbsp;at­tributes.</p></li>  </ol>
+<p>Need­less to say, there are ex­cep­tions to these rules, af­ter all  <em>prag­ma­tism
+beats pu­ri­ty</em>. Here are some ob­vi­ous ex­cep­tions to these rules  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>:&nbsp;:</p>  <ul class="simple">
+<li><p>For item 1, we al­ways have to con­sid­er the trade-off mem­o­ry/speed. If the
+ob­ject it&#8217;s too big (per­haps a large dic­tio­nary), run­ning <code>copy­.deep­copy­()</code>  on it will be slow, and it will take a lot of mem­o­ry,
+so it&#8217;s prob­a­bly faster to just mod­i­fy it in&nbsp;place.</p></li>  <li><p>The ob­vi­ous ex­­cep­­tion for rule [2] is when us­ing de­scrip­­tors, but be­­cause
+it&#8217;s like­­ly an sce­­nario on which we are coun­t­ing on that side ef­fec­t. Oth­­er
+than that, there should­n&#8217;t be any rea­­son to go on such a dan­ger­ous&nbsp;path.</p></li>  <li><p>Rule [3] should­n&#8217;t be a prob­lem if the at­tributes are read­­-on­­ly, and we&#8217;re
+sure they are nev­er go­ing to be mu­­tat­ed. In that case, set­t­ing dic­­tio­­nar­ies
+and lists as class at­tributes, might be fine, but I&#8217;m on­­ly wor­ried about the
+fact that even though you can be sure that right now there is no method
+mu­­tat­ing them, you can&#8217;t as­­sure no­­body will break that rule in the&nbsp;fu­­ture.</p></li>  </ul>
 </div>
 <div class="section" id="iterators">
 <h2>Iterators</h2>
-<p>The ite­ra­tor pro­to­col in Py­thon is a great fea­tu­re. It allo­ws us to treat an
-en­ti­re set of ob­jec­ts by their be­ha­viour re­gard­le­ss of their in­ter­na­l&nbsp;­re­pre­sen­ta­tio­n.</p> 
- <p>For ins­tan­ce we can wri­te a co­de&nbsp;like:</p> 
- <pre class="code python3"><a name="rest_code_d8cde3f7d8de45b5858d49bafc8bab8a-1"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myiterable</span><span class="p">:</span> <span class="o">...</span>
+<p>The it­er­a­tor pro­to­col in Python is a great fea­ture. It al­lows us to treat an
+en­tire set of ob­jects by their be­hav­iour re­gard­less of their in­ter­nal&nbsp;rep­re­sen­ta­tion.</p>  <p>For in­stance we can write a code&nbsp;like:</p>  <pre class="code python3"><a name="rest_code_d8cde3f7d8de45b5858d49bafc8bab8a-1"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myiterable</span><span class="p">:</span> <span class="o">...</span>
 </pre>
 <p>And we don&#8217;t know exactly what <code class="docutils literal">myiterable</code> is. It might be a list, a tuple,
 a dictionary, a string, and it will still&nbsp;work.</p>
-<p>We can al­so re­ly on all me­tho­ds that use this&nbsp;pro­to­co­l,</p> 
- <pre class="code python3"><a name="rest_code_c0145262006b48c6af03a4cec5add57b-1"></a><span class="n">mylist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myiterable</span><span class="p">)</span>
+<p>We can al­so re­ly on all meth­ods that use this&nbsp;pro­to­col,</p>  <pre class="code python3"><a name="rest_code_c0145262006b48c6af03a4cec5add57b-1"></a><span class="n">mylist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myiterable</span><span class="p">)</span>
 </pre>
 <p>Of course <code class="docutils literal">mylist</code> has to be a list, but again <code class="docutils literal">myiterable</code> can be anything
 that can be iterated&nbsp;over.</p>
-<p>Un­for­tu­na­te­l­y, this ama­zing fea­tu­re it&#8217;s al­so the cau­se of so­me sub­tle&nbsp;hea­da­che­s.</p> 
- <p>A long ti­me ago, I re­mem­ber hea­ring a com­plaint from a co­-wo­rker sa­ying that a
-­part of the co­de was par­ti­cu­lar­ly slo­w. The co­de in ques­tion was a func­tio­n
-­that was su­ppo­sed to pro­ce­ss and then mo­ve fi­les to a gi­ven tar­get di­rec­to­r­y.
-­You can ima­gi­ne so­me­thing like&nbsp;this:</p> 
- <pre class="code python3"><a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
+<p>Un­for­tu­nate­ly, this amaz­ing fea­ture it&#8217;s al­so the cause of some sub­tle&nbsp;headaches.</p>  <p>A long time ago, I re­mem­ber hear­ing a com­plaint from a co-­work­er say­ing that a
+part of the code was par­tic­u­lar­ly slow. The code in ques­tion was a func­tion
+that was sup­posed to process and then move files to a giv­en tar­get di­rec­to­ry.
+You can imag­ine some­thing like&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
 <a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
 <a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-3"></a>        <span class="c1"># ...</span>
 <a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
@@ -234,8 +208,7 @@ exactly (a tuple, a list,&nbsp;etc.)</p>
 file, let&#8217;s say <code class="docutils literal">/home/ubuntu/foo</code>, each character will be iterated over,
 starting with <code class="docutils literal">/</code> (the root directory), following with <code class="docutils literal">h</code>, etc. That&#8217;s why
 the programs was slow. It was copying the entire file&nbsp;system!</p>
-<p>The so­lu­tion is to use a be­tter in­ter­fa­ce, that di­sa­llow the­se errors&nbsp;en­ti­re­l­y:</p> 
- <pre class="code python3"><a name="rest_code_0b3c524b00e54259956b3f707db4cac3-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="o">*</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
+<p>The so­lu­tion is to use a bet­ter in­ter­face, that dis­al­low these er­rors&nbsp;en­tire­ly:</p>  <pre class="code python3"><a name="rest_code_0b3c524b00e54259956b3f707db4cac3-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="o">*</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
 <a name="rest_code_0b3c524b00e54259956b3f707db4cac3-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
 <a name="rest_code_0b3c524b00e54259956b3f707db4cac3-3"></a>        <span class="c1"># ...</span>
 <a name="rest_code_0b3c524b00e54259956b3f707db4cac3-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
@@ -247,22 +220,18 @@ be keyword-only, which is more explicit as&nbsp;well.</p>
 </div>
 <div class="section" id="closing-words">
 <h2>Closing&nbsp;words</h2>
-<p>I ho­pe you en­jo­yed the con­ten­t, and that you got an idea of how cri­ti­cal so­me
-­de­tails can&nbsp;be.</p> 
- <p>The real va­lue of clean co­de is to avoid di­sas­ter­s. To­pi­cs like the­se ones (an­d
-­mo­re), are co­ve­red in  <a class="reference external" href="https://www.amazon.com/Clean-Code-Python-Refactor-legacy/dp/1788835832">my la­test ti­tle</a>,
-s­hould the rea­der be&nbsp;in­te­res­te­d.</p> 
- <dl class="footnote brackets">
+<p>I hope you en­joyed the con­tent, and that you got an idea of how crit­i­cal some
+de­tails can&nbsp;be.</p>  <p>The re­al val­ue of clean code is to avoid dis­as­ter­s. Top­ics like these ones (and
+more), are cov­ered in  <a class="reference external" href="https://www.amazon.com/Clean-Code-Python-Refactor-legacy/dp/1788835832">my lat­est ti­tle</a>,
+should the read­er be&nbsp;in­ter­est­ed.</p>  <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>I&#8217;m not exa­gge­ra­ting when I say di­sas­te­r. The­re are many fa­mous exam­ple­s
-of cras­hes in so­ftwa­re as a re­sult of edge ca­ses, or errors that can be­
-­na­rro­wed do­wn to a sin­gle li­ne of&nbsp;co­de.</p> 
- </dd>
+<p>I&#8217;m not ex­ag­ger­at­ing when I say dis­as­ter. There are many fa­mous ex­am­ples
+of crash­es in soft­ware as a re­sult of edge cas­es, or er­rors that can be
+nar­rowed down to a sin­gle line of&nbsp;code.</p>  </dd>
 <dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p>The list is by no means&nbsp;exhaus­ti­ve.</p> 
- </dd>
+<p>The list is by no means&nbsp;ex­haus­tive.</p>  </dd>
 </dl>
 </div>
 </div>

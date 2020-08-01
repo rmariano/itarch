@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/beyond-coverage/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../pycon-cz-day-3/" title="PyCon CZ - Day 3" type="text/html">
@@ -18,8 +18,8 @@
 <meta property="og:title" content="Beyond coverage">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/beyond-coverage/">
 <meta property="og:description" content="It looks like there are a lot of opin­ions or as­sump­tions about unit tests and
-­code cov­er­age, most of them con­fus­ing of bi­ased in sev­er­al ways. For ex­am­ple,
-I've heard or read things like ">
+code cov­er­age, most of them con­fus­ing of bi­ased in sev­er­al ways. For ex­am­ple,
+I've heard or read things like &quot;">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-07-02T17:20:19+02:00">
 <meta property="article:tag" content="best-practices">
@@ -36,7 +36,7 @@ I've heard or read things like ">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -70,7 +70,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -111,35 +111,30 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>It looks like there are a lot of opin­ions or as­sump­tions about unit tests and
-­code cov­er­age, most of them con­fus­ing of bi­ased in sev­er­al ways. For ex­am­ple,
+code cov­er­age, most of them con­fus­ing of bi­ased in sev­er­al ways. For ex­am­ple,
 I&#8217;ve heard or read things like &#8220;this is fine, it has X% cov­er­age&#8221;, or &#8220;check­ing
-­for cov­er­age on pull re­quests does­n&#8217;t help&#8221;, or &#8220;drop­ping the cov­er­age lev­el is
-not an is­sue&#8221;, and many more of the&nbsp;like.</p> 
- <p>This ar­ti­cle aims to shed some light on the is­sue of unit test­ing with and code
-­cov­er­age. Hope­ful­ly by the end of it, we&#8217;ll get an idea of which of the
-pre­vi­ous state­ments are right and which are wrong (spoil­er alert: they&#8217;re al­l
-wrong, but for dif­fer­ent&nbsp;rea­son­s).</p> 
- <!-- TEASER_END -->
+for cov­er­age on pull re­quests does­n&#8217;t help&#8221;, or &#8220;drop­ping the cov­er­age lev­el is
+not an is­sue&#8221;, and many more of the&nbsp;like.</p>  <p>This ar­ti­cle aims to shed some light on the is­sue of unit test­ing with and code
+cov­er­age. Hope­ful­ly by the end of it, we&#8217;ll get an idea of which of the
+pre­vi­ous state­ments are right and which are wrong (spoil­er alert: they&#8217;re all
+wrong, but for dif­fer­ent&nbsp;rea­son­s).</p>  <!-- TEASER_END -->
 <div class="section" id="it-s-not-a-metric">
 <h2>It&#8217;s not a&nbsp;metric</h2>
 <p>I pret­ty much agree with Mar­tin Fowler here  <a class="footnote-reference brackets" href="#id6" id="id1">1</a>, about the fact that test
-­cov­er­age is not a met­ric that in­di­cates how good we are do­ing in terms of
+cov­er­age is not a met­ric that in­di­cates how good we are do­ing in terms of
 test­ing, but just a ref­er­ence in or­der to iden­ti­fy parts of the code that need
-­to be&nbsp;test­ed.</p> 
- <p>This leads me to the idea that cov­er­age is not a goal, or and end­ing point, but
-just the start­ing&nbsp;point.</p> 
- <p>What I mean by this is that imag­ine that you find in the cov­er­age re­port, that
-­some lines are not be­ing ex­er­cised, for ex­am­ple there are two func­tions that
+to be&nbsp;test­ed.</p>  <p>This leads me to the idea that cov­er­age is not a goal, or and end­ing point, but
+just the start­ing&nbsp;point.</p>  <p>What I mean by this is that imag­ine that you find in the cov­er­age re­port, that
+some lines are not be­ing ex­er­cised, for ex­am­ple there are two func­tions that
 lack test­ing. Good head start, now we can write tests for them. Now you go on
 and write a test for the first one. Af­ter that, you run the tests again, and
 the cov­er­age in­creased: the first func­tion is now cov­ered, so those lines no
-­longer ap­pear as miss­ing in the re­port. Now you might be think­ing on mov­ing on
-­to writ­ing tests for the sec­ond func­tion. That&#8217;s the trap. Test­ing should not
+longer ap­pear as miss­ing in the re­port. Now you might be think­ing on mov­ing on
+to writ­ing tests for the sec­ond func­tion. That&#8217;s the trap. Test­ing should not
 stop there. What about the rest of the tests sce­nar­ios for that first func­tion?
 What about test­ing with more in­put, dif­fer­ent com­bi­na­tions of pa­ram­e­ter­s, side
-­ef­fect­s, and more? That&#8217;s why it&#8217;s not a goal: we should­n&#8217;t stop test­ing on­ce
-we&#8217;ve sat­is­fied the miss­ing lines on the&nbsp;re­port.</p> 
- <p>Another reason why reaching 100% coverage it&#8217;s not a valid goal, is because
+ef­fect­s, and more? That&#8217;s why it&#8217;s not a goal: we should­n&#8217;t stop test­ing once
+we&#8217;ve sat­is­fied the miss­ing lines on the&nbsp;re­port.</p>  <p>Another reason why reaching 100% coverage it&#8217;s not a valid goal, is because
 sometimes is unachievable. There are parts of the code that respond to
 <em>defensive programming</em> <a class="footnote-reference brackets" href="#id10" id="id2">5</a>, and have some statements like <code>assert(0)</code>
 for unreachable conditions, which logically, if the code works correctly, will
@@ -149,9 +144,8 @@ run, works as a way of making the code to &#8220;self-testable&#8221;, so to&nbs
 <div class="section" id="necessity-and-sufficiency">
 <h2>Necessity and&nbsp;sufficiency</h2>
 <p>And even if we reach that un­re­al­is­tic goal: what does it mean to have 100% code
-­cov­er­age on unit test­s? Can we re­ly on that to say that the code is ful­ly
-test­ed, and there are no bugs? Ab­so­lute­ly&nbsp;not.</p> 
- <p>Here I am not even talking about path coverage (sometimes referred to as
+cov­er­age on unit test­s? Can we re­ly on that to say that the code is ful­ly
+test­ed, and there are no bugs? Ab­so­lute­ly&nbsp;not.</p>  <p>Here I am not even talking about path coverage (sometimes referred to as
 <em>multiple condition coverage</em>). To clarify, it&#8217;s known that covering all
 branches does not mean the program will run just fine. Even with functional
 (manual or automated) testing. Suppose that we&#8217;re completely sure all paths are
@@ -165,33 +159,27 @@ security? You get the point, the list of possible failure scenarios, is&nbsp;inf
 <p>Putting those con­sid­er­a­tions aside, the crux ques­tion is: can unit tests prove
 the log­ic (a­gain, not be­hav­iour in run­time, just the log­ic), to be cor­rec­t? No,
 be­cause, even with all state­ments anal­ysed, there is still the pos­si­bil­i­ty that
-things are left&nbsp;out.</p> 
- <p>To put it in an­oth­er way: if the cov­er­age is low­er than to­tal, then as­sume
+things are left&nbsp;out.</p>  <p>To put it in an­oth­er way: if the cov­er­age is low­er than to­tal, then as­sume
 there are things that will go south (the fa­mous &#8220;code with­out tests is bro­ken
-­by de­sign&#8221;). If ev­ery­thing is cov­ered, then for in­ter­pret­ed lan­guages (like
+by de­sign&#8221;). If ev­ery­thing is cov­ered, then for in­ter­pret­ed lan­guages (like
 Python), it means some­thing like &#8220;<em>it com­piles</em>&#8220;. It&#8217;s  <em>syn­tac­ti­cal­ly</em>  cor­rec­t,
 which does­n&#8217;t mean it&#8217;s  <em>se­man­ti­cal­ly</em>  cor­rec­t. For com­piled lan­guages, here I
 see lit­tle gain, ex­cept for the mere fact that checks at a very ba­sic lev­el
-that the code will&nbsp;run.</p> 
- </div>
+that the code will&nbsp;run.</p>  </div>
 <div class="section" id="a-high-coverage-is-not-enough">
 <h2>A high coverage is not&nbsp;enough</h2>
 <p>There is an­oth­er in­ter­est­ing idea about cov­er­age, nice­ly il­lus­trat­ed in the
-­pa­per &#8220;how to mis­use tests cov­er­age&#8221;  <a class="footnote-reference brackets" href="#id7" id="id3">2</a>, which is that  <em>code cov­er­age can
+pa­per &#8220;how to mis­use tests cov­er­age&#8221;  <a class="footnote-reference brackets" href="#id7" id="id3">2</a>, which is that  <em>code cov­er­age can
 on­ly tell about the code that is there</em>. There­fore, it can&#8217;t tell any­thing
 about po­ten­tial bugs that due to  <em>miss­ing code</em>. It can&#8217;t de­tect  <em>faults of
-omis­sion</em>.</p> 
- <p>On the oth­er hand, if in­stead of be­ing just guid­ed by the test cov­er­age, we
+omis­sion</em>.</p>  <p>On the oth­er hand, if in­stead of be­ing just guid­ed by the test cov­er­age, we
 ac­tu­al­ly think about the test sce­nar­ios that are rel­e­vant for a unit of code,
 we&#8217;ll start think­ing on new pos­si­bil­i­ties, in­put­s, and com­bi­na­tions that will
-­log­i­cal­ly lead to these faults be­ing dis­cov­ered, and as a re­sult of that, the
-­cor­rec­tive code will be in­clud­ed. This is the key point: not just to set­tle for
+log­i­cal­ly lead to these faults be­ing dis­cov­ered, and as a re­sult of that, the
+cor­rec­tive code will be in­clud­ed. This is the key point: not just to set­tle for
 a high cov­er­age, but for hav­ing a bat­tery of mean­ing­ful tests that cov­er
-rel­e­vant sce­nar­ios, in­stead of lines of&nbsp;code.</p> 
- <div class="admonition tip">
-<p class="admonition-title">Tip</p> 
- <p>Cov­er sce­nar­ios, not lines of&nbsp;code.</p> 
- </div>
+rel­e­vant sce­nar­ios, in­stead of lines of&nbsp;code.</p>  <div class="admonition tip">
+<p class="admonition-title">Tip</p>  <p>Cov­er sce­nar­ios, not lines of&nbsp;code.</p>  </div>
 <p>The truth is that software is complex. Really complex. There are a lot of
 things that can go wrong. Therefore, tests are a fundamental tool to at least
 ensure a degree of quality. It is logical to think that for each line of code
@@ -217,45 +205,36 @@ something general to all programming languages. It&#8217;s just the reality of
 software. This is what it takes to build reliable&nbsp;software.</p>
 <p>Now, with this idea in mind, know­ing that we must have many more lines of
 test­ing code than pro­duc­tive code, be­cause each pos­si­ble func­tion can have
-­mul­ti­ple out­comes, and has to be ex­er­cised un­der mul­ti­ple sce­nar­ios (val­i­da­tion
+mul­ti­ple out­comes, and has to be ex­er­cised un­der mul­ti­ple sce­nar­ios (val­i­da­tion
 of in­put, com­bi­na­tion of its in­ter­nal con­di­tion­s, and more), it be­comes clear,
 that cov­er­age does not mean that the code is thought­ful­ly test­ed at al­l. It
 then be­comes ev­i­dent that cov­er­age is not the end, but the be­gin­ning of
-test­ing: once we&#8217;ve iden­ti­fied the lines that need to be checked, the test­s
-­won&#8217;t stop once they&#8217;ve been cov­ered, they should stop once all pos­si­ble
-s­ce­nar­ios have been prop­er­ly ver­i­fied. It al­so be­comes ev­i­dent that is ex­pect­ed
-­to have many more times test­ing lines than main&nbsp;ones.</p> 
- <div class="admonition tip">
-<p class="admonition-title">Tip</p> 
- <p>Don&#8217;t re­ly on cov­er­age. Re­ly on though­ful&nbsp;test­ing.</p> 
- </div>
+test­ing: once we&#8217;ve iden­ti­fied the lines that need to be checked, the tests
+won&#8217;t stop once they&#8217;ve been cov­ered, they should stop once all pos­si­ble
+sce­nar­ios have been prop­er­ly ver­i­fied. It al­so be­comes ev­i­dent that is ex­pect­ed
+to have many more times test­ing lines than main&nbsp;ones.</p>  <div class="admonition tip">
+<p class="admonition-title">Tip</p>  <p>Don&#8217;t re­ly on cov­er­age. Re­ly on though­ful&nbsp;test­ing.</p>  </div>
 </div>
 <div class="section" id="slides">
 <h2>Slides</h2>
-<p>This idea was pre­sent­ed in a light­ning talk at  <a class="reference external" href="https://ep2017.europython.eu/en/">Eu­roPy­thon 2017</a>, on Mon­day 10 of Ju­ly. Here are the&nbsp;s­lides.</p> 
- <script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script><dl class="footnote brackets">
+<p>This idea was pre­sent­ed in a light­ning talk at  <a class="reference external" href="https://ep2017.europython.eu/en/">Eu­roPy­thon 2017</a>, on Mon­day 10 of Ju­ly. Here are the&nbsp;slides.</p>  <script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script><dl class="footnote brackets">
 <dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://martinfowler.com/bliki/TestCoverage.html">http­s://­mart­in­fowler.­com/b­lik­i/Test­Cov­er­age.html</a></p> 
- </dd>
+<p><a class="reference external" href="https://martinfowler.com/bliki/TestCoverage.html">http­s://­mart­in­fowler.­com/b­lik­i/Test­Cov­er­age.html</a></p>  </dd>
 <dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
 <dd>
 <p><span class="dquo">&#8220;</span>How to mis­use test cov­er­age&#8221; - Bri­an Mar­ick  <a class="reference external" href="http://www.exampler.com/testing-com/writings/coverage.pdf">http://www.ex­am­pler.­com/test­ing-­com/writ­ings/­cov­er­age.pdf</a> 
 This is an ex­cel­lent pa­per, that dis­cuss­es some im­por­tant points about
-test&nbsp;cov­er­age.</p> 
- </dd>
+test&nbsp;cov­er­age.</p>  </dd>
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://sqlite.org/testing.html">http­s://sqlite.org/test­ing.html</a></p> 
- </dd>
+<p><a class="reference external" href="https://sqlite.org/testing.html">http­s://sqlite.org/test­ing.html</a></p>  </dd>
 <dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
 <dd>
-<p>1 KLOC means 1000 lines of&nbsp;code</p> 
- </dd>
+<p>1 KLOC means 1000 lines of&nbsp;code</p>  </dd>
 <dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id2">5</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://en.wikipedia.org/wiki/Defensive_programming">http­s://en.wikipedi­a.org/wik­i/De­fen­sive_pro­gram­ming</a></p> 
- </dd>
+<p><a class="reference external" href="https://en.wikipedia.org/wiki/Defensive_programming">http­s://en.wikipedi­a.org/wik­i/De­fen­sive_pro­gram­ming</a></p>  </dd>
 </dl>
 </div>
 </div>

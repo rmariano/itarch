@@ -9,8 +9,8 @@
 <link href="../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/listings/subtleties0.py.html">
 <!--[if lt IE 9]><script src="../assets/js/html5.js"></script><![endif]-->
 </head>
@@ -23,7 +23,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -57,7 +57,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -86,48 +86,107 @@ navbar-dark bg-dark
 </ul></nav><h1>subtleties0.py
         <small><a href="subtleties0.py">(Source)</a></small>
     </h1>
-    <table class="codetable"><tr>
-<td class="linenos"><div class="linenodiv"><pre><a href="#listingssubtleties0py-1"> 1</a>
-<a href="#listingssubtleties0py-2"> 2</a>
-<a href="#listingssubtleties0py-3"> 3</a>
-<a href="#listingssubtleties0py-4"> 4</a>
-<a href="#listingssubtleties0py-5"> 5</a>
-<a href="#listingssubtleties0py-6"> 6</a>
-<a href="#listingssubtleties0py-7"> 7</a>
-<a href="#listingssubtleties0py-8"> 8</a>
-<a href="#listingssubtleties0py-9"> 9</a>
-<a href="#listingssubtleties0py-10">10</a>
-<a href="#listingssubtleties0py-11">11</a>
-<a href="#listingssubtleties0py-12">12</a>
-<a href="#listingssubtleties0py-13">13</a>
-<a href="#listingssubtleties0py-14">14</a>
-<a href="#listingssubtleties0py-15">15</a>
-<a href="#listingssubtleties0py-16">16</a>
-<a href="#listingssubtleties0py-17">17</a>
-<a href="#listingssubtleties0py-18">18</a>
-<a href="#listingssubtleties0py-19">19</a></pre></div></td>
-<td class="code"><pre class="code literal-block"><a name="listingssubtleties0py-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
-<a name="listingssubtleties0py-2"></a><span class="kn">import</span> <span class="nn">logging</span>
-<a name="listingssubtleties0py-3"></a>
-<a name="listingssubtleties0py-4"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<a name="listingssubtleties0py-5"></a>
-<a name="listingssubtleties0py-6"></a>
-<a name="listingssubtleties0py-7"></a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
-<a name="listingssubtleties0py-8"></a>    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-<a name="listingssubtleties0py-9"></a>
-<a name="listingssubtleties0py-10"></a>    <span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<a name="listingssubtleties0py-11"></a>        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a name="listingssubtleties0py-12"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
-<a name="listingssubtleties0py-13"></a>        <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a name="listingssubtleties0py-14"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
-<a name="listingssubtleties0py-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">)</span>
-<a name="listingssubtleties0py-16"></a>
-<a name="listingssubtleties0py-17"></a>    <span class="nd">@staticmethod</span>
-<a name="listingssubtleties0py-18"></a>    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
-<a name="listingssubtleties0py-19"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"running </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
-</pre></td>
-</tr></table>
-<!--End of body content--><footer id="footer">
+    <div class="code"><table class="codetable">
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-1"><code data-line-number=" 1"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-2"><code data-line-number=" 2"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-2"></a><span class="kn">import</span> <span class="nn">logging</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-3"><code data-line-number=" 3"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-3"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-4"><code data-line-number=" 4"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-4"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-5"><code data-line-number=" 5"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-5"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-6"><code data-line-number=" 6"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-6"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-7"><code data-line-number=" 7"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-7"></a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-8"><code data-line-number=" 8"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-8"></a>    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-9"><code data-line-number=" 9"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-9"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-10"><code data-line-number="10"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-10"></a>    <span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-11"><code data-line-number="11"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-11"></a>        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-12"><code data-line-number="12"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-12"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-13"><code data-line-number="13"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-13"></a>        <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-14"><code data-line-number="14"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-14"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-15"><code data-line-number="15"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">)</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-16"><code data-line-number="16"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-16"></a>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-17"><code data-line-number="17"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-17"></a>    <span class="nd">@staticmethod</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-18"><code data-line-number="18"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-18"></a>    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+</code></td>
+</tr>
+<tr>
+<td class="linenos linenodiv"><a href="#listingssubtleties0py-19"><code data-line-number="19"></code></a></td>
+<td class="code"><code><a name="listingssubtleties0py-19"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"running </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+</code></td>
+</tr>
+</table></div>
+
+        <!--End of body content-->
+
+        <footer id="footer">
             Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution

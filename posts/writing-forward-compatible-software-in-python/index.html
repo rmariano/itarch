@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../presentations-with-revealjs/" title="Presentations with reveal.js" type="text/html">
@@ -18,8 +18,8 @@
 <meta property="og:title" content="Writing forward-compatible software in Python">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/writing-forward-compatible-software-in-python/">
 <meta property="og:description" content="Python 3 is the fu­ture of Python. How­ev­er there might be a prob­lem in the
-­com­mu­ni­ty if both Python 3 and 2 co­ex­ist. The for­mer one was great and
-bril­liant, but it is time to start writ­ing">
+com­mu­ni­ty if both Python 3 and 2 co­ex­ist. The for­mer one was great and
+bril­liant, but it is time to start writ­ing ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-08-28T21:14:43-03:00">
 <meta property="article:tag" content="python">
@@ -34,7 +34,7 @@ bril­liant, but it is time to start writ­ing">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -68,7 +68,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -109,39 +109,33 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>Python 3 is the fu­ture of Python. How­ev­er there might be a prob­lem in the
-­com­mu­ni­ty if both Python 3 and 2 co­ex­ist. The for­mer one was great and
+com­mu­ni­ty if both Python 3 and 2 co­ex­ist. The for­mer one was great and
 bril­liant, but it is time to start writ­ing soft­ware in the new ver­sion in or­der
-­to move to­wards new fea­tures and&nbsp;im­prove­ments.</p> 
- <p>Let&#8217;s start by the be­gin­ning. One of the rea­sons I al­ways pre­ferred Python over
+to move to­wards new fea­tures and&nbsp;im­prove­ments.</p>  <p>Let&#8217;s start by the be­gin­ning. One of the rea­sons I al­ways pre­ferred Python over
 the rest of the pro­gram­ming lan­guages is be­cause it is more ad­vanced, mean­ing
 that in­clud­ed many con­cepts that oth­er lan­guages did not. For ex­am­ple, think of
 how ear­ly Python adopt­ed ideas like lamb­da func­tion­s, dy­nam­ic typ­ing,
-­duck typ­ing, con­text man­ager­s, meta­class­es and so on, while oth­er tech­nolo­gies
-(­name­ly Java, C++ for ex­am­ple  <a class="footnote-reference brackets" href="#id2" id="id1">1</a>) were still us­ing da­ta struc­tures and call­ing
-them &#8220;ob­ject­s&#8221;. Python has al­ways been many steps&nbsp;ahead.</p> 
- <p>Great news are that this is no over: Python is still im­prov­ing at a fast pace.
+duck typ­ing, con­text man­ager­s, meta­class­es and so on, while oth­er tech­nolo­gies
+(name­ly Java, C++ for ex­am­ple  <a class="footnote-reference brackets" href="#id2" id="id1">1</a>) were still us­ing da­ta struc­tures and call­ing
+them &#8220;ob­ject­s&#8221;. Python has al­ways been many steps&nbsp;ahead.</p>  <p>Great news are that this is no over: Python is still im­prov­ing at a fast pace.
 And that is pre­cise­ly the is­sue with Python 3. As a re­sult of that
 evo­lu­tion, the new ver­sion of Python must change some of its in­ter­nals in or­der
-­to prop­er­ly im­ple­ment new fea­tures, and this is what lead it to be in­com­pat­i­ble
-with ear­li­er ver­sion­s, which should not be a prob­lem. But it seems it&nbsp;is.</p> 
- <p>Some de­vel­op­ers do not like the new re­lease, and they are not keen on mi­grat­ing
+to prop­er­ly im­ple­ment new fea­tures, and this is what lead it to be in­com­pat­i­ble
+with ear­li­er ver­sion­s, which should not be a prob­lem. But it seems it&nbsp;is.</p>  <p>Some de­vel­op­ers do not like the new re­lease, and they are not keen on mi­grat­ing
 the code base. They ar­gue that Python 3
 &#8220;is wrong&#8221; be­cause it is not  <em>back­wards</em>  com­pat­i­ble, but my ques­tion here is
 why are we think­ing  <em>back­wards</em>  in­stead of  <em>for­wards</em>.
 A pro­gram­ming lan­guage as a mod­el or con­cep­t, must evolve, im­prove, so we
-should be think­ing on the fu­ture of the lan­guage rather that on it­s
-­past. I think they are miss­ing the new ideas, the way Python is chang­ing in­
-order to in­cor­po­rate more ef­fi­cient mech­a­nism­s. Per­haps this time, the leap was
-­too&nbsp;big.</p> 
- <p>I think the best for the lan­guage is to adopt its new ver­sion, and do not think
+should be think­ing on the fu­ture of the lan­guage rather that on its
+past. I think they are miss­ing the new ideas, the way Python is chang­ing in
+or­der to in­cor­po­rate more ef­fi­cient mech­a­nism­s. Per­haps this time, the leap was
+too&nbsp;big.</p>  <p>I think the best for the lan­guage is to adopt its new ver­sion, and do not think
 of it as a dif­fer­ent one. There­fore, when we say &#8220;Python&#8221;, it should be
-un­der­stood that we are talk­ing about just one sin­gle&nbsp;ver­sion.</p> 
- <dl class="footnote brackets">
+un­der­stood that we are talk­ing about just one sin­gle&nbsp;ver­sion.</p>  <dl class="footnote brackets">
 <dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
 <p>At the time of this writ­ing just the lat­est ver­sion of Ja­va in­cor­po­rat­ed
-lamb­da ex­pres­sion­s, which have been avail­able in Python for many&nbsp;years.</p> 
- </dd>
+lamb­da ex­pres­sion­s, which have been avail­able in Python for many&nbsp;years.</p>  </dd>
 </dl>
 </div>
     </div>

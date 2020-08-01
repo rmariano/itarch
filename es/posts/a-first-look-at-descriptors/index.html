@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/a-first-look-at-descriptors/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../upcoming-talk-at-pycon-cz-2017/" title="Upcoming talk at PyCon CZ 2017" type="text/html">
@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="A first look at descriptors">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/a-first-look-at-descriptors/">
-<meta property="og:description" content="Des­crip­tors are one of the most po­wer­ful fea­tu­res of Py­tho­n. The rea­son wh­y
-­the­y'­re so po­wer­ful is be­cau­se they ena­ble us to con­trol the co­re ope­ra­tion­s
-(­ge­t, se­t, de­le­te) ">
+<meta property="og:description" content="De­scrip­tors are one of the most pow­er­ful fea­tures of Python. The rea­son why
+they're so pow­er­ful is be­cause they en­able us to con­trol the core op­er­a­tions
+(get, set, delete)  1, of an at­t">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-05-06T15:13:48+02:00">
 <meta property="article:tag" content="descriptors">
@@ -36,7 +36,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -70,7 +70,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -110,12 +110,11 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Des­crip­tors are one of the most po­wer­ful fea­tu­res of Py­tho­n. The rea­son wh­y
-­the­y&#8217;­re so po­wer­ful is be­cau­se they ena­ble us to con­trol the co­re ope­ra­tion­s
-(­ge­t, se­t, de­le­te)  <a class="footnote-reference brackets" href="#id5" id="id1">1</a>, of an attri­bu­te in a gi­ven ob­jec­t, so that we can hook
-a par­ti­cu­lar co­de, con­tro­lled by us, in or­der to mo­di­fy, chan­ge, or ex­tend the
-o­ri­gi­nal&nbsp;ope­ra­tio­n.</p> 
- <!-- TEASER_END -->
+<p>De­scrip­tors are one of the most pow­er­ful fea­tures of Python. The rea­son why
+they&#8217;re so pow­er­ful is be­cause they en­able us to con­trol the core op­er­a­tions
+(get, set, delete)  <a class="footnote-reference brackets" href="#id5" id="id1">1</a>, of an at­tribute in a giv­en ob­jec­t, so that we can hook
+a par­tic­u­lar code, con­trolled by us, in or­der to mod­i­fy, change, or ex­tend the
+orig­i­nal&nbsp;op­er­a­tion.</p>  <!-- TEASER_END -->
 <p>A descriptor is an object that implements either <code>__get__</code>,
 <code>__set__</code>, or <code>__delete__</code>.</p>
 <p>As of <code class="docutils literal">Python 3.6+</code> <a class="footnote-reference brackets" href="#id6" id="id2">2</a> the <em>descriptor protocol</em> entails these&nbsp;methods:</p>
@@ -123,23 +122,18 @@ o­ri­gi­nal&nbsp;ope­ra­tio­n.</p>
 __set__(self, instance, value)
 __delete__(self, instance)
 __set_name__(self, instance, name)</pre>
-<p>We&#8217;­ll un­ders­tand be­tter what the pa­ra­me­ters mean, on­ce we&#8217;­ve seen so­me exam­ple­s
-of des­crip­tors and how the­y&#8217;­re&nbsp;us­e­d.</p> 
- <div class="section" id="how-to-use-them">
+<p>We&#8217;ll un­der­stand bet­ter what the pa­ram­e­ters mean, once we&#8217;ve seen some ex­am­ples
+of de­scrip­tors and how they&#8217;re&nbsp;used.</p>  <div class="section" id="how-to-use-them">
 <h2>How to use&nbsp;them</h2>
-<p>In or­der to use des­crip­tors we need at least two cla­sses: one for the
-­des­crip­tor itsel­f, and the cla­ss that is going to use the des­crip­tor ob­jec­ts
-(o­ften re­fe­rred to as the  <em>ma­na­ged cla­ss</em>).</p> 
- <div class="section" id="getting-data">
+<p>In or­der to use de­scrip­tors we need at least two class­es: one for the
+de­scrip­tor it­self, and the class that is go­ing to use the de­scrip­tor ob­jects
+(often re­ferred to as the  <em>man­aged class</em>).</p>  <div class="section" id="getting-data">
 <h3>Getting&nbsp;Data</h3>
-<p>Con­si­der this ba­sic exam­ple on whi­ch I ha­ve a fic­tio­nal ma­na­ger for vi­deo­
-ou­tpu­t, that can hand­le mul­ti­ple de­vi­ce­s. Ea­ch de­vi­ce is set wi­th a par­ti­cu­la­r
-­re­so­lu­tio­n, pro­vi­ded by a use­r. Ho­we­ve­r, if for so­me rea­son one of the de­vi­ce­s
-­does not ha­ve a ren­de­ring re­so­lu­tion se­t, we want to use a de­fault one,
-s­pe­ci­fied on the cla­ss&nbsp;de­fi­ni­tio­n.</p> 
- <p>A po­s­si­ble im­ple­men­ta­tion could look like&nbsp;this.</p> 
- <p><a class="reference external" href="../../../listings/descriptors0_get0.py.html">des­crip­tor­s0_­ge­t0.­py</a>    <a class="reference external" href="../../../listings/descriptors0_get0.py">(Sour­ce)</a></p> 
- <table class="codetable"><tr>
+<p>Con­sid­er this ba­sic ex­am­ple on which I have a fic­tion­al man­ag­er for video
+out­put, that can han­dle mul­ti­ple de­vices. Each de­vice is set with a par­tic­u­lar
+res­o­lu­tion, pro­vid­ed by a us­er. How­ev­er, if for some rea­son one of the de­vices
+does not have a ren­der­ing res­o­lu­tion set, we want to use a de­fault one,
+spec­i­fied on the class&nbsp;def­i­ni­tion.</p>  <p>A pos­si­ble im­ple­men­ta­tion could look like&nbsp;this.</p>  <p><a class="reference external" href="../../../listings/descriptors0_get0.py.html">de­scrip­tors0_get0.py</a>    <a class="reference external" href="../../../listings/descriptors0_get0.py">(Source)</a></p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_2cd1fcb796064bbf8d67e100290c4e1e-1"> 1</a>
 <a href="#rest_code_2cd1fcb796064bbf8d67e100290c4e1e-2"> 2</a>
 <a href="#rest_code_2cd1fcb796064bbf8d67e100290c4e1e-3"> 3</a>
@@ -230,24 +224,19 @@ happens is that Python&nbsp;calls:</p>
 <pre class="literal-block">VideoDriver.tv.__get__(media, VideoDriver)</pre>
 <p>Which executes the code in the <code>__get__()</code> method of the descriptor,
 which in this case returns the default value, previously&nbsp;passed.</p>
-<p>In ge­ne­ral  <a class="footnote-reference brackets" href="#id8" id="id3">4</a>  a co­de&nbsp;like:</p> 
- <pre class="literal-block">&lt;instance&gt;.&lt;descriptor&gt;</pre>
-<p>Wi­ll be trans­lated&nbsp;to:</p> 
- <pre class="literal-block">type(&lt;instance&gt;).&lt;descriptor&gt;.__get__(&lt;instance&gt;, type(&lt;instance&gt;))</pre>
-<p>When the des­crip­tor is ca­lled from the cla­ss, and not the ins­tan­ce, the va­lue
-of the pa­ra­me­ter &#8220;ins­tan­ce&#8221; is No­ne, but the &#8220;o­w­ne­r&#8221; is sti­ll a re­fe­ren­ce to­
-­the cla­ss being in­vo­ked (tha­t&#8217;s pro­ba­bly one of the rea­sons why the­se are two­
-se­pa­ra­te pa­ra­me­ter­s, ins­tead of just let the user de­ri­ve the cla­ss from the
-ins­tan­ce, it allo­ws even mo­re&nbsp;fle­xi­bi­li­ty).</p> 
- <p>For this rea­so­n, is co­m­mon to hand­le this ca­se, and re­turn the des­crip­to­r
-i­tsel­f, whi­ch is the ra­tio­na­le be­hind the&nbsp;li­ne:</p> 
- <pre class="code python"><a name="rest_code_a5d973270d7e4eda8764e1cd65689545-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<p>In gen­er­al  <a class="footnote-reference brackets" href="#id8" id="id3">4</a>  a code&nbsp;like:</p>  <pre class="literal-block">&lt;instance&gt;.&lt;descriptor&gt;</pre>
+<p>Will be trans­lat­ed&nbsp;to:</p>  <pre class="literal-block">type(&lt;instance&gt;).&lt;descriptor&gt;.__get__(&lt;instance&gt;, type(&lt;instance&gt;))</pre>
+<p>When the de­scrip­tor is called from the class, and not the in­stance, the val­ue
+of the pa­ram­e­ter &#8220;in­stance&#8221; is None, but the &#8220;own­er&#8221; is still a ref­er­ence to
+the class be­ing in­voked (that&#8217;s prob­a­bly one of the rea­sons why these are two
+sep­a­rate pa­ram­e­ter­s, in­stead of just let the us­er de­rive the class from the
+in­stance, it al­lows even more&nbsp;flex­i­bil­i­ty).</p>  <p>For this rea­son, is com­mon to han­dle this case, and re­turn the de­scrip­tor
+it­self, which is the ra­tio­nale be­hind the&nbsp;line:</p>  <pre class="code python"><a name="rest_code_a5d973270d7e4eda8764e1cd65689545-1"></a><span class="k">if</span> <span class="n">instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a name="rest_code_a5d973270d7e4eda8764e1cd65689545-2"></a>    <span class="k">return</span> <span class="bp">self</span>
 </pre>
-<p>That is why when you de­fi­ne a pro­per­ty in a cla­ss, and ca­ll it from an ins­tan­ce
-ob­jec­t, you&#8217;­ll get the re­sult of the com­pu­ta­tion of the me­tho­d. Ho­we­ve­r, if
-­you ca­ll the pro­per­ty from the cla­ss, you get the pro­per­ty&nbsp;ob­jec­t.</p> 
- </div>
+<p>That is why when you de­fine a prop­er­ty in a class, and call it from an in­stance
+ob­jec­t, you&#8217;ll get the re­sult of the com­pu­ta­tion of the method. How­ev­er, if
+you call the prop­er­ty from the class, you get the prop­er­ty&nbsp;ob­jec­t.</p>  </div>
 <div class="section" id="setting-data">
 <h3>Setting&nbsp;Data</h3>
 <p>Example: imagine we want to have some attributes in an object that are going to
@@ -268,9 +257,7 @@ the logic of the property across several variables). As per the
 classes we would have to come up with some sort of <code class="docutils literal">mixin</code> class, in order to
 achieve it, and if one of the classes already overrides this method, things
 might get&nbsp;overcomplicated.</p>
-<p>The­se two op­tions seem ra­ther con­vo­lute­d. Des­crip­tors it is,&nbsp;then.</p> 
- <p><a class="reference external" href="../../../listings/descriptors0_set0.py.html">des­crip­tor­s0_se­t0.­py</a>    <a class="reference external" href="../../../listings/descriptors0_set0.py">(Sour­ce)</a></p> 
- <table class="codetable"><tr>
+<p>These two op­tions seem rather con­vo­lut­ed. De­scrip­tors it is,&nbsp;then.</p>  <p><a class="reference external" href="../../../listings/descriptors0_set0.py.html">de­scrip­tors0_set0.py</a>    <a class="reference external" href="../../../listings/descriptors0_set0.py">(Source)</a></p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_63e7d659a8b04e80a2fbff93c25ed096-1"> 1</a>
 <a href="#rest_code_63e7d659a8b04e80a2fbff93c25ed096-2"> 2</a>
 <a href="#rest_code_63e7d659a8b04e80a2fbff93c25ed096-3"> 3</a>
@@ -391,9 +378,7 @@ to worry about the underlying&nbsp;implementation.</p>
 <p>So, we have two classes, with different responsibilities, but related, because
 they interact towards a common goal. <code class="docutils literal">Traveller</code> has two <em>class attributes</em>
 that, are objects, instances of the&nbsp;descriptor.</p>
-<p>Now le­t&#8217;s take a look at the other si­de of it, the in­ter­nal wo­rking  of the&nbsp;­des­crip­to­r.</p> 
- <p>Un­der this sche­ma, Py­thon wi­ll trans­la­te a ca­ll&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_60ab5adceeb144a89f64a7a4f6e7ba1b-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
+<p>Now let&#8217;s take a look at the oth­er side of it, the in­ter­nal work­ing  of the&nbsp;de­scrip­tor.</p>  <p>Un­der this schema, Python will trans­late a call&nbsp;like:</p>  <pre class="code python"><a name="rest_code_60ab5adceeb144a89f64a7a4f6e7ba1b-1"></a><span class="n">traveller</span> <span class="o">=</span> <span class="n">Traveller</span><span class="p">()</span>
 <a name="rest_code_60ab5adceeb144a89f64a7a4f6e7ba1b-2"></a><span class="n">traveller</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="s1">'Stockholm'</span>
 </pre>
 <p>To the one using the <code>__set__</code> method in the descriptor,&nbsp;like:</p>
@@ -402,34 +387,29 @@ that, are objects, instances of the&nbsp;descriptor.</p>
 <p>Which means that the <code class="docutils literal">__set__</code> method on the descriptor is going to receive
 the instance of the object being accessed, as a first parameter, and then the
 value that is being&nbsp;assigned.</p>
-<p>Mo­re ge­ne­ra­lly we could say that so­me­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_007dd78e8d9a4f8fb06bab37e14ffdb3-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
+<p>More gen­er­al­ly we could say that some­thing&nbsp;like:</p>  <pre class="code python"><a name="rest_code_007dd78e8d9a4f8fb06bab37e14ffdb3-1"></a><span class="n">obj</span><span class="o">.&lt;</span><span class="n">descriptor</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span>
 </pre>
-<p>Trans­la­tes&nbsp;to:</p> 
- <pre class="code python"><a name="rest_code_86b62b06f43643e8a11f1dcce2f9fe5f-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
+<p>Trans­lates&nbsp;to:</p>  <pre class="code python"><a name="rest_code_86b62b06f43643e8a11f1dcce2f9fe5f-1"></a><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="fm">__set__</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">value</span><span class="o">&gt;</span><span class="p">)</span>
 </pre>
-<p>Wi­th the­se two pa­ra­me­ter­s, we can ma­ni­pu­la­te the in­te­rac­tion any way we wan­t,
-whi­ch makes the pro­to­col rea­lly&nbsp;po­wer­fu­l.</p> 
- <p>In this example, we are taking advantage of this, by querying the original
+<p>With these two pa­ram­e­ter­s, we can ma­nip­u­late the in­ter­ac­tion any way we wan­t,
+which makes the pro­to­col re­al­ly&nbsp;pow­er­ful.</p>  <p>In this example, we are taking advantage of this, by querying the original
 object&#8217;s attribute dictionary (<code>instance.__dict__</code>), and getting the
 value in order to compare it with the newly received one. By reading this
 value, we calculate another attribute which will hold the count of the number
 of times the attribute was modified, and then, both of them are updated in
 the original dictionary for the&nbsp;instance.</p>
-<p>An im­por­tant con­cept to point out is that this im­ple­men­ta­tion not on­ly wo­rks,
-­but it al­so sol­ves the pro­blem in a mo­re ge­ne­ric fas­hio­n. In this exam­ple, it
-was the ca­se of a tra­ve­lle­r, of whom we wanted to know how many ti­mes chan­ge­d
-of lo­ca­tio­n, but the exact sa­me ob­ject could be us­ed for exam­ple to mo­ni­to­r
-­ma­rket sto­cks, va­ria­bles in an equa­tio­n, etc. This ex­po­ses func­tio­na­li­ty as a
-­sort of li­bra­r­y, toolki­t, or even fra­mewo­rk. In fac­t, many we­ll-k­no­wn
-­fra­mewo­rks in Py­thon use des­crip­tors to ex­po­se their&nbsp;API.</p> 
- </div>
+<p>An im­por­tant con­cept to point out is that this im­ple­men­ta­tion not on­ly work­s,
+but it al­so solves the prob­lem in a more gener­ic fash­ion. In this ex­am­ple, it
+was the case of a trav­eller, of whom we want­ed to know how many times changed
+of lo­ca­tion, but the ex­act same ob­ject could be used for ex­am­ple to mon­i­tor
+mar­ket stock­s, vari­ables in an equa­tion, etc. This ex­pos­es func­tion­al­i­ty as a
+sort of li­brary, toolk­it, or even frame­work. In fac­t, many well-­known
+frame­works in Python use de­scrip­tors to ex­pose their&nbsp;API.</p>  </div>
 <div class="section" id="deleting-data">
 <h3>Deleting&nbsp;Data</h3>
 <p>The <code>__delete__()</code> method is going to be called when an instruction of
 the type <code>del &lt;instance&gt;.&lt;descriptor&gt;</code> is executed. See the following&nbsp;example.</p>
-<p><a class="reference external" href="../../../listings/descriptors0_delete0.py.html">des­crip­tor­s0_­de­le­te0.­py</a>    <a class="reference external" href="../../../listings/descriptors0_delete0.py">(Sour­ce)</a></p> 
- <table class="codetable"><tr>
+<p><a class="reference external" href="../../../listings/descriptors0_delete0.py.html">de­scrip­tors0_delete0.py</a>    <a class="reference external" href="../../../listings/descriptors0_delete0.py">(Source)</a></p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_632636bde82d47ed881a48308572257e-1"> 1</a>
 <a href="#rest_code_632636bde82d47ed881a48308572257e-2"> 2</a>
 <a href="#rest_code_632636bde82d47ed881a48308572257e-3"> 3</a>
@@ -530,24 +510,16 @@ the type <code>del &lt;instance&gt;.&lt;descriptor&gt;</code> is executed. See t
 <a name="rest_code_632636bde82d47ed881a48308572257e-49"></a>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">()</span>
 </pre></td>
 </tr></table>
-<p>In this exam­ple, we just want a pro­per­ty in the ob­jec­t, that can­not be de­le­te­d,
-and des­crip­tor­s, agai­n, pro­vi­de one of the mul­ti­ple po­s­si­ble&nbsp;im­ple­men­ta­tion­s.</p> 
- </div>
+<p>In this ex­am­ple, we just want a prop­er­ty in the ob­jec­t, that can­not be delet­ed,
+and de­scrip­tors, again, pro­vide one of the mul­ti­ple pos­si­ble&nbsp;im­ple­men­ta­tion­s.</p>  </div>
 </div>
 <div class="section" id="caveats-and-recommendations">
 <h2>Caveats and&nbsp;recommendations</h2>
 <ul class="simple">
-<li><p>Re­­me­m­­ber that des­­cri­p­­tors should alwa­­ys be us­ed as   <strong>cla­ss attri­­bu­­tes</strong>.</p></li> 
- <li><p>Da­ta should be sto­red in ea­ch ori­gi­nal ma­na­ged ins­tan­ce, ins­tead of doin­g
-­da­ta bookkee­ping in the des­crip­to­r. Ea­ch ob­ject should ha­ve its da­ta in its
- <code>__­dic­t__</code>.</p></li> 
- <li><p>Pre­ser­ve the abi­li­ty of ac­ce­s­sing the des­crip­tor from the cla­ss as we­ll, no­t
-on­ly from ins­tan­ce­s. Mind the ca­se when  <code>ins­tan­ce is No­ne</code>, so it can
-­be ca­lled as  <code>ty­pe(ins­tan­ce).­des­crip­tor</code>.</p></li> 
- <li><p>Do not ove­rri­de  <code>__­ge­ta­ttri­bu­te__()</code>, or they mi­ght lo­se&nbsp;effec­t.</p></li> 
- <li><p>Mind the di­­ffe­­ren­­ce be­­­tween da­­ta and no­­n-­­da­­ta des­­cri­p­­tors   <a class="footnote-reference brackets" href="#id7" id="id4">3</a>.</p></li> 
- <li><p>Im­­ple­­ment the mi­­ni­­mum re­­qui­­red&nbsp;in­­te­r­­fa­­ce.</p></li> 
- </ul>
+<li><p>Re­mem­ber that de­scrip­­tors should al­ways be used as   <strong>class at­tributes</strong>.</p></li>  <li><p>Da­ta should be stored in each orig­i­nal man­aged in­stance, in­stead of do­ing
+da­ta book­keep­ing in the de­scrip­tor. Each ob­ject should have its da­ta in its <code>__­dic­t__</code>.</p></li>  <li><p>Pre­serve the abil­i­ty of ac­cess­ing the de­scrip­tor from the class as well, not
+on­ly from in­stances. Mind the case when  <code>in­stance is None</code>, so it can
+be called as  <code>type­(in­stance).de­scrip­tor</code>.</p></li>  <li><p>Do not over­ride  <code>__ge­tat­tribute__()</code>, or they might lose&nbsp;ef­fec­t.</p></li>  <li><p>Mind the dif­fer­­ence be­tween da­­ta and non-­­da­­ta de­scrip­­tors   <a class="footnote-reference brackets" href="#id7" id="id4">3</a>.</p></li>  <li><p>Im­­ple­­ment the min­i­­mum re­quired&nbsp;in­­ter­­face.</p></li>  </ul>
 </div>
 <div class="section" id="food-for-thought">
 <h2>Food for&nbsp;thought</h2>
@@ -556,16 +528,14 @@ The term <em>framework</em> here is not a coincidence. As the reader might have
 noticed, by using descriptors, there is an <em>inversion of control</em> (<code class="docutils literal">IoC</code>) on
 the code, because Python will be calling the logic we put under the descriptor
 methods, when accessing these attributes from the managed&nbsp;instance.</p>
-<p>Un­der this con­si­de­ra­tions it is co­rrect to thi­nk that it be­ha­ves as a&nbsp;­fra­mewo­rk.</p> 
- </div>
+<p>Un­der this con­sid­er­a­tions it is cor­rect to think that it be­haves as a&nbsp;frame­work.</p>  </div>
 <div class="section" id="summary">
 <h2>Summary</h2>
-<p>Des­crip­tors pro­vi­de an API, to con­trol the co­re ac­ce­ss to an ob­jec­t&#8217;s da­ta
-­mo­de­l, at its lo­w-­le­vel ope­ra­tion­s. By means of des­crip­tors we can con­trol the
-exe­cu­tion of an ob­jec­t&#8217;s in­ter­fa­ce, be­cau­se they pro­vi­de a trans­pa­rent la­ye­r
-­be­tween the pu­blic in­ter­fa­ce (what is ex­po­sed to user­s), and the in­ter­na­l
-­re­pre­sen­ta­tion and sto­ra­ge of&nbsp;da­ta.</p> 
- <p>They are one of the most powerful features of Python, and their possibilities
+<p>De­scrip­tors pro­vide an API, to con­trol the core ac­cess to an ob­jec­t&#8217;s da­ta
+mod­el, at its low-lev­el op­er­a­tions. By means of de­scrip­tors we can con­trol the
+ex­e­cu­tion of an ob­jec­t&#8217;s in­ter­face, be­cause they pro­vide a trans­par­ent lay­er
+be­tween the pub­lic in­ter­face (what is ex­posed to user­s), and the in­ter­nal
+rep­re­sen­ta­tion and stor­age of&nbsp;da­ta.</p>  <p>They are one of the most powerful features of Python, and their possibilities
 are virtually unlimited, so in this post we&#8217;ve only scratched the surface of
 them. More details, such as exploring the different types of descriptors with
 their internal representation or data, the use of the new <code>__set_name__</code>
@@ -574,20 +544,16 @@ implementations, are some of the topics for future&nbsp;entries.</p>
 <dl class="footnote brackets">
 <dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>Py­thon Cook­book (3rd edi­tio­n) - Da­vid Bea­z­ley <span class="amp">&amp;</span> Brian K.&nbsp;Jo­nes</p> 
- </dd>
+<p>Python Cook­book (3rd edi­tion) - David Bea­z­ley <span class="amp">&amp;</span> Bri­an K.&nbsp;Jones</p>  </dd>
 <dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://docs.python.org/3.6/reference/datamodel.html#descriptors">http­s://­do­cs.­p­y­tho­n.or­g/3.6/­re­fe­ren­ce/­da­ta­mo­de­l.ht­m­l#­des­crip­tors</a></p> 
- </dd>
+<p><a class="reference external" href="https://docs.python.org/3.6/reference/datamodel.html#descriptors">http­s://­doc­s.python.org/3.6/ref­er­ence/­data­mod­el.htm­l#de­scrip­tors</a></p>  </dd>
 <dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
 <dd>
-<p>Mo­re de­tails about this, wi­ll co­me in a fu­tu­re&nbsp;pos­t.</p> 
- </dd>
+<p>More de­tails about this, will come in a fu­ture&nbsp;post.</p>  </dd>
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">4</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#invoking-descriptors">http­s://­do­cs.­p­y­tho­n.or­g/3.6/ho­w­to­/­des­crip­to­r.ht­m­l#in­vo­kin­g-­des­crip­tors</a></p> 
- </dd>
+<p><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#invoking-descriptors">http­s://­doc­s.python.org/3.6/how­to/de­scrip­tor.htm­l#in­vok­ing-de­scrip­tors</a></p>  </dd>
 </dl>
 </div>
 </div>

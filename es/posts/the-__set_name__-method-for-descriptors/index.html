@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/the-__set_name__-method-for-descriptors/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../descriptors-decorators/" title="Descriptors &amp; Decorators" type="text/html">
@@ -37,7 +37,7 @@ getattr/setattr, but the problem is the same), and find">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -71,7 +71,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -115,21 +115,16 @@ navbar-dark bg-dark
 and this is done by inspecting <code class="docutils literal">__dict__</code> on that object (or calling
 <code class="docutils literal">getattr/setattr</code>, but the problem is the same), and finding the key under
 the specific&nbsp;name.</p>
-<p>For this rea­so­n, the des­crip­tor wi­ll ha­ve to know the na­me of the key to look
-­fo­r, whi­ch is re­lated to the na­me of the attri­bu­te is&nbsp;ma­na­gin­g.</p> 
- <p>On pre­vious ver­sions of Py­thon this had to be do­ne ex­pli­ci­tl­y. If we wanted to­
-wo­rk around it, the­re we­re so­me mo­re ad­van­ced wa­ys to do so. Lu­cki­l­y, afte­r
- <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/">PE­P-487</a>  (a­dded in Py­thon 3.6),
-­the­re are so­me enhan­ce­men­ts re­gar­ding cla­ss crea­tio­n, whi­ch al­so affec­ts&nbsp;­des­crip­tor­s.</p> 
- <p>Le­t&#8217;s re­view the pro­ble­m, the pre­vious appro­aches to ta­ck­le it, and the mo­der­n
-way of sol­ving&nbsp;it.</p> 
- <!-- TEASER_END -->
+<p>For this rea­son, the de­scrip­tor will have to know the name of the key to look
+for, which is re­lat­ed to the name of the at­tribute is&nbsp;man­ag­ing.</p>  <p>On pre­vi­ous ver­sions of Python this had to be done ex­plic­it­ly. If we want­ed to
+work around it, there were some more ad­vanced ways to do so. Luck­i­ly, af­ter <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/">PEP-487</a>  (added in Python 3.6),
+there are some en­hance­ments re­gard­ing class cre­ation, which al­so af­fects&nbsp;de­scrip­tors.</p>  <p>Let&#8217;s re­view the prob­lem, the pre­vi­ous ap­proach­es to tack­le it, and the mod­ern
+way of solv­ing&nbsp;it.</p>  <!-- TEASER_END -->
 <div class="section" id="configure-the-name-of-the-descriptor">
 <h2>Configure the name of the&nbsp;descriptor</h2>
-<p>The des­crip­tor nee­ds to so­me­how know whi­ch attri­bu­te wi­ll be mo­di­fyin­g, and fo­r
-­this, the most co­m­mon so­lu­tion is to sto­re the attri­bu­te na­me in­ter­na­ll­y. Fo­r
-e­xam­ple&nbsp;in:</p> 
- <pre class="code python"><a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<p>The de­scrip­tor needs to some­how know which at­tribute will be mod­i­fy­ing, and for
+this, the most com­mon so­lu­tion is to store the at­tribute name in­ter­nal­ly. For
+ex­am­ple&nbsp;in:</p>  <pre class="code python"><a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-4"></a>
@@ -142,18 +137,15 @@ e­xam­ple&nbsp;in:</p>
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-11"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-12"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">(</span><span class="s1">'descriptor'</span><span class="p">)</span>
 </pre>
-<p>What we re­qui­re is to che­ck that the na­me is pa­ss­ed to the des­crip­tor pro­per­l­y,&nbsp;­ba­si­ca­ll­y:</p> 
- <pre class="literal-block">assert Managed.descriptor.name == 'descriptor'</pre>
+<p>What we re­quire is to check that the name is passed to the de­scrip­tor prop­er­ly,&nbsp;ba­si­cal­ly:</p>  <pre class="literal-block">assert Managed.descriptor.name == 'descriptor'</pre>
 <p>But we don&#8217;t want to pass the string <code class="docutils literal">'descriptor'</code> as a parameter when
 constructing it, because it&#8217;s repetitive. Instead, we want this to be
 configured automatically. Let&#8217;s see some&nbsp;options.</p>
 </div>
 <div class="section" id="a-class-decorator">
 <h2>A class&nbsp;decorator</h2>
-<p>Wi­th a cla­ss de­co­ra­to­r, we could de­fi­ne all de­co­ra­tors for the cla­ss as
-­pa­ra­me­ters of the de­co­ra­to­r, and make the as­sig­n­ment of the na­me in it as&nbsp;we­ll.</p> 
- <p>So­me­thing like&nbsp;this:</p> 
- <pre class="code python"><a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-1"></a><span class="k">class</span> <span class="nc">configure_descriptors</span><span class="p">:</span>
+<p>With a class dec­o­ra­tor, we could de­fine all dec­o­ra­tors for the class as
+pa­ram­e­ters of the dec­o­ra­tor, and make the as­sign­ment of the name in it as&nbsp;well.</p>  <p>Some­thing like&nbsp;this:</p>  <pre class="code python"><a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-1"></a><span class="k">class</span> <span class="nc">configure_descriptors</span><span class="p">:</span>
 <a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">descs</span> <span class="o">=</span> <span class="p">{</span><span class="n">dname</span><span class="p">:</span> <span class="n">dcls</span><span class="p">(</span><span class="n">dname</span><span class="p">)</span> <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">dcls</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 <a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-4"></a>
@@ -169,20 +161,16 @@ configured automatically. Let&#8217;s see some&nbsp;options.</p>
 <a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-14"></a><span class="k">class</span> <span class="nc">DecoratedManaged</span><span class="p">:</span>
 <a name="rest_code_46b4490cc02346e2a9aa0fb29f9aca9f-15"></a>    <span class="sd">"""The descriptor is provided by the decorator"""</span>
 </pre>
-<p>The con­di­tion is&nbsp;pre­ser­ve­d:</p> 
- <pre class="literal-block">assert DecoratedManaged.descriptor.name == 'descriptor'</pre>
+<p>The con­di­tion is&nbsp;pre­served:</p>  <pre class="literal-block">assert DecoratedManaged.descriptor.name == 'descriptor'</pre>
 <p>In this decorator, we provide the name and the class of the descriptor to be
 created, and the decorator instantiates the class with this name. We could also
 have created the instance directly in the descriptor, and then update the value
 with <code>setattr(descriptor, 'name', dname)</code>, which is more general, in
 case you want to create descriptors that take multiple arguments on their
 <code class="docutils literal">__init__</code> method, but for this case it&#8217;s just&nbsp;fine.</p>
-<p>Then we set the new des­crip­tor (the one that has the na­me al­ready up­dated on
-i­t), to the wra­pped&nbsp;cla­ss.</p> 
- <p>Ho­we­ve­r, it sti­ll see­ms a bit un­fa­mi­liar or coun­te­r-in­tui­ti­ve that we&#8217;­re
-­de­fi­ning the des­crip­tor not in the body of the cla­ss, but as a pa­ra­me­ter of a&nbsp;­de­co­ra­to­r.</p> 
- <p>The­re must be ano­ther&nbsp;wa­y.</p> 
- </div>
+<p>Then we set the new de­scrip­tor (the one that has the name al­ready up­dat­ed on
+it), to the wrapped&nbsp;class.</p>  <p>How­ev­er, it still seems a bit un­fa­mil­iar or coun­ter-in­tu­itive that we&#8217;re
+defin­ing the de­scrip­tor not in the body of the class, but as a pa­ram­e­ter of a&nbsp;dec­o­ra­tor.</p>  <p>There must be an­oth­er&nbsp;way.</p>  </div>
 <div class="section" id="a-meta-class">
 <h2>A&nbsp;meta-class</h2>
 <p>Imagine we flag the class by adding a <code class="docutils literal">__set_name = True</code> attribute on it,
@@ -200,47 +188,41 @@ that need its name changed. Then the meta-class would look something&nbsp;like:<
 <a name="rest_code_e41b070fc1fd4edda9d3a459131bc05f-10"></a><span class="k">class</span> <span class="nc">MetaManaged</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">MetaDescriptor</span><span class="p">):</span>
 <a name="rest_code_e41b070fc1fd4edda9d3a459131bc05f-11"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">()</span>
 </pre>
-<p>And&nbsp;agai­n:</p> 
- <pre class="literal-block">assert MetaManaged.descriptor.name == 'descriptor'</pre>
+<p>And&nbsp;again:</p>  <pre class="literal-block">assert MetaManaged.descriptor.name == 'descriptor'</pre>
 <p>One detail is that the <code class="docutils literal">__init__</code> of the descriptor accepts the name to be
 nullable so this works. Another option would have been defining only the
 descriptor assigned to the class, and then, re-mapping the attribute with the
 instance, passing the name when it&#8217;s being constructed on the meta-class. Both
 options are the same, and the example was made with simplicity in&nbsp;mind.</p>
-<p>This wo­rks but it has a cou­ple of is­sues. First we ha­ve to so­me­how iden­ti­fy
-when the cla­ss attri­bu­te nee­ds to be up­dated (in this ca­se, a flag was added to­
-i­t, but other al­ter­na­ti­ves are no be­tter at all). The se­cond pro­blem should be­
-­ra­ther ob­vious: it&#8217;s not a good use of me­ta-­cla­sses, and this is ove­rki­ll (to­
-s­ay the leas­t) for what should be a sim­ple&nbsp;ta­sk.</p> 
- <p>The­re must be a be­tter&nbsp;wa­y.</p> 
- </div>
+<p>This works but it has a cou­ple of is­sues. First we have to some­how iden­ti­fy
+when the class at­tribute needs to be up­dat­ed (in this case, a flag was added to
+it, but oth­er al­ter­na­tives are no bet­ter at al­l). The sec­ond prob­lem should be
+rather ob­vi­ous: it&#8217;s not a good use of meta-­class­es, and this is overkill (to
+say the least) for what should be a sim­ple&nbsp;task.</p>  <p>There must be a bet­ter&nbsp;way.</p>  </div>
 <div class="section" id="set-name">
 <h2>__set_name__</h2>
 <p>And there is. At least for Python 3.6 and higher. The <code class="docutils literal">__set_name__</code> method
 was included, which is automatically called when the class is being created,
 and it receives two parameters: the class and the name of the attribute as it
 appears defined in the&nbsp;class.</p>
-<p>Wi­th this, the pro­blem is re­du­ced to just&nbsp;sim­pl­y:</p> 
- <pre class="code python"><a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
+<p>With this, the prob­lem is re­duced to just&nbsp;sim­ply:</p>  <pre class="code python"><a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-1"></a><span class="k">class</span> <span class="nc">LoggedAttr</span><span class="p">:</span>
 <a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-2"></a>    <span class="o">...</span>
 <a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-3"></a>    <span class="k">def</span> <span class="nf">__set_name__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre>
-<p>And tha­t&#8217;s it, no other co­de is nee­de­d. The so­lu­tion is mu­ch sim­ple­r, and it
-en­tails le­ss&nbsp;pro­ble­ms.</p> 
- <p>Actually, I deliberately named the flag <code class="docutils literal">__set_name</code>, to get an idea of
+<p>And that&#8217;s it, no oth­er code is need­ed. The so­lu­tion is much sim­pler, and it
+en­tails less&nbsp;prob­lem­s.</p>  <p>Actually, I deliberately named the flag <code class="docutils literal">__set_name</code>, to get an idea of
 what&#8217;s coming, and to hint that with <code class="docutils literal">__set_name__</code>, Python must be doing
 something similar to the example, but in this case we shouldn&#8217;t worry about&nbsp;it.</p>
 </div>
 <div class="section" id="conclusion">
 <h2>Conclusion</h2>
-<p>Even thou­gh it&#8217;s fi­ne to just know about the last me­tho­d, and we could sim­pl­y
-u­se tha­t, it&#8217;s sti­ll im­por­tant to ha­ve fo­llo­wed this pa­th, thi­nking about ho­w
-­things we­re do­ne pre­vious­l­y, be­cau­se it&#8217;s not fair to just as­su­me things we­re
-a­lwa­ys good, and take that for grante­d. Othe­rwi­se, we would miss the evo­lu­tio­n
-of the lan­gua­ge, and as­su­me the­re we­re ne­ver is­sues, pro­ble­ms or things tha­t
-­nee­ded&nbsp;re­vi­sio­n.</p> 
- <p>And more importantly, there still are. Python still has lots of other areas for
+<p>Even though it&#8217;s fine to just know about the last method, and we could sim­ply
+use that, it&#8217;s still im­por­tant to have fol­lowed this path, think­ing about how
+things were done pre­vi­ous­ly, be­cause it&#8217;s not fair to just as­sume things were
+al­ways good, and take that for grant­ed. Oth­er­wise, we would miss the evo­lu­tion
+of the lan­guage, and as­sume there were nev­er is­sues, prob­lems or things that
+need­ed&nbsp;re­vi­sion.</p>  <p>And more importantly, there still are. Python still has lots of other areas for
 improvement. Just as in this example <code class="docutils literal">__set_name__</code> seems to solve a small,
 yet annoying problem, there are many other scenarios on which things are not
 crystal clear in Python, so the language still needs to&nbsp;evolve.</p>

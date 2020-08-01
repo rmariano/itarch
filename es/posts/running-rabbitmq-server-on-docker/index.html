@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../find-options/" title="Find Options" type="text/html">
@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Running RabbitMQ server on Docker">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/running-rabbitmq-server-on-docker/">
-<meta property="og:description" content="If you use Ra­bbit­MQ for de­ve­lo­p­ment fre­quen­tl­y, so­me­ti­mes you mi­ght ha­ve foun­d
-it uses too mu­ch re­sour­ces (i­t's nor­mal whi­le pro­gra­m­ming to ha­ve
-a lot of queues or ta­sks bein">
+<meta property="og:description" content="If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
+it us­es too much re­sources (it's nor­mal while pro­gram­ming to have
+a lot of queues or tasks be­ing queued and">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2015-04-26T13:58:46-03:00">
 <meta property="article:tag" content="docker">
@@ -36,7 +36,7 @@ a lot of queues or ta­sks bein">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -70,7 +70,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -110,19 +110,16 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>If you use Ra­bbit­MQ for de­ve­lo­p­ment fre­quen­tl­y, so­me­ti­mes you mi­ght ha­ve foun­d
-it uses too mu­ch re­sour­ces (i­t&#8217;s nor­mal whi­le pro­gra­m­ming to ha­ve
-a lot of queues or ta­sks being queued and that makes the CPU usage to&nbsp;spike).</p> 
- <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+<p>If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
+it us­es too much re­sources (it&#8217;s nor­mal while pro­gram­ming to have
+a lot of queues or tasks be­ing queued and that makes the CPU us­age to&nbsp;spike).</p>  <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
 on development I&#8217;d rather do something different, in order to isolate
 the process. I know I could bound it (for example order it not to start automatically
 as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
 try <code>docker</code> and see how it&nbsp;results.</p>
-<p>It tur­ned out to be just the tool for the wo­rk, and so far wi­th a li­ttle sim­ple
-­con­fi­gu­ra­tion it can run as&nbsp;ex­pec­te­d.</p> 
- <p>The­re is al­ready a do­cker ima­ge for Ra­bbit­M­Q, whi­ch can be au­to­ma­ti­ca­lly pu­lle­d,
-and then run, for&nbsp;exam­ple:</p> 
- <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
+<p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
+con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­MQ, which can be au­to­mat­i­cal­ly pulled,
+and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
 <a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
@@ -149,8 +146,8 @@ command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assig
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
 other limitations and bounds constrained by <code>docker</code>.</p>
-<p>I found this appro­ach to be ve­ry ver­sati­le for a de­ve­lo­p­ment en­vi­ron­men­t, and wi­th Ra­bbit­MQ being the first pi­lo­t,
-I thi­nk I can mi­gra­te mo­re appli­ca­tions to do­cker ins­tead of ha­ving them ins­ta­lled on the sys­tem (as long as&nbsp;po­s­si­ble).</p>
+<p>I found this ap­proach to be very ver­sa­tile for a de­vel­op­ment en­vi­ron­men­t, and with Rab­bit­MQ be­ing the first pi­lot,
+I think I can mi­grate more ap­pli­ca­tions to dock­er in­stead of hav­ing them in­stalled on the sys­tem (as long as&nbsp;pos­si­ble).</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">

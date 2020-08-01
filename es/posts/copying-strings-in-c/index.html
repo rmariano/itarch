@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/copying-strings-in-c/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../setting-user-permissions-in-kvm/" title="Setting user permissions in KVM" type="text/html">
@@ -37,7 +37,7 @@ idiom for c">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -71,7 +71,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -114,16 +114,14 @@ navbar-dark bg-dark
 <p>Recently, I&#8217;ve read an interesting article <a class="footnote-reference brackets" href="#id8" id="id1">1</a>, explaining why the <code>strncpy</code> function in C is not
 safer than <code>strcpy</code>. The post was very interesting, but what&#8217;s more, it suggested an alternative
 idiom for copying strings in C, that might probably be the way to&nbsp;go.</p>
-<p>La­te­r, in ano­ther arti­cle  <a class="footnote-reference brackets" href="#id9" id="id2">2</a>  that com­pa­red so­me func­tio­na­li­ty in C, Py­thon and Go, one of the co­m­men­ts
-­pointed out that ve­ry sa­me idio­m. That gra­bbed my atten­tio­n, so I de­ci­ded to try it in an&nbsp;exam­ple.</p> 
- <p>The problem with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
+<p>Lat­er, in an­oth­er ar­ti­cle  <a class="footnote-reference brackets" href="#id9" id="id2">2</a>  that com­pared some func­tion­al­i­ty in C, Python and Go, one of the com­ments
+point­ed out that very same id­iom. That grabbed my at­ten­tion, so I de­cid­ed to try it in an&nbsp;ex­am­ple.</p>  <p>The problem with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
 the sample code provided in the documentation <a class="footnote-reference brackets" href="#id10" id="id3">3</a> (that should be just a reference), the break condition
 is up to <code>n</code> characters (the third parameter) or until the source string is exhausted, whatever happens first. This
 should not be a problem, unless <code>n &lt; strlen(source_string)</code>. That parameter would make <code>strncpy</code>
 to finish before it can put a <code>\0</code> character at the end of the target string, leaving
 an invalid array of characters <a class="footnote-reference brackets" href="#id12" id="id4">5</a>.</p>
-<p>This is an&nbsp;exam­ple.</p> 
- <table class="codetable"><tr>
+<p>This is an&nbsp;ex­am­ple.</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_add52e96d2fb4ca787d0983d71f67012-1"> 1</a>
 <a href="#rest_code_add52e96d2fb4ca787d0983d71f67012-2"> 2</a>
 <a href="#rest_code_add52e96d2fb4ca787d0983d71f67012-3"> 3</a>
@@ -246,9 +244,8 @@ Let&#8217;s see an&nbsp;example:</p>
 <a name="rest_code_6d769de7b1874dd2954a6bf9b4976c9c-29"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
-<p>He­re we see, the error is no lon­ger pre­sen­t, pro­ba­bly be­cau­se of the di­ffe­ren­ce on the im­ple­men­ta­tio­n
-(­the sni­ppet on the do­cu­men­ta­tion  <a class="footnote-reference brackets" href="#id11" id="id6">4</a>  gi­ves us a hint on what it does, so we can spot the&nbsp;chan­ge).</p> 
- <p>This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
+<p>Here we see, the er­ror is no longer pre­sen­t, prob­a­bly be­cause of the dif­fer­ence on the im­ple­men­ta­tion
+(the snip­pet on the doc­u­men­ta­tion  <a class="footnote-reference brackets" href="#id11" id="id6">4</a>  gives us a hint on what it does, so we can spot the&nbsp;change).</p>  <p>This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
 point that a new function was developed. The <code>strscpy</code> function is being included in the Kernel
 development for <em>Linux 4.3-rc4</em> <a class="footnote-reference brackets" href="#id13" id="id7">6</a> because it <em>is</em> a better interface. Some of the problems mentioned
 in the commit message, that inspired this new version, are the ones described on the previous&nbsp;paragraphs.</p>
@@ -260,30 +257,24 @@ error codes, memory allocation, status of the pointer (a <code>free</code> for e
 <dl class="footnote brackets">
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html">http­s://­the-­fla­t-­tran­to­r-­so­cie­ty.­blogs­po­t.­co­m.a­r/2012/03/­no­-s­trn­cp­y-is-­no­t-s­afe­r-s­tr­cp­y.ht­ml</a>.</p> 
- </dd>
+<p><a class="reference external" href="https://the-flat-trantor-society.blogspot.com.ar/2012/03/no-strncpy-is-not-safer-strcpy.html">http­s://the-flat-­tran­tor-­so­ci­ety.blogspot.­com.ar/2012/03/no-strncpy-is-not-safer­-str­cpy.html</a>.</p>  </dd>
 <dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">http­s://­blo­g.­sur­gu­t.­co­.uk/2015/08/­go­-en­jo­y-­p­y­tho­n3.ht­ml</a>.</p> 
- </dd>
+<p><a class="reference external" href="https://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">http­s://blog.­surgut.­co.uk/2015/08/­go-en­joy-python3.html</a>.</p>  </dd>
 <dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://linux.die.net/man/3/strncpy/">strn­cpy do­cu­men­ta­tion</a>.</p> 
- </dd>
+<p><a class="reference external" href="https://linux.die.net/man/3/strncpy/">strncpy doc­u­men­ta­tion</a>.</p>  </dd>
 <dt class="label" id="id11">
 <span class="brackets">4</span><span class="fn-backref">(<a href="#id5">1</a>,<a href="#id6">2</a>)</span>
 </dt>
 <dd>
-<p><a class="reference external" href="https://linux.die.net/man/3/strncat/">strn­cat ma­nual pa­ge</a>.</p> 
- </dd>
+<p><a class="reference external" href="https://linux.die.net/man/3/strncat/">strn­cat man­u­al page</a>.</p>  </dd>
 <dt class="label" id="id12"><span class="brackets"><a class="fn-backref" href="#id4">5</a></span></dt>
 <dd>
-<p>An array of cha­rac­ters that is not nu­ll-­ter­mi­nate­d, is&nbsp;in­va­li­d.</p> 
- </dd>
+<p>An ar­ray of char­ac­ters that is not nul­l-ter­mi­nat­ed, is&nbsp;in­valid.</p>  </dd>
 <dt class="label" id="id13"><span class="brackets"><a class="fn-backref" href="#id7">6</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671">http­s://­gi­t.ker­ne­l.or­g/­cgi­t/­li­nu­x/ker­ne­l/­gi­t/­tor­val­d­s/­li­nu­x.­gi­t/­co­m­mi­t/?i­d=30­c44659­f4a3e7e1­f9­f47e895591­b4­b40­bf62671</a>.</p> 
- </dd>
+<p><a class="reference external" href="https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671">http­s://git.k­er­nel.org/cgit/lin­ux/k­er­nel/git/­tor­vald­s/lin­ux.git/­com­mit/?id=30c44659f4a3e7e1f9f47e895591b4b40bf62671</a>.</p>  </dd>
 </dl>
 </div>
     </div>

@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../copying-strings-in-c/" title="strncpy and strncat for copying strings in C" type="text/html">
@@ -17,9 +17,8 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Deleting commented out code">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/deleting-commented-out-code/">
-<meta property="og:description" content="This is a ru­le I alwa­ys en­cou­ra­ge in so­ftwa­re de­ve­lo­p­men­t. Mo­reo­ve­r, I con­si­der it to be so­me­thing that ha­s
-­to be in­clu­ded in eve­ry co­ding gui­de­li­ne of a good pro­jec­t. 
- ">
+<meta property="og:description" content="This is a rule I al­ways en­cour­age in soft­ware de­vel­op­men­t. More­over, I con­sid­er it to be some­thing that has
+to be in­clud­ed in ev­ery cod­ing guide­line of a good projec­t.  There are sev">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2016-02-17T22:06:50-03:00">
 <meta property="article:tag" content="best-practices">
@@ -35,7 +34,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -69,7 +68,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -109,50 +108,37 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>This is a ru­le I alwa­ys en­cou­ra­ge in so­ftwa­re de­ve­lo­p­men­t. Mo­reo­ve­r, I con­si­der it to be so­me­thing that ha­s
-­to be in­clu­ded in eve­ry co­ding gui­de­li­ne of a good&nbsp;pro­jec­t.</p> 
- <p>The­re are se­ve­ral rea­sons for this, but pro­ba­bly the best ex­pla­na­tion can be found in the book &#8220;Clean Co­de&#8221;<a class="footnote-reference brackets" href="#id2" id="id1">1</a>  by un­cle
-­Bo­b, on whi­ch ex­plains that the co­de, ge­ts ou­tdated (ro­tten) wi­th the rest of the su­rroun­ding co­de, and hen­ce
-it makes a pla­ce for con­fu­sio­n, lea­ding to an erro­r-­pro­ne&nbsp;spo­t.</p> 
- <p>The­re are, ho­we­ve­r, peo­ple that seem to find so­me ar­gu­men­ts for co­m­men­ting out co­de, or lea­ving it.
-­So­me co­m­mon ar­gu­men­ts/­rea­sons usua­lly&nbsp;are:</p> 
- <blockquote>
+<p>This is a rule I al­ways en­cour­age in soft­ware de­vel­op­men­t. More­over, I con­sid­er it to be some­thing that has
+to be in­clud­ed in ev­ery cod­ing guide­line of a good&nbsp;projec­t.</p>  <p>There are sev­er­al rea­sons for this, but prob­a­bly the best ex­pla­na­tion can be found in the book &#8220;Clean Code&#8221;<a class="footnote-reference brackets" href="#id2" id="id1">1</a>  by un­cle
+Bob, on which ex­plains that the code, gets out­dat­ed (rot­ten) with the rest of the sur­round­ing code, and hence
+it makes a place for con­fu­sion, lead­ing to an er­ror-prone&nbsp;spot.</p>  <p>There are, how­ev­er, peo­ple that seem to find some ar­gu­ments for com­ment­ing out code, or leav­ing it.
+Some com­mon ar­gu­ments/rea­sons usu­al­ly&nbsp;are:</p>  <blockquote>
 <blockquote>
 <ul class="simple">
-<li><p><span class="dquo">&#8220;</span>I mi­­ght need this fun­c­­tio­­­na­­li­­ty&nbsp;la­­te­­r..&#8221;</p></li> 
- </ul>
+<li><p><span class="dquo">&#8220;</span>I might need this func­­tion­al­i­­ty&nbsp;lat­er..&#8221;</p></li>  </ul>
 </blockquote>
-<p>We ha­ve sour­ce con­trol sys­te­ms (for exam­ple gi­t) for this. In gi­t, an­y­thing can be res­to­red from a pre­vious poin­t. If
-­the so­ftwa­re is pro­per­ly un­der ver­sion con­tro­l, the­re is no rea­son to fear da­ta lo­ss. Trust gi­t, co­de&nbsp;fear­le­ss­l­y.</p> 
- <blockquote>
+<p>We have source con­trol sys­tems (for ex­am­ple git) for this. In git, any­thing can be re­stored from a pre­vi­ous point. If
+the soft­ware is prop­er­ly un­der ver­sion con­trol, there is no rea­son to fear da­ta loss. Trust git, code&nbsp;fear­less­ly.</p>  <blockquote>
 <ul class="simple">
-<li><p><span class="dquo">&#8220;</span>This is te­m­­po­­­ra­­ry di­s­a­­ble­­d&#8230; It wi­­ll be res­­to­­­red&nbsp;la­­te­­r&#8221;.</p></li> 
- </ul>
+<li><p><span class="dquo">&#8220;</span>This is tem­po­rary dis­­abled&#8230; It will be re­­s­tored&nbsp;lat­er&#8221;.</p></li>  </ul>
 </blockquote>
-<p>Agai­n, sa­me prin­ci­ple, re­ly on the ver­sion con­trol sys­te­m. Save a pa­tch, and then res­to­re la­te­r, or stash the chan­ges, re­vert the co­m­mi­t, etc.
-As you see, the­re are plen­ty of be­tter op­tions for sol­ving this&nbsp;sce­na­rio.</p> 
- <blockquote>
+<p>Again, same prin­ci­ple, re­ly on the ver­sion con­trol sys­tem. Save a patch, and then re­store lat­er, or stash the changes, re­vert the com­mit, etc.
+As you see, there are plen­ty of bet­ter op­tions for solv­ing this&nbsp;sce­nari­o.</p>  <blockquote>
 <ul class="simple">
-<li><p>Co­­­de that was le­­ft from the fist&nbsp;ve­r­­sion</p></li> 
- </ul>
+<li><p>Code that was left from the fist&nbsp;ver­­sion</p></li>  </ul>
 </blockquote>
-<p>Pro­ba­bly de­bu­gging le­fto­ver­s. No doubt he­re: seek, lo­ca­te,&nbsp;des­tro­y.</p> 
- </blockquote>
-<p>The­re is, a clear pro­blem wi­th co­de that is un­der co­m­men­t, whi­ch is that it is &#8220;fro­zen&#8221; in ti­me:
-it was good at so­me poin­t, but then it was le­ft the­re whi­le the rest of the co­de around it, evol­ve­d, so this old co­de
-­mi­ght not cer­tain­ly wo­rk (hen­ce it is &#8220;ro­tten&#8221;), so un-­co­m­men­ting it is a bad idea be­cau­se it wi­ll pro­ba­bly&nbsp;cras­h.</p> 
- <p>Ano­ther pro­blem is that it can be a sour­ce of bias for so­me other de­ve­lo­pe­r, who wan­ts to main­tain that co­de at a fu­tu­re poin­t
-in ti­me. The one who le­ft the ro­tten co­de, mi­ght ha­ve thou­ght that it was a sour­ce of ins­pi­ra­tion for when this func­tio­na­li­ty wa­s
-­going to be applie­d, but ins­tea­d, it is just bia­sing the new de­ve­lo­per wi­th this ske­le­to­n, pre­ven­ting from a brand new, fres­h
-i­dea for that&nbsp;co­de.</p> 
- <p>The­re­fo­re, for the­se main rea­sons (an pro­ba­bly mu­ch mo­re), ha­ving co­de that is co­m­men­ted in a co­de ba­se, is a poor prac­ti­ce, (not to­
-­men­tion a co­de sme­ll). If you are a sea­so­ned de­ve­lo­pe­r, who ca­res about co­de qua­li­ty, and best prac­ti­ce­s, you must not doubt when
-­de­le­ting it. De­le­te co­m­men­ted out co­de mer­ci­le­ss­l­y: seek, lo­ca­te and&nbsp;des­tro­y.</p> 
- <dl class="footnote brackets">
+<p>Prob­a­bly de­bug­ging left­over­s. No doubt here: seek, lo­cate,&nbsp;de­stroy.</p>  </blockquote>
+<p>There is, a clear prob­lem with code that is un­der com­men­t, which is that it is &#8220;frozen&#8221; in time:
+it was good at some point, but then it was left there while the rest of the code around it, evolved, so this old code
+might not cer­tain­ly work (hence it is &#8220;rot­ten&#8221;), so un-­com­ment­ing it is a bad idea be­cause it will prob­a­bly&nbsp;crash.</p>  <p>An­oth­er prob­lem is that it can be a source of bias for some oth­er de­vel­op­er, who wants to main­tain that code at a fu­ture point
+in time. The one who left the rot­ten code, might have thought that it was a source of in­spi­ra­tion for when this func­tion­al­i­ty was
+go­ing to be ap­plied, but in­stead, it is just bi­as­ing the new de­vel­op­er with this skele­ton, pre­vent­ing from a brand new, fresh
+idea for that&nbsp;code.</p>  <p>There­fore, for these main rea­sons (an prob­a­bly much more), hav­ing code that is com­ment­ed in a code base, is a poor prac­tice, (not to
+men­tion a code smell). If you are a sea­soned de­vel­op­er, who cares about code qual­i­ty, and best prac­tices, you must not doubt when
+delet­ing it. Delete com­ment­ed out code mer­ci­less­ly: seek, lo­cate and&nbsp;de­stroy.</p>  <dl class="footnote brackets">
 <dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>A book I hi­gh­ly re­co­m­men­d:  <a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">http­s://www.a­ma­zo­n.­co­m/­Clean-­Co­de-Han­dbook-­So­ftwa­re-­Cra­fts­mans­hi­p/­dp/0132350882</a></p> 
- </dd>
+<p>A book I high­ly rec­om­mend:  <a class="reference external" href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">http­s://www.a­ma­zon.­com/­Clean-­Code-Hand­book-­Soft­ware-Crafts­man­ship/d­p/0132350882</a></p>  </dd>
 </dl>
 </div>
     </div>

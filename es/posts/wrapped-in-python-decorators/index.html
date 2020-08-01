@@ -9,8 +9,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/wrapped-in-python-decorators/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../running-postgresql-in-memory-with-docker/" title="Running PostgreSQL in memory with docker" type="text/html">
@@ -35,7 +35,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -69,7 +69,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -109,24 +109,20 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>This is ano­ther of the new in­te­res­ting things that Py­thon 3 ha­s. Ti­me ago, it
-was so­me­how tri­cky to wo­rk wi­th de­co­ra­ted func­tion­s, be­cau­se the de­co­ra­to­r
-­re­pla­ced the ori­gi­nal ob­jec­t, and its be­ha­viour be­ca­me hard to&nbsp;rea­ch.</p> 
- <!-- TEASER_END -->
-<p>So, for exam­ple, we all know that the fo­llo­wing&nbsp;sen­ten­ce:</p> 
- <pre class="code python"><a name="rest_code_26907c5d50fd444fb5e7c7e1aa0c22a8-1"></a><span class="nd">@decorator</span>
+<p>This is an­oth­er of the new in­ter­est­ing things that Python 3 has. Time ago, it
+was some­how tricky to work with dec­o­rat­ed func­tion­s, be­cause the dec­o­ra­tor
+re­placed the orig­i­nal ob­jec­t, and its be­hav­iour be­came hard to&nbsp;reach.</p>  <!-- TEASER_END -->
+<p>So, for ex­am­ple, we all know that the fol­low­ing&nbsp;sen­tence:</p>  <pre class="code python"><a name="rest_code_26907c5d50fd444fb5e7c7e1aa0c22a8-1"></a><span class="nd">@decorator</span>
 <a name="rest_code_26907c5d50fd444fb5e7c7e1aa0c22a8-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
 <a name="rest_code_26907c5d50fd444fb5e7c7e1aa0c22a8-3"></a>    <span class="k">pass</span>
 </pre>
-<p>It&#8217;s ac­tua­lly syn­tax su­gar&nbsp;fo­r:</p> 
- <pre class="code python"><a name="rest_code_a68f9af48b164f4a8505d021bc7afbed-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<p>It&#8217;s ac­tu­al­ly syn­tax sug­ar&nbsp;for:</p>  <pre class="code python"><a name="rest_code_a68f9af48b164f4a8505d021bc7afbed-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
 <a name="rest_code_a68f9af48b164f4a8505d021bc7afbed-2"></a>    <span class="k">pass</span>
 <a name="rest_code_a68f9af48b164f4a8505d021bc7afbed-3"></a>
 <a name="rest_code_a68f9af48b164f4a8505d021bc7afbed-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </pre>
-<p>So, if for so­me rea­so­n, we need to wo­rk bo­th wi­th the ori­gi­nal and de­co­ra­te­d
-­func­tion­s, we re­qui­red tri­cks su­ch as di­ffe­rent na­me­s, so­me­thing&nbsp;like:</p> 
- <pre class="code python"><a name="rest_code_26af864ddcd540f49e280bacc838a682-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
+<p>So, if for some rea­son, we need to work both with the orig­i­nal and dec­o­rat­ed
+func­tion­s, we re­quired tricks such as dif­fer­ent names, some­thing&nbsp;like:</p>  <pre class="code python"><a name="rest_code_26af864ddcd540f49e280bacc838a682-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
 <a name="rest_code_26af864ddcd540f49e280bacc838a682-2"></a>    <span class="k">pass</span>
 <a name="rest_code_26af864ddcd540f49e280bacc838a682-3"></a>
 <a name="rest_code_26af864ddcd540f49e280bacc838a682-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
@@ -134,13 +130,11 @@ was so­me­how tri­cky to wo­rk wi­th de­co­ra­ted func­tion­s, be­cau
 <p>But in current Python, this should be no longer the case. As we can see from
 the code of the <code class="docutils literal">functools</code> module <a class="footnote-reference brackets" href="#id2" id="id1">1</a>, when decorating an object, there is
 an attribute named <code class="docutils literal">__wrapped__</code> that holds the reference to the original&nbsp;one.</p>
-<p>So now if we use this, we can ac­ce­ss it di­rec­tly wi­thout ha­ving to re­sort to­
-­the old&nbsp;qui­rks.</p> 
- <div class="section" id="example">
+<p>So now if we use this, we can ac­cess it di­rect­ly with­out hav­ing to re­sort to
+the old&nbsp;quirk­s.</p>  <div class="section" id="example">
 <h2>Example</h2>
-<p>Le­t&#8217;s con­si­der this exam­ple. Va­li­da­ting pa­ra­me­ter ty­pes like this is fa­r
-­from a real im­ple­men­ta­tio­n, but ra­ther so­me­thing for the sake of&nbsp;i­llus­tra­tio­n.</p> 
- <table class="codetable"><tr>
+<p>Let&#8217;s con­sid­er this ex­am­ple. Val­i­dat­ing pa­ram­e­ter types like this is far
+from a re­al im­ple­men­ta­tion, but rather some­thing for the sake of&nbsp;il­lus­tra­tion.</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_34bfbfe22d0b46799841b4aeda4a8ed3-1"> 1</a>
 <a href="#rest_code_34bfbfe22d0b46799841b4aeda4a8ed3-2"> 2</a>
 <a href="#rest_code_34bfbfe22d0b46799841b4aeda4a8ed3-3"> 3</a>
@@ -211,29 +205,23 @@ an attribute named <code class="docutils literal">__wrapped__</code> that holds 
 <a name="rest_code_34bfbfe22d0b46799841b4aeda4a8ed3-34"></a><span class="n">test_function</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># validates and raises</span>
 </pre></td>
 </tr></table>
-<p>The sta­te­ment in the pe­nul­ti­ma­te li­ne wo­rks be­cau­se it&#8217;s ac­tua­lly in­vo­king the
-o­ri­gi­nal func­tio­n, wi­thout the de­co­ra­tor applie­d, whe­reas the last one fail­s
-­be­cau­se it&#8217;s ca­lling the func­tion al­ready&nbsp;de­co­ra­te­d.</p> 
- </div>
+<p>The state­ment in the penul­ti­mate line works be­cause it&#8217;s ac­tu­al­ly in­vok­ing the
+orig­i­nal func­tion, with­out the dec­o­ra­tor ap­plied, where­as the last one fails
+be­cause it&#8217;s call­ing the func­tion al­ready&nbsp;dec­o­rat­ed.</p>  </div>
 <div class="section" id="potential-use-cases">
 <h2>Potential use&nbsp;cases</h2>
-<p>In ge­ne­ral this a ni­ce fea­tu­re, for the rea­son that in a way ena­bles ac­ce­s­sin­g
-­bo­th ob­jec­ts, (it could be ar­gued that de­co­ra­ting a func­tion cau­ses so­me sor­t
-of tem­po­ral&nbsp;cou­plin­g).</p> 
- <p>Most im­por­tan­tl­y, it can be us­ed in  <em>unit tes­ts</em>, whe­ther is to test the
-o­ri­gi­nal func­tio­n, or that the de­co­ra­tor itself is ac­ting as it is su­ppo­sed to­&nbsp;­do.</p> 
- <p>Moreover, we could tests our own code, before being decorated by other
+<p>In gen­er­al this a nice fea­ture, for the rea­son that in a way en­ables ac­cess­ing
+both ob­ject­s, (it could be ar­gued that dec­o­rat­ing a func­tion caus­es some sort
+of tem­po­ral&nbsp;cou­pling).</p>  <p>Most im­por­tant­ly, it can be used in  <em>unit tests</em>, whether is to test the
+orig­i­nal func­tion, or that the dec­o­ra­tor it­self is act­ing as it is sup­posed to&nbsp;do.</p>  <p>Moreover, we could tests our own code, before being decorated by other
 libraries being used in the project (for example the function of a tasks
 without the <code class="docutils literal">@celery.task</code> decorator applied, or an event of the database of
 <code class="docutils literal">SQLAlchemy</code> before it was changed by the listener event decorator,&nbsp;etc.).</p>
-<p>Just ano­ther tri­ck to keep in the&nbsp;tool­bo­x.</p> 
- <dl class="footnote brackets">
+<p>Just an­oth­er trick to keep in the&nbsp;tool­box.</p>  <dl class="footnote brackets">
 <dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>This attri­bu­te is do­cu­men­te­d, but I first found about it whi­le rea­din­g
-at the co­de of CP­y­thon at
- <a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70">http­s://­gi­thu­b.­co­m/­p­y­tho­n/­cp­y­tho­n/­blo­b/3405792­b024e9­c6­b70­c0­d2355­c55a23a­c84e1e67/­Li­b/­func­tool­s.­p­y#­L70</a></p> 
- </dd>
+<p>This at­tribute is doc­u­ment­ed, but I first found about it while read­ing
+at the code of CPython at <a class="reference external" href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70">http­s://github.­com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/­func­tool­s.py#L70</a></p>  </dd>
 </dl>
 </div>
 </div>

@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/do-not-import/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../writing-forward-compatible-software-in-python/" title="Writing forward-compatible software in Python" type="text/html">
@@ -35,7 +35,7 @@ The idea on this post, is to h">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -69,7 +69,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -112,63 +112,41 @@ navbar-dark bg-dark
 <p>It is well-known among Python developers (or at least, it should be), that is a bad idea to import everything
 from a module, for example by doing <code class="docutils literal">from &lt;module&gt; import *</code>.</p>
 <p>The idea on this post, is to high­light and gath­er the rea­sons why this is a bad prac­tice, in or­der to col­lec­tive­ly
-i­den­ti­fy many un­de­sired ef­fect­s. How­ev­er, with­out los­ing prag­ma­tism, in case there are some odd rea­sons why this
-might be ac­cept­able, I will al­so men­tion them, if any. Let&#8217;s see where we&nbsp;get.</p> 
- <ol class="arabic simple">
+iden­ti­fy many un­de­sired ef­fect­s. How­ev­er, with­out los­ing prag­ma­tism, in case there are some odd rea­sons why this
+might be ac­cept­able, I will al­so men­tion them, if any. Let&#8217;s see where we&nbsp;get.</p>  <ol class="arabic simple">
 <li><dl class="simple">
-<dt>You do not know what you&nbsp;get</dt> 
- <dd>
+<dt>You do not know what you&nbsp;get</dt>  <dd>
 <p>An ar­bi­trary Python script may con­tain any code, and most of it will be ex­e­cut­ed when
 per­form­ing the  <code class="docutils literal">im­port *</code>  part (y­ou can­not re­ly on how  <code class="docutils literal">__­name__</code>  is han­dled).
 The in­ter­face is to­tal­ly un­clear: you do not know what com­pu­ta­tions per­form­s, what ob­jects will im­port, etc.
-In gen­er­al is more ef­fi­cient to im­port as few def­i­ni­tions as&nbsp;pos­si­ble.</p> 
- </dd> 
- </dl></li> 
- <li><dl class="simple">
-<dt>Iden­ti­fiers ap­pear&nbsp;mag­i­cal­ly</dt> 
- <dd>
-<p>In any de­cent­ly read­able Python scrip­t, the pro­gram­mer must be able to lo­cate ev­ery def­i­ni­tion, which mean­s
-­to iden­ti­fy where does ev­ery iden­ti­fi­er come from. For ex­am­ple, a vari­able named  <code class="docutils literal">x</code>  can ei­ther be a pa­ram­e­ter
+In gen­er­al is more ef­fi­cient to im­port as few def­i­ni­tions as&nbsp;pos­si­ble.</p>  </dd>  </dl></li>  <li><dl class="simple">
+<dt>Iden­ti­fiers ap­pear&nbsp;mag­i­cal­ly</dt>  <dd>
+<p>In any de­cent­ly read­able Python scrip­t, the pro­gram­mer must be able to lo­cate ev­ery def­i­ni­tion, which means
+to iden­ti­fy where does ev­ery iden­ti­fi­er come from. For ex­am­ple, a vari­able named  <code class="docutils literal">x</code>  can ei­ther be a pa­ram­e­ter
 of the func­tion in the cur­rent scope, a vari­able al­ready de­fined (as­signed), or a name al­ready im­port­ed (<code class="docutils literal">from mod im­port x</code>), etc.
-­By per­form­ing the in­cor­rect im­port, this vari­able might ap­pear out of the blue, mean­ing that I will have an  <code class="docutils literal">x</code>  that
+By per­form­ing the in­cor­rect im­port, this vari­able might ap­pear out of the blue, mean­ing that I will have an  <code class="docutils literal">x</code>  that
 will not be nei­ther a pa­ram­e­ter, nor a def­i­ni­tion nor a de­clared im­port. This mean­s, I can­not
-­track the ori­gin or  <code class="docutils literal">x</code>. The sit­u­a­tion gets worse if there are not one, but many  <code class="docutils literal">im­port *</code>  state­ments.
-De­bug­ging be­comes a&nbsp;night­mare.</p> 
- </dd> 
- </dl></li> 
- <li><dl class="simple">
-<dt>Names­paces are one honk­ing great idea &#8212; let&#8217;s do more of&nbsp;those!</dt> 
- <dd>
+track the ori­gin or  <code class="docutils literal">x</code>. The sit­u­a­tion gets worse if there are not one, but many  <code class="docutils literal">im­port *</code>  state­ments.
+De­bug­ging be­comes a&nbsp;night­mare.</p>  </dd>  </dl></li>  <li><dl class="simple">
+<dt>Names­paces are one honk­ing great idea &#8212; let&#8217;s do more of&nbsp;those!</dt>  <dd>
 <p>Straight from the Python zen   <a class="footnote-reference brackets" href="#id3" id="id1">1</a>. By im­­port­ing ev­ery­thing from a mod­­ule, the ben­e­­fits of the names­­paces
 are some­how lost. In­­stead, ev­ery­thing (or a lot of things), might get to be called the same, mess­ing
-with the cur­rent scope. More­over, new im­­port de­f­i­ni­­tions might over­ride pre­vi­ous&nbsp;ones.</p>  
-  </dd> 
- </dl></li> 
- <li><dl class="simple">
-<dt>Ex­plic­it is bet­ter than&nbsp;im­plic­it</dt> 
- <dd>
-<p>Again, ev­ery iden­ti­fi­er that we want im­port­ed should be done ex­plic­it­ly (the  <code class="docutils literal">*</code>  is not very&nbsp;declar­a­tive).</p> 
- </dd> 
- </dl></li> 
- </ol>
+with the cur­rent scope. More­over, new im­­port de­f­i­ni­­tions might over­ride pre­vi­ous&nbsp;ones.</p>    </dd>  </dl></li>  <li><dl class="simple">
+<dt>Ex­plic­it is bet­ter than&nbsp;im­plic­it</dt>  <dd>
+<p>Again, ev­ery iden­ti­fi­er that we want im­port­ed should be done ex­plic­it­ly (the  <code class="docutils literal">*</code>  is not very&nbsp;declar­a­tive).</p>  </dd>  </dl></li>  </ol>
 <p>Now, so far these might be some of the main rea­sons about why im­port­ing ev­ery­thing from a Python mod­ule
 is usu­al­ly not a good idea. How­ev­er, in case the code at stake is just a sim­ple test­ing scrip­t, or
-an in­-­line sen­tence on ipython, there could be noth­ing wrong about&nbsp;it.</p> 
- <p>In ad­di­tion, al­though I am not a big fan of im­port state­ments in­side func­tions (some­times they are nec­es­sary, though),
-im­port­ing ev­ery­thing from a pack­age with­in a func­tion is not a big prob­lem, be­cause the scope is al­ready&nbsp;nar­rowed.</p> 
- <p>Just to be clear, this is by no means an ab­so­lute state­men­t, but an idea pre­sent­ed in or­der to write bet­ter code.
-One of the things I like the most about Python is that en­cour­ages good prac­tices. There­fore, if I read­
+an in­-­line sen­tence on ipython, there could be noth­ing wrong about&nbsp;it.</p>  <p>In ad­di­tion, al­though I am not a big fan of im­port state­ments in­side func­tions (some­times they are nec­es­sary, though),
+im­port­ing ev­ery­thing from a pack­age with­in a func­tion is not a big prob­lem, be­cause the scope is al­ready&nbsp;nar­rowed.</p>  <p>Just to be clear, this is by no means an ab­so­lute state­men­t, but an idea pre­sent­ed in or­der to write bet­ter code.
+One of the things I like the most about Python is that en­cour­ages good prac­tices. There­fore, if I read
 an im­port state­ment like this, un­less there are some very good rea­sons to do so, I will think that line
-as a code-s­mell  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p> 
- <dl class="footnote brackets">
+as a code-s­mell  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>  <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>im­port&nbsp;this</p> 
- </dd>
+<p>im­port&nbsp;this</p>  </dd>
 <dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://c2.com/cgi/wiki?CodeSmell">http­s://c2.­com/cgi/wik­i?­CodeSmell</a></p> 
- </dd>
+<p><a class="reference external" href="https://c2.com/cgi/wiki?CodeSmell">http­s://c2.­com/cgi/wik­i?­CodeSmell</a></p>  </dd>
 </dl>
 </div>
     </div>

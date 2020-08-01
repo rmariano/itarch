@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../wrapped-in-python-decorators/" title="__wrapped__ in Python decorators" type="text/html">
@@ -18,9 +18,8 @@
 <meta property="og:title" content="A few ideas on code review">
 <meta property="og:url" content="https://rmariano.github.io/itarch/posts/a-few-ideas-on-code-review/">
 <meta property="og:description" content="Af­ter watch­ing a talk about code re­view  1, from the last Eu­roPy­thon, I got
-­some ideas that I'd like to sum­marise. 
- 
-The first one is a point I made on  my talk about clean code in Python, abo">
+some ideas that I'd like to sum­marise.  
+The first one is a point I made on  my talk about clean code in Python, about">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-04-14T16:51:46+02:00">
 <meta property="article:tag" content="best-practices">
@@ -38,7 +37,7 @@ The first one is a point I made on  my talk about clean code in Python, abo">
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -72,7 +71,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -113,57 +112,46 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>Af­ter watch­ing a talk about code re­view  <a class="footnote-reference brackets" href="#id3" id="id1">1</a>, from the last Eu­roPy­thon, I got
-­some ideas that I&#8217;d like to&nbsp;sum­marise.</p> 
- <!-- TEASER_END -->
+some ideas that I&#8217;d like to&nbsp;sum­marise.</p>  <!-- TEASER_END -->
 <p>The first one is a point I made on  <a class="reference external" href="../my-talk-europython-2016/">my talk about clean code in Python</a>, about run­ning style checks (PEP-8, for
 ex­am­ple), au­to­mat­i­cal­ly as part of the CI. This has sev­er­al ra­tio­nales, the
-­first one be­ing that it&#8217;s the sort of thing ma­chines should do, and not hu­man­s.
+first one be­ing that it&#8217;s the sort of thing ma­chines should do, and not hu­man­s.
 Hav­ing soft­ware en­gi­neers re­view­ing the tab­s, spac­ing, and such, is just a
-wast­ed ef­fort (not to men­tion, wast­ed mon­ey). As I men­tioned on the con­clu­sion­s
-­dur­ing my talk, we should fo­cus on the read­abil­i­ty of the code in terms of the
-­log­ic, by ask­ing our­selves things like &#8220;<em>does this  code make sense?</em>&#8220;, rather
+wast­ed ef­fort (not to men­tion, wast­ed mon­ey). As I men­tioned on the con­clu­sions
+dur­ing my talk, we should fo­cus on the read­abil­i­ty of the code in terms of the
+log­ic, by ask­ing our­selves things like &#8220;<em>does this  code make sense?</em>&#8220;, rather
 than &#8220;<em>is the space be­fore the com­ma cor­rec­t?</em>&#8220;. Re­mem­ber, code is for hu­man­s,
-not ma­chi­nes, it&#8217;s a means of com­mu­ni­ca­tion with the de­vel­op­ment&nbsp;team.</p> 
- <p>By au­tomat­ing these checks in the CI build  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>, we leave these de­tails out of
+not ma­chi­nes, it&#8217;s a means of com­mu­ni­ca­tion with the de­vel­op­ment&nbsp;team.</p>  <p>By au­tomat­ing these checks in the CI build  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>, we leave these de­tails out of
 the scope, to fo­cus on more im­por­tant things, be­cause in the end, the ul­ti­mate
-­goal of the code re­view is ac­tu­al­ly to find de­fects on the code, and point
-them out for ear­ly&nbsp;cor­rec­tion.</p> 
- <p>In ad­di­tion, sep­a­rat­ing the style check­s, gives them a sense of &#8220;ob­jec­tive
-­met­ric&#8221;, be­cause the au­thor has to ar­gue with an scrip­t, in­stead of an­oth­er
-de­vel­op­er. This al­so en­forces the style guide for the pro­jec­t, clos­er to the&nbsp;­code.</p> 
- <p>Then fol­lowed lots of more tips aimed at mak­ing code re­view more ef­fec­tive.
-­For ex­am­ple, that it&#8217;s im­por­tant to al­so high­light pos­i­tive things found whilst
+goal of the code re­view is ac­tu­al­ly to find de­fects on the code, and point
+them out for ear­ly&nbsp;cor­rec­tion.</p>  <p>In ad­di­tion, sep­a­rat­ing the style check­s, gives them a sense of &#8220;ob­jec­tive
+met­ric&#8221;, be­cause the au­thor has to ar­gue with an scrip­t, in­stead of an­oth­er
+de­vel­op­er. This al­so en­forces the style guide for the pro­jec­t, clos­er to the&nbsp;code.</p>  <p>Then fol­lowed lots of more tips aimed at mak­ing code re­view more ef­fec­tive.
+For ex­am­ple, that it&#8217;s im­por­tant to al­so high­light pos­i­tive things found whilst
 look­ing at the code, and (ar­guably the most im­por­tant one) that au­thors have to
 be re­cep­tive about feed­back when plac­ing a pull re­quest. This is per­haps the
-­most dif­fi­cult point, be­cause most of the times we hear things like &#8220;<em>would you
+most dif­fi­cult point, be­cause most of the times we hear things like &#8220;<em>would you
 merge this code?</em>&#8220;, rather than &#8220;<em>would you give me feed­back about this?</em>&#8220;.
 Once again, the goal of code re­view is not to chal­lenge, but to find de­fects on
-the code, so when plac­ing a pull re­quest, it&#8217;s good for the au­thor to keep in­
-­mind that re­view­ers are ac­tu­al­ly help­ing him or her, to im­prove the qual­i­ty of
-the work. And it&#8217;s al­so a learn­ing&nbsp;ex­pe­ri­ence.</p> 
- <blockquote class="twitter-tweet">
+the code, so when plac­ing a pull re­quest, it&#8217;s good for the au­thor to keep in
+mind that re­view­ers are ac­tu­al­ly help­ing him or her, to im­prove the qual­i­ty of
+the work. And it&#8217;s al­so a learn­ing&nbsp;ex­pe­ri­ence.</p>  <blockquote class="twitter-tweet">
 <p lang="en" dir="ltr">0% thank­ful­ly. Coders act like they&#8217;ve paint­ed a mas­ter­piece and tend to de­bate ev­ery piece of&nbsp;feed­back.</p>— Mark Litwintschik (@­mark­l­it82)  <a href="https://twitter.com/marklit82/status/737939325334237184?ref_src=twsrc%5Etfw">June 1, 2016</a>
 </blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>An­oth­er im­por­tant point, is that for code re­views to be ef­fec­tive, pul­l
-re­quests have to be&nbsp;smal­l.</p> 
- <blockquote class="twitter-tweet">
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>An­oth­er im­por­tant point, is that for code re­views to be ef­fec­tive, pull
+re­quests have to be&nbsp;smal­l.</p>  <blockquote class="twitter-tweet">
 <p lang="en" dir="ltr">10 lines of code = 10 is­sues.<br><br>500 lines of code = &#8220;looks fine.&#8221;<br><br>Code&nbsp;re­views.</p>— I Am De­vlop­er - Vote for Pe­dro (@i­amde­vlop­er)  <a href="https://twitter.com/iamdevloper/status/397664295875805184?ref_src=twsrc%5Etfw">November 5, 2013</a>
 </blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>This in­creas­es not on­ly the qual­i­ty of the re­view, but al­so the
- <a class="reference external" href="https://blog.jessfraz.com/post/analyzing-github-pull-request-data-with-big-query/">like­li­hood of it be­ing merged</a>.</p> 
- <p>Code re­view is a very ex­ten­sive top­ic, so there are a lot of more things that
-­can be anal­ysed, but these are some of the main ideas that I con­sid­er to be of
-­most&nbsp;im­por­tance.</p> 
- <dl class="footnote brackets">
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script><p>This in­creas­es not on­ly the qual­i­ty of the re­view, but al­so the <a class="reference external" href="https://blog.jessfraz.com/post/analyzing-github-pull-request-data-with-big-query/">like­li­hood of it be­ing merged</a>.</p>  <p>Code re­view is a very ex­ten­sive top­ic, so there are a lot of more things that
+can be anal­ysed, but these are some of the main ideas that I con­sid­er to be of
+most&nbsp;im­por­tance.</p>  <dl class="footnote brackets">
 <dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://youtu.be/uIwl01Nazdg">http­s://y­outu.be/uI­wl01­Nazdg</a></p> 
- </dd>
+<p><a class="reference external" href="https://youtu.be/uIwl01Nazdg">http­s://y­outu.be/uI­wl01­Nazdg</a></p>  </dd>
 <dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
 <p>I&#8217;ll men­tion the sort of checks that can be con­fig­ured in the CI, in a
-­fu­ture&nbsp;en­try.</p> 
- </dd>
+fu­ture&nbsp;en­try.</p>  </dd>
 </dl>
 </div>
     </div>

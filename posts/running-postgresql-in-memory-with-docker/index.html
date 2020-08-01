@@ -8,8 +8,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../es/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/running-postgresql-in-memory-with-docker/">
 <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../2016-in-review/" title="2016 in review" type="text/html">
@@ -20,7 +20,7 @@
 <meta property="og:description" content="Introduction
 In­ter­act­ing with a database, can be a reg­u­lar task of a de­vel­op­er, and for that
 we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
-­to a re­al ">
+to a re­al i">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-01-22T17:09:59+01:00">
 <meta property="article:tag" content="docker">
@@ -37,7 +37,7 @@ we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -71,7 +71,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
+<li class="nav-item"><a href="../../es/" rel="alternate" hreflang="es" class="nav-link">Español</a></li>
 
                 
                     
@@ -115,14 +115,11 @@ navbar-dark bg-dark
 <h2>Introduction</h2>
 <p>In­ter­act­ing with a database, can be a reg­u­lar task of a de­vel­op­er, and for that
 we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
-­to a re­al im­ple­men­ta­tion; there­fore, us­ing the same data­base as in­
-pro­duc­tion can help de­tect­ing is­sues&nbsp;ear­ly.</p> 
- <p>However, setting up an entire database server for development, can be
+to a re­al im­ple­men­ta­tion; there­fore, us­ing the same data­base as in
+pro­duc­tion can help de­tect­ing is­sues&nbsp;ear­ly.</p>  <p>However, setting up an entire database server for development, can be
 cumbersome. Hopefully nowadays, modern operating systems like <code class="docutils literal">Linux</code> have
 great tools and features that we could take advantage&nbsp;of.</p>
-<p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing
- <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p> 
- <p>The idea is simple: run a docker container with the image for <code class="docutils literal">PostgresSQL</code>,
+<p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p>  <p>The idea is simple: run a docker container with the image for <code class="docutils literal">PostgresSQL</code>,
 using a <code class="docutils literal">tmpfs</code> <a class="footnote-reference brackets" href="#id4" id="id1">1</a> <a class="footnote-reference brackets" href="#id5" id="id2">2</a> as storage for the database (a <code class="docutils literal">ramfs</code> could also
 be&nbsp;used).</p>
 <!-- TEASER_END -->
@@ -135,8 +132,7 @@ be&nbsp;used).</p>
 <pre class="code bash"><a name="rest_code_1152b34c42354e12a06b2a864d96dd76-1"></a>sudo mkdir /mnt/dbtempdisk
 <a name="rest_code_1152b34c42354e12a06b2a864d96dd76-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
-<p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p> 
- <table class="codetable"><tr>
+<p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_431be205999045a08996122ec3be4095-1">1</a>
 <a href="#rest_code_431be205999045a08996122ec3be4095-2">2</a>
 <a href="#rest_code_431be205999045a08996122ec3be4095-3">3</a>
@@ -192,37 +188,28 @@ command would&nbsp;be:</p>
 our user with the command (<code class="docutils literal">postgres ...</code>) and pass the <code class="docutils literal"><span class="pre">-D</span></code> parameter with
 the desired path where the database is going to store the data (which will be
 the <code class="docutils literal">tmpfs</code>/<code class="docutils literal">ramdisk</code>). This would be another way of achieving the&nbsp;same.</p>
-<p>Re­gard­less the im­ple­men­ta­tion­s, here are some po­ten­tial&nbsp;ap­pli­ca­tion­s:</p> 
- <ol class="arabic simple">
+<p>Re­gard­less the im­ple­men­ta­tion­s, here are some po­ten­tial&nbsp;ap­pli­ca­tion­s:</p>  <ol class="arabic simple">
 <li><p>Lo­­cal de­vel­op­­ment with­­out re­quir­ing disk stor­age, and run­n­ing faster at the
-same&nbsp;time.</p></li> 
- <li><p>Unit test­ing: unit tests should be fast, grant­ed. Some­­times, it makes
+same&nbsp;time.</p></li>  <li><p>Unit test­ing: unit tests should be fast, grant­ed. Some­­times, it makes
 per­­fect sense to run the tests against an ac­­tu­al data­base (prac­ti­­cal­i­­ty
-beats pu­ri­­ty), even if this makes them &#8220;in­te­­gra­­tion/­­func­­tion­al&#8221; test­s. In­­
+beats pu­ri­­ty), even if this makes them &#8220;in­te­­gra­­tion/­­func­­tion­al&#8221; test­s. In
 this re­­gard, hav­ing a light­weight data­base con­­tain­er run­n­ing lo­­cal­­ly could
-achieve the goal with­­out com­pro­mis­ing&nbsp;per­­for­­mance.</p></li> 
- <li><p>Iso­la­tion: (this on­ly ap­plies for the con­tain­er ap­proach), run­ning
- <code class="docutils literal">Post­greSQL</code>  in a  <code class="docutils literal">dock­er</code>  con­tain­er, en­cap­su­lates the li­braries, tool­s,
-­pack­ages, etc. in  <code class="docutils literal">dock­er</code>, so the rest of the sys­tem does not have to
-­main­tain much oth­er pack­ages in­stalled. Think of if as a sort of &#8220;vir­tu­al
-en­vi­ron­men­t&#8221; for&nbsp;pack­ages.</p></li> 
- </ol>
-<p>All in al­l, I think it&#8217;s an in­ter­est­ing ap­proach, worth con­sid­er­ing, at least­
-­to have al­ter­na­tives when work­ing in projects that re­quire in­tense in­ter­ac­tion
-with the&nbsp;data­base.</p> 
- <dl class="footnote brackets">
+achieve the goal with­­out com­pro­mis­ing&nbsp;per­­for­­mance.</p></li>  <li><p>Iso­la­tion: (this on­ly ap­plies for the con­tain­er ap­proach), run­ning <code class="docutils literal">Post­greSQL</code>  in a  <code class="docutils literal">dock­er</code>  con­tain­er, en­cap­su­lates the li­braries, tool­s,
+pack­ages, etc. in  <code class="docutils literal">dock­er</code>, so the rest of the sys­tem does not have to
+main­tain much oth­er pack­ages in­stalled. Think of if as a sort of &#8220;vir­tu­al
+en­vi­ron­men­t&#8221; for&nbsp;pack­ages.</p></li>  </ol>
+<p>All in al­l, I think it&#8217;s an in­ter­est­ing ap­proach, worth con­sid­er­ing, at least
+to have al­ter­na­tives when work­ing in projects that re­quire in­tense in­ter­ac­tion
+with the&nbsp;data­base.</p>  <dl class="footnote brackets">
 <dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p>:  <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">http­s://www.k­er­nel.org/­doc/­Doc­u­men­ta­tion/­filesys­tem­s/tmpf­s.txt</a></p> 
- </dd>
+<p>:  <a class="reference external" href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">http­s://www.k­er­nel.org/­doc/­Doc­u­men­ta­tion/­filesys­tem­s/tmpf­s.txt</a></p>  </dd>
 <dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p>:  <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">http­s://en.wikipedi­a.org/wik­i/Tmpfs</a></p> 
- </dd>
+<p>:  <a class="reference external" href="https://en.wikipedia.org/wiki/Tmpfs">http­s://en.wikipedi­a.org/wik­i/Tmpfs</a></p>  </dd>
 <dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd>
-<p>:  <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.pro­jec­tatom­ic.io/blog/2015/06/us­ing-vol­umes-with­-­dock­er-­can-­cause-prob­lem­s-with­-selin­ux/</a></p> 
- </dd>
+<p>:  <a class="reference external" href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.pro­jec­tatom­ic.io/blog/2015/06/us­ing-vol­umes-with­-­dock­er-­can-­cause-prob­lem­s-with­-selin­ux/</a></p>  </dd>
 </dl>
 </div>
 </div>

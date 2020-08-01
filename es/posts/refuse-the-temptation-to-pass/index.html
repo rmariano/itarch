@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/refuse-the-temptation-to-pass/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../europython-2017-second-part/" title="EuroPython 2017 - second part" type="text/html">
@@ -17,9 +17,9 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Refuse the temptation to pass">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/refuse-the-temptation-to-pass/">
-<meta property="og:description" content="This is an opi­nion I so­me­ti­mes re­mem­ber when seeing so­me co­de. Do­n't take it as
-a strong ad­vi­ce, or a ru­le, but ins­tead as a ge­ne­ral gui­de­li­ne that mi­ght hel­p
-­you to im­pro­ve the">
+<meta property="og:description" content="This is an opin­ion I some­times re­mem­ber when see­ing some code. Don't take it as
+a strong ad­vice, or a rule, but in­stead as a gen­er­al guide­line that might help
+you to im­prove the code slight">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-10-30T23:13:26+01:00">
 <meta property="article:tag" content="best-practices">
@@ -36,7 +36,7 @@ a strong ad­vi­ce, or a ru­le, but ins­tead as a ge­ne­ral gui­de­li­ne
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -70,7 +70,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -110,54 +110,41 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>This is an opi­nion I so­me­ti­mes re­mem­ber when seeing so­me co­de. Do­n&#8217;t take it as
-a strong ad­vi­ce, or a ru­le, but ins­tead as a ge­ne­ral gui­de­li­ne that mi­ght hel­p
-­you to im­pro­ve the co­de&nbsp;sli­gh­tl­y.</p> 
- <p>On this post I wi­ll sha­re a tiny and opi­nio­nated ar­gu­ment about why the­re are
-u­sua­lly be­tter things to do in the co­de ins­tead of just  <em>pa­ss</em>.</p> 
- <!-- TEASER_END -->
-<p>Dis­clai­me­r: I am not sa­ying that  <em>pa­ss</em>  should be ban­ned from the lan­gua­ge, or
-­that is an an­ti-­pa­tter­n, or a bad idio­m. No­thing like tha­t. If that we­re the
-­ca­se, it would­n&#8217;t be a ke­yword (and we know how few ke­ywor­ds Py­tho­n
-ha­s, and how hard it is to in­tro­du­ce a new one, so it&#8217;s the­re for a good&nbsp;­rea­so­n).</p> 
- <p>Ho­we­ve­r, what I do ar­gue, is that so­me of the ni­ce fea­tu­res of Py­thon are often
-o­ve­r-u­s­e­d, and the temp­ta­tion to abu­se a ni­ce fea­tu­re sha­do­ws be­tte­r&nbsp;o­ppor­tu­ni­tie­s.</p> 
- <p>For exam­ple, when de­fi­ning&nbsp;ex­cep­tion­s:</p> 
- <pre class="code python"><a name="rest_code_5881241c7c5a47c9a4760194e5e15664-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<p>This is an opin­ion I some­times re­mem­ber when see­ing some code. Don&#8217;t take it as
+a strong ad­vice, or a rule, but in­stead as a gen­er­al guide­line that might help
+you to im­prove the code&nbsp;slight­ly.</p>  <p>On this post I will share a tiny and opin­ion­at­ed ar­gu­ment about why there are
+usu­al­ly bet­ter things to do in the code in­stead of just  <em>pass</em>.</p>  <!-- TEASER_END -->
+<p>Dis­claimer: I am not say­ing that  <em>pass</em>  should be banned from the lan­guage, or
+that is an an­ti-­pat­tern, or a bad id­iom. Noth­ing like that. If that were the
+case, it would­n&#8217;t be a key­word (and we know how few key­words Python
+has, and how hard it is to in­tro­duce a new one, so it&#8217;s there for a good&nbsp;rea­son).</p>  <p>How­ev­er, what I do ar­gue, is that some of the nice fea­tures of Python are of­ten
+over-used, and the temp­ta­tion to abuse a nice fea­ture shad­ows bet­ter&nbsp;op­por­tu­ni­ties.</p>  <p>For ex­am­ple, when defin­ing&nbsp;ex­cep­tion­s:</p>  <pre class="code python"><a name="rest_code_5881241c7c5a47c9a4760194e5e15664-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <a name="rest_code_5881241c7c5a47c9a4760194e5e15664-2"></a>    <span class="k">pass</span>
 </pre>
-<p>It&#8217;s be­tter to pla­ce a  <em>do­cs­tring</em>  ex­plai­ning its rai­son d&#8217;e­tre, whi­ch
-e­li­mi­na­tes the ne­ce­s­si­ty for the  <em>pa­ss</em>  and the emp­ty&nbsp;bod­y:</p> 
- <pre class="code python"><a name="rest_code_88ac27752395470ebe31c3547dbeffe2-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<p>It&#8217;s bet­ter to place a  <em>doc­string</em>  ex­plain­ing its rai­son d&#8217;e­tre, which
+elim­i­nates the ne­ces­si­ty for the  <em>pass</em>  and the emp­ty&nbsp;body:</p>  <pre class="code python"><a name="rest_code_88ac27752395470ebe31c3547dbeffe2-1"></a><span class="k">class</span> <span class="nc">DataValidationError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 <a name="rest_code_88ac27752395470ebe31c3547dbeffe2-2"></a>    <span class="sd">"""A client error (400) when wrong data was provided."""</span>
 </pre>
-<p>This al­so com­plies wi­th the ge­ne­ral good prac­ti­ce of  <em>&#8220;u­se do­cs­trings in evee­r­y
-­func­tio­n, cla­ss, and mo­du­le de­fi­ne­d&#8221;</em>. In my opi­nio­n, it&#8217;s a mu­ch be­tte­r&nbsp;­choi­ce.</p> 
- <p>The sa­me cri­te­ria applies for emp­ty ba­se&nbsp;cla­s­ses.</p> 
- <p>How about when dea­ling wi­th&nbsp;ex­cep­tion­s?</p> 
- <p>So­me­ti­me­s, the oc­cu­rren­ce of an ex­cep­tion is a con­tro­lled sce­na­rio, and agai­n
- <em>pa­ss</em>  looks rea­lly&nbsp;temp­tin­g:</p> 
- <pre class="code python"><a name="rest_code_a98d90a9de4b42519ecea17d7a003165-1"></a><span class="k">try</span><span class="p">:</span>
+<p>This al­so com­plies with the gen­er­al good prac­tice of  <em>&#8220;use doc­strings in eveery
+func­tion, class, and mod­ule de­fined&#8221;</em>. In my opin­ion, it&#8217;s a much bet­ter&nbsp;choice.</p>  <p>The same cri­te­ria ap­plies for emp­ty base&nbsp;class­es.</p>  <p>How about when deal­ing with&nbsp;ex­cep­tion­s?</p>  <p>Some­times, the oc­cur­rence of an ex­cep­tion is a con­trolled sce­nar­i­o, and again <em>pass</em>  looks re­al­ly&nbsp;tempt­ing:</p>  <pre class="code python"><a name="rest_code_a98d90a9de4b42519ecea17d7a003165-1"></a><span class="k">try</span><span class="p">:</span>
 <a name="rest_code_a98d90a9de4b42519ecea17d7a003165-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <a name="rest_code_a98d90a9de4b42519ecea17d7a003165-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
 <a name="rest_code_a98d90a9de4b42519ecea17d7a003165-4"></a>    <span class="k">pass</span>  <span class="c1"># data is already parsed</span>
 </pre>
-<p>He­re the worst part is not even the  <em>pa­ss</em>, but the co­m­men­t! Ye­s, co­m­men­ts
-­re­pre­sent our fai­lu­re to ex­press our ideas in­to co­de, and they are the­re­fo­re,
-­ba­d. We can cheat a li­ttle bit he­re, but (on the bri­ght si­de), do so­me­thin­g
-­mo­re use­fu­l: How about lo­gging the&nbsp;me­ss­age?</p> 
- <pre class="code python"><a name="rest_code_3f9f984cfdfc4fe296c7ce1f64200ac9-1"></a><span class="k">try</span><span class="p">:</span>
+<p>Here the worst part is not even the  <em>pass</em>, but the com­men­t! Yes, com­ments
+rep­re­sent our fail­ure to ex­press our ideas in­to code, and they are there­fore,
+bad. We can cheat a lit­tle bit here, but (on the bright side), do some­thing
+more use­ful: How about log­ging the&nbsp;mes­sage?</p>  <pre class="code python"><a name="rest_code_3f9f984cfdfc4fe296c7ce1f64200ac9-1"></a><span class="k">try</span><span class="p">:</span>
 <a name="rest_code_3f9f984cfdfc4fe296c7ce1f64200ac9-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <a name="rest_code_3f9f984cfdfc4fe296c7ce1f64200ac9-3"></a><span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
 <a name="rest_code_3f9f984cfdfc4fe296c7ce1f64200ac9-4"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">"data is already parsed"</span><span class="p">)</span>
 </pre>
-<p>If all of this see­ms un­ne­ce­ssar­y, we can  <a class="reference external" href="https://docs.python.org/3/library/contextlib.html#contextlib.suppress">su­ppress</a>  the&nbsp;ex­cep­tio­n:</p> 
- <pre class="code python"><a name="rest_code_d5d649cf51da462689b6cb7b2d7e2c61-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
+<p>If all of this seems un­nec­es­sary, we can  <a class="reference external" href="https://docs.python.org/3/library/contextlib.html#contextlib.suppress">sup­press</a>  the&nbsp;ex­cep­tion:</p>  <pre class="code python"><a name="rest_code_d5d649cf51da462689b6cb7b2d7e2c61-1"></a><span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">suppress</span><span class="p">(</span><span class="ne">AttributeError</span><span class="p">):</span>
 <a name="rest_code_d5d649cf51da462689b6cb7b2d7e2c61-2"></a>    <span class="n">custom_parsing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre>
-<p>The­re are lo­ts of ca­ses like this when using the ke­yword  <em>pa­ss</em>  see­ms like a
-­via­ble op­tio­n. And agai­n, I&#8217;m not sa­ying it&#8217;s a bad choi­ce. I&#8217;m on­ly in­vi­tin­g
-­you to thi­nk mo­re about it, and try to find a be­tter&nbsp;al­ter­na­ti­ve.</p>
+<p>There are lots of cas­es like this when us­ing the key­word  <em>pass</em>  seems like a
+vi­able op­tion. And again, I&#8217;m not say­ing it&#8217;s a bad choice. I&#8217;m on­ly invit­ing
+you to think more about it, and try to find a bet­ter&nbsp;al­ter­na­tive.</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">

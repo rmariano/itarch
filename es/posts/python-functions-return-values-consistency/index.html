@@ -8,16 +8,16 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="next" href="../starting-a-gnome-shell-extension/" title="Starting a gnome-shell extension" type="text/html">
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="On returning consistent data types">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/python-functions-return-values-consistency/">
-<meta property="og:description" content="This post is ins­pi­red on an is­sue I on­ce foun­d, whi­le I was using a we­ll-k­no­wn li­bra­ry in Py­thon fo­r
-­par­sing YA­ML fi­le­s. The pro­blem was that when it was loading the con­tent of the">
+<meta property="og:description" content="This post is in­spired on an is­sue I once found, while I was us­ing a well-­known li­brary in Python for
+pars­ing YAML files. The prob­lem was that when it was load­ing the con­tent of the file, the ">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2014-06-08T15:46:09-03:00">
 <meta property="article:tag" content="best-practices">
@@ -35,7 +35,7 @@
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -69,7 +69,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -109,13 +109,10 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>This post is ins­pi­red on an is­sue I on­ce foun­d, whi­le I was using a we­ll-k­no­wn li­bra­ry in Py­thon fo­r
-­par­sing YA­ML fi­le­s. The pro­blem was that when it was loading the con­tent of the fi­le, the re­sult wa­s
-­not co­he­ren­t, be­cau­se so­me­ti­mes it re­tur­ned the con­tent as a py­thon  <strong>dict</strong>, but if the fi­le was emp­ty, the
-­re­turn va­lue was  <strong>No­ne</strong>.</p> 
- <p>Do you no­ti­ce so­me­thing odd&nbsp;he­re?</p> 
- <p>What if I want to use the re­sul­t? I can­not do it safe­l­y, for&nbsp;exam­ple:</p> 
- <table class="codetable"><tr>
+<p>This post is in­spired on an is­sue I once found, while I was us­ing a well-­known li­brary in Python for
+pars­ing YAML files. The prob­lem was that when it was load­ing the con­tent of the file, the re­sult was
+not co­her­en­t, be­cause some­times it re­turned the con­tent as a python  <strong>dict</strong>, but if the file was emp­ty, the
+re­turn val­ue was  <strong>None</strong>.</p>  <p>Do you no­tice some­thing odd&nbsp;here?</p>  <p>What if I want to use the re­sult? I can­not do it safe­ly, for&nbsp;ex­am­ple:</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_73cda22c249a43878830af787a8fa2cc-1">1</a>
 <a href="#rest_code_73cda22c249a43878830af787a8fa2cc-2">2</a>
 <a href="#rest_code_73cda22c249a43878830af787a8fa2cc-3">3</a></pre></div></td>
@@ -126,9 +123,8 @@ navbar-dark bg-dark
 </tr></table>
 <p>If content is <code class="docutils literal">None</code>, it will raise an <code class="docutils literal">AttributeError</code> saying that None has no
 attribute called &#8220;items&#8221; (which is&nbsp;true).</p>
-<p>The­re­fo­re, the de­ve­lo­per should ca­tch the ex­cep­tion or avoid the cor­ner ca­se,
-by doing so­me­thing like the&nbsp;fo­llo­win­g:</p> 
- <pre class="code python"><a name="rest_code_3ed7dad1e86a437c8cbaab5fd06322ea-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+<p>There­fore, the de­vel­op­er should catch the ex­cep­tion or avoid the cor­ner case,
+by do­ing some­thing like the&nbsp;fol­low­ing:</p>  <pre class="code python"><a name="rest_code_3ed7dad1e86a437c8cbaab5fd06322ea-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of &#8220;coding defensively&#8221;, making sure that the program will not fail under
 most conditions (it would also require to add an <code class="docutils literal">assert</code> or to raise an exception
@@ -137,11 +133,10 @@ but I think it is better if the library itself has a more correct behaviour, res
 the interface (that is: if you are going to return a dictionary, and there is not content,
 then the logical assumption is to expect an empty dictionary).
 This must be the default behaviour, not something to be set by&nbsp;parameters.</p>
-<p>This could be thou­ght as an ins­tan­ce of a mo­re ge­ne­ral pro­blem that oc­curs when so­me func­tio­n
-is in­ten­ded to re­turn &#8220;X or Y&#8221;. In my opi­nio­n, if X and Y do not sha­re the sa­me in­ter­fa­ce,
-­the­re is a po­ten­tial bug (in the Ob­jec­t-O­rien­ted pa­ra­digm we would say that the­re
-is no po­l­y­mor­phis­m, or ma­y­be that the &#8220;con­trac­t&#8221; is not being&nbsp;res­pec­te­d).</p> 
- <p>This is an exam­ple that I wanted to hi­gh­li­gh­t, be­cau­se it mi­ght help you to wri­te clea­ner&nbsp;co­de.</p>
+<p>This could be thought as an in­stance of a more gen­er­al prob­lem that oc­curs when some func­tion
+is in­tend­ed to re­turn &#8220;X or Y&#8221;. In my opin­ion, if X and Y do not share the same in­ter­face,
+there is a po­ten­tial bug (in the Ob­jec­t-Ori­ent­ed par­a­digm we would say that there
+is no poly­mor­phis­m, or maybe that the &#8220;con­trac­t&#8221; is not be­ing&nbsp;re­spect­ed).</p>  <p>This is an ex­am­ple that I want­ed to high­light, be­cause it might help you to write clean­er&nbsp;code.</p>
 </div>
     </div>
     <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">

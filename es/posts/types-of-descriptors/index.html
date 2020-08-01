@@ -8,8 +8,8 @@
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
-<link rel="alternate" type="application/rss+xml" title="RSS (en)" href="../../../rss.xml">
-<link rel="alternate" type="application/rss+xml" title="RSS (es)" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
+<link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/types-of-descriptors/">
 <!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../a-first-look-at-descriptors/" title="A first look at descriptors" type="text/html">
@@ -17,10 +17,8 @@
 <meta property="og:site_name" content="IT Arch">
 <meta property="og:title" content="Types of Descriptors">
 <meta property="og:url" content="https://rmariano.github.io/itarch/es/posts/types-of-descriptors/">
-<meta property="og:description" content="Re­su­ming from whe­re we le­ft off, on the pre­vious pos­t, on whi­ch we took
- A first look at des­crip­tors, it's ti­me to ex­plo­re their di­ffe­rent ty­pes
-and how they wo­rk in­ter­na­ll­y. 
- In ">
+<meta property="og:description" content="Re­sum­ing from where we left of­f, on the pre­vi­ous post, on which we took A first look at de­scrip­tors, it's time to ex­plore their dif­fer­ent types
+and how they work in­ter­nal­ly.  In Python, a">
 <meta property="og:type" content="article">
 <meta property="article:published_time" content="2017-05-14T12:55:31+02:00">
 <meta property="article:tag" content="descriptors">
@@ -37,7 +35,7 @@ and how they wo­rk in­ter­na­ll­y.
 navbar-dark bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
-        <a class="navbar-brand" href="https://rmariano.github.io/itarch/es/">
+        <a class="navbar-brand" href="../../">
 
             <span id="blog-title">IT Arch</span>
         </a>
@@ -71,7 +69,7 @@ navbar-dark bg-dark
 <ul class="navbar-nav navbar-right">
 <li>
             </li>
-<li class="nav-item"><a href="https://rmariano.github.io/itarch/" rel="alternate" hreflang="en" class="nav-link">English</a></li>
+<li class="nav-item"><a href="../../../" rel="alternate" hreflang="en" class="nav-link">English</a></li>
 
                 
                     
@@ -111,10 +109,8 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Re­su­ming from whe­re we le­ft off, on the pre­vious pos­t, on whi­ch we took
- <a class="reference external" href="../../../posts/a-first-look-at-descriptors/">A first look at des­crip­tors</a>, it&#8217;s ti­me to ex­plo­re their di­ffe­rent ty­pes
-and how they wo­rk&nbsp;in­ter­na­ll­y.</p> 
- <p>In Python, almost everything is represented with a dictionary. Objects are
+<p>Re­sum­ing from where we left of­f, on the pre­vi­ous post, on which we took <a class="reference external" href="../../../posts/a-first-look-at-descriptors/">A first look at de­scrip­tors</a>, it&#8217;s time to ex­plore their dif­fer­ent types
+and how they work&nbsp;in­ter­nal­ly.</p>  <p>In Python, almost everything is represented with a dictionary. Objects are
 dictionaries. Classes are objects, hence they also are contained into a
 dictionary. This is denoted by the <code>__dict__</code> attribute that objects&nbsp;have.</p>
 <p>There are two types of descriptors: data descriptors and non-data ones. If a
@@ -122,16 +118,13 @@ descriptor implements both <a class="footnote-reference brackets" href="#id6" id
 called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.</p>
 <!-- TEASER_END -->
 <div class="admonition note">
-<p class="admonition-title">No­te</p> 
- <p>Da­ta des­crip­tors take pre­ce­den­ce over the ins­tan­ce&#8217;s dic­tio­na­ry of
-a­ttri­bu­tes, whe­reas in the ca­se of a no­n-­da­ta des­crip­to­r, the ins­tan­ce&#8217;s
-in­ter­nal dic­tio­na­ry may be looked up&nbsp;firs­t.</p> 
- </div>
+<p class="admonition-title">Note</p>  <p>Da­ta de­scrip­tors take prece­dence over the in­stance&#8217;s dic­tio­nary of
+at­tributes, where­as in the case of a non-­da­ta de­scrip­tor, the in­stance&#8217;s
+in­ter­nal dic­tio­nary may be looked up&nbsp;first.</p>  </div>
 <p>The difference between them, lies on how the properties in the object are
 accessed, meaning which path will the <code class="docutils literal">MRO</code> (Method Resolution Order) of
 Python follow, in order to comply with our&nbsp;instruction.</p>
-<p>For a no­n-­da­ta des­crip­to­r, when we ha­ve an sta­te­ment&nbsp;like:</p> 
- <pre class="literal-block">&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;</pre>
+<p>For a non-­da­ta de­scrip­tor, when we have an state­ment&nbsp;like:</p>  <pre class="literal-block">&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;</pre>
 <p>Python will update the instance&#8217;s internal dictionary under the key for the
 name of the attribute, and store the value in it. This follows the default
 behaviour of setting an attribute in an instance because there is no
@@ -141,9 +134,8 @@ descriptor), for the same instruction the <code class="docutils literal">__set__
 because it&#8217;s defined. And analogously, when we access the property&nbsp;like:</p>
 <pre class="literal-block">&lt;instance&gt;.&lt;descriptor&gt;</pre>
 <p>The <code class="docutils literal">__get__</code> on descriptor is what&#8217;s going to be&nbsp;called.</p>
-<p>So, agai­n, da­ta (o­ve­rri­din­g) des­crip­tors take pre­ce­den­ce over the in­ter­na­l
-­dic­tio­na­ry of an ob­jec­t, whe­reas non da­ta (no­n-o­ve­rri­din­g) ones do&nbsp;no­t.</p> 
- <div class="section" id="lookup-on-non-data-descriptors">
+<p>So, again, da­ta (over­rid­ing) de­scrip­tors take prece­dence over the in­ter­nal
+dic­tio­nary of an ob­jec­t, where­as non da­ta (non-over­rid­ing) ones do&nbsp;not.</p>  <div class="section" id="lookup-on-non-data-descriptors">
 <h2>Lookup on Non-data&nbsp;Descriptors</h2>
 <p>On the <a class="reference external" href="../../../listings/descriptors0_get0.py">previous example</a>, when
 the object was first created it didn&#8217;t have any values for their properties. If
@@ -177,27 +169,23 @@ value&nbsp;holder.</p>
 <h3>Functions are non-data&nbsp;descriptors</h3>
 <p>This is how methods work in Python: function objects, are non-data descriptors
 that implement <code>__get__()</code>.</p>
-<p>If we thi­nk about it, ac­cor­ding to ob­jec­t-o­rien­ted so­ftwa­re theo­r­y, an ob­jec­t
-is a com­pu­ta­tio­nal abs­trac­tion that re­pre­sen­ts an en­ti­ty of the do­main pro­ble­m.
-An ob­ject has a set of me­tho­ds that can wo­rk wi­th, whi­ch de­ter­mi­nes its
-in­ter­fa­ce (what the ob­ject is and can do)  <a class="footnote-reference brackets" href="#id7" id="id2">2</a>.</p> 
- <p>Ho­we­ve­r, in mo­re te­ch­ni­cal ter­ms, ob­jec­ts are just im­ple­men­ted wi­th a da­ta
-s­truc­tu­re (that in Py­thon are dic­tio­na­rie­s), and it&#8217;s be­ha­viou­r, de­ter­mi­ne­d
-by their me­tho­d­s, are just func­tion­s. Agai­n, me­tho­ds are just func­tion­s. Le­t&#8217;s
-­pro­ve it  <a class="footnote-reference brackets" href="#id8" id="id3">3</a>.</p> 
- <p>If we ha­ve a cla­ss like this and ins­pect its dic­tio­na­ry we&#8217;­ll see that whate­ve­r
-we de­fi­ned as me­tho­d­s, are ac­tua­lly func­tions sto­red in­ter­na­lly in the
-­dic­tio­na­ry of the&nbsp;cla­ss.</p> 
- <pre class="code python"><a name="rest_code_b5e7a6641380407c806633c3106ea0f2-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+<p>If we think about it, ac­cord­ing to ob­jec­t-ori­ent­ed soft­ware the­o­ry, an ob­ject
+is a com­pu­ta­tion­al ab­strac­tion that rep­re­sents an en­ti­ty of the do­main prob­lem.
+An ob­ject has a set of meth­ods that can work with, which de­ter­mines its
+in­ter­face (what the ob­ject is and can do)  <a class="footnote-reference brackets" href="#id7" id="id2">2</a>.</p>  <p>How­ev­er, in more tech­ni­cal terms, ob­jects are just im­ple­ment­ed with a da­ta
+struc­ture (that in Python are dic­tio­nar­ies), and it&#8217;s be­haviour, de­ter­mined
+by their meth­od­s, are just func­tion­s. Again, meth­ods are just func­tion­s. Let&#8217;s
+prove it  <a class="footnote-reference brackets" href="#id8" id="id3">3</a>.</p>  <p>If we have a class like this and in­spect its dic­tio­nary we&#8217;ll see that what­ev­er
+we de­fined as meth­od­s, are ac­tu­al­ly func­tions stored in­ter­nal­ly in the
+dic­tio­nary of the&nbsp;class.</p>  <pre class="code python"><a name="rest_code_b5e7a6641380407c806633c3106ea0f2-1"></a><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
 <a name="rest_code_b5e7a6641380407c806633c3106ea0f2-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <a name="rest_code_b5e7a6641380407c806633c3106ea0f2-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 <a name="rest_code_b5e7a6641380407c806633c3106ea0f2-4"></a>
 <a name="rest_code_b5e7a6641380407c806633c3106ea0f2-5"></a>    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_person</span><span class="p">):</span>
 <a name="rest_code_b5e7a6641380407c806633c3106ea0f2-6"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hi </span><span class="si">{other_person.name}</span><span class="s2">, I'm </span><span class="si">{self.name}</span><span class="s2">!"</span><span class="p">)</span>
 </pre>
-<p>We can see that among all the things de­fi­ned in the cla­ss, it&#8217;s dic­tio­na­r­y
-­con­tains an en­try for &#8216;gree­t&#8217;, who­se va­lue is a&nbsp;func­tio­n.</p> 
- <pre class="code python"><a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
+<p>We can see that among all the things de­fined in the class, it&#8217;s dic­tio­nary
+con­tains an en­try for &#8216;greet&#8217;, whose val­ue is a&nbsp;func­tion.</p>  <pre class="code python"><a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">Person</span><span class="o">.</span><span class="n">greet</span><span class="p">)</span>
 <a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-2"></a><span class="o">&lt;</span><span class="k">class</span> <span class="err">'</span><span class="nc">function</span><span class="s1">'&gt;</span>
 <a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-3"></a>
 <a name="rest_code_3464572c565d4d8ca129ce3ad9cb874c-4"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">Person</span><span class="o">.</span><span class="vm">__dict__</span>
@@ -258,10 +246,9 @@ instance:</p>
 <a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">mtbf</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
 <a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-6"></a><span class="o">&gt;&gt;&gt;</span> <span class="mf">5.0</span>
 </pre>
-<p>But now we want it to be part of the cla­ss, so that I can use it as a ins­tan­ce
-­me­tho­d. If we try to as­sign the func­tion as a me­tho­d, it wi­ll just fai­l,
-­be­cau­se it&#8217;s not&nbsp;boun­d:</p> 
- <pre class="code python"><a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
+<p>But now we want it to be part of the class, so that I can use it as a in­stance
+method. If we try to as­sign the func­tion as a method, it will just fail,
+be­cause it&#8217;s not&nbsp;bound:</p>  <pre class="code python"><a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span>
 <a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
 <a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-3"></a><span class="o">---------------------------------------------------------------------------</span>
 <a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-4"></a><span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
@@ -307,11 +294,10 @@ the function bound to the instance, passing <em>self</em> as first parameter, wh
 turn is what&#8217;s going to be&nbsp;executed.</p>
 <p>This does the trick of making functions work as methods, which is a very
 elegant solution of <code class="docutils literal">CPython</code>.</p>
-<p>We can now appre­cia­te the ele­gan­ce of the de­sign be­hind me­tho­d­s: ins­tead of
-­crea­ting a who­le new ob­jec­t, reu­se func­tions un­der the as­sump­tion that the
-­first pa­ra­me­ter wi­ll be an ins­tan­ce of that cla­ss, that is going to be us­e­d
-in­ter­na­ll­y, and by con­ven­tion ca­lled  <em>se­lf</em>  (al­thou­gh, it can be ca­lle­d&nbsp;o­the­rwi­se).</p> 
- <p>Following a similar logic, <code class="docutils literal">classmethod</code>, and <code class="docutils literal">staticmethod</code> decorators,
+<p>We can now ap­pre­ci­ate the el­e­gance of the de­sign be­hind meth­od­s: in­stead of
+cre­at­ing a whole new ob­jec­t, re­use func­tions un­der the as­sump­tion that the
+first pa­ram­e­ter will be an in­stance of that class, that is go­ing to be used
+in­ter­nal­ly, and by con­ven­tion called  <em>self</em>  (although, it can be called&nbsp;oth­er­wise).</p>  <p>Following a similar logic, <code class="docutils literal">classmethod</code>, and <code class="docutils literal">staticmethod</code> decorators,
 are also descriptors. The former, passes the class as the first argument (which
 is why class methods start with <code class="docutils literal">cls</code> as a first argument), and the latter,
 simply returns the function as it&nbsp;is.</p>
@@ -322,11 +308,10 @@ simply returns the function as it&nbsp;is.</p>
 <p>On the previous example, when we assigned a value to the property of the
 descriptor, the instance dictionary was modified because there was no
 <code class="docutils literal">__set__</code> method on the&nbsp;descriptor.</p>
-<p>For da­ta des­crip­tor­s, un­like on the pre­vious exam­ple, the me­tho­ds on the
-­des­crip­tor ob­ject take pre­ce­den­ce, mea­ning that the lookup star­ts by the cla­ss,
-and does­n&#8217;t affect the ins­tan­ce&#8217;s dic­tio­na­r­y. This is an as­y­m­me­tr­y, tha­t
-­cha­rac­te­ri­ses da­ta&nbsp;des­crip­tor­s.</p> 
- <p>On the previous examples, if after running the descriptor, the <code class="docutils literal">__dict__</code> on
+<p>For da­ta de­scrip­tors, un­like on the pre­vi­ous ex­am­ple, the meth­ods on the
+de­scrip­tor ob­ject take prece­dence, mean­ing that the lookup starts by the class,
+and does­n&#8217;t af­fect the in­stance&#8217;s dic­tio­nary. This is an asym­me­try, that
+char­ac­teris­es da­ta&nbsp;de­scrip­tors.</p>  <p>On the previous examples, if after running the descriptor, the <code class="docutils literal">__dict__</code> on
 the instance was modified, it was because the code explicitly did so, but it
 could have had a different&nbsp;logic.</p>
 <pre class="code python"><a name="rest_code_d05e9651eee64825b3b1bc7719d45516-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
@@ -364,35 +349,29 @@ could have had a different&nbsp;logic.</p>
 be careful if we are overriding this method (better not), because if it&#8217;s not
 done properly, we might prevent the descriptor calls <a class="footnote-reference brackets" href="#id10" id="id5">5</a></p>
 <div class="admonition warning">
-<p class="admonition-title">War­ning</p> 
- <p>Classes might turn off the descriptor protocol by overriding
+<p class="admonition-title">Warn­ing</p>  <p>Classes might turn off the descriptor protocol by overriding
 <code class="docutils literal">__getattribute__</code>.</p>
 </div>
 <dl class="footnote brackets">
 <dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol">http­s://­do­cs.­p­y­tho­n.or­g/3.6/ho­w­to­/­des­crip­to­r.ht­m­l#­des­crip­to­r-­pro­to­col</a></p> 
- </dd>
+<p><a class="reference external" href="https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol">http­s://­doc­s.python.org/3.6/how­to/de­scrip­tor.htm­l#de­scrip­tor-pro­to­col</a></p>  </dd>
 <dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
 <dd>
-<p>Du­ck&nbsp;ty­ping</p> 
- </dd>
+<p>Duck&nbsp;typ­ing</p>  </dd>
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd>
-<p>This means that in rea­li­ty, ob­jec­ts are just da­ta struc­tu­res wi­th
-­func­tions on it, mu­ch like ADT (A­bs­tract Da­ta Ty­pes) in C, or the
-s­truc­ts de­fi­ned in Go wi­th the func­tions that wo­rk over the­m. A mo­re
-­de­tai­led ana­l­y­sis and ex­pla­na­tion of this, de­ser­ves a se­pa­ra­te&nbsp;pos­t.</p> 
- </dd>
+<p>This means that in re­al­i­ty, ob­jects are just da­ta struc­tures with
+func­tions on it, much like ADT (Ab­stract Da­ta Type­s) in C, or the
+structs de­fined in Go with the func­tions that work over them. A more
+de­tailed anal­y­sis and ex­pla­na­tion of this, de­serves a sep­a­rate&nbsp;post.</p>  </dd>
 <dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
 <dd>
-<p>This is not a good prac­ti­ce, (ex­cept for ve­ry par­ti­cu­lar sce­na­rios tha­t
-­mi­ght re­qui­re it, of cour­se), but it&#8217;s sho­wn on­ly to su­pport the&nbsp;idea.</p> 
- </dd>
+<p>This is not a good prac­tice, (ex­cept for very par­tic­u­lar sce­nar­ios that
+might re­quire it, of course), but it&#8217;s shown on­ly to sup­port the&nbsp;idea.</p>  </dd>
 <dt class="label" id="id10"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
 <dd>
-<p><a class="reference external" href="https://docs.python.org/3/howto/descriptor.html#invoking-descriptors">http­s://­do­cs.­p­y­tho­n.or­g/3/ho­w­to­/­des­crip­to­r.ht­m­l#in­vo­kin­g-­des­crip­tors</a></p> 
- </dd>
+<p><a class="reference external" href="https://docs.python.org/3/howto/descriptor.html#invoking-descriptors">http­s://­doc­s.python.org/3/how­to/de­scrip­tor.htm­l#in­vok­ing-de­scrip­tors</a></p>  </dd>
 </dl>
 </div>
 </div>
