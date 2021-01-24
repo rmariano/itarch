@@ -36,12 +36,13 @@ at the time of this writ­ing).  By re­">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,7 +66,7 @@ navbar-dark bg-dark
 <a href="../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../rss.xml" class="nav-link">RSS</a>
+<a href="../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -117,23 +118,23 @@ navbar-dark bg-dark
 how the sup­port for corou­tines was achieved in lat­est ver­sions of Python (3.6,
 at the time of this&nbsp;writ­ing).</p>  <p>By re­view­ing the mile­stones on gen­er­a­tors, chrono­log­i­cal­ly, we can get a bet­ter
 idea of the evo­lu­tion that lead to asyn­chro­nous pro­gram­ming in&nbsp;Python.</p>  <p>We will re­view the main changes in Python that re­late to gen­er­a­tors and
-asyn­chro­nous pro­gram­ming, start­ing with  <a class="reference external" href="https://www.python.org/dev/peps/pep-0255/">PEP-255</a>  (Sim­ple Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0342/">PEP-342</a> 
-(Corou­tines via En­hanced Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0380/">PEP-380</a>  (Syn­tax for del­e­gat­ing to a
-Sub­-­Gen­er­a­tor), and fin­ish­ing with  <a class="reference external" href="https://www.python.org/dev/peps/pep-0525/">PEP-525</a>  (Asyn­chronous&nbsp;Gen­er­a­tors).</p>  <!-- TEASER_END -->
+asyn­chro­nous pro­gram­ming, start­ing with  <a class="reference external" href="https://www.python.org/dev/peps/pep-0255/"><span class="caps">PEP</span>-255</a>  (Sim­ple Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0342/"><span class="caps">PEP</span>-342</a> 
+(Corou­tines via En­hanced Gen­er­a­tors),  <a class="reference external" href="https://www.python.org/dev/peps/pep-0380/"><span class="caps">PEP</span>-380</a>  (Syn­tax for del­e­gat­ing to a
+Sub­-­Gen­er­a­tor), and fin­ish­ing with  <a class="reference external" href="https://www.python.org/dev/peps/pep-0525/"><span class="caps">PEP</span>-525</a>  (Asyn­chronous&nbsp;Gen­er­a­tors).</p>  <!-- TEASER_END -->
 <div class="section" id="simple-generators">
 <h2>Simple&nbsp;Generators</h2>
-<p>PEP-255 in­tro­duced gen­er­a­tors to Python. The idea is that when we process some
+<p><span class="caps">PEP</span>-255 in­tro­duced gen­er­a­tors to Python. The idea is that when we process some
 data, we don&#8217;t ac­tu­al­ly need all of that to be in mem­o­ry at once.
 Most of the times, hav­ing one val­ue at the time is enough. Lazy eval­u­a­tion is a
 good trait to have in soft­ware, be­cause in this case it means that less
 mem­o­ry is used. It&#8217;s al­so a key con­cept in oth­er pro­gram­ming lan­guages, and one
-of the main ideas be­hind func­tion­al&nbsp;pro­gram­ming.</p>  <p>The new <code class="docutils literal">yield</code> keyword was added to Python, with the meaning of producing an
+of the main ideas be­hind func­tion­al&nbsp;pro­gram­ming.</p>  <p>The&nbsp;new <code class="docutils literal">yield</code> keyword was added to Python, with the meaning of producing an
 element that will be consumed by another caller&nbsp;function.</p>
-<p>The mere presence of the <code class="docutils literal">yield</code> keyword on any part of the function,
+<p>The mere presence of&nbsp;the <code class="docutils literal">yield</code> keyword on any part of the function,
 automatically makes that a <em>generator function</em>. When called, this function
 will create a <em>generator object</em>, which can be advanced, producing its
-elements, one at the time. By calling the generator successive times with the
-<code class="docutils literal">next()</code> function, the generator advances to the next <code class="docutils literal">yield</code> statement,
+elements, one at the time. By calling the generator successive times with&nbsp;the
+<code class="docutils literal">next()</code> function, the generator advances to the&nbsp;next <code class="docutils literal">yield</code> statement,
 producing values. After the generator produced a value, the generator is
 <em>suspended</em>, waiting to be called&nbsp;again.</p>
 <p>Take the  <cite>range</cite>  built-in func­tion, for ex­am­ple. In Python 2, this func­tion
@@ -181,14 +182,13 @@ ex­pres­sion will be passed to the call­er code, and the gen­er­a­tor will
 <a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-9"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getgeneratorstate</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 <a name="rest_code_c62a3b0ed2c34e8ca10c1e3abae35a5a-10"></a><span class="s1">'GEN_SUSPENDED'</span>
 </pre>
-<p>Generators are <em>iterable</em> objects. An <em>iterable</em> is an object whose
-<code class="docutils literal">__iter__</code> method, constructs a new <em>iterator</em>, every time is called (with
-<code class="docutils literal">iter(it)</code>, for instance).  An <em>iterator</em> is an object whose <code class="docutils literal">__iter__</code>
-returns itself, and its <code class="docutils literal">__next__</code> method contains the logic to produce new
-values each time is called, and how to signal the stop (by raising
+<p>Generators are <em>iterable</em> objects. An <em>iterable</em> is an object&nbsp;whose
+<code class="docutils literal">__iter__</code> method, constructs a new <em>iterator</em>, every time is called&nbsp;(with
+<code class="docutils literal">iter(it)</code>, for instance).  An <em>iterator</em> is an object&nbsp;whose <code class="docutils literal">__iter__</code>
+returns itself, and&nbsp;its <code class="docutils literal">__next__</code> method contains the logic to produce new
+values each time is called, and how to signal the stop (by&nbsp;raising
 <code class="docutils literal">StopIteration</code>).</p>
-<p>The idea of <em>iterables</em> is that they advance through values, by calling the
-built-in <code class="docutils literal">next()</code> function on it, and this will produce values until the
+<p>The idea of <em>iterables</em> is that they advance through values, by calling the&nbsp;built-in <code class="docutils literal">next()</code> function on it, and this will produce values until&nbsp;the
 <code class="docutils literal">StopIteration</code> exception is raised, signalling the end of the&nbsp;iteration.</p>
 <pre class="code python3"><a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
 <a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-2"></a><span class="o">...</span>     <span class="k">yield</span> <span class="mi">1</span>
@@ -205,9 +205,9 @@ built-in <code class="docutils literal">next()</code> function on it, and this w
 <a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-13"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">list</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
 <a name="rest_code_d915ea72965647d5bcd20e656f6ceb59-14"></a><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 </pre>
-<p>In the first case, when calling <code class="docutils literal">f()</code>, this creates a new generator. The
-first two calls to <code class="docutils literal">next()</code>, will advance until the next <code class="docutils literal">yield</code> statement,
-producing the values they have set. When there is nothing else to produce, the
+<p>In the first case, when&nbsp;calling <code class="docutils literal">f()</code>, this creates a new generator. The
+first two calls&nbsp;to <code class="docutils literal">next()</code>, will advance until the&nbsp;next <code class="docutils literal">yield</code> statement,
+producing the values they have set. When there is nothing else to produce,&nbsp;the
 <code class="docutils literal">StopIteration</code> exception is raised. Something similar to this, is actually
 run, when we iterate over this object in the form of <cite>for x in iterable: &#8230;</cite>.
 Only that Python internally handles the exception that determines when the for
@@ -229,7 +229,7 @@ gen­er­a­tor, we’re do­ing more than just wrap­ping the code of an it­er
 cre­at­ing a se­quence (which could even be in­finite), and nam­ing it. This
 se­quence we have, is an ob­ject we can use in the rest of the code. It’s an
 ab­strac­tion. As such, we can com­bine it with the rest of the code (for ex­am­ple
-to fil­ter on it), re­use it, pass it along to oth­er ob­ject­s, and&nbsp;more.</p>  <p>For example, let’s say we have the sequence created with <code class="docutils literal">new_range()</code>, and
+to fil­ter on it), re­use it, pass it along to oth­er ob­ject­s, and&nbsp;more.</p>  <p>For example, let’s say we have the sequence created&nbsp;with <code class="docutils literal">new_range()</code>, and
 then we realize that we need the first 10 even numbers of it. This is as simple
 as&nbsp;doing.</p>
 <pre class="code python3"><a name="rest_code_bdb840d74c2740ff96529efe72039faf-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">itertools</span>
@@ -238,18 +238,17 @@ as&nbsp;doing.</p>
 </pre>
 <p>And this is some­thing we could not so eas­i­ly ac­com­plish, had we cho­sen to
 ig­nore&nbsp;gen­er­a­tors.</p>  <p>For years, this has been all pret­ty much about gen­er­a­tors in Python. Gen­er­a­tors
-were in­tro­duced with the idea of it­er­a­tion and lazy com­pu­ta­tion in&nbsp;mind.</p>  <p>Lat­er on, there was an­oth­er en­hance­men­t, by PEP-342, adding more meth­ods to
+were in­tro­duced with the idea of it­er­a­tion and lazy com­pu­ta­tion in&nbsp;mind.</p>  <p>Lat­er on, there was an­oth­er en­hance­men­t, by <span class="caps">PEP</span>-342, adding more meth­ods to
 them, with the goal of sup­port­ing&nbsp;corou­tines.</p>  </div>
 <div class="section" id="coroutines">
 <h2>Coroutines</h2>
 <p>Rough­ly speak­ing, the idea of corou­tines is to pause the ex­e­cu­tion of a
 func­tion at a giv­en point, from where it can be lat­er re­sumed. The idea is that
 while a corou­tine is  <em>sus­pend­ed</em>, the pro­gram can switch to run an­oth­er part of
-the code. Ba­si­cal­ly, we need func­tions that can be&nbsp;paused.</p>  <p>As we have seen from the previous example, generators have this feature: when
-the <code class="docutils literal">yield &lt;expresson&gt;</code>, is reached, a value is produced to the caller
+the code. Ba­si­cal­ly, we need func­tions that can be&nbsp;paused.</p>  <p>As we have seen from the previous example, generators have this feature: when&nbsp;the <code class="docutils literal">yield &lt;expresson&gt;</code>, is reached, a value is produced to the caller
 object, and in the meantime the generator object is suspended. This suggested
 that generators can be used to support coroutines in Python, hence the name of
-the PEP being &#8220;Coroutines via Enhanced&nbsp;Generators&#8221;.</p>
+the <span class="caps">PEP</span> being &#8220;Coroutines via Enhanced&nbsp;Generators&#8221;.</p>
 <p>There is more, though. Corou­tines have to sup­port to be re­sumed from
 mul­ti­ple en­try points to con­tin­ue their ex­e­cu­tion. There­fore, more changes are
 re­quired. We need to be able to pass da­ta back to them, and han­dle ex­cep­tion­s.
@@ -276,24 +275,24 @@ of a <cite>yield</cite> to a variable, and the value will be whatever it was sen
 <a name="rest_code_1583c330acf44c72b22046f7d7f85799-15"></a><span class="n">Got</span> <span class="mi">42</span>
 <a name="rest_code_1583c330acf44c72b22046f7d7f85799-16"></a><span class="mi">3</span>
 </pre>
-<p>As we can see from this previous code, the value sent by <code class="docutils literal">yield</code> is going to
-be the result of the <code class="docutils literal">send</code>, (in this case, the consecutive numbers of the
-sequence), while the value passed in the <code class="docutils literal">send()</code>, the parameter, is the
-result that is assigned to <code class="docutils literal">value</code> as returned by the <code class="docutils literal">yield</code>, and printed
+<p>As we can see from this previous code, the value sent&nbsp;by <code class="docutils literal">yield</code> is going to
+be the result of&nbsp;the <code class="docutils literal">send</code>, (in this case, the consecutive numbers of the
+sequence), while the value passed in&nbsp;the <code class="docutils literal">send()</code>, the parameter, is the
+result that is assigned&nbsp;to <code class="docutils literal">value</code> as returned by&nbsp;the <code class="docutils literal">yield</code>, and printed
 out on the next&nbsp;line.</p>
-<p>Before sending any values to the generator, this has to be advanced to the next
+<p>Before sending any values to the generator, this has to be advanced to the&nbsp;next
 <code class="docutils literal">yield</code>. In fact, advancing is the only allowed operation on a newly-created
-generator. This can be done by calling <code class="docutils literal">next(g)</code> or <code class="docutils literal">g.send(None)</code>, which
+generator. This can be done by&nbsp;calling <code class="docutils literal">next(g)</code> or <code class="docutils literal">g.send(None)</code>, which
 are&nbsp;equivalent.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warn­ing</p>  <p>Re­mem­ber to al­ways ad­vance a gen­er­a­tor that was just cre­at­ed, or you will
 get a  <cite>Type­Er­ror</cite>.</p>  </div>
-<p>With the <code class="docutils literal">.throw()</code> method the caller can make the generator raise an
+<p>With&nbsp;the <code class="docutils literal">.throw()</code> method the caller can make the generator raise an
 exception at the point where is suspended. If this exception is handled
 internally in the generator, it will continue normally and the return value
-will be the one of the next <code class="docutils literal">yield</code> line that reached. If it&#8217;s not handled by
+will be the one of the&nbsp;next <code class="docutils literal">yield</code> line that reached. If it&#8217;s not handled by
 the generator, it will fail, and the exception will propagate to the&nbsp;caller.</p>
-<p>The <code class="docutils literal">.close()</code> method is used to terminate the generator. It will raise the
+<p>The <code class="docutils literal">.close()</code> method is used to terminate the generator. It will raise&nbsp;the
 <code class="docutils literal">GeneratorExit</code> exception inside the generator. If we wish to run some clean
 up code, this is the exception to handle. When handling this exception, the
 only allowed action is to return a&nbsp;value.</p>
@@ -304,20 +303,20 @@ the code be­came a bit cum­ber­some. More work had to be done, if we want­ed
 keep a Python­ic way of do­ing con­cur­rent&nbsp;pro­gram­ming.</p>  </div>
 <div class="section" id="more-coroutines">
 <h2>More&nbsp;Coroutines</h2>
-<p>PEP-380 added more changes to corou­ti­nes, this time with the goal of sup­port­ing
+<p><span class="caps">PEP</span>-380 added more changes to corou­ti­nes, this time with the goal of sup­port­ing
 del­e­ga­tion to sub­-­gen­er­a­tors. Two main things changed in gen­er­a­tors to make
 them more use­ful as&nbsp;corou­ti­nes:</p>  <ul class="simple">
 <li><p>Gen­er­a­­tors can now re­­turn&nbsp;val­ues.</p></li>  <li><p>The  <code class="docutils literal">yield from</code>  syn­tax.</p></li>  </ul>
 <div class="section" id="return-values-in-generators">
 <h3>Return Values in&nbsp;Generators</h3>
-<p>The keyword <code class="docutils literal">def</code>, defines a function, which returns values (with the
-<code class="docutils literal">return</code> keyword). However, as stated on the first section, if that <code class="docutils literal">def</code>
-contains a <code class="docutils literal">yield</code>, is a <em>generator function</em>. Before this PEP it would have
-been a syntax error to have a <code class="docutils literal">return</code> in a generator function (a function
-that also has a <code class="docutils literal">yield</code>. However, this is no longer the&nbsp;case.</p>
-<p>Remember how generators stop by raising <code class="docutils literal">StopIteration</code>. What does it mean
+<p>The&nbsp;keyword <code class="docutils literal">def</code>, defines a function, which returns values (with&nbsp;the
+<code class="docutils literal">return</code> keyword). However, as stated on the first section, if&nbsp;that <code class="docutils literal">def</code>
+contains&nbsp;a <code class="docutils literal">yield</code>, is a <em>generator function</em>. Before this <span class="caps">PEP</span> it would have
+been a syntax error to have&nbsp;a <code class="docutils literal">return</code> in a generator function (a function
+that also has&nbsp;a <code class="docutils literal">yield</code>. However, this is no longer the&nbsp;case.</p>
+<p>Remember how generators stop by&nbsp;raising <code class="docutils literal">StopIteration</code>. What does it mean
 that a generator returns a value? It means that it stops. And where does that
-value do? It&#8217;s contained inside the exception, as an attribute in
+value do? It&#8217;s contained inside the exception, as an attribute&nbsp;in
 <code class="docutils literal">StopIteration.value</code>.</p>
 <pre class="code python3"><a name="rest_code_14cde4271eea4bbea94f659006561629-1"></a><span class="k">def</span> <span class="nf">gen</span><span class="p">():</span>
 <a name="rest_code_14cde4271eea4bbea94f659006561629-2"></a>        <span class="k">yield</span> <span class="mi">1</span>
@@ -342,12 +341,12 @@ re­mains un­changed. It&#8217;s still the same kind of ex­cep­tion sig­nall
 the&nbsp;it­er­a­tion.</p>  </div>
 <div class="section" id="yield-from">
 <h3>yield&nbsp;from</h3>
-<p>An­oth­er syn­tax change to the&nbsp;lan­guage.</p>  <p>In its most basic form, the construction <code class="docutils literal">yield from &lt;iterable&gt;</code>, can be
+<p>An­oth­er syn­tax change to the&nbsp;lan­guage.</p>  <p>In its most basic form, the&nbsp;construction <code class="docutils literal">yield from &lt;iterable&gt;</code>, can be
 thought of&nbsp;as:</p>
 <pre class="literal-block">for e in iterable:
     yield e</pre>
 <p>Ba­si­cal­ly this means that it ex­tends an  <em>it­er­able</em>, yield­ing all el­e­ments that
-this in­ter­nal  <em>it­er­able</em>  can&nbsp;pro­duce.</p>  <p>For example, this way we could create a clone of the <code class="docutils literal">itertools.chain</code>
+this in­ter­nal  <em>it­er­able</em>  can&nbsp;pro­duce.</p>  <p>For example, this way we could create a clone of&nbsp;the <code class="docutils literal">itertools.chain</code>
 function from the standard&nbsp;library.</p>
 <pre class="code python3"><a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="k">def</span> <span class="nf">chain2</span><span class="p">(</span><span class="o">*</span><span class="n">iterables</span><span class="p">):</span>
 <a name="rest_code_0a3bf457f4204fe8a70efbe414c35dc5-2"></a><span class="o">...</span><span class="p">:</span>     <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">iterables</span><span class="p">:</span>
@@ -383,27 +382,25 @@ del­e­gate re­spon­si­bil­i­ty in­to small­er gen­er­a­tors, and cha
 <a name="rest_code_7f7e09ef384844628a95f96744a21bb5-23"></a><span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">g</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="rest_code_7f7e09ef384844628a95f96744a21bb5-24"></a><span class="ne">StopIteration</span><span class="p">:</span> <span class="n">B</span> <span class="n">finished</span>
 </pre>
-<p>Here we see how <code class="docutils literal">yield from</code> handles proper delegation to an internal
-generator. Notice that we never send values directly to <code class="docutils literal">internal</code>, but to
-<code class="docutils literal">gen</code>, instead, and these values end up on the nested generator. What
+<p>Here we see&nbsp;how <code class="docutils literal">yield from</code> handles proper delegation to an internal
+generator. Notice that we never send values directly&nbsp;to <code class="docutils literal">internal</code>, but&nbsp;to
+<code class="docutils literal">gen</code>, instead, and these values end up on the nested generator.&nbsp;What
 <code class="docutils literal">yield from</code> is actually doing is creating a generator that has a channel to
-all nested generators. Values produced by these will be provided to the caller
-of <code class="docutils literal">gen</code>. Values sent to it, will be passed along to the internal generators
+all nested generators. Values produced by these will be provided to the caller&nbsp;of <code class="docutils literal">gen</code>. Values sent to it, will be passed along to the internal generators
 (the same for exceptions). Even the return value is handled, and becomes the
 return value of the top-level generator (in this case the string that states
-the name of the last generator becomes the resulting <code class="docutils literal">StopIteration.value</code>).</p>
+the name of the last generator becomes the&nbsp;resulting <code class="docutils literal">StopIteration.value</code>).</p>
 <p>We see now the re­al val­ue of this con­struc­tion. With this, it&#8217;s eas­i­er to
 refac­tor gen­er­a­tors in­to small­er pieces, com­pose them and chain them to­geth­er
-while pre­serv­ing the be­hav­iour of&nbsp;corou­tines.</p>  <p>The new <code class="docutils literal">yield from</code> syntax is a great step towards supporting better
+while pre­serv­ing the be­hav­iour of&nbsp;corou­tines.</p>  <p>The&nbsp;new <code class="docutils literal">yield from</code> syntax is a great step towards supporting better
 concurrency. We can now think generators as being &#8220;lightweight threads&#8221;, that
 delegate functionality to an internal generator, pause the execution, so that
 other things can be computed in that&nbsp;time.</p>
 <p>Because syntactically generators are like coroutines, it was possible to
 accidentally confuse them, and end up placing a generator where a coroutine
-would have been expected (the <code class="docutils literal">yield from</code> would accept it, after all). For
+would have been expected&nbsp;(the <code class="docutils literal">yield from</code> would accept it, after all). For
 this reason, the next step is to actually define the concept of coroutine as a
-proper type. With this change, it also followed that <code class="docutils literal">yield from</code> evolved
-into <code class="docutils literal">await</code>, and a new syntax for defining coroutines was introduced:
+proper type. With this change, it also followed&nbsp;that <code class="docutils literal">yield from</code> evolved&nbsp;into <code class="docutils literal">await</code>, and a new syntax for defining coroutines was&nbsp;introduced:
 <code class="docutils literal">async</code>.</p>
 </div>
 <div class="section" id="async-def-await">
@@ -413,21 +410,21 @@ and make them part of the event loop. Broadly speaking the event loop will keep
 a list of the tasks (which wrap our coroutines) that have to run, and will
 schedule them&nbsp;to.</p>
 <p>On our coroutines we delegate the I/O functionality we want to achieve, to some
-other coroutine or <em>awaitable</em> object, by calling <code class="docutils literal">yield from</code> or <code class="docutils literal">await</code>
+other coroutine or <em>awaitable</em> object, by&nbsp;calling <code class="docutils literal">yield from</code> or <code class="docutils literal">await</code>
 on&nbsp;it.</p>
 <p>Then the event loop will call our coroutine, which will reach this line,
 delegating to the internal coroutine, and pausing the execution, which gives
 the control back to the scheduler (so it can run another coroutine). The event
 loop will monitor the future object that wraps our coroutine until is finished,
-and when it&#8217;s needed, it will update it by calling the <code class="docutils literal">.send()</code> method on
+and when it&#8217;s needed, it will update it by calling&nbsp;the <code class="docutils literal">.send()</code> method on
 it. Which in turn, will pass along to the internal coroutine, and so&nbsp;on.</p>
-<p>Before the new syntax for <code class="docutils literal">async</code> and <code class="docutils literal">await</code> was introduced, coroutines
-were defined as generators decorated with <code class="docutils literal">asyncio.coroutine</code>
+<p>Before the new syntax&nbsp;for <code class="docutils literal">async</code> and <code class="docutils literal">await</code> was introduced, coroutines
+were defined as generators decorated&nbsp;with <code class="docutils literal">asyncio.coroutine</code>
 (<code class="docutils literal">types.coroutine</code> was added in Python 3.5, when the coroutine type itself
-was created). Nowadays, <code class="docutils literal">async def</code> creates a native coroutine, and inside
-it, only the <code class="docutils literal">await</code> expression is accepted (not <code class="docutils literal">yield from</code>).</p>
-<p>The following two coroutines <code class="docutils literal">step</code> and <code class="docutils literal">coro</code> are a simple example, of how
-<code class="docutils literal">await</code> works similar to <code class="docutils literal">yield from</code> delegating the values to the
+was created).&nbsp;Nowadays, <code class="docutils literal">async def</code> creates a native coroutine, and inside
+it, only&nbsp;the <code class="docutils literal">await</code> expression is accepted&nbsp;(not <code class="docutils literal">yield from</code>).</p>
+<p>The following two&nbsp;coroutines <code class="docutils literal">step</code> and <code class="docutils literal">coro</code> are a simple example, of&nbsp;how
+<code class="docutils literal">await</code> works similar&nbsp;to <code class="docutils literal">yield from</code> delegating the values to the
 internal&nbsp;generator.</p>
 <pre class="code python3"><a name="rest_code_79dadb15c18b452c8434f531e174ec09-1"></a><span class="o">&gt;&gt;&gt;</span>  <span class="nd">@types</span><span class="o">.</span><span class="n">coroutine</span>
 <a name="rest_code_79dadb15c18b452c8434f531e174ec09-2"></a><span class="o">...</span><span class="p">:</span> <span class="k">def</span> <span class="nf">step</span><span class="p">():</span>
@@ -458,10 +455,9 @@ internal&nbsp;generator.</p>
 <a name="rest_code_79dadb15c18b452c8434f531e174ec09-27"></a><span class="n">Step</span> <span class="n">got</span> <span class="n">value</span>  <span class="n">third</span>
 <a name="rest_code_79dadb15c18b452c8434f531e174ec09-28"></a><span class="mi">3</span>
 </pre>
-<p>Once again, like in the <code class="docutils literal">yield from</code> example, when we send a value to
-<code class="docutils literal">coro</code>, this reaches the <code class="docutils literal">await</code> instruction, which means that will pass to
-the <code class="docutils literal">step</code> coroutine. In this simple example <code class="docutils literal">coro</code> is something like what
-we would write, while <code class="docutils literal">step</code> would be an external function we&nbsp;call.</p>
+<p>Once again, like in&nbsp;the <code class="docutils literal">yield from</code> example, when we send a value&nbsp;to
+<code class="docutils literal">coro</code>, this reaches&nbsp;the <code class="docutils literal">await</code> instruction, which means that will pass to&nbsp;the <code class="docutils literal">step</code> coroutine. In this simple&nbsp;example <code class="docutils literal">coro</code> is something like what
+we would write,&nbsp;while <code class="docutils literal">step</code> would be an external function we&nbsp;call.</p>
 <p>The fol­low­ing two corou­tines are dif­fer­ent ways of defin­ing&nbsp;corou­tines.</p>  <pre class="code python3"><a name="rest_code_851731ccbb1b4106befce6906ed41aad-1"></a><span class="c1"># py 3.4</span>
 <a name="rest_code_851731ccbb1b4106befce6906ed41aad-2"></a><span class="nd">@asyncio</span><span class="o">.</span><span class="n">coroutine</span>
 <a name="rest_code_851731ccbb1b4106befce6906ed41aad-3"></a><span class="k">def</span> <span class="nf">coroutine</span><span class="p">():</span>
@@ -472,24 +468,24 @@ we would write, while <code class="docutils literal">step</code> would be an ext
 <a name="rest_code_851731ccbb1b4106befce6906ed41aad-8"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </pre>
 <p>Basically this means that this asynchronous way of programming is kind of like
-an API, for working with event loops. It doesn&#8217;t really relate to <code class="docutils literal">asyncio</code>,
-we could use any event loop (<code class="docutils literal">curio</code>, <code class="docutils literal">uvloop</code>, etc.), for this. The
+an <span class="caps">API</span>, for working with event loops. It doesn&#8217;t really relate&nbsp;to <code class="docutils literal">asyncio</code>,
+we could use any event loop&nbsp;(<code class="docutils literal">curio</code>, <code class="docutils literal">uvloop</code>, etc.), for this. The
 important part is to understand, that an event loop will call our coroutine,
-which will eventually reach the line where we defined the <code class="docutils literal">await</code>, and this
-will delegate the function to an external function (in this case
-<code class="docutils literal">asyncio.sleep</code>).  When the event loop calls <code class="docutils literal">send()</code>, this is also passed,
-and the <code class="docutils literal">await</code> gives back control to the event loop, so a different
+which will eventually reach the line where we defined&nbsp;the <code class="docutils literal">await</code>, and this
+will delegate the function to an external function (in this&nbsp;case
+<code class="docutils literal">asyncio.sleep</code>).  When the event loop&nbsp;calls <code class="docutils literal">send()</code>, this is also passed,
+and&nbsp;the <code class="docutils literal">await</code> gives back control to the event loop, so a different
 coroutine can&nbsp;run.</p>
 <p>The corou­tines we de­fine are there­fore in be­tween the event loop, and 3rd-­par­ty
-func­tions that know how to han­dle the I/O in a non-block­ing&nbsp;fash­ion.</p>  <p>The event loop works then by a chain of <code class="docutils literal">await</code> calls. Ultimately, at the end
+func­tions that know how to han­dle the I/O in a non-block­ing&nbsp;fash­ion.</p>  <p>The event loop works then by a chain&nbsp;of <code class="docutils literal">await</code> calls. Ultimately, at the end
 of that chain there is a generator, that pauses the execution of the function,
 and handles the&nbsp;I/O.</p>
-<p>In fact if we check the type of <code class="docutils literal">asyncio.sleep</code>, we&#8217;ll see that is indeed a&nbsp;generator:</p>
+<p>In fact if we check the type&nbsp;of <code class="docutils literal">asyncio.sleep</code>, we&#8217;ll see that is indeed a&nbsp;generator:</p>
 <pre class="literal-block">&gt;&gt;&gt; asyncio.sleep(1)
 &lt;generator object sleep at 0x...&gt;</pre>
-<p>So with this new syntax, does this mean that <code class="docutils literal">await</code> is like <code class="docutils literal">yield from</code>?</p>
-<p>Only with respect to coroutines. It&#8217;s correct to write <code class="docutils literal">await &lt;coroutine&gt;</code>,
-as well as <code class="docutils literal">yield from &lt;coroutine&gt;</code>, the former won&#8217;t work with other
+<p>So with this new syntax, does this mean&nbsp;that <code class="docutils literal">await</code> is&nbsp;like <code class="docutils literal">yield from</code>?</p>
+<p>Only with respect to coroutines. It&#8217;s correct to&nbsp;write <code class="docutils literal">await &lt;coroutine&gt;</code>,
+as well&nbsp;as <code class="docutils literal">yield from &lt;coroutine&gt;</code>, the former won&#8217;t work with other
 <em>iterables</em> (for example generators that aren&#8217;t coroutines, sequences, etc.).
 Conversely, the latter won&#8217;t work with <em>awaitable</em>&nbsp;objects.</p>
 <p>The rea­son for this syn­tax change is for cor­rect­ness. Ac­tu­al­ly it&#8217;s not just a
@@ -498,21 +494,21 @@ syn­tax change, the new corou­tine type is prop­er­ly&nbsp;de­fined.:</p>  
 True</pre>
 <p>Given that coroutines are <em>syntactically</em> like generators, it would be possible
 to mix them, and place a generator in an asynchronous code where in fact we
-expected a coroutine. By using <code class="docutils literal">await</code>, the type of the object in the
+expected a coroutine. By&nbsp;using <code class="docutils literal">await</code>, the type of the object in the
 expression is checked by Python, and if it doesn&#8217;t comply, it will raise an&nbsp;exception.</p>
 </div>
 </div>
 <div class="section" id="asynchronous-generators">
 <h2>Asynchronous&nbsp;Generators</h2>
-<p>In Python 3.5 not only the proper syntax for coroutines was added (<code class="docutils literal">async def
+<p>In Python 3.5 not only the proper syntax for coroutines was added&nbsp;(<code class="docutils literal">async def
 / await</code>), but also the concept of asynchronous iterators. The idea of having
 an asynchronous <em>iterable</em> is to iterate while running asynchronous code. For
-this new methods such as <code class="docutils literal">__aiter__</code> and <code class="docutils literal">__anext__</code> where added under the
+this new methods such&nbsp;as <code class="docutils literal">__aiter__</code> and <code class="docutils literal">__anext__</code> where added under the
 concept of asynchronous&nbsp;iterators.</p>
 <p>However there was no support for asynchronous generators. That is analogous to
-saying that for asynchronous code we had to use <em>iterables</em> (like <code class="docutils literal">__iter__ /
-__next__</code> on regular code), but we couldn&#8217;t use generators (having a
-<code class="docutils literal">yield</code> in an <code class="docutils literal">async def</code> function was an&nbsp;error).</p>
+saying that for asynchronous code we had to use <em>iterables</em>&nbsp;(like <code class="docutils literal">__iter__ /
+__next__</code> on regular code), but we couldn&#8217;t use generators (having&nbsp;a
+<code class="docutils literal">yield</code> in&nbsp;an <code class="docutils literal">async def</code> function was an&nbsp;error).</p>
 <p>This changed in Python 3.6, and now this syn­tax is sup­port­ed, with the
 se­man­tics of a reg­u­lar gen­er­a­tor (lazy eval­u­a­tion, sus­pend and pro­duce one
 el­e­ment at the time, etc.), while&nbsp;it­er­at­ing.</p>  <p>Con­sid­er this sim­ple ex­am­ple on which we want to it­er­ate while call­ing some I/O
@@ -549,7 +545,7 @@ code that we don&#8217;t want to block&nbsp;up­on.</p>  <pre class="code python
 <a name="rest_code_6e45e8614d0b44fc98f100d783135d7e-31"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"collector on read </span><span class="si">%s</span><span class="s2">"</span><span class="p">,</span> <span class="n">read</span><span class="p">)</span>
 </pre>
 <p>The test function will simply exercise the iterator, on which elements are
-produced, one at the time, while calling an I/O task (in this example
+produced, one at the time, while calling an I/O task (in this&nbsp;example
 <code class="docutils literal">asyncio.sleep</code>).</p>
 <p>With asyn­chro­nous gen­er­a­tors, the same could be rewrit­ten in a more com­pact&nbsp;way.</p>  <pre class="code python3"><a name="rest_code_1952cc84c49f4f6498be02e0d919052e-1"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_data_streamer</span><span class="p">():</span>
 <a name="rest_code_1952cc84c49f4f6498be02e0d919052e-2"></a>    <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">10</span>
@@ -565,16 +561,16 @@ produced, one at the time, while calling an I/O task (in this example
 <p>It all start­ed with gen­er­a­tors. It was a sim­ple way of hav­ing lazy com­pu­ta­tion
 in Python, and run­ning more ef­fi­cient pro­gram­s, that use less&nbsp;mem­o­ry.</p>  <p>This evolved in­to corou­ti­nes, tak­ing ad­van­tage of the fact that gen­er­a­tors can
 sus­pend their ex­e­cu­tion. By ex­tend­ing the in­ter­face of gen­er­a­tors, corou­tines
-pro­vid­ed more pow­er­ful fea­tures to&nbsp;Python.</p>  <p>Coroutines were also improved to support better patterns, and the addition of
+pro­vid­ed more pow­er­ful fea­tures to&nbsp;Python.</p>  <p>Coroutines were also improved to support better patterns, and the addition&nbsp;of
 <code class="docutils literal">yield from</code> was a game changer, that allows to have better generators,
 refactor into smaller pieces, and reorganize the logic&nbsp;better.</p>
 <p>The addition of an event loop to the standard library, helps to provide a
 referential way of doing asynchronous programming. However, the logic of the
-coroutines and the <code class="docutils literal">await</code> syntax it not bound to any particular event loop.
-It&#8217;s an API <a class="footnote-reference brackets" href="#id4" id="id2">2</a> for doing asynchronous&nbsp;programming.</p>
+coroutines and&nbsp;the <code class="docutils literal">await</code> syntax it not bound to any particular event loop.
+It&#8217;s an <span class="caps">API</span> <a class="footnote-reference brackets" href="#id4" id="id2">2</a> for doing asynchronous&nbsp;programming.</p>
 <p>Asyn­chro­nous gen­er­a­tor was the lat­est ad­di­tion to Python that re­lates to
 gen­er­a­tors, and they help build more com­pact (and ef­fi­cien­t!) code for
-asyn­chro­nous&nbsp;it­er­a­tion.</p>  <p>In the end, behind all the logic of <code class="docutils literal">async / await</code>, everything is a
+asyn­chro­nous&nbsp;it­er­a­tion.</p>  <p>In the end, behind all the logic&nbsp;of <code class="docutils literal">async / await</code>, everything is a
 generator. Coroutines are in fact (technically), generators. Conceptually they
 are different, and have different purposes, but in terms of implementation
 generators are what make all this asynchronous programming&nbsp;possible.</p>
@@ -618,7 +614,7 @@ an idea of the dif­fer­ence be­tween both&nbsp;im­ple­men­ta­tion­s.</p>
                 <a href="../notes-on-the-kafka-summit-london-2018/" rel="next" title="Notes on the Kafka Summit London 2018">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -633,9 +629,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

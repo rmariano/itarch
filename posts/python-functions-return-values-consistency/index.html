@@ -32,12 +32,13 @@ pars­ing YAML files. The prob­lem was that when it was load­ing the con­tent
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,7 +62,7 @@ navbar-dark bg-dark
 <a href="../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../rss.xml" class="nav-link">RSS</a>
+<a href="../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -110,7 +111,7 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>This post is in­spired on an is­sue I once found, while I was us­ing a well-­known li­brary in Python for
-pars­ing YAML files. The prob­lem was that when it was load­ing the con­tent of the file, the re­sult was
+pars­ing <span class="caps">YAML</span> files. The prob­lem was that when it was load­ing the con­tent of the file, the re­sult was
 not co­her­en­t, be­cause some­times it re­turned the con­tent as a python  <strong>dict</strong>, but if the file was emp­ty, the
 re­turn val­ue was  <strong>None</strong>.</p>  <p>Do you no­tice some­thing odd&nbsp;here?</p>  <p>What if I want to use the re­sult? I can­not do it safe­ly, for&nbsp;ex­am­ple:</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_73cda22c249a43878830af787a8fa2cc-1">1</a>
@@ -121,13 +122,13 @@ re­turn val­ue was  <strong>None</strong>.</p>  <p>Do you no­tice some­thing
 <a name="rest_code_73cda22c249a43878830af787a8fa2cc-3"></a>    <span class="k">pass</span>  <span class="c1"># process as required...</span>
 </pre></td>
 </tr></table>
-<p>If content is <code class="docutils literal">None</code>, it will raise an <code class="docutils literal">AttributeError</code> saying that None has no
+<p>If content&nbsp;is <code class="docutils literal">None</code>, it will raise&nbsp;an <code class="docutils literal">AttributeError</code> saying that None has no
 attribute called &#8220;items&#8221; (which is&nbsp;true).</p>
 <p>There­fore, the de­vel­op­er should catch the ex­cep­tion or avoid the cor­ner case,
 by do­ing some­thing like the&nbsp;fol­low­ing:</p>  <pre class="code python"><a name="rest_code_3ed7dad1e86a437c8cbaab5fd06322ea-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of &#8220;coding defensively&#8221;, making sure that the program will not fail under
-most conditions (it would also require to add an <code class="docutils literal">assert</code> or to raise an exception
+most conditions (it would also require to add&nbsp;an <code class="docutils literal">assert</code> or to raise an exception
 perhaps, but that is a different topic). I actually agree with defensive programming,
 but I think it is better if the library itself has a more correct behaviour, respecting
 the interface (that is: if you are going to return a dictionary, and there is not content,
@@ -150,7 +151,7 @@ is no poly­mor­phis­m, or maybe that the &#8220;con­trac­t&#8221; is not be
                 <a href="../starting-a-gnome-shell-extension/" rel="next" title="Starting a gnome-shell extension">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -165,9 +166,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

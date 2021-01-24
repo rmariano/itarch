@@ -34,12 +34,13 @@ idiom for c">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -63,7 +64,7 @@ navbar-dark bg-dark
 <a href="../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../rss.xml" class="nav-link">RSS</a>
+<a href="../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -111,15 +112,15 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Recently, I&#8217;ve read an interesting article <a class="footnote-reference brackets" href="#id8" id="id1">1</a>, explaining why the <code>strncpy</code> function in C is not
-safer than <code>strcpy</code>. The post was very interesting, but what&#8217;s more, it suggested an alternative
+<p>Recently, I&#8217;ve read an interesting article <a class="footnote-reference brackets" href="#id8" id="id1">1</a>, explaining why&nbsp;the <code>strncpy</code> function in C is not
+safer&nbsp;than <code>strcpy</code>. The post was very interesting, but what&#8217;s more, it suggested an alternative
 idiom for copying strings in C, that might probably be the way to&nbsp;go.</p>
 <p>Lat­er, in an­oth­er ar­ti­cle  <a class="footnote-reference brackets" href="#id9" id="id2">2</a>  that com­pared some func­tion­al­i­ty in C, Python and Go, one of the com­ments
-point­ed out that very same id­iom. That grabbed my at­ten­tion, so I de­cid­ed to try it in an&nbsp;ex­am­ple.</p>  <p>The problem with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
+point­ed out that very same id­iom. That grabbed my at­ten­tion, so I de­cid­ed to try it in an&nbsp;ex­am­ple.</p>  <p>The problem&nbsp;with <code>strncpy</code> seems to be the way it manages the source string to be copied. Based on
 the sample code provided in the documentation <a class="footnote-reference brackets" href="#id10" id="id3">3</a> (that should be just a reference), the break condition
-is up to <code>n</code> characters (the third parameter) or until the source string is exhausted, whatever happens first. This
-should not be a problem, unless <code>n &lt; strlen(source_string)</code>. That parameter would make <code>strncpy</code>
-to finish before it can put a <code>\0</code> character at the end of the target string, leaving
+is up&nbsp;to <code>n</code> characters (the third parameter) or until the source string is exhausted, whatever happens first. This
+should not be a problem,&nbsp;unless <code>n &lt; strlen(source_string)</code>. That parameter would&nbsp;make <code>strncpy</code>
+to finish before it can put&nbsp;a <code>\0</code> character at the end of the target string, leaving
 an invalid array of characters <a class="footnote-reference brackets" href="#id12" id="id4">5</a>.</p>
 <p>This is an&nbsp;ex­am­ple.</p>  <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_add52e96d2fb4ca787d0983d71f67012-1"> 1</a>
@@ -172,13 +173,13 @@ an invalid array of characters <a class="footnote-reference brackets" href="#id1
 <a name="rest_code_add52e96d2fb4ca787d0983d71f67012-24"></a><span class="p">}</span>
 </pre></td>
 </tr></table>
-<p>On this example, the target array is represented by the variable <code>dst</code>, and I used a fixed-length string,
+<p>On this example, the target array is represented by the&nbsp;variable <code>dst</code>, and I used a fixed-length string,
 on purpose for the demonstration, simulating what would actually happen. I null-terminated it so the program
 can finish successfully, because otherwise the operations on it would not end until the delimiter is reached,
 and we cannot know when that will happen, considering what&#8217;s in memory at that time. In addition, the
 unpredictable behaviour will lead to errors, and probably to memory corruption. The underscore,
 should be interpreted as slots: regions or reserved memory that are there, but&nbsp;empty.</p>
-<p>The proposed idiom uses <code>strncat</code> (see <a class="footnote-reference brackets" href="#id11" id="id5">4</a>),
+<p>The proposed idiom&nbsp;uses <code>strncat</code> (see <a class="footnote-reference brackets" href="#id11" id="id5">4</a>),
 tricking the function by passing it an empty string as the first parameter,
 and then the actual string we need to copy. This call will render the same result,
 but without the previous side effect.
@@ -246,14 +247,14 @@ Let&#8217;s see an&nbsp;example:</p>
 </tr></table>
 <p>Here we see, the er­ror is no longer pre­sen­t, prob­a­bly be­cause of the dif­fer­ence on the im­ple­men­ta­tion
 (the snip­pet on the doc­u­men­ta­tion  <a class="footnote-reference brackets" href="#id11" id="id6">4</a>  gives us a hint on what it does, so we can spot the&nbsp;change).</p>  <p>This might seem as a little issue, but it raised some concerns on the Linux kernel development, at the
-point that a new function was developed. The <code>strscpy</code> function is being included in the Kernel
+point that a new function was developed.&nbsp;The <code>strscpy</code> function is being included in the Kernel
 development for <em>Linux 4.3-rc4</em> <a class="footnote-reference brackets" href="#id13" id="id7">6</a> because it <em>is</em> a better interface. Some of the problems mentioned
 in the commit message, that inspired this new version, are the ones described on the previous&nbsp;paragraphs.</p>
 <p>This makes me wonder, if this should be the &#8220;correct&#8221; way for performing this operation &#8220;safely&#8221; in C. In all
 cases, the error is the same (not checking the boundaries, and trusting the input), and should be avoided. What I
 mean by this, is that we cannot simply rely on those functions being secure, the security must be in our code,
 so the proper way to handle these situations is to <em>code defensively</em>: do not trust user input, always check the boundaries,
-error codes, memory allocation, status of the pointer (a <code>free</code> for every <code>malloc</code> but not for a <code>NULL</code> pointer,&nbsp;etc.).</p>
+error codes, memory allocation, status of the pointer&nbsp;(a <code>free</code> for&nbsp;every <code>malloc</code> but not for&nbsp;a <code>NULL</code> pointer,&nbsp;etc.).</p>
 <dl class="footnote brackets">
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd>
@@ -292,7 +293,7 @@ error codes, memory allocation, status of the pointer (a <code>free</code> for e
                 <a href="../deleting-commented-out-code/" rel="next" title="Deleting commented out code">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -307,9 +308,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

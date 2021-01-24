@@ -32,12 +32,13 @@ The idea on this post, is to h">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,7 +62,7 @@ navbar-dark bg-dark
 <a href="../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../rss.xml" class="nav-link">RSS</a>
+<a href="../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -110,30 +111,30 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>It is well-known among Python developers (or at least, it should be), that is a bad idea to import everything
-from a module, for example by doing <code class="docutils literal">from &lt;module&gt; import *</code>.</p>
+from a module, for example by&nbsp;doing <code class="docutils literal">from &lt;module&gt; import *</code>.</p>
 <p>The idea on this post, is to high­light and gath­er the rea­sons why this is a bad prac­tice, in or­der to col­lec­tive­ly
 iden­ti­fy many un­de­sired ef­fect­s. How­ev­er, with­out los­ing prag­ma­tism, in case there are some odd rea­sons why this
 might be ac­cept­able, I will al­so men­tion them, if any. Let&#8217;s see where we&nbsp;get.</p>  <ol class="arabic simple">
 <li><dl class="simple">
 <dt>You do not know what you&nbsp;get</dt>  <dd>
 <p>An ar­bi­trary Python script may con­tain any code, and most of it will be ex­e­cut­ed when
-per­form­ing the  <code class="docutils literal">im­port *</code>  part (y­ou can­not re­ly on how  <code class="docutils literal">__­name__</code>  is han­dled).
+per­form­ing&nbsp;the  <code class="docutils literal">im­port *</code>  part (y­ou can­not re­ly on&nbsp;how  <code class="docutils literal">__­name__</code>  is han­dled).
 The in­ter­face is to­tal­ly un­clear: you do not know what com­pu­ta­tions per­form­s, what ob­jects will im­port, etc.
 In gen­er­al is more ef­fi­cient to im­port as few def­i­ni­tions as&nbsp;pos­si­ble.</p>  </dd>  </dl></li>  <li><dl class="simple">
 <dt>Iden­ti­fiers ap­pear&nbsp;mag­i­cal­ly</dt>  <dd>
 <p>In any de­cent­ly read­able Python scrip­t, the pro­gram­mer must be able to lo­cate ev­ery def­i­ni­tion, which means
-to iden­ti­fy where does ev­ery iden­ti­fi­er come from. For ex­am­ple, a vari­able named  <code class="docutils literal">x</code>  can ei­ther be a pa­ram­e­ter
-of the func­tion in the cur­rent scope, a vari­able al­ready de­fined (as­signed), or a name al­ready im­port­ed (<code class="docutils literal">from mod im­port x</code>), etc.
-By per­form­ing the in­cor­rect im­port, this vari­able might ap­pear out of the blue, mean­ing that I will have an  <code class="docutils literal">x</code>  that
+to iden­ti­fy where does ev­ery iden­ti­fi­er come from. For ex­am­ple, a vari­able&nbsp;named  <code class="docutils literal">x</code>  can ei­ther be a pa­ram­e­ter
+of the func­tion in the cur­rent scope, a vari­able al­ready de­fined (as­signed), or a name al­ready im­port­ed&nbsp;(<code class="docutils literal">from mod im­port x</code>), etc.
+By per­form­ing the in­cor­rect im­port, this vari­able might ap­pear out of the blue, mean­ing that I will have&nbsp;an  <code class="docutils literal">x</code>  that
 will not be nei­ther a pa­ram­e­ter, nor a def­i­ni­tion nor a de­clared im­port. This mean­s, I can­not
-track the ori­gin or  <code class="docutils literal">x</code>. The sit­u­a­tion gets worse if there are not one, but many  <code class="docutils literal">im­port *</code>  state­ments.
+track the ori­gin&nbsp;or  <code class="docutils literal">x</code>. The sit­u­a­tion gets worse if there are not one, but&nbsp;many  <code class="docutils literal">im­port *</code>  state­ments.
 De­bug­ging be­comes a&nbsp;night­mare.</p>  </dd>  </dl></li>  <li><dl class="simple">
 <dt>Names­paces are one honk­ing great idea &#8212; let&#8217;s do more of&nbsp;those!</dt>  <dd>
 <p>Straight from the Python zen   <a class="footnote-reference brackets" href="#id3" id="id1">1</a>. By im­­port­ing ev­ery­thing from a mod­­ule, the ben­e­­fits of the names­­paces
 are some­how lost. In­­stead, ev­ery­thing (or a lot of things), might get to be called the same, mess­ing
 with the cur­rent scope. More­over, new im­­port de­f­i­ni­­tions might over­ride pre­vi­ous&nbsp;ones.</p>    </dd>  </dl></li>  <li><dl class="simple">
 <dt>Ex­plic­it is bet­ter than&nbsp;im­plic­it</dt>  <dd>
-<p>Again, ev­ery iden­ti­fi­er that we want im­port­ed should be done ex­plic­it­ly (the  <code class="docutils literal">*</code>  is not very&nbsp;declar­a­tive).</p>  </dd>  </dl></li>  </ol>
+<p>Again, ev­ery iden­ti­fi­er that we want im­port­ed should be done ex­plic­it­ly&nbsp;(the  <code class="docutils literal">*</code>  is not very&nbsp;declar­a­tive).</p>  </dd>  </dl></li>  </ol>
 <p>Now, so far these might be some of the main rea­sons about why im­port­ing ev­ery­thing from a Python mod­ule
 is usu­al­ly not a good idea. How­ev­er, in case the code at stake is just a sim­ple test­ing scrip­t, or
 an in­-­line sen­tence on ipython, there could be noth­ing wrong about&nbsp;it.</p>  <p>In ad­di­tion, al­though I am not a big fan of im­port state­ments in­side func­tions (some­times they are nec­es­sary, though),
@@ -162,7 +163,7 @@ as a code-s­mell  <a class="footnote-reference brackets" href="#id4" id="id2">2
                 <a href="../libvirt-networking-libraries/" rel="next" title="Libvirt networking libraries">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -177,9 +178,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

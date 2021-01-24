@@ -33,12 +33,13 @@ a lot of queues or tasks be­ing queued and">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,7 +63,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -110,43 +111,40 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>If you use Rab­bit­MQ for de­vel­op­ment fre­quent­ly, some­times you might have found
+<p>If you use Rab­bit­<span class="caps">MQ</span> for de­vel­op­ment fre­quent­ly, some­times you might have found
 it us­es too much re­sources (it&#8217;s nor­mal while pro­gram­ming to have
-a lot of queues or tasks be­ing queued and that makes the CPU us­age to&nbsp;spike).</p>  <p>Having RabbitMQ installed on the OS seems the perfect approach for production, but
+a lot of queues or tasks be­ing queued and that makes the <span class="caps">CPU</span> us­age to&nbsp;spike).</p>  <p>Having RabbitMQ installed on the <span class="caps">OS</span> seems the perfect approach for production, but
 on development I&#8217;d rather do something different, in order to isolate
 the process. I know I could bound it (for example order it not to start automatically
-as a dæmon), by means of <code>systemd</code> but a few weeks ago I decided to
-try <code>docker</code> and see how it&nbsp;results.</p>
+as a dæmon), by means&nbsp;of <code>systemd</code> but a few weeks ago I decided to&nbsp;try <code>docker</code> and see how it&nbsp;results.</p>
 <p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
-con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­MQ, which can be au­to­mat­i­cal­ly pulled,
+con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­<span class="caps">MQ</span>, which can be au­to­mat­i­cal­ly pulled,
 and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
 <a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
-<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
-passing <code>-e</code> we pass some environment variables (in this case,
-the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
-how to set the name of the node it is starting). Optionally, we can limit the CPU
-usage with the <code>--cpuset</code>, as in this case which sets the process to use the
-second core of the machine (it starts at <cite>0</cite>). Then the <code>--name</code> is a name for the docker being&nbsp;created.</p>
-<p>The most important part in this case is the port mapping, made by the <code>-p</code> option which in this case maps the
+<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by&nbsp;passing <code>-e</code> we pass some environment variables (in this case,&nbsp;the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
+how to set the name of the node it is starting). Optionally, we can limit the <span class="caps">CPU</span>
+usage with&nbsp;the <code>--cpuset</code>, as in this case which sets the process to use the
+second core of the machine (it starts at <cite>0</cite>). Then&nbsp;the <code>--name</code> is a name for the docker being&nbsp;created.</p>
+<p>The most important part in this case is the port mapping, made by&nbsp;the <code>-p</code> option which in this case maps the
 port used by RabbitMQ directly (1:1) with the host machine. This makes the docker process to run transparently, as
 the other applications that try to communicate with a RabbitMQ won&#8217;t notice any difference, making it look like is
 executing an actual RabbitMQ service. Finally there is the name of the docker image to&nbsp;run.</p>
 <p>What I usually do is to manage the docker image by its <cite>instance_id</cite> (a number that is displayed after listing
-the docker images, by doing <code>sudo docker ps -a</code>).
-Then we can manage it by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
+the docker images, by&nbsp;doing <code>sudo docker ps -a</code>).
+Then we can manage it&nbsp;by <code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
 <p>There is another command to see the output being generated by the process
-which is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
+which&nbsp;is <code>docker logs rabbitmq.docker</code>. Notice in this case the name
 designated to the image was used instead of the <em>instance_id</em>. In addition
-we can see internal data for the process by running the <code>inspect</code>
+we can see internal data for the process by running&nbsp;the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
 <pre class="code bash"><a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-1"></a>docker inspect rabbitmq.docker
 <a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
-other limitations and bounds constrained by <code>docker</code>.</p>
-<p>I found this ap­proach to be very ver­sa­tile for a de­vel­op­ment en­vi­ron­men­t, and with Rab­bit­MQ be­ing the first pi­lot,
+other limitations and bounds constrained&nbsp;by <code>docker</code>.</p>
+<p>I found this ap­proach to be very ver­sa­tile for a de­vel­op­ment en­vi­ron­men­t, and with Rab­bit­<span class="caps">MQ</span> be­ing the first pi­lot,
 I think I can mi­grate more ap­pli­ca­tions to dock­er in­stead of hav­ing them in­stalled on the sys­tem (as long as&nbsp;pos­si­ble).</p>
 </div>
     </div>
@@ -163,7 +161,7 @@ I think I can mi­grate more ap­pli­ca­tions to dock­er in­stead of hav­in
                 <a href="../notas-sobre-la-arqconf-2015/" rel="next" title="Notas sobre la ArqConf 2015">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -178,9 +176,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

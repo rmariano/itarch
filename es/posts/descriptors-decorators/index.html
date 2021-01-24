@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Descriptors <span class="amp">&amp;</span> Decorators | IT Arch</title>
+<title>Descriptors &amp; Decorators | IT Arch</title>
 <link href="../../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <meta name="theme-color" content="#5670d4">
 <meta name="generator" content="Nikola (getnikola.com)">
@@ -34,12 +34,13 @@ so­lu­tion">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -63,7 +64,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -140,27 +141,27 @@ TypeError: 'classmethod' object is not callable</pre>
 <p>The ex­cep­tion is telling us that we tried to call some­thing that is not
 ac­tu­al­ly a callable. But if that&#8217;s the case then, how do class meth­ods&nbsp;run?</p>  <p>The fact is that, this is true, class methods are indeed not callable objects,
 but we rarely notice this, because when we access a class method, it&#8217;s usually
-in the form of <cite>&lt;class&gt;.&lt;class_method&gt;</cite> (or maybe also from an instance doing
+in the form of <cite>&lt;class&gt;.&lt;class_method&gt;</cite> (or maybe also from an instance&nbsp;doing
 <code>self.&lt;class_method&gt;</code>). For both cases the answer is the same: by
 calling the method like this, the <em>descriptor mechanism</em> is triggered, and will
-call the <code>__get__</code> inside the class method. As we already know from the
+call&nbsp;the <code>__get__</code> inside the class method. As we already know from the
 analysis of the <a class="reference external" href="../../../posts/types-of-descriptors/">Types of Descriptors</a>, <code class="docutils literal">@classmethod</code> is actually a
-descriptor, and the definition of its <code class="docutils literal">__get__</code> method is the one that
-returns a callable <a class="footnote-reference brackets" href="#id2" id="id1">1</a>, but <code class="docutils literal">@classmethod</code> is not itself a&nbsp;callable.</p>
+descriptor, and the definition of&nbsp;its <code class="docutils literal">__get__</code> method is the one that
+returns a callable <a class="footnote-reference brackets" href="#id2" id="id1">1</a>,&nbsp;but <code class="docutils literal">@classmethod</code> is not itself a&nbsp;callable.</p>
 <div class="admonition hint">
-<p class="admonition-title">Hint</p>  <p><code class="docutils literal">@classmethod</code> is not a callable object. It&#8217;s a descriptor whose
+<p class="admonition-title">Hint</p>  <p><code class="docutils literal">@classmethod</code> is not a callable object. It&#8217;s a descriptor&nbsp;whose
 <code class="docutils literal">__get__</code> method returns a&nbsp;callable.</p>
 </div>
 <p>Now, when the dec­o­ra­tor is ap­plied to the class method, this is equiv­a­lent
 of&nbsp;do­ing:</p>  <pre class="literal-block">class Object:
     ...
     class_method = decorator(class_method)</pre>
-<p>Which doesn&#8217;t trigger the <em>descriptor protocol</em>, so the <code class="docutils literal">__get__</code> in
+<p>Which doesn&#8217;t trigger the <em>descriptor protocol</em>, so&nbsp;the <code class="docutils literal">__get__</code> in
 <code class="docutils literal">@classmethod</code> is never called, therefore what the decorator receives,
 is not a callable, hence the&nbsp;exception.</p>
-<p>By now, it becomes clear that if the reason why it fails is because
+<p>By now, it becomes clear that if the reason why it fails is&nbsp;because
 <code class="docutils literal">@classmethod</code> is a non-callable descriptor, then the solution must be
-related to descriptors. And indeed, this can be fixed by just implementing
+related to descriptors. And indeed, this can be fixed by just&nbsp;implementing
 <code class="docutils literal">__get__</code>.</p>
 <pre class="code python"><a name="rest_code_4f179d1134464c0993fece9f1b35be75-1"></a><span class="k">class</span> <span class="nc">decorator</span><span class="p">:</span>
 <a name="rest_code_4f179d1134464c0993fece9f1b35be75-2"></a>    <span class="o">...</span>
@@ -171,7 +172,7 @@ related to descriptors. And indeed, this can be fixed by just implementing
 <p>This links the func­tion of the de­scrip­tor to the ob­ject that is go­ing to use it
 (in this case, the class), and re­turns a new in­stance of the dec­o­ra­tor for this
 func­tion, which does the&nbsp;trick.</p>  <p>It&#8217;s important to notice that this error was due to the order on which
-descriptors where applied, because <code class="docutils literal">@decorator</code> was decorating
+descriptors where applied,&nbsp;because <code class="docutils literal">@decorator</code> was&nbsp;decorating
 <code class="docutils literal">@classmethod</code> and not the other way around. This problem wouldn&#8217;t have
 occurred if we swapped the order of the decorators. So it&#8217;s a fair question to
 ask, why wasn&#8217;t this just applied like this to begin with? After all, a class
@@ -180,7 +181,7 @@ might want to apply, so it makes sense to be it the last one being applied.
 True, but the fix is rather simple, and more importantly, it makes the
 decorator more generic and applicable, as it&#8217;s shown on the next&nbsp;section.</p>
 <div class="admonition note">
-<p class="admonition-title">Note</p>  <p>Keep in mind the order of the decorators, and make sure <code class="docutils literal">@classmethod</code> is
+<p class="admonition-title">Note</p>  <p>Keep in mind the order of the decorators, and make&nbsp;sure <code class="docutils literal">@classmethod</code> is
 the last one being used, in order to avoid issues.  Even despite this
 consideration, is better to have decorators that will work in many possible
 scenarios, regardless of their&nbsp;order.</p>
@@ -249,8 +250,8 @@ rather sim­ple as in the pre­vi­ous&nbsp;case:</p>  <pre class="code python">
 <a name="rest_code_ddadbecb900f43af81fa14c7e8c0f2cc-3"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span>
 </pre>
 <p>The same method works here as well. When the wrapped function is a regular
-one, the <code class="docutils literal">__get__</code> method doesn&#8217;t take place at all, so adding it, doesn&#8217;t
-affect the decorator. Whereas, when is called from a class, the <code class="docutils literal">__get__</code>
+one,&nbsp;the <code class="docutils literal">__get__</code> method doesn&#8217;t take place at all, so adding it, doesn&#8217;t
+affect the decorator. Whereas, when is called from a class,&nbsp;the <code class="docutils literal">__get__</code>
 method is enabled, returning a bound instance, which will pass <em>self</em> as the
 first parameter (what Python does&nbsp;internally).</p>
 <div class="admonition hint">
@@ -279,7 +280,7 @@ found at   <a class="reference external" href="https://docs.python.org/3.6/howto
                 <a href="../the-__set_name__-method-for-descriptors/" rel="next" title="The __set_name__ method for descriptors">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -294,9 +295,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

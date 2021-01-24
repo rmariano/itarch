@@ -34,12 +34,13 @@ getattr/setattr, but the problem is the same), and find">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -63,7 +64,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -112,12 +113,12 @@ navbar-dark bg-dark
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
 <p>Descriptors generally have to interact with attributes of the managed object,
-and this is done by inspecting <code class="docutils literal">__dict__</code> on that object (or calling
+and this is done by&nbsp;inspecting <code class="docutils literal">__dict__</code> on that object (or&nbsp;calling
 <code class="docutils literal">getattr/setattr</code>, but the problem is the same), and finding the key under
 the specific&nbsp;name.</p>
 <p>For this rea­son, the de­scrip­tor will have to know the name of the key to look
 for, which is re­lat­ed to the name of the at­tribute is&nbsp;man­ag­ing.</p>  <p>On pre­vi­ous ver­sions of Python this had to be done ex­plic­it­ly. If we want­ed to
-work around it, there were some more ad­vanced ways to do so. Luck­i­ly, af­ter <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/">PEP-487</a>  (added in Python 3.6),
+work around it, there were some more ad­vanced ways to do so. Luck­i­ly, af­ter <a class="reference external" href="https://www.python.org/dev/peps/pep-0487/"><span class="caps">PEP</span>-487</a>  (added in Python 3.6),
 there are some en­hance­ments re­gard­ing class cre­ation, which al­so af­fects&nbsp;de­scrip­tors.</p>  <p>Let&#8217;s re­view the prob­lem, the pre­vi­ous ap­proach­es to tack­le it, and the mod­ern
 way of solv­ing&nbsp;it.</p>  <!-- TEASER_END -->
 <div class="section" id="configure-the-name-of-the-descriptor">
@@ -138,7 +139,7 @@ ex­am­ple&nbsp;in:</p>  <pre class="code python"><a name="rest_code_b02affb9c5
 <a name="rest_code_b02affb9c5894cbdbfe58618dc0ae509-12"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">(</span><span class="s1">'descriptor'</span><span class="p">)</span>
 </pre>
 <p>What we re­quire is to check that the name is passed to the de­scrip­tor prop­er­ly,&nbsp;ba­si­cal­ly:</p>  <pre class="literal-block">assert Managed.descriptor.name == 'descriptor'</pre>
-<p>But we don&#8217;t want to pass the string <code class="docutils literal">'descriptor'</code> as a parameter when
+<p>But we don&#8217;t want to pass the&nbsp;string <code class="docutils literal">'descriptor'</code> as a parameter when
 constructing it, because it&#8217;s repetitive. Instead, we want this to be
 configured automatically. Let&#8217;s see some&nbsp;options.</p>
 </div>
@@ -164,16 +165,15 @@ pa­ram­e­ters of the dec­o­ra­tor, and make the as­sign­ment of the name
 <p>The con­di­tion is&nbsp;pre­served:</p>  <pre class="literal-block">assert DecoratedManaged.descriptor.name == 'descriptor'</pre>
 <p>In this decorator, we provide the name and the class of the descriptor to be
 created, and the decorator instantiates the class with this name. We could also
-have created the instance directly in the descriptor, and then update the value
-with <code>setattr(descriptor, 'name', dname)</code>, which is more general, in
-case you want to create descriptors that take multiple arguments on their
+have created the instance directly in the descriptor, and then update the value&nbsp;with <code>setattr(descriptor, 'name', dname)</code>, which is more general, in
+case you want to create descriptors that take multiple arguments on&nbsp;their
 <code class="docutils literal">__init__</code> method, but for this case it&#8217;s just&nbsp;fine.</p>
 <p>Then we set the new de­scrip­tor (the one that has the name al­ready up­dat­ed on
 it), to the wrapped&nbsp;class.</p>  <p>How­ev­er, it still seems a bit un­fa­mil­iar or coun­ter-in­tu­itive that we&#8217;re
 defin­ing the de­scrip­tor not in the body of the class, but as a pa­ram­e­ter of a&nbsp;dec­o­ra­tor.</p>  <p>There must be an­oth­er&nbsp;way.</p>  </div>
 <div class="section" id="a-meta-class">
 <h2>A&nbsp;meta-class</h2>
-<p>Imagine we flag the class by adding a <code class="docutils literal">__set_name = True</code> attribute on it,
+<p>Imagine we flag the class by adding&nbsp;a <code class="docutils literal">__set_name = True</code> attribute on it,
 in order to hint the meta-class that this is going to be one of the attributes
 that need its name changed. Then the meta-class would look something&nbsp;like:</p>
 <pre class="code python"><a name="rest_code_e41b070fc1fd4edda9d3a459131bc05f-1"></a><span class="k">class</span> <span class="nc">MetaDescriptor</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
@@ -189,7 +189,7 @@ that need its name changed. Then the meta-class would look something&nbsp;like:<
 <a name="rest_code_e41b070fc1fd4edda9d3a459131bc05f-11"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">LoggedAttr</span><span class="p">()</span>
 </pre>
 <p>And&nbsp;again:</p>  <pre class="literal-block">assert MetaManaged.descriptor.name == 'descriptor'</pre>
-<p>One detail is that the <code class="docutils literal">__init__</code> of the descriptor accepts the name to be
+<p>One detail is that&nbsp;the <code class="docutils literal">__init__</code> of the descriptor accepts the name to be
 nullable so this works. Another option would have been defining only the
 descriptor assigned to the class, and then, re-mapping the attribute with the
 instance, passing the name when it&#8217;s being constructed on the meta-class. Both
@@ -201,7 +201,7 @@ rather ob­vi­ous: it&#8217;s not a good use of meta-­class­es, and this is o
 say the least) for what should be a sim­ple&nbsp;task.</p>  <p>There must be a bet­ter&nbsp;way.</p>  </div>
 <div class="section" id="set-name">
 <h2>__set_name__</h2>
-<p>And there is. At least for Python 3.6 and higher. The <code class="docutils literal">__set_name__</code> method
+<p>And there is. At least for Python 3.6 and higher.&nbsp;The <code class="docutils literal">__set_name__</code> method
 was included, which is automatically called when the class is being created,
 and it receives two parameters: the class and the name of the attribute as it
 appears defined in the&nbsp;class.</p>
@@ -211,8 +211,8 @@ appears defined in the&nbsp;class.</p>
 <a name="rest_code_33f0802562014de6b1dbcf123cfb64cc-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 </pre>
 <p>And that&#8217;s it, no oth­er code is need­ed. The so­lu­tion is much sim­pler, and it
-en­tails less&nbsp;prob­lem­s.</p>  <p>Actually, I deliberately named the flag <code class="docutils literal">__set_name</code>, to get an idea of
-what&#8217;s coming, and to hint that with <code class="docutils literal">__set_name__</code>, Python must be doing
+en­tails less&nbsp;prob­lem­s.</p>  <p>Actually, I deliberately named the&nbsp;flag <code class="docutils literal">__set_name</code>, to get an idea of
+what&#8217;s coming, and to hint that&nbsp;with <code class="docutils literal">__set_name__</code>, Python must be doing
 something similar to the example, but in this case we shouldn&#8217;t worry about&nbsp;it.</p>
 </div>
 <div class="section" id="conclusion">
@@ -223,7 +223,7 @@ things were done pre­vi­ous­ly, be­cause it&#8217;s not fair to just as­sum
 al­ways good, and take that for grant­ed. Oth­er­wise, we would miss the evo­lu­tion
 of the lan­guage, and as­sume there were nev­er is­sues, prob­lems or things that
 need­ed&nbsp;re­vi­sion.</p>  <p>And more importantly, there still are. Python still has lots of other areas for
-improvement. Just as in this example <code class="docutils literal">__set_name__</code> seems to solve a small,
+improvement. Just as in this&nbsp;example <code class="docutils literal">__set_name__</code> seems to solve a small,
 yet annoying problem, there are many other scenarios on which things are not
 crystal clear in Python, so the language still needs to&nbsp;evolve.</p>
 </div>
@@ -243,7 +243,7 @@ crystal clear in Python, so the language still needs to&nbsp;evolve.</p>
                 <a href="../pycon-cz-day-1/" rel="next" title="PyCon CZ - Day 1">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -258,9 +258,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

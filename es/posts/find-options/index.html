@@ -33,12 +33,13 @@ files,">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -62,7 +63,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -110,29 +111,28 @@ navbar-dark bg-dark
 
     </header><div class="e-content entry-content" itemprop="articleBody text">
     <div>
-<p>Among the core-utils, <code class="docutils literal">find</code> is one of the most useful commands. Though I use the basic functions
-most of the time, <code class="docutils literal">find</code> has a wide range of parameters, and it comes in handy not only for finding
+<p>Among the&nbsp;core-utils, <code class="docutils literal">find</code> is one of the most useful commands. Though I use the basic functions
+most of the&nbsp;time, <code class="docutils literal">find</code> has a wide range of parameters, and it comes in handy not only for finding
 files, but also for operating a bunch of them at once. Here is a very simple&nbsp;example.</p>
 <p>Imagine you have to move many files to a directory, but they all call different so a <a class="reference external" href="https://en.wikipedia.org/wiki/Glob_%28programming%29">glob</a> is no use, and
 manually moving all of them is not an option. A possible approach would be to locate the first of the batch (for example
-by running <code class="docutils literal">ls <span class="pre">-l­rth</span></code>). Suppose the first one of the batch is called <code class="docutils literal">/tmp/checkpoint</code> (for this example
-let&#8217;s assume the files reside at <code class="docutils literal">/tmp</code>).</p>
+by&nbsp;running <code class="docutils literal">ls <span class="pre">-l­rth</span></code>). Suppose the first one of the batch is&nbsp;called <code class="docutils literal">/tmp/checkpoint</code> (for this example
+let&#8217;s assume the files reside&nbsp;at <code class="docutils literal">/tmp</code>).</p>
 <p>The com­mand would&nbsp;be:</p>  <pre class="code bash"><a name="rest_code_3839e9021a52411e8c565d48403251a1-1"></a>find /tmp -type f -anewer /tmp/checkpoint -exec mv <span class="s1">'{}'</span> &lt;target_directory&gt; <span class="se">\;</span>
 </pre>
 <p>The <code class="docutils literal"><span class="pre">-type</span>  f</code> part is important in order not to move the entire directory (find only the files). Then
-we have the <code class="docutils literal"><span class="pre">-anew­er</span></code> that receives a file as a parameter, and it will filter for those files whose
+we have&nbsp;the <code class="docutils literal"><span class="pre">-anew­er</span></code> that receives a file as a parameter, and it will filter for those files whose
 modification date is greater than the file used as an example (hence, this must be the start of the batch), and
-finally the <code class="docutils literal"><span class="pre">-ex­ec</span></code> part is interesting because as mentioned at the beginning, it allows to perform
+finally&nbsp;the <code class="docutils literal"><span class="pre">-ex­ec</span></code> part is interesting because as mentioned at the beginning, it allows to perform
 arbitrary operations on the group of files (in this case to move them to another location, but
-other actions such as modifications, <code class="docutils literal">sed</code>, etc. are also&nbsp;possible).</p>
-<p>Another trait I like about <code class="docutils literal">find</code> is that presents a secure and well-defined interface, meaning that in
+other actions such as&nbsp;modifications, <code class="docutils literal">sed</code>, etc. are also&nbsp;possible).</p>
+<p>Another trait I like&nbsp;about <code class="docutils literal">find</code> is that presents a secure and well-defined interface, meaning that in
 some cases I can first check the results prior to execute an action. For example, if we would like to check
 for deleting some unnecessary&nbsp;files:</p>
 <pre class="code bash"><a name="rest_code_fa74652ffab144458c0c0bb54899df3b-1"></a>find . -name <span class="s2">"*.pyc"</span>
 </pre>
-<p>By issuing this command we list some files to erase. And then we can simply do that by
-appending <code class="docutils literal"><span class="pre">-delete</span></code> to the very same&nbsp;command.</p>
-<p>This is just the tip of the iceberg of the things that are possible by means of the <code class="docutils literal">find</code> command and
+<p>By issuing this command we list some files to erase. And then we can simply do that by&nbsp;appending <code class="docutils literal"><span class="pre">-delete</span></code> to the very same&nbsp;command.</p>
+<p>This is just the tip of the iceberg of the things that are possible by means of&nbsp;the <code class="docutils literal">find</code> command and
 its various&nbsp;options.</p>
 </div>
     </div>
@@ -149,7 +149,7 @@ its various&nbsp;options.</p>
                 <a href="../running-rabbitmq-server-on-docker/" rel="next" title="Running RabbitMQ server on Docker">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -164,9 +164,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

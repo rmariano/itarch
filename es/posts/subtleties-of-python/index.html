@@ -32,12 +32,13 @@ dif­fer­ence be­tween a work­ing unit ">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,7 +62,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -173,7 +174,7 @@ copies of the ob­­jects when­ev­er pos­si­ble, and re­­turn them&nbsp;ac
 <p>Need­less to say, there are ex­cep­tions to these rules, af­ter all  <em>prag­ma­tism
 beats pu­ri­ty</em>. Here are some ob­vi­ous ex­cep­tions to these rules  <a class="footnote-reference brackets" href="#id4" id="id2">2</a>:&nbsp;:</p>  <ul class="simple">
 <li><p>For item 1, we al­ways have to con­sid­er the trade-off mem­o­ry/speed. If the
-ob­ject it&#8217;s too big (per­haps a large dic­tio­nary), run­ning <code>copy­.deep­copy­()</code>  on it will be slow, and it will take a lot of mem­o­ry,
+ob­ject it&#8217;s too big (per­haps a large dic­tio­nary),&nbsp;run­ning <code>copy­.deep­copy­()</code>  on it will be slow, and it will take a lot of mem­o­ry,
 so it&#8217;s prob­a­bly faster to just mod­i­fy it in&nbsp;place.</p></li>  <li><p>The ob­vi­ous ex­­cep­­tion for rule [2] is when us­ing de­scrip­­tors, but be­­cause
 it&#8217;s like­­ly an sce­­nario on which we are coun­t­ing on that side ef­fec­t. Oth­­er
 than that, there should­n&#8217;t be any rea­­son to go on such a dan­ger­ous&nbsp;path.</p></li>  <li><p>Rule [3] should­n&#8217;t be a prob­lem if the at­tributes are read­­-on­­ly, and we&#8217;re
@@ -187,11 +188,11 @@ mu­­tat­ing them, you can&#8217;t as­­sure no­­body will break that rule 
 <p>The it­er­a­tor pro­to­col in Python is a great fea­ture. It al­lows us to treat an
 en­tire set of ob­jects by their be­hav­iour re­gard­less of their in­ter­nal&nbsp;rep­re­sen­ta­tion.</p>  <p>For in­stance we can write a code&nbsp;like:</p>  <pre class="code python3"><a name="rest_code_d8cde3f7d8de45b5858d49bafc8bab8a-1"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myiterable</span><span class="p">:</span> <span class="o">...</span>
 </pre>
-<p>And we don&#8217;t know exactly what <code class="docutils literal">myiterable</code> is. It might be a list, a tuple,
+<p>And we don&#8217;t know exactly&nbsp;what <code class="docutils literal">myiterable</code> is. It might be a list, a tuple,
 a dictionary, a string, and it will still&nbsp;work.</p>
 <p>We can al­so re­ly on all meth­ods that use this&nbsp;pro­to­col,</p>  <pre class="code python3"><a name="rest_code_c0145262006b48c6af03a4cec5add57b-1"></a><span class="n">mylist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myiterable</span><span class="p">)</span>
 </pre>
-<p>Of course <code class="docutils literal">mylist</code> has to be a list, but again <code class="docutils literal">myiterable</code> can be anything
+<p>Of&nbsp;course <code class="docutils literal">mylist</code> has to be a list, but&nbsp;again <code class="docutils literal">myiterable</code> can be anything
 that can be iterated&nbsp;over.</p>
 <p>Un­for­tu­nate­ly, this amaz­ing fea­ture it&#8217;s al­so the cause of some sub­tle&nbsp;headaches.</p>  <p>A long time ago, I re­mem­ber hear­ing a com­plaint from a co-­work­er say­ing that a
 part of the code was par­tic­u­lar­ly slow. The code in ques­tion was a func­tion
@@ -202,11 +203,11 @@ You can imag­ine some­thing like&nbsp;this:</p>  <pre class="code python3"><a 
 <a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
 </pre>
 <p>Now what happens? Like in the introduction, we are using the iterator protocol,
-so we rely on the fact that we don&#8217;t exactly know what <code class="docutils literal">files_to_process</code> is
+so we rely on the fact that we don&#8217;t exactly know&nbsp;what <code class="docutils literal">files_to_process</code> is
 exactly (a tuple, a list,&nbsp;etc.)</p>
-<p>There is a subtle issue. Strings are also <code class="docutils literal">iterable</code>. If you pass a single
-file, let&#8217;s say <code class="docutils literal">/home/ubuntu/foo</code>, each character will be iterated over,
-starting with <code class="docutils literal">/</code> (the root directory), following with <code class="docutils literal">h</code>, etc. That&#8217;s why
+<p>There is a subtle issue. Strings are&nbsp;also <code class="docutils literal">iterable</code>. If you pass a single
+file, let&#8217;s&nbsp;say <code class="docutils literal">/home/ubuntu/foo</code>, each character will be iterated over,
+starting&nbsp;with <code class="docutils literal">/</code> (the root directory), following&nbsp;with <code class="docutils literal">h</code>, etc. That&#8217;s why
 the programs was slow. It was copying the entire file&nbsp;system!</p>
 <p>The so­lu­tion is to use a bet­ter in­ter­face, that dis­al­low these er­rors&nbsp;en­tire­ly:</p>  <pre class="code python3"><a name="rest_code_0b3c524b00e54259956b3f707db4cac3-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="o">*</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
 <a name="rest_code_0b3c524b00e54259956b3f707db4cac3-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
@@ -215,7 +216,7 @@ the programs was slow. It was copying the entire file&nbsp;system!</p>
 </pre>
 <p>In this example the signature of the function exposes a much nicer interface,
 in the sense that it can allow one or multiple files as arguments, without the
-issue of the previous example. This change also makes <code class="docutils literal">target_directory</code> to
+issue of the previous example. This change also&nbsp;makes <code class="docutils literal">target_directory</code> to
 be keyword-only, which is more explicit as&nbsp;well.</p>
 </div>
 <div class="section" id="closing-words">
@@ -248,7 +249,7 @@ nar­rowed down to a sin­gle line of&nbsp;code.</p>  </dd>
                 <a href="../2018-in-review/" rel="next" title="2018 in review">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -263,9 +264,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

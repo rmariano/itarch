@@ -32,12 +32,13 @@ and how they work in­ter­nal­ly.  In Python, a">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -61,7 +62,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -112,7 +113,7 @@ navbar-dark bg-dark
 <p>Re­sum­ing from where we left of­f, on the pre­vi­ous post, on which we took <a class="reference external" href="../../../posts/a-first-look-at-descriptors/">A first look at de­scrip­tors</a>, it&#8217;s time to ex­plore their dif­fer­ent types
 and how they work&nbsp;in­ter­nal­ly.</p>  <p>In Python, almost everything is represented with a dictionary. Objects are
 dictionaries. Classes are objects, hence they also are contained into a
-dictionary. This is denoted by the <code>__dict__</code> attribute that objects&nbsp;have.</p>
+dictionary. This is denoted by&nbsp;the <code>__dict__</code> attribute that objects&nbsp;have.</p>
 <p>There are two types of descriptors: data descriptors and non-data ones. If a
 descriptor implements both <a class="footnote-reference brackets" href="#id6" id="id1">1</a> <code>__get__()</code> and <code>__set__()</code>, it&#8217;s
 called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.</p>
@@ -122,15 +123,15 @@ called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.<
 at­tributes, where­as in the case of a non-­da­ta de­scrip­tor, the in­stance&#8217;s
 in­ter­nal dic­tio­nary may be looked up&nbsp;first.</p>  </div>
 <p>The difference between them, lies on how the properties in the object are
-accessed, meaning which path will the <code class="docutils literal">MRO</code> (Method Resolution Order) of
+accessed, meaning which path will&nbsp;the <code class="docutils literal">MRO</code> (Method Resolution Order) of
 Python follow, in order to comply with our&nbsp;instruction.</p>
 <p>For a non-­da­ta de­scrip­tor, when we have an state­ment&nbsp;like:</p>  <pre class="literal-block">&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;</pre>
 <p>Python will update the instance&#8217;s internal dictionary under the key for the
 name of the attribute, and store the value in it. This follows the default
-behaviour of setting an attribute in an instance because there is no
+behaviour of setting an attribute in an instance because there is&nbsp;no
 <code class="docutils literal">__set__</code> defined to override&nbsp;it.</p>
 <p>On the other hand, if we have a <em>data descriptor</em> (also called <em>overriding</em>
-descriptor), for the same instruction the <code class="docutils literal">__set__</code> method will be ran
+descriptor), for the same instruction&nbsp;the <code class="docutils literal">__set__</code> method will be ran
 because it&#8217;s defined. And analogously, when we access the property&nbsp;like:</p>
 <pre class="literal-block">&lt;instance&gt;.&lt;descriptor&gt;</pre>
 <p>The <code class="docutils literal">__get__</code> on descriptor is what&#8217;s going to be&nbsp;called.</p>
@@ -140,7 +141,7 @@ dic­tio­nary of an ob­jec­t, where­as non da­ta (non-over­rid­ing) ones 
 <p>On the <a class="reference external" href="../../../listings/descriptors0_get0.py">previous example</a>, when
 the object was first created it didn&#8217;t have any values for their properties. If
 we inspect the object, and its class, we&#8217;ll see that it doesn&#8217;t have any keys
-set for <code class="docutils literal">'tv'</code>, but the class&nbsp;does:</p>
+set&nbsp;for <code class="docutils literal">'tv'</code>, but the class&nbsp;does:</p>
 <pre class="code python"><a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">media</span><span class="o">.</span><span class="vm">__dict__</span>
 <a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-2"></a><span class="p">{}</span>
 <a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-3"></a>
@@ -152,23 +153,23 @@ set for <code class="docutils literal">'tv'</code>, but the class&nbsp;does:</p>
 <a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-9"></a>              <span class="s1">'screen'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">,</span>
 <a name="rest_code_f2af9f85da0242b4b37a56486acb2e37-10"></a>              <span class="s1">'tv'</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">Resolution</span> <span class="n">at</span> <span class="mi">0</span><span class="n">x</span><span class="o">...&gt;</span><span class="p">})</span>
 </pre>
-<p>When we run <code class="docutils literal">media.tv</code> the first time, there is no key <code class="docutils literal">'tv'</code> on
+<p>When we&nbsp;run <code class="docutils literal">media.tv</code> the first time, there is no&nbsp;key <code class="docutils literal">'tv'</code> on
 <code class="docutils literal">media.__dict__</code>, so Python tries to search in the class, and founds one, it
-gets the object, sees that the object has a <code class="docutils literal">__get__</code>, and returns whatever
+gets the object, sees that the object has&nbsp;a <code class="docutils literal">__get__</code>, and returns whatever
 that method&nbsp;returns.</p>
-<p>However when we set the value like <code class="docutils literal">media.tv = (4096, 2160)</code>, there is no
+<p>However when we set the value&nbsp;like <code class="docutils literal">media.tv = (4096, 2160)</code>, there is&nbsp;no
 <code class="docutils literal">__set__</code> defined for the descriptor, so Python runs with the default
-behaviour in this case, which is updating <code class="docutils literal">media.__dict__</code>. Therefore, next
+behaviour in this case, which is&nbsp;updating <code class="docutils literal">media.__dict__</code>. Therefore, next
 time we ask for this attribute, it&#8217;s going to be found in the instance&#8217;s
-dictionary and returned. By analogy we can see that it doesn&#8217;t have a
-<code class="docutils literal">__delete__</code> method either, so when the instruction <code class="docutils literal">del media.tv</code> runs,
-this attribute will be deleted from <code class="docutils literal">media.__dict__</code>, which leaves us back in
+dictionary and returned. By analogy we can see that it doesn&#8217;t have&nbsp;a
+<code class="docutils literal">__delete__</code> method either, so when the&nbsp;instruction <code class="docutils literal">del media.tv</code> runs,
+this attribute will be deleted&nbsp;from <code class="docutils literal">media.__dict__</code>, which leaves us back in
 the original scenario, where the descriptor takes place, acting as a default
 value&nbsp;holder.</p>
 <div class="section" id="functions-are-non-data-descriptors">
 <h3>Functions are non-data&nbsp;descriptors</h3>
 <p>This is how methods work in Python: function objects, are non-data descriptors
-that implement <code>__get__()</code>.</p>
+that&nbsp;implement <code>__get__()</code>.</p>
 <p>If we think about it, ac­cord­ing to ob­jec­t-ori­ent­ed soft­ware the­o­ry, an ob­ject
 is a com­pu­ta­tion­al ab­strac­tion that rep­re­sents an en­ti­ty of the do­main prob­lem.
 An ob­ject has a set of meth­ods that can work with, which de­ter­mines its
@@ -197,14 +198,14 @@ class, that knows how to work with an instance of that same class, which by
 convention in Python is called <em>self</em>. Therefore inside the class, we&#8217;re just
 creating functions that know how to work with an instance of that class, and
 Python will provide this object, as a first parameter, under the name that we
-usually call <em>self</em>. This is basically what the <code class="docutils literal">__get__</code> method does for
+usually call <em>self</em>. This is basically what&nbsp;the <code class="docutils literal">__get__</code> method does for
 functions: it returns a bound instance of the function to that&nbsp;object.</p>
-<p>In <code class="docutils literal">CPython</code>, this logic is implemented in <code class="docutils literal">C</code>, but let&#8217;s see if we can
+<p>In <code class="docutils literal">CPython</code>, this logic is implemented&nbsp;in <code class="docutils literal">C</code>, but let&#8217;s see if we can
 create an equivalent example, just to get a clear picture. Imagine we have a
 custom function, and we want to apply it to a class, as an instance&nbsp;method.</p>
 <p>First we have an isolated function, that computes the mean time between
 failures for an object that collects metrics on systems that monitors. Then we
-have a class called <code class="docutils literal">SystemMonitor</code>, that represents all sort of objects that
+have a class&nbsp;called <code class="docutils literal">SystemMonitor</code>, that represents all sort of objects that
 collect metrics on monitored&nbsp;systems.</p>
 <pre class="code python"><a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-1"></a><span class="k">def</span> <span class="nf">mtbf</span><span class="p">(</span><span class="n">system_monitor</span><span class="p">):</span>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-2"></a>    <span class="sd">"""Mean Time Between Failures</span>
@@ -224,7 +225,7 @@ collect metrics on monitored&nbsp;systems.</p>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-16"></a>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-17"></a>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-18"></a><span class="k">class</span> <span class="nc">SystemMonitor</span><span class="p">:</span>
-<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-19"></a>    <span class="sd">"""Collect metrics on software <span class="amp">&amp;</span> hardware components."""</span>
+<a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-19"></a>    <span class="sd">"""Collect metrics on software &amp; hardware components."""</span>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-20"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[]</span>
@@ -237,7 +238,7 @@ collect metrics on monitored&nbsp;systems.</p>
 <a name="rest_code_75e11c4e00d3490f8a6f5e9da394bc80-29"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">downtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">when</span><span class="p">)</span>
 </pre>
 <p>For now we just test the function, but soon we&#8217;ll want this as a method of the
-class. We can easily apply the function to work with a <code class="docutils literal">SystemMonitor</code>
+class. We can easily apply the function to work with&nbsp;a <code class="docutils literal">SystemMonitor</code>
 instance:</p>
 <pre class="code python"><a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span> <span class="o">=</span> <span class="n">SystemMonitor</span><span class="p">(</span><span class="s1">'prod'</span><span class="p">)</span>
 <a name="rest_code_f4a0eaa5f216424b995a38b2d8e0e0b0-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">uptimes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
@@ -257,27 +258,27 @@ be­cause it&#8217;s not&nbsp;bound:</p>  <pre class="code python"><a name="rest
 <a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-7"></a>
 <a name="rest_code_1c55f5aa9bef49fcb6809c145d0b4143-8"></a><span class="ne">TypeError</span><span class="p">:</span> <span class="n">mtbf</span><span class="p">()</span> <span class="n">missing</span> <span class="mi">1</span> <span class="n">required</span> <span class="n">positional</span> <span class="n">argument</span><span class="p">:</span> <span class="s1">'system_monitor'</span>
 </pre>
-<p>In this case the <code class="docutils literal">system_monitor</code> positional argument that requires, is the
+<p>In this case&nbsp;the <code class="docutils literal">system_monitor</code> positional argument that requires, is the
 instance, which in methods is referred to as <em>self</em>.</p>
 <p>Now, if the function is bound to the object, the scenario changes. We can do
-that the same way Python does: <code>__get__</code>.</p>
+that the same way Python&nbsp;does: <code>__get__</code>.</p>
 <pre class="code python"><a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span> <span class="o">=</span> <span class="n">mtbf</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">monitor</span><span class="p">)</span>
 <a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">monitor</span><span class="o">.</span><span class="n">mtbf</span><span class="p">()</span>
 <a name="rest_code_d09180bf1d1c4dddae6cde7bf566e6fe-3"></a><span class="mf">5.0</span>
 </pre>
 <p>Now, we want to be able to define this function inside the class, the same way
-we do with methods, like <code>def mtbf(self):...</code>. In this case, for
+we do with methods,&nbsp;like <code>def mtbf(self):...</code>. In this case, for
 simplicity, I&#8217;ll just use a callable object, that represents the actual object
-function (the body of <code class="docutils literal">__call__</code> would represent what we put on the body of
+function (the body&nbsp;of <code class="docutils literal">__call__</code> would represent what we put on the body of
 the function after it&#8217;s definition). And we&#8217;ll declare it as an attribute of
 the class, much like all&nbsp;methods:</p>
 <pre class="literal-block">class SystemMonitor:
     ...
     mtbf = MTBF()</pre>
-<p>Provided that <code class="docutils literal">MTBF</code> is a callable object (again, representing our
-&#8220;function&#8221;), is equivalent to doing <code class="docutils literal">def mtbf(self): ...</code> inside the&nbsp;class.</p>
+<p>Provided&nbsp;that <code class="docutils literal">MTBF</code> is a callable object (again, representing our
+&#8220;function&#8221;), is equivalent to&nbsp;doing <code class="docutils literal">def mtbf(self): ...</code> inside the&nbsp;class.</p>
 <p>In the body of the callable, we can just reuse the original function, for
-simplicity. What&#8217;s really interesting is the <code>__get__</code> method, on which
+simplicity. What&#8217;s really interesting is&nbsp;the <code>__get__</code> method, on which
 we return the callable object, exposed as a&nbsp;method.</p>
 <pre class="code python"><a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-1"></a><span class="k">class</span> <span class="nc">MTBF</span><span class="p">:</span>
 <a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-2"></a>    <span class="sd">"""Compute Mean Time Between Failures"""</span>
@@ -287,31 +288,31 @@ we return the callable object, exposed as a&nbsp;method.</p>
 <a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-6"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <a name="rest_code_7f27bb5dae324e2799a09bbd5305db5a-7"></a>        <span class="k">return</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">)</span>
 </pre>
-<p>To explain: the attribute <code class="docutils literal">mtbf</code> is a &#8220;function&#8221; (callable actually), defined
-in the class. When we call it as a method, Python will see it has a
+<p>To explain: the&nbsp;attribute <code class="docutils literal">mtbf</code> is a &#8220;function&#8221; (callable actually), defined
+in the class. When we call it as a method, Python will see it has&nbsp;a
 <code class="docutils literal">__get__</code>, and when this is called, it will return another object which is
 the function bound to the instance, passing <em>self</em> as first parameter, which in
 turn is what&#8217;s going to be&nbsp;executed.</p>
 <p>This does the trick of making functions work as methods, which is a very
-elegant solution of <code class="docutils literal">CPython</code>.</p>
+elegant solution&nbsp;of <code class="docutils literal">CPython</code>.</p>
 <p>We can now ap­pre­ci­ate the el­e­gance of the de­sign be­hind meth­od­s: in­stead of
 cre­at­ing a whole new ob­jec­t, re­use func­tions un­der the as­sump­tion that the
 first pa­ram­e­ter will be an in­stance of that class, that is go­ing to be used
-in­ter­nal­ly, and by con­ven­tion called  <em>self</em>  (although, it can be called&nbsp;oth­er­wise).</p>  <p>Following a similar logic, <code class="docutils literal">classmethod</code>, and <code class="docutils literal">staticmethod</code> decorators,
+in­ter­nal­ly, and by con­ven­tion called  <em>self</em>  (although, it can be called&nbsp;oth­er­wise).</p>  <p>Following a similar&nbsp;logic, <code class="docutils literal">classmethod</code>,&nbsp;and <code class="docutils literal">staticmethod</code> decorators,
 are also descriptors. The former, passes the class as the first argument (which
-is why class methods start with <code class="docutils literal">cls</code> as a first argument), and the latter,
+is why class methods start&nbsp;with <code class="docutils literal">cls</code> as a first argument), and the latter,
 simply returns the function as it&nbsp;is.</p>
 </div>
 </div>
 <div class="section" id="lookup-on-data-descriptors">
 <h2>Lookup on Data&nbsp;Descriptors</h2>
 <p>On the previous example, when we assigned a value to the property of the
-descriptor, the instance dictionary was modified because there was no
+descriptor, the instance dictionary was modified because there was&nbsp;no
 <code class="docutils literal">__set__</code> method on the&nbsp;descriptor.</p>
 <p>For da­ta de­scrip­tors, un­like on the pre­vi­ous ex­am­ple, the meth­ods on the
 de­scrip­tor ob­ject take prece­dence, mean­ing that the lookup starts by the class,
 and does­n&#8217;t af­fect the in­stance&#8217;s dic­tio­nary. This is an asym­me­try, that
-char­ac­teris­es da­ta&nbsp;de­scrip­tors.</p>  <p>On the previous examples, if after running the descriptor, the <code class="docutils literal">__dict__</code> on
+char­ac­teris­es da­ta&nbsp;de­scrip­tors.</p>  <p>On the previous examples, if after running the descriptor,&nbsp;the <code class="docutils literal">__dict__</code> on
 the instance was modified, it was because the code explicitly did so, but it
 could have had a different&nbsp;logic.</p>
 <pre class="code python"><a name="rest_code_d05e9651eee64825b3b1bc7719d45516-1"></a><span class="k">class</span> <span class="nc">DataDescriptor</span><span class="p">:</span>
@@ -325,7 +326,7 @@ could have had a different&nbsp;logic.</p>
 <a name="rest_code_d05e9651eee64825b3b1bc7719d45516-9"></a><span class="k">class</span> <span class="nc">Managed</span><span class="p">:</span>
 <a name="rest_code_d05e9651eee64825b3b1bc7719d45516-10"></a>    <span class="n">descriptor</span> <span class="o">=</span> <span class="n">DataDescriptor</span><span class="p">()</span>
 </pre>
-<p>If we run it, we can see, that since this descriptor holds the data internally,
+<p>If we run it, we can see, that since this descriptor holds the data&nbsp;internally,
 <code class="docutils literal">__dict__</code> is never modified on the instance <a class="footnote-reference brackets" href="#id9" id="id4">4</a>:</p>
 <pre class="code python"><a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">managed</span> <span class="o">=</span> <span class="n">Managed</span><span class="p">()</span>
 <a name="rest_code_e7fbd7c4877945f79ed0adf319dd7568-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="nb">vars</span><span class="p">(</span><span class="n">managed</span><span class="p">)</span>
@@ -345,11 +346,11 @@ could have had a different&nbsp;logic.</p>
 </div>
 <div class="section" id="method-lookup">
 <h2>Method&nbsp;Lookup</h2>
-<p>The descriptors machinery is triggered by <code class="docutils literal">__getattribute__</code>, so we have to
+<p>The descriptors machinery is triggered&nbsp;by <code class="docutils literal">__getattribute__</code>, so we have to
 be careful if we are overriding this method (better not), because if it&#8217;s not
 done properly, we might prevent the descriptor calls <a class="footnote-reference brackets" href="#id10" id="id5">5</a></p>
 <div class="admonition warning">
-<p class="admonition-title">Warn­ing</p>  <p>Classes might turn off the descriptor protocol by overriding
+<p class="admonition-title">Warn­ing</p>  <p>Classes might turn off the descriptor protocol by&nbsp;overriding
 <code class="docutils literal">__getattribute__</code>.</p>
 </div>
 <dl class="footnote brackets">
@@ -362,7 +363,7 @@ done properly, we might prevent the descriptor calls <a class="footnote-referenc
 <dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd>
 <p>This means that in re­al­i­ty, ob­jects are just da­ta struc­tures with
-func­tions on it, much like ADT (Ab­stract Da­ta Type­s) in C, or the
+func­tions on it, much like <span class="caps">ADT</span> (Ab­stract Da­ta Type­s) in C, or the
 structs de­fined in Go with the func­tions that work over them. A more
 de­tailed anal­y­sis and ex­pla­na­tion of this, de­serves a sep­a­rate&nbsp;post.</p>  </dd>
 <dt class="label" id="id9"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
@@ -389,7 +390,7 @@ might re­quire it, of course), but it&#8217;s shown on­ly to sup­port the&nbs
                 <a href="../descriptors-decorators/" rel="next" title="Descriptors &amp; Decorators">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -404,9 +405,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>

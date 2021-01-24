@@ -34,12 +34,13 @@ to a re­al i">
 <!-- Menubar -->
 
 <nav class="navbar navbar-expand-md static-top mb-4
-navbar-dark bg-dark
+navbar-dark
+bg-dark
 "><div class="container">
 <!-- This keeps the margins nice -->
         <a class="navbar-brand" href="../../">
 
-            <span id="blog-title">IT Arch</span>
+            <span id="blog-title"><span class="caps">IT</span> Arch</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -63,7 +64,7 @@ navbar-dark bg-dark
 <a href="../../../pages/about-this-blog" class="nav-link">About</a>
                 </li>
 <li class="nav-item">
-<a href="../../../rss.xml" class="nav-link">RSS</a>
+<a href="../../../rss.xml" class="nav-link"><span class="caps">RSS</span></a>
 
                 
             </li>
@@ -117,18 +118,18 @@ navbar-dark bg-dark
 we would like to en­sure that we are de­vel­op­ing and test­ing in sit­u­a­tions close
 to a re­al im­ple­men­ta­tion; there­fore, us­ing the same data­base as in
 pro­duc­tion can help de­tect­ing is­sues&nbsp;ear­ly.</p>  <p>However, setting up an entire database server for development, can be
-cumbersome. Hopefully nowadays, modern operating systems like <code class="docutils literal">Linux</code> have
+cumbersome. Hopefully nowadays, modern operating systems&nbsp;like <code class="docutils literal">Linux</code> have
 great tools and features that we could take advantage&nbsp;of.</p>
-<p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p>  <p>The idea is simple: run a docker container with the image for <code class="docutils literal">PostgresSQL</code>,
-using a <code class="docutils literal">tmpfs</code> <a class="footnote-reference brackets" href="#id4" id="id1">1</a> <a class="footnote-reference brackets" href="#id5" id="id2">2</a> as storage for the database (a <code class="docutils literal">ramfs</code> could also
+<p>In par­tic­u­lar, I would like to set­up a sim­ple data­base lo­cal­ly us­ing <a class="reference external" href="https://www.docker.com/what-docker">dock­er</a>, and stor­ing the da­ta in&nbsp;mem­o­ry.</p>  <p>The idea is simple: run a docker container with the image&nbsp;for <code class="docutils literal">PostgresSQL</code>,
+using&nbsp;a <code class="docutils literal">tmpfs</code> <a class="footnote-reference brackets" href="#id4" id="id1">1</a> <a class="footnote-reference brackets" href="#id5" id="id2">2</a> as storage for the database&nbsp;(a <code class="docutils literal">ramfs</code> could also
 be&nbsp;used).</p>
 <!-- TEASER_END -->
 </div>
 <div class="section" id="procedure">
 <h2>Procedure</h2>
-<p>First, we get the image of <code class="docutils literal">PostgresSQL</code> according to the platform, for&nbsp;example:</p>
+<p>First, we get the image&nbsp;of <code class="docutils literal">PostgresSQL</code> according to the platform, for&nbsp;example:</p>
 <pre class="literal-block">docker pull fedora/postgresql</pre>
-<p>Then, I could create a <code class="docutils literal">tmpfs</code>, for the data and mount&nbsp;it</p>
+<p>Then, I could create&nbsp;a <code class="docutils literal">tmpfs</code>, for the data and mount&nbsp;it</p>
 <pre class="code bash"><a name="rest_code_1152b34c42354e12a06b2a864d96dd76-1"></a>sudo mkdir /mnt/dbtempdisk
 <a name="rest_code_1152b34c42354e12a06b2a864d96dd76-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
@@ -152,23 +153,23 @@ be&nbsp;used).</p>
 <p>The first line indicates the name for the container we are running (if is not
 specified, docker will put a default one); the second line is the important
 one, since it is what makes the mapping of directories, meaning that will map
-the directory for the <code class="docutils literal">tmpfs</code> on the host, mounted as <code class="docutils literal">/var/lib/pgsql/data</code>
-inside the container (the target). The later directory is the one
+the directory for&nbsp;the <code class="docutils literal">tmpfs</code> on the host, mounted&nbsp;as <code class="docutils literal">/var/lib/pgsql/data</code>
+inside the container (the target). The later directory is the&nbsp;one
 <code class="docutils literal">PostgreSQL</code> uses by default for initializing and storing the data of the
-database.  The <code class="docutils literal">Z</code> at the end of the mapping is an internal detail for
-flagging that directory in case <code class="docutils literal">SELinux</code> is enabled, so it will not fail due
+database.&nbsp;The <code class="docutils literal">Z</code> at the end of the mapping is an internal detail for
+flagging that directory in&nbsp;case <code class="docutils literal">SELinux</code> is enabled, so it will not fail due
 to a permissions errors (because containers run as another user, and we are
 mounting something that might be out of that scope) <a class="footnote-reference brackets" href="#id6" id="id3">3</a>.</p>
 <p>The rest of the three lines, are environment variables that docker will use for
 the initialization of the database (they are optional, and defaults will be
 used, in case they are not provided). Then follows the port mapping, which in
-this case indicates to map the port <code class="docutils literal">5432</code> inside the container to the same
-one on the host. And finally, the name of the <code class="docutils literal">docker</code> image we will&nbsp;run.</p>
-<p>Once this is running, it would look like we have an actual instance of
+this case indicates to map the&nbsp;port <code class="docutils literal">5432</code> inside the container to the same
+one on the host. And finally, the name of&nbsp;the <code class="docutils literal">docker</code> image we will&nbsp;run.</p>
+<p>Once this is running, it would look like we have an actual instance&nbsp;of
 <code class="docutils literal">PostgreSQL</code> up and running on our machine (actually we do, but it is inside
-a container :-), so we can connect with any client (even a <code class="docutils literal">Python</code>
+a container :-), so we can connect with any client (even&nbsp;a <code class="docutils literal">Python</code>
 application,&nbsp;etc.).</p>
-<p>For example, if we want to use the <code class="docutils literal">psql</code> client with the container, the
+<p>For example, if we want to use&nbsp;the <code class="docutils literal">psql</code> client with the container, the
 command would&nbsp;be:</p>
 <table class="codetable"><tr>
 <td class="linenos"><div class="linenodiv"><pre><a href="#rest_code_44b1e93b68ea478b93ce35ea2f0f5aef-1">1</a>
@@ -184,18 +185,17 @@ command would&nbsp;be:</p>
 </div>
 <div class="section" id="applications">
 <h2>Applications</h2>
-<p>If we have <code class="docutils literal">PostgreSQL</code> installed, we could simply start a new instance as
-our user with the command (<code class="docutils literal">postgres ...</code>) and pass the <code class="docutils literal"><span class="pre">-D</span></code> parameter with
-the desired path where the database is going to store the data (which will be
-the <code class="docutils literal">tmpfs</code>/<code class="docutils literal">ramdisk</code>). This would be another way of achieving the&nbsp;same.</p>
+<p>If we&nbsp;have <code class="docutils literal">PostgreSQL</code> installed, we could simply start a new instance as
+our user with the command&nbsp;(<code class="docutils literal">postgres ...</code>) and pass&nbsp;the <code class="docutils literal"><span class="pre">-D</span></code> parameter with
+the desired path where the database is going to store the data (which will be&nbsp;the <code class="docutils literal">tmpfs</code>/<code class="docutils literal">ramdisk</code>). This would be another way of achieving the&nbsp;same.</p>
 <p>Re­gard­less the im­ple­men­ta­tion­s, here are some po­ten­tial&nbsp;ap­pli­ca­tion­s:</p>  <ol class="arabic simple">
 <li><p>Lo­­cal de­vel­op­­ment with­­out re­quir­ing disk stor­age, and run­n­ing faster at the
 same&nbsp;time.</p></li>  <li><p>Unit test­ing: unit tests should be fast, grant­ed. Some­­times, it makes
 per­­fect sense to run the tests against an ac­­tu­al data­base (prac­ti­­cal­i­­ty
 beats pu­ri­­ty), even if this makes them &#8220;in­te­­gra­­tion/­­func­­tion­al&#8221; test­s. In
 this re­­gard, hav­ing a light­weight data­base con­­tain­er run­n­ing lo­­cal­­ly could
-achieve the goal with­­out com­pro­mis­ing&nbsp;per­­for­­mance.</p></li>  <li><p>Iso­la­tion: (this on­ly ap­plies for the con­tain­er ap­proach), run­ning <code class="docutils literal">Post­greSQL</code>  in a  <code class="docutils literal">dock­er</code>  con­tain­er, en­cap­su­lates the li­braries, tool­s,
-pack­ages, etc. in  <code class="docutils literal">dock­er</code>, so the rest of the sys­tem does not have to
+achieve the goal with­­out com­pro­mis­ing&nbsp;per­­for­­mance.</p></li>  <li><p>Iso­la­tion: (this on­ly ap­plies for the con­tain­er ap­proach),&nbsp;run­ning <code class="docutils literal">Post­greSQL</code>  in&nbsp;a  <code class="docutils literal">dock­er</code>  con­tain­er, en­cap­su­lates the li­braries, tool­s,
+pack­ages, etc.&nbsp;in  <code class="docutils literal">dock­er</code>, so the rest of the sys­tem does not have to
 main­tain much oth­er pack­ages in­stalled. Think of if as a sort of &#8220;vir­tu­al
 en­vi­ron­men­t&#8221; for&nbsp;pack­ages.</p></li>  </ol>
 <p>All in al­l, I think it&#8217;s an in­ter­est­ing ap­proach, worth con­sid­er­ing, at least
@@ -227,7 +227,7 @@ with the&nbsp;data­base.</p>  <dl class="footnote brackets">
                 <a href="../wrapped-in-python-decorators/" rel="next" title="__wrapped__ in Python decorators">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2020         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.
@@ -242,9 +242,7 @@ licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4
         <script src="../../../assets/js/all-nocdn.js"></script><script>
     baguetteBox.run('div#content', {
         ignoreClass: 'islink',
-        captions: function(element) {
-            return element.getElementsByTagName('img')[0].alt;
-    }});
+        captions: function(element){var i=element.getElementsByTagName('img')[0];return i===undefined?'':i.alt;}});
     </script>
 </body>
 </html>
