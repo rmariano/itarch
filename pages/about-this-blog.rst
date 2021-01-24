@@ -24,7 +24,7 @@ interests besides Python are Linux, software architecture, functional
 programming, distributed systems, and :doc:`speaking at conferences <talks>`.
 
 He is the author of the book `Clean code in Python
-<https://www.amazon.com/Clean-Code-Python-Refactor-legacy/dp/1788835832>`__
+<https://www.amazon.com/Clean-Code-Python-maintainable-efficient/dp/1800560214>`__
 
 Contact
 ^^^^^^^
