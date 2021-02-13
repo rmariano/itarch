@@ -13,6 +13,10 @@ main highlights!
 
 .. TEASER_END
 
+.. image:: https://media.githubusercontent.com/media/rmariano/Clean-code-in-Python/main/book/cover.png
+   :width: 400
+   :alt: Cover
+
 What's new from the previous edition?
 -------------------------------------
 The main change is that the book has been updated to `Python 3.9`. The previous edition was started when `Python 3.6`
