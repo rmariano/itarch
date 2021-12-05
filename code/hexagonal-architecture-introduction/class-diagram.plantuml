@@ -1,0 +1,27 @@
+@startuml hegagonal
+
+interface DatabaseAdapter {
+    void updateCustomerData(customerId)
+}
+
+DatabaseAdapter <|-- DynamoDBAdapter
+DatabaseAdapter <|-- PostgreSQLAdapter
+
+PostgreSQLAdapter : void updateCustomerData(customerId)
+note right of PostgreSQLAdapter::updateCustomerData
+    Specific SQL query to
+    comply with the interface
+end note
+
+class DataRepository {
+    DatabaseAdapter adapter
+    + void updateCustomerData(customerId) note left SQL1
+}
+
+class BusinessLogic {
+    repository: DataRepository
+}
+
+DataRepository *-- DatabaseAdapter
+BusinessLogic *-- DataRepository
+@enduml
