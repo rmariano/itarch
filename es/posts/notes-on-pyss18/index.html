@@ -11,7 +11,8 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/notes-on-pyss18/">
-<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="google-site-verification" content="gWhoKheTgGjKvfFk9nW5MUuNixmiWlQuMEWTmrpIljg">
+<meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../notes-on-the-kafka-summit-london-2018/" title="Notes on the Kafka Summit London 2018" type="text/html">
 <link rel="next" href="../subtleties-of-python/" title="Subtleties of Python" type="text/html">
 <meta property="og:site_name" content="IT Arch">
@@ -129,45 +130,45 @@ evolv­ing their Python code base. I al­ways learn and get in­spired when I li
 to a Plone talk. It fol­lowed a key­note on deep learn­ing, and af­ter that it was
 time for light­ning&nbsp;talk­s.</p>  <p>From all the good light­ning talk­s, there was one that kind of re­mind­ed me of
 the &#8220;<span class="caps">WAT</span>­s&#8221; of Python­s, show­ing code snip­pets that were seem­ing­ly wrong (or
-plain wrong in some cas­es(, but valid with small&nbsp;tweak­s).</p>  <p>See what I&nbsp;mean:</p>  <pre class="code python3"><a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-1"></a><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mf">1.</span>  <span class="c1"># float</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-2"></a><span class="n">Out</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mf">1.0</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-3"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-4"></a><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="mf">1.</span><span class="o">.</span><span class="vm">__class__</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-5"></a><span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="nb">float</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-6"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-7"></a><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="mf">1.</span><span class="vm">__class__</span>  <span class="c1"># error trying to get the class of the object 1</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-8"></a>   <span class="mf">1.</span><span class="vm">__class__</span>  <span class="c1"># error trying to get the class of the object 1</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-9"></a>            <span class="o">^</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-10"></a><span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-11"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-12"></a><span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="mi">1</span>   <span class="o">.</span><span class="vm">__class__</span>  <span class="c1"># it works with a space though</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-13"></a><span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="nb">int</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-14"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-15"></a><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">-</span><span class="mi">0</span>  <span class="c1"># negative zero?</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-16"></a><span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="mi">0</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-17"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-18"></a><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">-</span><span class="mf">0.0</span>  <span class="c1"># negative zero!</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-19"></a><span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">-</span><span class="mf">0.0</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-20"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-21"></a><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="o">...</span>  <span class="c1"># Ellipsis</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-22"></a><span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="bp">Ellipsis</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-23"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-24"></a><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="o">....</span> <span class="c1"># 4 dots? nothing</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-25"></a>   <span class="o">....</span> <span class="c1"># 4 dots? nothing</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-26"></a>                        <span class="o">^</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-27"></a><span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-28"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-29"></a><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">....</span><span class="fm">__eq__</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># ... or as an operator to call methods from Ellipsis</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-30"></a><span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kc">True</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-31"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-32"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-33"></a><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">1000000000</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-34"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-35"></a><span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="sa">f</span><span class="s2">"{N:_}"</span>  <span class="c1"># formatting numbers à la Python 3.6</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-36"></a><span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="s1">'1_000_000_000'</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-37"></a>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-38"></a><span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{N:,}</span><span class="s2">"</span>  <span class="c1"># oldie but goodie</span>
-<a name="rest_code_838aeaf7ddf846358422a8b58fd23b6e-39"></a><span class="n">Out</span><span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="s1">'1,000,000,000'</span>
+plain wrong in some cas­es(, but valid with small&nbsp;tweak­s).</p>  <p>See what I&nbsp;mean:</p>  <pre class="code python3"><a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-1"></a><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mf">1.</span>  <span class="c1"># float</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-2"></a><span class="n">Out</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="mf">1.0</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-3"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-4"></a><span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="mf">1.</span><span class="o">.</span><span class="vm">__class__</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-5"></a><span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="nb">float</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-6"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-7"></a><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="mf">1.</span><span class="vm">__class__</span>  <span class="c1"># error trying to get the class of the object 1</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-8"></a>   <span class="mf">1.</span><span class="vm">__class__</span>  <span class="c1"># error trying to get the class of the object 1</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-9"></a>            <span class="o">^</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-10"></a><span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-11"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-12"></a><span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="mi">1</span>   <span class="o">.</span><span class="vm">__class__</span>  <span class="c1"># it works with a space though</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-13"></a><span class="n">Out</span><span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="nb">int</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-14"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-15"></a><span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">-</span><span class="mi">0</span>  <span class="c1"># negative zero?</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-16"></a><span class="n">Out</span><span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="mi">0</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-17"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-18"></a><span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">-</span><span class="mf">0.0</span>  <span class="c1"># negative zero!</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-19"></a><span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">-</span><span class="mf">0.0</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-20"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-21"></a><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="o">...</span>  <span class="c1"># Ellipsis</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-22"></a><span class="n">Out</span><span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="bp">Ellipsis</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-23"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-24"></a><span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="o">....</span> <span class="c1"># 4 dots? nothing</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-25"></a>   <span class="o">....</span> <span class="c1"># 4 dots? nothing</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-26"></a>                        <span class="o">^</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-27"></a><span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-28"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-29"></a><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">....</span><span class="fm">__eq__</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  <span class="c1"># ... or as an operator to call methods from Ellipsis</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-30"></a><span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="kc">True</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-31"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-32"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-33"></a><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">1000000000</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-34"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-35"></a><span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">N</span><span class="si">:</span><span class="s2">_</span><span class="si">}</span><span class="s2">"</span>  <span class="c1"># formatting numbers à la Python 3.6</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-36"></a><span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="s1">'1_000_000_000'</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-37"></a>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-38"></a><span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">N</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span>  <span class="c1"># oldie but goodie</span>
+<a name="rest_code_86069fa65f994bfca8bc535eaa0c093c-39"></a><span class="n">Out</span><span class="p">[</span><span class="mi">12</span><span class="p">]:</span> <span class="s1">'1,000,000,000'</span>
 </pre>
 <p>Sun­day start­ed with an­oth­er great key­note about pro­cess­ing mu­sic with Python.
 Af­ter the cof­fee break, there was a talk by Stephane Wirtel telling us what&#8217;s
@@ -196,7 +197,7 @@ Ku­dos to the or­ga­niz­ers&nbsp;:-).</p>
                 <a href="../subtleties-of-python/" rel="next" title="Subtleties of Python">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2022         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.

@@ -11,7 +11,8 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../../rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/es/posts/subtleties-of-python/">
-<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<!--[if lt IE 9]><script src="../../../assets/js/html5.js"></script><![endif]--><meta name="google-site-verification" content="gWhoKheTgGjKvfFk9nW5MUuNixmiWlQuMEWTmrpIljg">
+<meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../notes-on-pyss18/" title="Notes on PySS18" type="text/html">
 <link rel="next" href="../2018-in-review/" title="2018 in review" type="text/html">
 <meta property="og:site_name" content="IT Arch">
@@ -124,25 +125,25 @@ work­ing on past code&nbsp;bases.</p>  <div class="section" id="mutable-objects
 thing is sim­ply not al­lowed. But I di­gress. The point is that in most of the
 soft­ware de­fined with ob­ject­s, they mu­tate, they change their in­ter­nal state or
 rep­re­sen­ta­tion. It&#8217;s true that we could have im­mutable ob­ject­s, but that&#8217;s
-usu­al­ly not the&nbsp;case.</p>  <p>Con­sid­er the fol­low­ing code (spoil­er: there is some­thing re­al­ly wrong with&nbsp;it).</p>  <p><a class="reference external" href="../../../listings/subtleties0.py.html">sub­tleties0.py</a>    <a class="reference external" href="../../../listings/subtleties0.py">(Source)</a></p>  <pre class="code python3"><a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-2"></a><span class="kn">import</span> <span class="nn">logging</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-3"></a>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-4"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-5"></a>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-6"></a>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-7"></a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-8"></a>    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-9"></a>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-10"></a>    <span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-11"></a>        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-12"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-13"></a>        <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-14"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">)</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-16"></a>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-17"></a>    <span class="nd">@staticmethod</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-18"></a>    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
-<a name="rest_code_7b1b8d6004e048c09f35ea7643c58891-19"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"running </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+usu­al­ly not the&nbsp;case.</p>  <p>Con­sid­er the fol­low­ing code (spoil­er: there is some­thing re­al­ly wrong with&nbsp;it).</p>  <p><a class="reference external" href="../../../listings/subtleties0.py.html">sub­tleties0.py</a>    <a class="reference external" href="../../../listings/subtleties0.py">(Source)</a></p>  <pre class="code python3"><a name="rest_code_b8767b34052f403a98cc185e69524089-1"></a><span class="sd">"""Mutable objects as class attributes."""</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-2"></a><span class="kn">import</span> <span class="nn">logging</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-3"></a>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-4"></a><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-5"></a>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-6"></a>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-7"></a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-8"></a>    <span class="n">PARAMETERS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"limit"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"offset"</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-9"></a>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-10"></a>    <span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-11"></a>        <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-12"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">)</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-13"></a>        <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-14"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">)</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-15"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">PARAMETERS</span><span class="p">)</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-16"></a>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-17"></a>    <span class="nd">@staticmethod</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-18"></a>    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+<a name="rest_code_b8767b34052f403a98cc185e69524089-19"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">"running </span><span class="si">%s</span><span class="s2"> [</span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">]"</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
 </pre>
 <p>When try­ing to use dic­tio­nar­ies to pass key­word ar­gu­ments, it might be tempt­ing
 to mu­tate them in or­der to adapt it to the sig­na­ture of the func­tion we want to
@@ -151,22 +152,22 @@ con­se­quences this mu­ta­tion will&nbsp;bring.</p>  <p>In this case, the di
 Chang­ing it, will change the class. Af­ter it has been mu­tat­ed, the de­fault
 val­ues will re­main from the last time it was up­dat­ed. More­over, since this
 dic­tio­nary be­longs to the class, all in­stances (in­clud­ing new ones), will car­ry
-on with&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_bee6ce04cac1400b838cba247cf491ad-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">)</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-3"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-4"></a>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-6"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-7"></a>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">)</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-9"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-10"></a>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">PARAMETERS</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-12"></a><span class="p">{</span><span class="s1">'limit'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'offset'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-13"></a>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">new_query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">new_query</span><span class="o">.</span><span class="n">PARAMETERS</span>
-<a name="rest_code_bee6ce04cac1400b838cba247cf491ad-16"></a><span class="p">{</span><span class="s1">'limit'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'offset'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+on with&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-2"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">)</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-3"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-4"></a>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-5"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-6"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-7"></a>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-8"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="s2">"select 1"</span><span class="p">)</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-9"></a><span class="n">running</span> <span class="n">select</span> <span class="mi">1</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-10"></a>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-11"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="o">.</span><span class="n">PARAMETERS</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-12"></a><span class="p">{</span><span class="s1">'limit'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'offset'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-13"></a>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-14"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">new_query</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-15"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">new_query</span><span class="o">.</span><span class="n">PARAMETERS</span>
+<a name="rest_code_813d0048388b4d4bb6d4f292a688dbad-16"></a><span class="p">{</span><span class="s1">'limit'</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">'offset'</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
 </pre>
 <p>As we can ob­serve, this is not what we wan­t, and it&#8217;s ex­treme­ly&nbsp;frag­ile.</p>  <p>Here are some gen­er­al&nbsp;rec­om­men­da­tion­s:</p>  <ol class="arabic simple">
 <li><p>Don&#8217;t change mu­­ta­ble ob­­jects passed by pa­ram­e­ter to func­­tion­s. Cre­ate new
@@ -186,21 +187,21 @@ mu­­tat­ing them, you can&#8217;t as­­sure no­­body will break that rule 
 <div class="section" id="iterators">
 <h2>Iterators</h2>
 <p>The it­er­a­tor pro­to­col in Python is a great fea­ture. It al­lows us to treat an
-en­tire set of ob­jects by their be­hav­iour re­gard­less of their in­ter­nal&nbsp;rep­re­sen­ta­tion.</p>  <p>For in­stance we can write a code&nbsp;like:</p>  <pre class="code python3"><a name="rest_code_d8cde3f7d8de45b5858d49bafc8bab8a-1"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myiterable</span><span class="p">:</span> <span class="o">...</span>
+en­tire set of ob­jects by their be­hav­iour re­gard­less of their in­ter­nal&nbsp;rep­re­sen­ta­tion.</p>  <p>For in­stance we can write a code&nbsp;like:</p>  <pre class="code python3"><a name="rest_code_3eaff5f5ccd14f7db03745dd09a47605-1"></a><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myiterable</span><span class="p">:</span> <span class="o">...</span>
 </pre>
 <p>And we don&#8217;t know exactly&nbsp;what <code class="docutils literal">myiterable</code> is. It might be a list, a tuple,
 a dictionary, a string, and it will still&nbsp;work.</p>
-<p>We can al­so re­ly on all meth­ods that use this&nbsp;pro­to­col,</p>  <pre class="code python3"><a name="rest_code_c0145262006b48c6af03a4cec5add57b-1"></a><span class="n">mylist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myiterable</span><span class="p">)</span>
+<p>We can al­so re­ly on all meth­ods that use this&nbsp;pro­to­col,</p>  <pre class="code python3"><a name="rest_code_ba90b0bc32e64334be853f98de1c6f9d-1"></a><span class="n">mylist</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">myiterable</span><span class="p">)</span>
 </pre>
 <p>Of&nbsp;course <code class="docutils literal">mylist</code> has to be a list, but&nbsp;again <code class="docutils literal">myiterable</code> can be anything
 that can be iterated&nbsp;over.</p>
 <p>Un­for­tu­nate­ly, this amaz­ing fea­ture it&#8217;s al­so the cause of some sub­tle&nbsp;headaches.</p>  <p>A long time ago, I re­mem­ber hear­ing a com­plaint from a co-­work­er say­ing that a
 part of the code was par­tic­u­lar­ly slow. The code in ques­tion was a func­tion
 that was sup­posed to process and then move files to a giv­en tar­get di­rec­to­ry.
-You can imag­ine some­thing like&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
-<a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
-<a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-3"></a>        <span class="c1"># ...</span>
-<a name="rest_code_7da0105ed20744c29074bd8a8c5cfe10-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
+You can imag­ine some­thing like&nbsp;this:</p>  <pre class="code python3"><a name="rest_code_3d3940fb96634ea88835ec52646d6a3e-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
+<a name="rest_code_3d3940fb96634ea88835ec52646d6a3e-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
+<a name="rest_code_3d3940fb96634ea88835ec52646d6a3e-3"></a>        <span class="c1"># ...</span>
+<a name="rest_code_3d3940fb96634ea88835ec52646d6a3e-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
 </pre>
 <p>Now what happens? Like in the introduction, we are using the iterator protocol,
 so we rely on the fact that we don&#8217;t exactly know&nbsp;what <code class="docutils literal">files_to_process</code> is
@@ -209,10 +210,10 @@ exactly (a tuple, a list,&nbsp;etc.)</p>
 file, let&#8217;s&nbsp;say <code class="docutils literal">/home/ubuntu/foo</code>, each character will be iterated over,
 starting&nbsp;with <code class="docutils literal">/</code> (the root directory), following&nbsp;with <code class="docutils literal">h</code>, etc. That&#8217;s why
 the programs was slow. It was copying the entire file&nbsp;system!</p>
-<p>The so­lu­tion is to use a bet­ter in­ter­face, that dis­al­low these er­rors&nbsp;en­tire­ly:</p>  <pre class="code python3"><a name="rest_code_0b3c524b00e54259956b3f707db4cac3-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="o">*</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
-<a name="rest_code_0b3c524b00e54259956b3f707db4cac3-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
-<a name="rest_code_0b3c524b00e54259956b3f707db4cac3-3"></a>        <span class="c1"># ...</span>
-<a name="rest_code_0b3c524b00e54259956b3f707db4cac3-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
+<p>The so­lu­tion is to use a bet­ter in­ter­face, that dis­al­low these er­rors&nbsp;en­tire­ly:</p>  <pre class="code python3"><a name="rest_code_9d0a420504c9492a92efcbc4a6b68873-1"></a><span class="k">def</span> <span class="nf">process_files</span><span class="p">(</span><span class="o">*</span><span class="n">files_to_process</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">):</span>
+<a name="rest_code_9d0a420504c9492a92efcbc4a6b68873-2"></a>    <span class="k">for</span> <span class="n">file_</span> <span class="ow">in</span> <span class="n">files_to_process</span><span class="p">:</span>
+<a name="rest_code_9d0a420504c9492a92efcbc4a6b68873-3"></a>        <span class="c1"># ...</span>
+<a name="rest_code_9d0a420504c9492a92efcbc4a6b68873-4"></a>        <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">file_</span><span class="p">,</span> <span class="n">target_directory</span><span class="p">)</span>
 </pre>
 <p>In this example the signature of the function exposes a much nicer interface,
 in the sense that it can allow one or multiple files as arguments, without the
@@ -249,7 +250,7 @@ nar­rowed down to a sin­gle line of&nbsp;code.</p>  </dd>
                 <a href="../2018-in-review/" rel="next" title="2018 in review">Siguiente&nbsp;publicación</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2022         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.

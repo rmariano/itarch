@@ -11,7 +11,8 @@
 <link rel="alternate" type="application/rss+xml" title="RSS (en)" hreflang="en" href="../../rss.xml">
 <link rel="alternate" type="application/rss+xml" title="RSS (es)" hreflang="es" href="../../es/rss.xml">
 <link rel="canonical" href="https://rmariano.github.io/itarch/posts/running-rabbitmq-server-on-docker/">
-<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="author" content="Mariano Anaya">
+<!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]--><meta name="google-site-verification" content="gWhoKheTgGjKvfFk9nW5MUuNixmiWlQuMEWTmrpIljg">
+<meta name="author" content="Mariano Anaya">
 <link rel="prev" href="../find-options/" title="Find Options" type="text/html">
 <link rel="next" href="../notas-sobre-la-arqconf-2015/" title="Notas sobre la ArqConf 2015" type="text/html">
 <meta property="og:site_name" content="IT Arch">
@@ -119,8 +120,8 @@ the process. I know I could bound it (for example order it not to start automati
 as a dæmon), by means&nbsp;of <code>systemd</code> but a few weeks ago I decided to&nbsp;try <code>docker</code> and see how it&nbsp;results.</p>
 <p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
 con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­<span class="caps">MQ</span>, which can be au­to­mat­i­cal­ly pulled,
-and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_d0c9e7ec8bc544928d27b9001f455fe5-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_3dba88c014a5458bb39b2b426789866e-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_3dba88c014a5458bb39b2b426789866e-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by&nbsp;passing <code>-e</code> we pass some environment variables (in this case,&nbsp;the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
 how to set the name of the node it is starting). Optionally, we can limit the <span class="caps">CPU</span>
@@ -138,8 +139,8 @@ which&nbsp;is <code>docker logs rabbitmq.docker</code>. Notice in this case the 
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running&nbsp;the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
-<pre class="code bash"><a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_c7bb58e7c3af4b21add294429de7dcf8-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_2b7adc541f354dc3877386784af35d75-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_2b7adc541f354dc3877386784af35d75-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some
@@ -161,7 +162,7 @@ I think I can mi­grate more ap­pli­ca­tions to dock­er in­stead of hav­in
                 <a href="../notas-sobre-la-arqconf-2015/" rel="next" title="Notas sobre la ArqConf 2015">Next&nbsp;post</a>
             </li>
         </ul></nav></aside></article><!--End of body content--><footer id="footer">
-            Contents © 2021         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2022         <a href="mailto:marianoanaya@gmail.com">Mariano Anaya</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png"></a><br>This work is
 licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution
 4.0 International License</a>.

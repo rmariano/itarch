@@ -1,74 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about data)</title><link>https://rmariano.eu</link><description></description><atom:link href="https://rmariano.github.io/itarch/categories/data.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 31 Dec 2019 18:06:48 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Returning data in PostgreSQL</title><link>https://rmariano.github.io/itarch/posts/returning-data-in-postgresql/</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In or­der to get the best per­for­mance from our data­base en­gine, most of the
-­times, we have to take ad­van­tage of its ex­clu­sive fea­tures. This has the
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>IT Arch (Posts about data)</title><link>https://rmariano.eu</link><description></description><atom:link href="https://rmariano.github.io/itarch/categories/data.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sun, 23 Jan 2022 13:02:24 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Returning data in PostgreSQL</title><link>https://rmariano.github.io/itarch/posts/returning-data-in-postgresql/</link><dc:creator>Mariano Anaya</dc:creator><description>&lt;div&gt;&lt;p&gt;In or­der to get the best per­for­mance from our data­base en­gine, most of the
+times, we have to take ad­van­tage of its ex­clu­sive fea­tures. This has the
 dis­ad­van­tage of get­ting far­ther away from stan­dard, AN­SI code, and in the case
-of RDBM en­gi­nes, this al­so mean­s, most of the ORMs will not work.&lt;/p&gt; 
- &lt;p&gt;Be­sides that, it could some­times be worth ex­plor­ing what we can gain by
-adapt­ing to the en­gine.&lt;/p&gt; 
- &lt;p&gt;This is some­thing learnt from the feed­back of  &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/my-talk-europython-2016/"&gt;my talk giv­en at Eu­roPy­thon 2016&lt;/a&gt;.  Af­ter the talk, an at­tendee told me
+of RDBM en­gi­nes, this al­so mean­s, most of the ORMs will not work.&lt;/p&gt;  &lt;p&gt;Be­sides that, it could some­times be worth ex­plor­ing what we can gain by
+adapt­ing to the en­gine.&lt;/p&gt;  &lt;p&gt;This is some­thing learnt from the feed­back of  &lt;a class="reference external" href="https://rmariano.github.io/itarch/posts/my-talk-europython-2016/"&gt;my talk giv­en at Eu­roPy­thon 2016&lt;/a&gt;.  Af­ter the talk, an at­tendee told me
 that he liked it, and asked me about the code por­trayed in one of the slides,
-the one about dec­o­ra­tors with the ex­am­ple of mov­ing some records from one table
-­to an­oth­er. He asked me if I ran code like that one in pro­duc­tion, to which I
+the one about dec­o­ra­tors with the ex­am­ple of mov­ing some records from one ta­ble
+to an­oth­er. He asked me if I ran code like that one in pro­duc­tion, to which I
 an­swered no: the code is en­tire­ly fic­tion­al, and it was done for the mere
 pur­pos­es of the ex­am­ples, so I just need­ed an ex­cuse for a task that could be
-­done in two SQL state­ments, so the ex­am­ple with the dec­o­ra­tor can be shown.&lt;/p&gt; 
- &lt;p&gt;The code of the ex­am­ple fol­lows:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_359766ebb0bd48ffba8bfccc6a1a0f77-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_359766ebb0bd48ffba8bfccc6a1a0f77-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
-&lt;a name="rest_code_359766ebb0bd48ffba8bfccc6a1a0f77-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;a name="rest_code_359766ebb0bd48ffba8bfccc6a1a0f77-4"&gt;&lt;/a&gt;
-&lt;a name="rest_code_359766ebb0bd48ffba8bfccc6a1a0f77-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+done in two SQL state­ments, so the ex­am­ple with the dec­o­ra­tor can be shown.&lt;/p&gt;  &lt;p&gt;The code of the ex­am­ple fol­lows:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_c14a10f5342440f28aeffa34b1b79b7f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_c14a10f5342440f28aeffa34b1b79b7f-2"&gt;&lt;/a&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt;
+&lt;a name="rest_code_c14a10f5342440f28aeffa34b1b79b7f-3"&gt;&lt;/a&gt;&lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;a name="rest_code_c14a10f5342440f28aeffa34b1b79b7f-4"&gt;&lt;/a&gt;
+&lt;a name="rest_code_c14a10f5342440f28aeffa34b1b79b7f-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;Then I learnt that there is an­oth­er way of writ­ing that sort of state­ments,
-with the "re­turn­ing" sen­tence of Post­greSQL.&lt;/p&gt; 
- &lt;p&gt;It would be re-writ­ten like:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_6c8f10541dcb4fe8a4b94b363c80eaa2-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_6c8f10541dcb4fe8a4b94b363c80eaa2-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_6c8f10541dcb4fe8a4b94b363c80eaa2-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
-&lt;a name="rest_code_6c8f10541dcb4fe8a4b94b363c80eaa2-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_6c8f10541dcb4fe8a4b94b363c80eaa2-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;p&gt;Or... the oth­er way around:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
-&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
-&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
-&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
-&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;a name="rest_code_7e03b31fb73b40b391f71d2e6a22999f-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+with the "re­turn­ing" sen­tence of Post­greSQL.&lt;/p&gt;  &lt;p&gt;It would be re-writ­ten like:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_3f6c8dca496c4aa2a304b7e4dcc5a198-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_3f6c8dca496c4aa2a304b7e4dcc5a198-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_3f6c8dca496c4aa2a304b7e4dcc5a198-3"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;a name="rest_code_3f6c8dca496c4aa2a304b7e4dcc5a198-4"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_3f6c8dca496c4aa2a304b7e4dcc5a198-5"&gt;&lt;/a&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt; &lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;deleted&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;p&gt;Or... the oth­er way around:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;WITH&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-2"&gt;&lt;/a&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;archive_orders&lt;/span&gt;
+&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-3"&gt;&lt;/a&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;order_date&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="s1"&gt;'2016-01-01'&lt;/span&gt;
+&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-4"&gt;&lt;/a&gt;    &lt;span class="n"&gt;RETURNING&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;
+&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-5"&gt;&lt;/a&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;a name="rest_code_349be18fa4874759ad36909852f95dd2-6"&gt;&lt;/a&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;select&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;to_delete&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;p&gt;The in­ter­est­ing point here, is that it en­tails a sin­gle com­mand, in­stead of
-t­wo. So this can be done with a sin­gle call to the database, sav­ing an ex­tra
-round trip.&lt;/p&gt; 
- &lt;p&gt;The point here is that the  &lt;a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html"&gt;delete state­ment of Post­greSQL&lt;/a&gt;  (as well as the
+two. So this can be done with a sin­gle call to the database, sav­ing an ex­tra
+round trip.&lt;/p&gt;  &lt;p&gt;The point here is that the  &lt;a class="reference external" href="https://www.postgresql.org/docs/9.5/static/sql-delete.html"&gt;delete state­ment of Post­greSQL&lt;/a&gt;  (as well as the
 rest of the state­ments, IN­SERT, UP­DATE, for in­stance), can be spec­i­fied to
 re­turn the da­ta they af­fec­t, and this can be used in an in­ter­me­di­ate ta­ble to
-pipe it to an­oth­er state­men­t.&lt;/p&gt; 
- &lt;p&gt;By de­fault, if you run the delete state­men­t, it should re­turn the num­ber of
-af­fect­ed rows, like:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_3c204bf2c0a6485da2ef262bfb9d1471-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_e6af9269fed14cebbde36f62ebdf272b-1"&gt;&lt;/a&gt;DELETE 4
-&lt;/pre&gt;&lt;p&gt;But, we can make it to re­turn the rows them­selves:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_dee43e3cbcec4042b7e9a5b3c76f2bdd-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-1"&gt;&lt;/a&gt;id|   description    |     order_date
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-2"&gt;&lt;/a&gt;----+------------------+---------------------
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_79e6403be32243ad807bb47cc88d3e54-9"&gt;&lt;/a&gt;DELETE 4
-&lt;/pre&gt;&lt;p&gt;Or, spe­cif­ic col­umns if we se­lect them:&lt;/p&gt; 
- &lt;pre class="code SQL"&gt;&lt;a name="rest_code_fb587245cd8c40f19d44985878bb6282-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-1"&gt;&lt;/a&gt;id |   description
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-2"&gt;&lt;/a&gt;----+------------------
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-3"&gt;&lt;/a&gt;4 | to be archived
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-4"&gt;&lt;/a&gt;5 | First sale order
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-5"&gt;&lt;/a&gt;6 | First sale order
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-6"&gt;&lt;/a&gt;7 | First sale order
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-7"&gt;&lt;/a&gt;(4 rows)
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-8"&gt;&lt;/a&gt;
-&lt;a name="rest_code_9aedb7a0fb824835825f5a82975da229-9"&gt;&lt;/a&gt;DELETE 4
+pipe it to an­oth­er state­men­t.&lt;/p&gt;  &lt;p&gt;By de­fault, if you run the delete state­men­t, it should re­turn the num­ber of
+af­fect­ed rows, like:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_f1068298f7e946738f13a29009067f25-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_403c2f05c90e4d3db8893fc7df4e209e-1"&gt;&lt;/a&gt;DELETE 4
+&lt;/pre&gt;&lt;p&gt;But, we can make it to re­turn the rows them­selves:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_d4e5b1a569d64dbfa5627473939fdd8f-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-1"&gt;&lt;/a&gt;id|   description    |     order_date
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-2"&gt;&lt;/a&gt;----+------------------+---------------------
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-3"&gt;&lt;/a&gt;4 | to be archived   | 2014-12-09 00:00:00
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-4"&gt;&lt;/a&gt;5 | First sale order | 2016-07-17 00:00:00
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-5"&gt;&lt;/a&gt;6 | First sale order | 2016-07-20 00:00:00
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-6"&gt;&lt;/a&gt;7 | First sale order | 2016-07-24 00:00:00
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_b7974f8ae19d4c7080ecc131239f20a2-9"&gt;&lt;/a&gt;DELETE 4
+&lt;/pre&gt;&lt;p&gt;Or, spe­cif­ic col­umns if we se­lect them:&lt;/p&gt;  &lt;pre class="code SQL"&gt;&lt;a name="rest_code_51952dc067a74565b95d1cdd1321d500-1"&gt;&lt;/a&gt;&lt;span class="k"&gt;delete&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;orders&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="n"&gt;returning&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;pre class="code text"&gt;&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-1"&gt;&lt;/a&gt;id |   description
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-2"&gt;&lt;/a&gt;----+------------------
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-3"&gt;&lt;/a&gt;4 | to be archived
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-4"&gt;&lt;/a&gt;5 | First sale order
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-5"&gt;&lt;/a&gt;6 | First sale order
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-6"&gt;&lt;/a&gt;7 | First sale order
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-7"&gt;&lt;/a&gt;(4 rows)
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-8"&gt;&lt;/a&gt;
+&lt;a name="rest_code_fcd54cba3eee4cc89588f5d8a58f7982-9"&gt;&lt;/a&gt;DELETE 4
 &lt;/pre&gt;&lt;p&gt;So, we can use the "re­turn­ing" fea­ture of Post­greSQL, to do in a sin­gle com­mand
 what we usu­al­ly would do in two or more, and in some cas­es, it might be
-­some­thing worth ex­plor­ing. It was great learn­ing things like this one, and
+some­thing worth ex­plor­ing. It was great learn­ing things like this one, and
 get­ting tips as a re­sult from the feed­back of the talk (it does not change the
 mean­ing, and the ex­am­ple could re­main the same for the afore­men­tioned rea­son­s;
 it is just an ex­am­ple :-).&lt;/p&gt;&lt;/div&gt;</description><category>data</category><category>database</category><category>postgres</category><guid>https://rmariano.github.io/itarch/posts/returning-data-in-postgresql/</guid><pubDate>Sun, 14 Aug 2016 21:41:30 GMT</pubDate></item></channel></rss>
