@@ -120,8 +120,8 @@ the process. I know I could bound it (for example order it not to start automati
 as a dæmon), by means&nbsp;of <code>systemd</code> but a few weeks ago I decided to&nbsp;try <code>docker</code> and see how it&nbsp;results.</p>
 <p>It turned out to be just the tool for the work, and so far with a lit­tle sim­ple
 con­fig­u­ra­tion it can run as&nbsp;ex­pect­ed.</p>  <p>There is al­ready a dock­er im­age for Rab­bit­<span class="caps">MQ</span>, which can be au­to­mat­i­cal­ly pulled,
-and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_3dba88c014a5458bb39b2b426789866e-1"></a>sudo docker pull rabbitmq
-<a name="rest_code_3dba88c014a5458bb39b2b426789866e-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
+and then run, for&nbsp;ex­am­ple:</p>  <pre class="code bash"><a name="rest_code_a0dbb3fa47e4477c99731baca6eb07b8-1"></a>sudo docker pull rabbitmq
+<a name="rest_code_a0dbb3fa47e4477c99731baca6eb07b8-2"></a>sudo docker run -d -e <span class="nv">RABBITMQ_NODENAME</span><span class="o">=</span>my-rabbit --cpuset<span class="o">=</span><span class="s2">"1"</span> --name docker.rabbitmq -p <span class="m">5672</span>:5672 rabbitmq:3
 </pre>
 <p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by&nbsp;passing <code>-e</code> we pass some environment variables (in this case,&nbsp;the <code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating
 how to set the name of the node it is starting). Optionally, we can limit the <span class="caps">CPU</span>
@@ -139,8 +139,8 @@ which&nbsp;is <code>docker logs rabbitmq.docker</code>. Notice in this case the 
 designated to the image was used instead of the <em>instance_id</em>. In addition
 we can see internal data for the process by running&nbsp;the <code>inspect</code>
 command (again we can use the <cite>instance_id</cite> or the name we&nbsp;assigned).</p>
-<pre class="code bash"><a name="rest_code_2b7adc541f354dc3877386784af35d75-1"></a>docker inspect rabbitmq.docker
-<a name="rest_code_2b7adc541f354dc3877386784af35d75-2"></a>sudo docker logs docker.rabbitmq
+<pre class="code bash"><a name="rest_code_1425f0bdd62a47868195f8d4088c0a54-1"></a>docker inspect rabbitmq.docker
+<a name="rest_code_1425f0bdd62a47868195f8d4088c0a54-2"></a>sudo docker logs docker.rabbitmq
 </pre>
 <p>It&#8217;s important to notice that docker is actually <em>not a virtualization platform</em>, but a mechanism that runs processes
 in containers, meaning that in this case the entire RabbitMQ is running as a single process within a container, with some

@@ -119,20 +119,20 @@ so­lu­tion­s. Let&#8217;s see how we can write bet­ter dec­o­ra­tors, by 
 <div class="section" id="decorate-a-class-method">
 <h2>Decorate a class&nbsp;method</h2>
 <p>Imag­ine we have a very sim­ple dec­o­ra­tor, that does noth­ing but re­turn­ing a
-tex­t, with what the orig­i­nal func­tion&nbsp;re­turn­s:</p>  <pre class="code python"><a name="rest_code_2944d993723a4859b3dfff57525a2a45-1"></a><span class="k">class</span> <span class="nc">decorator</span><span class="p">:</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-4"></a>        <span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="bp">self</span><span class="p">)</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-5"></a>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-6"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-7"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-8"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"decorated </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-9"></a>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-10"></a><span class="k">class</span> <span class="nc">Object</span><span class="p">:</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-11"></a>    <span class="nd">@decorator</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-12"></a>    <span class="nd">@classmethod</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-13"></a>    <span class="k">def</span> <span class="nf">class_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-<a name="rest_code_2944d993723a4859b3dfff57525a2a45-14"></a>        <span class="k">return</span> <span class="s1">'class method'</span>
+tex­t, with what the orig­i­nal func­tion&nbsp;re­turn­s:</p>  <pre class="code python"><a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-1"></a><span class="k">class</span> <span class="nc">decorator</span><span class="p">:</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-4"></a>        <span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-5"></a>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-6"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-7"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-8"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"decorated </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-9"></a>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-10"></a><span class="k">class</span> <span class="nc">Object</span><span class="p">:</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-11"></a>    <span class="nd">@decorator</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-12"></a>    <span class="nd">@classmethod</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-13"></a>    <span class="k">def</span> <span class="nf">class_method</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<a name="rest_code_08e75cacfb654fa8a58dc9a2127fd751-14"></a>        <span class="k">return</span> <span class="s1">'class method'</span>
 </pre>
 <p>If we ap­ply the dec­o­ra­tor to a sim­ple func­tion, it&#8217;ll work, as ex­pect­ed.
 How­ev­er, when it&#8217;s ap­plied to a class method, we can see an&nbsp;er­ror:</p>  <pre class="literal-block">&gt;&gt;&gt; Object.class_method()
@@ -164,11 +164,11 @@ is not a callable, hence the&nbsp;exception.</p>
 <code class="docutils literal">@classmethod</code> is a non-callable descriptor, then the solution must be
 related to descriptors. And indeed, this can be fixed by just&nbsp;implementing
 <code class="docutils literal">__get__</code>.</p>
-<pre class="code python"><a name="rest_code_5a45df3f1d6441f2a24374324ce9b739-1"></a><span class="k">class</span> <span class="nc">decorator</span><span class="p">:</span>
-<a name="rest_code_5a45df3f1d6441f2a24374324ce9b739-2"></a>    <span class="o">...</span>
-<a name="rest_code_5a45df3f1d6441f2a24374324ce9b739-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_5a45df3f1d6441f2a24374324ce9b739-4"></a>        <span class="n">mapped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span>
-<a name="rest_code_5a45df3f1d6441f2a24374324ce9b739-5"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span>
+<pre class="code python"><a name="rest_code_56364fddaa3a45e3a208343aaccc5baa-1"></a><span class="k">class</span> <span class="nc">decorator</span><span class="p">:</span>
+<a name="rest_code_56364fddaa3a45e3a208343aaccc5baa-2"></a>    <span class="o">...</span>
+<a name="rest_code_56364fddaa3a45e3a208343aaccc5baa-3"></a>    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_56364fddaa3a45e3a208343aaccc5baa-4"></a>        <span class="n">mapped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span>
+<a name="rest_code_56364fddaa3a45e3a208343aaccc5baa-5"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span>
 </pre>
 <p>This links the func­tion of the de­scrip­tor to the ob­ject that is go­ing to use it
 (in this case, the class), and re­turns a new in­stance of the dec­o­ra­tor for this
@@ -194,42 +194,42 @@ scenarios, regardless of their&nbsp;order.</p>
 their pa­ram­e­ters in the same way, re­sult­ing in code rep­e­ti­tion. As a re­sult of
 that, a dec­o­ra­tor is de­vised in or­der to ab­stract that log­ic in a sin­gle&nbsp;place.</p>  <p>For ex­am­ple, we have a func­tion that re­solves some at­tributes based on its
 pa­ram­e­ter­s, but it does so, by us­ing a helper ob­jec­t, cre­at­ed from the
-pa­ram­e­ter­s, like&nbsp;this:</p>  <pre class="code python"><a name="rest_code_313f9061c37e4ad7848a4584221997b2-1"></a><span class="k">def</span> <span class="nf">resolver_function</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-2"></a>    <span class="n">helper</span> <span class="o">=</span> <span class="n">DomainObject</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-3"></a>    <span class="o">...</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-4"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-5"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-6"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task2</span><span class="p">()</span>
-<a name="rest_code_313f9061c37e4ad7848a4584221997b2-7"></a>    <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
+pa­ram­e­ter­s, like&nbsp;this:</p>  <pre class="code python"><a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-1"></a><span class="k">def</span> <span class="nf">resolver_function</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-2"></a>    <span class="n">helper</span> <span class="o">=</span> <span class="n">DomainObject</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-3"></a>    <span class="o">...</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-4"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-5"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-6"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task2</span><span class="p">()</span>
+<a name="rest_code_449989aa296a4c449cbc07cd5ca82d41-7"></a>    <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
 </pre>
 <p>If there are more func­tions with this sig­na­ture do­ing the same as in the first
 lines, it&#8217;ll be bet­ter to ab­stract this away, and sim­ply re­ceive the helper
-ob­ject di­rect­ly.  A dec­o­ra­tor like this one should&nbsp;work:</p>  <pre class="code python"><a name="rest_code_2bf880db7ba44f53bf4290451556098e-1"></a><span class="k">class</span> <span class="nc">DomainArgs</span><span class="p">:</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-4"></a>        <span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="bp">self</span><span class="p">)</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-5"></a>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-6"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-7"></a>        <span class="n">helper</span> <span class="o">=</span> <span class="n">DomainObject</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
-<a name="rest_code_2bf880db7ba44f53bf4290451556098e-8"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">helper</span><span class="p">)</span>
+ob­ject di­rect­ly.  A dec­o­ra­tor like this one should&nbsp;work:</p>  <pre class="code python"><a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-1"></a><span class="k">class</span> <span class="nc">DomainArgs</span><span class="p">:</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-4"></a>        <span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="bp">self</span><span class="p">)</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-5"></a>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-6"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-7"></a>        <span class="n">helper</span> <span class="o">=</span> <span class="n">DomainObject</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span>
+<a name="rest_code_e9000f0f0da7432b9993d8b0f9a47818-8"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="n">helper</span><span class="p">)</span>
 </pre>
 <p>This dec­o­ra­tor changes the sig­na­ture of the orig­i­nal func­tion. There­fore, we
 dec­o­rate a func­tion that will re­ceive a sin­gle ar­gu­men­t, when in fact (thanks
 to the dec­o­ra­tor), the re­sult­ing one will end up re­ceiv­ing the same old four
 ar­gu­ments, main­tain­ing com­pat­i­bil­i­ty. By ap­ply­ing the dec­o­ra­tor, we could
-hap­pi­ly as­sume that the re­quired ob­ject will be passed&nbsp;by:</p>  <pre class="code python"><a name="rest_code_4bcea183f75441669fc82aa2000d2982-1"></a><span class="nd">@DomainArgs</span>
-<a name="rest_code_4bcea183f75441669fc82aa2000d2982-2"></a><span class="k">def</span> <span class="nf">resolver_function2</span><span class="p">(</span><span class="n">helper</span><span class="p">):</span>
-<a name="rest_code_4bcea183f75441669fc82aa2000d2982-3"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
-<a name="rest_code_4bcea183f75441669fc82aa2000d2982-4"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task2</span><span class="p">()</span>
-<a name="rest_code_4bcea183f75441669fc82aa2000d2982-5"></a>    <span class="o">...</span>
-<a name="rest_code_4bcea183f75441669fc82aa2000d2982-6"></a>    <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+hap­pi­ly as­sume that the re­quired ob­ject will be passed&nbsp;by:</p>  <pre class="code python"><a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-1"></a><span class="nd">@DomainArgs</span>
+<a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-2"></a><span class="k">def</span> <span class="nf">resolver_function2</span><span class="p">(</span><span class="n">helper</span><span class="p">):</span>
+<a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-3"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task1</span><span class="p">()</span>
+<a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-4"></a>    <span class="n">helper</span><span class="o">.</span><span class="n">task2</span><span class="p">()</span>
+<a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-5"></a>    <span class="o">...</span>
+<a name="rest_code_d2199fd0fcee4ae19673e56e0569d2b3-6"></a>    <span class="k">return</span> <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
 </pre>
 <p>How­ev­er, there are al­so ob­jects whose meth­ods have this log­ic, and we want to
-ap­ply the same dec­o­ra­tor to&nbsp;them:</p>  <pre class="code python"><a name="rest_code_50bc2976cc5b401da5dad40a763c68d5-1"></a><span class="k">class</span> <span class="nc">ViewResolver</span><span class="p">:</span>
-<a name="rest_code_50bc2976cc5b401da5dad40a763c68d5-2"></a>    <span class="nd">@DomainArgs</span>
-<a name="rest_code_50bc2976cc5b401da5dad40a763c68d5-3"></a>    <span class="k">def</span> <span class="nf">resolve_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">helper</span><span class="p">):</span>
-<a name="rest_code_50bc2976cc5b401da5dad40a763c68d5-4"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
-<a name="rest_code_50bc2976cc5b401da5dad40a763c68d5-5"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Method: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">"</span>
+ap­ply the same dec­o­ra­tor to&nbsp;them:</p>  <pre class="code python"><a name="rest_code_abe215e23eeb48af84bfe2d0b4f1e32b-1"></a><span class="k">class</span> <span class="nc">ViewResolver</span><span class="p">:</span>
+<a name="rest_code_abe215e23eeb48af84bfe2d0b4f1e32b-2"></a>    <span class="nd">@DomainArgs</span>
+<a name="rest_code_abe215e23eeb48af84bfe2d0b4f1e32b-3"></a>    <span class="k">def</span> <span class="nf">resolve_method</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">helper</span><span class="p">):</span>
+<a name="rest_code_abe215e23eeb48af84bfe2d0b4f1e32b-4"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">helper</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+<a name="rest_code_abe215e23eeb48af84bfe2d0b4f1e32b-5"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">"Method: </span><span class="si">{</span><span class="n">response</span><span class="si">}</span><span class="s2">"</span>
 </pre>
 <p>But with this im­ple­men­ta­tion, it won&#8217;t&nbsp;work:</p>  <pre class="literal-block">&gt;&gt;&gt; vr = ViewResolver()
 &gt;&gt;&gt; vr.resolve_method('root', 'args', 'context', 'info')
@@ -246,9 +246,9 @@ and pass­es it was the first pa­ram­e­ter, in the place where  <em>self</em>
 the method, and there is noth­ing be­ing passed for  <em>helper</em>  (the pa­ram­e­ters are
 &#8220;shift­ed&#8221; on place to the left­), hence the&nbsp;er­ror.</p>  <p>In or­der to fix this, we need to dis­tin­guish when the wrapped func­tion is be­ing
 called from an in­stance or a class. And de­scrip­tors do just that, so the fix is
-rather sim­ple as in the pre­vi­ous&nbsp;case:</p>  <pre class="code python"><a name="rest_code_6029d37c89e44d8c9492c7ec231e5c8c-1"></a><span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
-<a name="rest_code_6029d37c89e44d8c9492c7ec231e5c8c-2"></a>    <span class="n">mapped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span>
-<a name="rest_code_6029d37c89e44d8c9492c7ec231e5c8c-3"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span>
+rather sim­ple as in the pre­vi­ous&nbsp;case:</p>  <pre class="code python"><a name="rest_code_cf1e6c70cc14413d97e2d58d43479b4d-1"></a><span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">):</span>
+<a name="rest_code_cf1e6c70cc14413d97e2d58d43479b4d-2"></a>    <span class="n">mapped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="fm">__get__</span><span class="p">(</span><span class="n">instance</span><span class="p">,</span> <span class="n">owner</span><span class="p">)</span>
+<a name="rest_code_cf1e6c70cc14413d97e2d58d43479b4d-3"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">mapped</span><span class="p">)</span>
 </pre>
 <p>The same method works here as well. When the wrapped function is a regular
 one,&nbsp;the <code class="docutils literal">__get__</code> method doesn&#8217;t take place at all, so adding it, doesn&#8217;t

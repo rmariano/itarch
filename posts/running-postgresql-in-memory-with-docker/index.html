@@ -131,37 +131,37 @@ be&nbsp;used).</p>
 <p>First, we get the image&nbsp;of <code class="docutils literal">PostgresSQL</code> according to the platform, for&nbsp;example:</p>
 <pre class="literal-block">docker pull fedora/postgresql</pre>
 <p>Then, I could create&nbsp;a <code class="docutils literal">tmpfs</code>, for the data and mount&nbsp;it</p>
-<pre class="code bash"><a name="rest_code_a2664c4c8bdc4d4992de618c361e7f17-1"></a>sudo mkdir /mnt/dbtempdisk
-<a name="rest_code_a2664c4c8bdc4d4992de618c361e7f17-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
+<pre class="code bash"><a name="rest_code_6e25f613dd7c418fa6deebff1ba0316d-1"></a>sudo mkdir /mnt/dbtempdisk
+<a name="rest_code_6e25f613dd7c418fa6deebff1ba0316d-2"></a>sudo mount -t tmpfs -o <span class="nv">size</span><span class="o">=</span>50m tmpfs /mnt/dbtempdisk
 </pre>
 <p>Now we could run the data­base con­tain­er us­ing this&nbsp;di­rec­to­ry:</p>  <div class="code"><table class="codetable">
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-1"><code data-line-number="1"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-1"></a>docker run --name mempostgres <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-1"><code data-line-number="1"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-1"></a>docker run --name mempostgres <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-2"><code data-line-number="2"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-2"></a>    -v <span class="s2">"/m­n­t/dbtem­pdisk:/­var/lib/pgsql/­data:Z"</span>   <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-2"><code data-line-number="2"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-2"></a>    -v <span class="s2">"/m­n­t/dbtem­pdisk:/­var/lib/pgsql/­data:Z"</span>   <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-3"><code data-line-number="3"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-3"></a>    -e <span class="nv">POST­GRES_US­ER</span><span class="o">=</span>&lt;user­name-­for-the-d­b&gt;  <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-3"><code data-line-number="3"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-3"></a>    -e <span class="nv">POST­GRES_US­ER</span><span class="o">=</span>&lt;user­name-­for-the-d­b&gt;  <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-4"><code data-line-number="4"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-4"></a>    -e <span class="nv">POST­GRES_­PASS­WORD</span><span class="o">=</span>&lt;pass­word-­for-the-user&gt;  <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-4"><code data-line-number="4"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-4"></a>    -e <span class="nv">POST­GRES_­PASS­WORD</span><span class="o">=</span>&lt;pass­word-­for-the-user&gt;  <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-5"><code data-line-number="5"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-5"></a>    -e <span class="nv">POST­GRES_DB</span><span class="o">=</span>&lt;name-of-the-d­b&gt;  <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-5"><code data-line-number="5"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-5"></a>    -e <span class="nv">POST­GRES_DB</span><span class="o">=</span>&lt;name-of-the-d­b&gt;  <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-6"><code data-line-number="6"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-6"></a>    -p <span class="m">5432</span>:5432  <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-6"><code data-line-number="6"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-6"></a>    -p <span class="m">5432</span>:5432  <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9a380ce83eab477ab1886145a9985146-7"><code data-line-number="7"></code></a></td>
-<td class="code"><code><a name="rest_code_9a380ce83eab477ab1886145a9985146-7"></a>    fedora/postgresql
+<td class="linenos linenodiv"><a href="#rest_code_4c713e4137a742f4b38a7d6daf92fe13-7"><code data-line-number="7"></code></a></td>
+<td class="code"><code><a name="rest_code_4c713e4137a742f4b38a7d6daf92fe13-7"></a>    fedora/postgresql
 </code></td>
 </tr>
 </table></div>
@@ -188,20 +188,20 @@ application,&nbsp;etc.).</p>
 command would&nbsp;be:</p>
 <div class="code"><table class="codetable">
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_5fe1de6116784d30b2a74243156e8d64-1"><code data-line-number="1"></code></a></td>
-<td class="code"><code><a name="rest_code_5fe1de6116784d30b2a74243156e8d64-1"></a>docker run -it --rm <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-1"><code data-line-number="1"></code></a></td>
+<td class="code"><code><a name="rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-1"></a>docker run -it --rm <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_5fe1de6116784d30b2a74243156e8d64-2"><code data-line-number="2"></code></a></td>
-<td class="code"><code><a name="rest_code_5fe1de6116784d30b2a74243156e8d64-2"></a>--link mempostgres:postgres <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-2"><code data-line-number="2"></code></a></td>
+<td class="code"><code><a name="rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-2"></a>--link mempostgres:postgres <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_5fe1de6116784d30b2a74243156e8d64-3"><code data-line-number="3"></code></a></td>
-<td class="code"><code><a name="rest_code_5fe1de6116784d30b2a74243156e8d64-3"></a>fedora/postgresql <span class="se">\</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-3"><code data-line-number="3"></code></a></td>
+<td class="code"><code><a name="rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-3"></a>fedora/postgresql <span class="se">\</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_5fe1de6116784d30b2a74243156e8d64-4"><code data-line-number="4"></code></a></td>
-<td class="code"><code><a name="rest_code_5fe1de6116784d30b2a74243156e8d64-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
+<td class="linenos linenodiv"><a href="#rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-4"><code data-line-number="4"></code></a></td>
+<td class="code"><code><a name="rest_code_d6fff0ed3abb49408b3a6f8d4928d4d2-4"></a>psql -h mempostgres -U &lt;username-in-db&gt; &lt;db-name&gt;
 </code></td>
 </tr>
 </table></div>

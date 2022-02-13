@@ -116,22 +116,22 @@ pars­ing <span class="caps">YAML</span> files. The prob­lem was that when it w
 not co­her­en­t, be­cause some­times it re­turned the con­tent as a python  <strong>dict</strong>, but if the file was emp­ty, the
 re­turn val­ue was  <strong>None</strong>.</p>  <p>Do you no­tice some­thing odd&nbsp;here?</p>  <p>What if I want to use the re­sult? I can­not do it safe­ly, for&nbsp;ex­am­ple:</p>  <div class="code"><table class="codetable">
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9278db6515dd47d58060a90859a66f59-1"><code data-line-number="1"></code></a></td>
-<td class="code"><code><a name="rest_code_9278db6515dd47d58060a90859a66f59-1"></a><span class="n">con­tent</span>   <span class="o">=</span>   <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="c1"># with the cor­rect pa­ram­e­ters and file name</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_6ad6e6214ed743cb92e87ae7480291b5-1"><code data-line-number="1"></code></a></td>
+<td class="code"><code><a name="rest_code_6ad6e6214ed743cb92e87ae7480291b5-1"></a><span class="n">con­tent</span>   <span class="o">=</span>   <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="c1"># with the cor­rect pa­ram­e­ters and file name</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9278db6515dd47d58060a90859a66f59-2"><code data-line-number="2"></code></a></td>
-<td class="code"><code><a name="rest_code_9278db6515dd47d58060a90859a66f59-2"></a><span class="k">for</span>   <span class="n">tag</span><span class="p">,</span>   <span class="n">val­ues</span>   <span class="ow">in</span>   <span class="n">con­tent</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_6ad6e6214ed743cb92e87ae7480291b5-2"><code data-line-number="2"></code></a></td>
+<td class="code"><code><a name="rest_code_6ad6e6214ed743cb92e87ae7480291b5-2"></a><span class="k">for</span>   <span class="n">tag</span><span class="p">,</span>   <span class="n">val­ues</span>   <span class="ow">in</span>   <span class="n">con­tent</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_9278db6515dd47d58060a90859a66f59-3"><code data-line-number="3"></code></a></td>
-<td class="code"><code><a name="rest_code_9278db6515dd47d58060a90859a66f59-3"></a>    <span class="k">pass</span>    <span class="c1"># process as re­quired...</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_6ad6e6214ed743cb92e87ae7480291b5-3"><code data-line-number="3"></code></a></td>
+<td class="code"><code><a name="rest_code_6ad6e6214ed743cb92e87ae7480291b5-3"></a>    <span class="k">pass</span>    <span class="c1"># process as re­quired...</span>  </code></td>
 </tr>
 </table></div>
 <p>If content&nbsp;is <code class="docutils literal">None</code>, it will raise&nbsp;an <code class="docutils literal">AttributeError</code> saying that None has no
 attribute called &#8220;items&#8221; (which is&nbsp;true).</p>
 <p>There­fore, the de­vel­op­er should catch the ex­cep­tion or avoid the cor­ner case,
-by do­ing some­thing like the&nbsp;fol­low­ing:</p>  <pre class="code python"><a name="rest_code_3698e31cdc3345a2acc9cea5f91da9ba-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
+by do­ing some­thing like the&nbsp;fol­low­ing:</p>  <pre class="code python"><a name="rest_code_87a5636c58fa41f2ba332f19a3839b47-1"></a><span class="n">content</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="ow">or</span> <span class="p">{}</span>
 </pre>
 <p>That could be a case of &#8220;coding defensively&#8221;, making sure that the program will not fail under
 most conditions (it would also require to add&nbsp;an <code class="docutils literal">assert</code> or to raise an exception

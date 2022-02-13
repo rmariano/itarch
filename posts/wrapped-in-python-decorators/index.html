@@ -114,20 +114,20 @@ bg-dark
 <p>This is an­oth­er of the new in­ter­est­ing things that Python 3 has. Time ago, it
 was some­how tricky to work with dec­o­rat­ed func­tion­s, be­cause the dec­o­ra­tor
 re­placed the orig­i­nal ob­jec­t, and its be­hav­iour be­came hard to&nbsp;reach.</p>  <!-- TEASER_END -->
-<p>So, for ex­am­ple, we all know that the fol­low­ing&nbsp;sen­tence:</p>  <pre class="code python"><a name="rest_code_4a936de5c1f944dd904968830fab7654-1"></a><span class="nd">@decorator</span>
-<a name="rest_code_4a936de5c1f944dd904968830fab7654-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-<a name="rest_code_4a936de5c1f944dd904968830fab7654-3"></a>    <span class="k">pass</span>
+<p>So, for ex­am­ple, we all know that the fol­low­ing&nbsp;sen­tence:</p>  <pre class="code python"><a name="rest_code_f1f89690cade4d98bf101c880b98fa6b-1"></a><span class="nd">@decorator</span>
+<a name="rest_code_f1f89690cade4d98bf101c880b98fa6b-2"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_f1f89690cade4d98bf101c880b98fa6b-3"></a>    <span class="k">pass</span>
 </pre>
-<p>It&#8217;s ac­tu­al­ly syn­tax sug­ar&nbsp;for:</p>  <pre class="code python"><a name="rest_code_172fa0e266b2479399bd89fc6b9e7ab9-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
-<a name="rest_code_172fa0e266b2479399bd89fc6b9e7ab9-2"></a>    <span class="k">pass</span>
-<a name="rest_code_172fa0e266b2479399bd89fc6b9e7ab9-3"></a>
-<a name="rest_code_172fa0e266b2479399bd89fc6b9e7ab9-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<p>It&#8217;s ac­tu­al­ly syn­tax sug­ar&nbsp;for:</p>  <pre class="code python"><a name="rest_code_ec75039102e44acda83511bf7c4652d8-1"></a><span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
+<a name="rest_code_ec75039102e44acda83511bf7c4652d8-2"></a>    <span class="k">pass</span>
+<a name="rest_code_ec75039102e44acda83511bf7c4652d8-3"></a>
+<a name="rest_code_ec75039102e44acda83511bf7c4652d8-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
 </pre>
 <p>So, if for some rea­son, we need to work both with the orig­i­nal and dec­o­rat­ed
-func­tion­s, we re­quired tricks such as dif­fer­ent names, some­thing&nbsp;like:</p>  <pre class="code python"><a name="rest_code_d8e4e10ec387400c9d65c42c0bdef341-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
-<a name="rest_code_d8e4e10ec387400c9d65c42c0bdef341-2"></a>    <span class="k">pass</span>
-<a name="rest_code_d8e4e10ec387400c9d65c42c0bdef341-3"></a>
-<a name="rest_code_d8e4e10ec387400c9d65c42c0bdef341-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
+func­tion­s, we re­quired tricks such as dif­fer­ent names, some­thing&nbsp;like:</p>  <pre class="code python"><a name="rest_code_accc1d79a9fe4b72a23ac2dbc8cf7902-1"></a><span class="k">def</span> <span class="nf">_function</span><span class="p">():</span>
+<a name="rest_code_accc1d79a9fe4b72a23ac2dbc8cf7902-2"></a>    <span class="k">pass</span>
+<a name="rest_code_accc1d79a9fe4b72a23ac2dbc8cf7902-3"></a>
+<a name="rest_code_accc1d79a9fe4b72a23ac2dbc8cf7902-4"></a><span class="n">function</span> <span class="o">=</span> <span class="n">decorator</span><span class="p">(</span><span class="n">_function</span><span class="p">)</span>
 </pre>
 <p>But in current Python, this should be no longer the case. As we can see from
 the code of&nbsp;the <code class="docutils literal">functools</code> module <a class="footnote-reference brackets" href="#id2" id="id1">1</a>, when decorating an object, there is
@@ -138,149 +138,149 @@ the old&nbsp;quirk­s.</p>  <div class="section" id="example">
 <p>Let&#8217;s con­sid­er this ex­am­ple. Val­i­dat­ing pa­ram­e­ter types like this is far
 from a re­al im­ple­men­ta­tion, but rather some­thing for the sake of&nbsp;il­lus­tra­tion.</p>  <div class="code"><table class="codetable">
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-1"><code data-line-number=" 1"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-1"></a><span class="kn">from</span>   <span class="nn">func­tools</span>   <span class="kn">im­port</span>   <span class="n">wraps</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-1"><code data-line-number=" 1"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-1"></a><span class="kn">from</span>   <span class="nn">func­tools</span>   <span class="kn">im­port</span>   <span class="n">wraps</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-2"><code data-line-number=" 2"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-2"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-2"><code data-line-number=" 2"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-2"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-3"><code data-line-number=" 3"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-3"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-3"><code data-line-number=" 3"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-3"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-4"><code data-line-number=" 4"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-4"></a><span class="k">def</span>   <span class="nf">val­i­date_­pa­ram­e­ters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span>   <span class="n">an­no­ta­tions</span><span class="p">):</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-4"><code data-line-number=" 4"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-4"></a><span class="k">def</span>   <span class="nf">val­i­date_­pa­ram­e­ters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span>   <span class="n">an­no­ta­tions</span><span class="p">):</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-5"><code data-line-number=" 5"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-5"></a>    <span class="sd">"""­For a dic­tio­nary of kwargs, and an­oth­er dic­tio­nary of an­no­ta­tion­s,</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-5"><code data-line-number=" 5"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-5"></a>    <span class="sd">"""­For a dic­tio­nary of kwargs, and an­oth­er dic­tio­nary of an­no­ta­tion­s,</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-6"><code data-line-number=" 6"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-6"></a><span class="sd">     map­ping each ar­gu­ment name with its type, val­i­date if all types on the</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-6"><code data-line-number=" 6"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-6"></a><span class="sd">     map­ping each ar­gu­ment name with its type, val­i­date if all types on the</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-7"><code data-line-number=" 7"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-7"></a><span class="sd">     key­word ar­gu­ments match those de­scribed by the an­no­ta­tion­s.</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-7"><code data-line-number=" 7"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-7"></a><span class="sd">     key­word ar­gu­ments match those de­scribed by the an­no­ta­tion­s.</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-8"><code data-line-number=" 8"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-8"></a><span class="sd">     """</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-8"><code data-line-number=" 8"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-8"></a><span class="sd">     """</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-9"><code data-line-number=" 9"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-9"></a>    <span class="k">for</span>   <span class="n">arg</span><span class="p">,</span>   <span class="n">val­ue</span>   <span class="ow">in</span>   <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-9"><code data-line-number=" 9"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-9"></a>    <span class="k">for</span>   <span class="n">arg</span><span class="p">,</span>   <span class="n">val­ue</span>   <span class="ow">in</span>   <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-10"><code data-line-number="10"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-10"></a>        <span class="n">ex­pect­ed_­type</span>   <span class="o">=</span>   <span class="n">an­no­ta­tions</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-10"><code data-line-number="10"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-10"></a>        <span class="n">ex­pect­ed_­type</span>   <span class="o">=</span>   <span class="n">an­no­ta­tions</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-11"><code data-line-number="11"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-11"></a>        <span class="k">if</span>   <span class="ow">not</span>   <span class="nb">isin­stance</span><span class="p">(</span><span class="n">val­ue</span><span class="p">,</span>   <span class="n">ex­pect­ed_­type</span><span class="p">):</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-11"><code data-line-number="11"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-11"></a>        <span class="k">if</span>   <span class="ow">not</span>   <span class="nb">isin­stance</span><span class="p">(</span><span class="n">val­ue</span><span class="p">,</span>   <span class="n">ex­pect­ed_­type</span><span class="p">):</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-12"><code data-line-number="12"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-12"></a>            <span class="k">raise</span>   <span class="ne">Type­Er­ror</span><span class="p">(</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-12"><code data-line-number="12"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-12"></a>            <span class="k">raise</span>   <span class="ne">Type­Er­ror</span><span class="p">(</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-13"><code data-line-number="13"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-13"></a>                <span class="s2">"</span><span class="si">{0}</span><span class="s2">=</span><span class="si">{1!r}</span><span class="s2">  is not of type  </span><span class="si">{2!r}</span><span class="s2">"</span><span class="o">.</span><span class="n">for­mat</span><span class="p">(</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-13"><code data-line-number="13"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-13"></a>                <span class="s2">"</span><span class="si">{0}</span><span class="s2">=</span><span class="si">{1!r}</span><span class="s2">  is not of type  </span><span class="si">{2!r}</span><span class="s2">"</span><span class="o">.</span><span class="n">for­mat</span><span class="p">(</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-14"><code data-line-number="14"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-14"></a>                    <span class="n">arg</span><span class="p">,</span>   <span class="n">val­ue</span><span class="p">,</span>   <span class="n">ex­pect­ed_­type</span><span class="p">)</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-14"><code data-line-number="14"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-14"></a>                    <span class="n">arg</span><span class="p">,</span>   <span class="n">val­ue</span><span class="p">,</span>   <span class="n">ex­pect­ed_­type</span><span class="p">)</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-15"><code data-line-number="15"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-15"></a>                <span class="p">)</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-15"><code data-line-number="15"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-15"></a>                <span class="p">)</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-16"><code data-line-number="16"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-16"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-16"><code data-line-number="16"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-16"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-17"><code data-line-number="17"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-17"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-17"><code data-line-number="17"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-17"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-18"><code data-line-number="18"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-18"></a><span class="k">def</span>   <span class="nf">val­i­date_­func­tion_­pa­ram­e­ters</span><span class="p">(</span><span class="n">func­tion</span><span class="p">):</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-18"><code data-line-number="18"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-18"></a><span class="k">def</span>   <span class="nf">val­i­date_­func­tion_­pa­ram­e­ters</span><span class="p">(</span><span class="n">func­tion</span><span class="p">):</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-19"><code data-line-number="19"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func­tion</span><span class="p">)</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-19"><code data-line-number="19"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-19"></a>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func­tion</span><span class="p">)</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-20"><code data-line-number="20"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-20"></a>    <span class="k">def</span>   <span class="nf">in­ner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-20"><code data-line-number="20"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-20"></a>    <span class="k">def</span>   <span class="nf">in­ner</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-21"><code data-line-number="21"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-21"></a>        <span class="n">an­no­ta­tions</span>   <span class="o">=</span>   <span class="n">func­tion</span><span class="o">.</span><span class="vm">__an­no­ta­tion­s__</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-21"><code data-line-number="21"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-21"></a>        <span class="n">an­no­ta­tions</span>   <span class="o">=</span>   <span class="n">func­tion</span><span class="o">.</span><span class="vm">__an­no­ta­tion­s__</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-22"><code data-line-number="22"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-22"></a>        <span class="n">val­i­date_­pa­ram­e­ters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span>   <span class="n">an­no­ta­tions</span><span class="p">)</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-22"><code data-line-number="22"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-22"></a>        <span class="n">val­i­date_­pa­ram­e­ters</span><span class="p">(</span><span class="n">kwargs</span><span class="p">,</span>   <span class="n">an­no­ta­tions</span><span class="p">)</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-23"><code data-line-number="23"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-23"></a>        <span class="k">re­turn</span>   <span class="n">func­tion</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-23"><code data-line-number="23"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-23"></a>        <span class="k">re­turn</span>   <span class="n">func­tion</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-24"><code data-line-number="24"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-24"></a>    <span class="k">re­turn</span>   <span class="n">in­ner</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-24"><code data-line-number="24"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-24"></a>    <span class="k">re­turn</span>   <span class="n">in­ner</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-25"><code data-line-number="25"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-25"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-25"><code data-line-number="25"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-25"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-26"><code data-line-number="26"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-26"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-26"><code data-line-number="26"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-26"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-27"><code data-line-number="27"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-27"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-27"><code data-line-number="27"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-27"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-28"><code data-line-number="28"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-28"></a><span class="nd">@val­i­date_­func­tion_­pa­ram­e­ters</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-28"><code data-line-number="28"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-28"></a><span class="nd">@val­i­date_­func­tion_­pa­ram­e­ters</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-29"><code data-line-number="29"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-29"></a><span class="k">def</span>   <span class="nf">test_­func­tion</span><span class="p">(</span><span class="n">x</span><span class="p">:</span>   <span class="nb">int</span><span class="p">,</span>   <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-29"><code data-line-number="29"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-29"></a><span class="k">def</span>   <span class="nf">test_­func­tion</span><span class="p">(</span><span class="n">x</span><span class="p">:</span>   <span class="nb">int</span><span class="p">,</span>   <span class="n">y</span><span class="p">:</span><span class="nb">float</span><span class="p">):</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-30"><code data-line-number="30"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-30"></a>    <span class="k">re­turn</span>   <span class="n">x</span>   <span class="o">*</span>   <span class="n">y</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-30"><code data-line-number="30"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-30"></a>    <span class="k">re­turn</span>   <span class="n">x</span>   <span class="o">*</span>   <span class="n">y</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-31"><code data-line-number="31"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-31"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-31"><code data-line-number="31"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-31"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-32"><code data-line-number="32"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-32"></a>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-32"><code data-line-number="32"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-32"></a>
 </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-33"><code data-line-number="33"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-33"></a><span class="n">test_­func­tion</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>    <span class="c1"># does not val­i­date</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-33"><code data-line-number="33"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-33"></a><span class="n">test_­func­tion</span><span class="o">.</span><span class="n">__wrapped__</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>    <span class="c1"># does not val­i­date</span>  </code></td>
 </tr>
 <tr>
-<td class="linenos linenodiv"><a href="#rest_code_d839dc2333b342c298571d83c3d6d92c-34"><code data-line-number="34"></code></a></td>
-<td class="code"><code><a name="rest_code_d839dc2333b342c298571d83c3d6d92c-34"></a><span class="n">test_­func­tion</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>    <span class="c1"># val­i­dates and rais­es</span>  </code></td>
+<td class="linenos linenodiv"><a href="#rest_code_955a76dc030e4b20aeaf8d3fad04277e-34"><code data-line-number="34"></code></a></td>
+<td class="code"><code><a name="rest_code_955a76dc030e4b20aeaf8d3fad04277e-34"></a><span class="n">test_­func­tion</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>    <span class="c1"># val­i­dates and rais­es</span>  </code></td>
 </tr>
 </table></div>
 <p>The state­ment in the penul­ti­mate line works be­cause it&#8217;s ac­tu­al­ly in­vok­ing the
