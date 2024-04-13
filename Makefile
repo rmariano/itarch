@@ -7,17 +7,16 @@ setup:
 
 .PHONY: clean
 clean:
-	rm -fr cache
-	find . -type d -name __pycache__ | xargs rm -fr
+	rm -fr cache __pycache__
 	nikola clean
 
 .PHONY: build
 build:
-	nikola build
+	zola build
 
 .PHONY: serve
 serve:
-	nikola serve --browser
+	zola serve --open
 
 .PHONY: test
 test:
