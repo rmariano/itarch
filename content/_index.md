@@ -1,7 +1,8 @@
 +++
-title = "List of blog posts"
-sort_by = "date"
+title = "index"
 template = "index.html"
-page_template = "page.html"
-reverse = true
+transparent = true
+sort_by = "date"
+paginate_by = 10
 +++
+
