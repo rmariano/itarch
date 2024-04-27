@@ -52,7 +52,7 @@ the default values will remain from the last time it was updated.
 Moreover, since this dictionary belongs to the class, all instances
 (including new ones), will carry on with this:
 
-``` python3
+```python
 >>> q = Query()
 >>> q.run_query("select 1")
 running select 1 [100, 0]
