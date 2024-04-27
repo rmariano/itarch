@@ -16,7 +16,7 @@ Do you notice something odd here?
 
 What if I want to use the result? I cannot do it safely, for example:
 
-``` {.python .numberLines}
+```python
 content = yaml.load(...)  # with the correct parameters and file name
 for tag, values in content.items():
     pass  # process as required...
