@@ -2,8 +2,7 @@
 title = "Notes on FOSDEM19"
 slug = "notes-on-fosdem19"
 date = 2019-02-03T21:25:06+01:00
-tags = ['confs', ' foss']
-
+tags = ['confs', 'foss']
 +++
 
 `FOSDEM19` it\'s just over, and here are my main highlights!

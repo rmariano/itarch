@@ -2,8 +2,7 @@
 title = "Types of Descriptors"
 slug = "types-of-descriptors"
 date = 2017-05-14T12:55:31-02:00
-tags = ['python', ' descriptors', ' featured']
-
+tags = ['python', 'descriptors', 'featured']
 +++
 
 Resuming from where we left off, on the previous post, on which we took

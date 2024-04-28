@@ -2,8 +2,7 @@
 title = "EuroPython 2017 days 0 to 3"
 slug = "europython-2017-days-0-to-3"
 date = 2017-07-12T23:56:34-02:00
-tags = ['confs', ' python', ' talks', ' EuroPython']
-
+tags = ['confs', 'python', 'talks', 'EuroPython']
 +++
 
 A summary of the first days (from day 0 \--Sunday to day 3

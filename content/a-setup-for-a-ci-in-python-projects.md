@@ -2,8 +2,8 @@
 title = "A setup for a CI in Python projects"
 slug = "a-setup-for-a-ci-in-python-projects"
 date = 2017-04-22T22:46:35-02:00
-tags = ['clean-code', ' best-practices', ' development', ' mypy', ' python', 'draft']
-
+tags = ['clean-code', 'best-practices', 'development', 'mypy', 'python', 'draft']
+draft = true
 +++
 
 Following up on the previous entry about automating some of the checks

@@ -2,8 +2,7 @@
 title = "PyCon CZ - Day 2"
 slug = "pycon-cz-day-2"
 date = 2017-06-09T23:30:19-02:00
-tags = ['python', ' confs']
-
+tags = ['python', 'confs']
 +++
 
 Summary of the second day of Pycon CZ 2017.

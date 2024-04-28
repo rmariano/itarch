@@ -2,8 +2,7 @@
 title = "PyCon CZ - Day 1"
 slug = "pycon-cz-day-1"
 date = 2017-06-08T14:05:41-02:00
-tags = ['confs', ' python']
-
+tags = ['confs', 'python']
 +++
 
 The day started at 9.00, and at first it was time of check-in, etc.

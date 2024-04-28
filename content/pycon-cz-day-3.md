@@ -2,8 +2,7 @@
 title = "PyCon CZ - Day 3"
 slug = "pycon-cz-day-3"
 date = 2017-06-11T22:09:19-02:00
-tags = ['python', ' confs', ' k8s', ' elasticsearch', ' openshift']
-
+tags = ['python', 'confs', 'k8s', 'elasticsearch', 'openshift']
 +++
 
 The third day of the conference was hosted on a different venue, [the

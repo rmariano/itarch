@@ -2,7 +2,7 @@
 title = "Discovering Descriptors"
 slug = "discovering-descriptors"
 date = 2017-06-09T20:21:27-02:00
-tags = ['talks', ' python', ' descriptors']
+tags = ['talks', 'python', 'descriptors']
 
 +++
 

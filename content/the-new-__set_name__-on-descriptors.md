@@ -2,7 +2,7 @@
 title = "The __set_name__ method for descriptors"
 slug = "the-__set_name__-method-for-descriptors"
 date = 2017-06-03T15:29:50-02:00
-tags = ['python', ' descriptors', ' metaprogramming', ' decorators']
+tags = ['python', 'descriptors', 'metaprogramming', 'decorators']
 
 +++
 

@@ -2,7 +2,7 @@
 title = "EuroPython 2017 - second part"
 slug = "europython-2017-second-part"
 date = 2017-07-16T15:25:42-02:00
-tags = ['confs', ' python', ' EuroPython']
+tags = ['confs', 'python', 'EuroPython']
 
 +++
 
