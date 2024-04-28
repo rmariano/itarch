@@ -37,9 +37,8 @@ immutable objects, but that\'s usually not the case.
 Consider the following code (spoiler: there is something really wrong
 with it).
 
-::: listing
-subtleties0.py python3
-:::
+{{ gist(owner="rmariano" id="b6587a30203674da35d2239e50a969db") }}
+
 
 When trying to use dictionaries to pass keyword arguments, it might be
 tempting to mutate them in order to adapt it to the signature of the
@@ -109,7 +108,7 @@ internal representation.
 
 For instance we can write a code like:
 
-``` python3
+```python
 for i in myiterable: ...
 ```
 
@@ -118,7 +117,7 @@ tuple, a dictionary, a string, and it will still work.
 
 We can also rely on all methods that use this protocol,
 
-``` python3
+```python
 mylist.extend(myiterable)
 ```
 
@@ -133,7 +132,7 @@ that a part of the code was particularly slow. The code in question was
 a function that was supposed to process and then move files to a given
 target directory. You can imagine something like this:
 
-``` python3
+```python
 def process_files(files_to_process, target_directory):
     for file_ in files_to_process:
         # ...
@@ -153,7 +152,7 @@ file system!
 The solution is to use a better interface, that disallow these errors
 entirely:
 
-``` python3
+```python
 def process_files(*files_to_process, target_directory):
     for file_ in files_to_process:
         # ...

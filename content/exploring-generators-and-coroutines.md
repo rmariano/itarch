@@ -3,7 +3,6 @@ title = "Exploring Generators and Coroutines"
 slug = "exploring-generators-and-coroutines"
 date = 2018-01-14T12:03:50-01:00
 tags = ['python', 'generators', 'coroutines', 'async', 'asyncio', 'concurrency']
-
 +++
 
 Let\'s revisit the idea of generators in Python, in order to understand
@@ -51,7 +50,7 @@ Take the [range]{.title-ref} built-in function, for example. In Python
 Imagine we want to come up with a similar implementation of it, in order
 to get the sum of all numbers up to a certain limit.
 
-``` python3
+```python
 LIMIT = 1_000_000
 def old_range(n):
     numbers = []
@@ -80,7 +79,7 @@ We just have to get rid of the list, and place the [yield]{.title-ref}
 statement instead, indicating that we want to produce the value on the
 expression that follows the keyword.
 
-``` python3
+```python
 LIMIT = 1_000_000
 def new_range(n):
     i = 0
@@ -105,7 +104,7 @@ We see the idea: when the [yield \<expression\>]{.title-ref} is reached,
 the result of the expression will be passed to the caller code, and the
 generator will remain *suspended* at that line in the meanwhile.
 
-``` python3
+```python
 >>> import inspect
 >>> r = new_range(1_000_000)
 >>> inspect.getgeneratorstate(r)
@@ -130,7 +129,7 @@ the built-in `next()` function on it, and this will produce values until
 the `StopIteration` exception is raised, signalling the end of the
 iteration.
 
-``` python3
+```python
 >>> def f():
 ...     yield 1
 ...     yield 2
@@ -167,7 +166,7 @@ counting inside it. It's like saying "all I need is just the count, so I
 might as well just accumulate the value in a loop, and that's it".
 Something slightly similar to:
 
-``` python3
+```python
 total = 0
 i = 0
 while i < LIMIT:
@@ -188,7 +187,7 @@ For example, let's say we have the sequence created with `new_range()`,
 and then we realize that we need the first 10 even numbers of it. This
 is as simple as doing.
 
-``` python3
+```python
 >>> import itertools
 >>> rg = new_range(1_000_000)
 >>> itertools.islice(filter(lambda n: n % 2 == 0, rg), 10)
@@ -236,7 +235,7 @@ The `send()` method implies that [yield]{.title-ref} becomes an
 is possible to assign the result of a [yield]{.title-ref} to a variable,
 and the value will be whatever it was sent to it.
 
-``` python3
+```python
 >>> def gen(start=0):
 ...     step = start
 ...     while True:
@@ -266,14 +265,9 @@ the next `yield`. In fact, advancing is the only allowed operation on a
 newly-created generator. This can be done by calling `next(g)` or
 `g.send(None)`, which are equivalent.
 
-:::: warning
-::: title
-Warning
-:::
-
-Remember to always advance a generator that was just created, or you
-will get a [TypeError]{.title-ref}.
-::::
+> [!WARNING]    
+> Remember to always advance a generator that was just created, or you
+> will get a TypeError
 
 With the `.throw()` method the caller can make the generator raise an
 exception at the point where is suspended. If this exception is handled
@@ -318,7 +312,7 @@ mean that a generator returns a value? It means that it stops. And where
 does that value do? It\'s contained inside the exception, as an
 attribute in `StopIteration.value`.
 
-``` python3
+```python
 def gen():
     yield 1
     yield 2
@@ -358,7 +352,7 @@ elements that this internal *iterable* can produce.
 For example, this way we could create a clone of the `itertools.chain`
 function from the standard library.
 
-``` python3
+```python
 >>> def chain2(*iterables):
 ...:     for it in iterables:
 ...:         yield from it
@@ -372,7 +366,7 @@ construction was added to the language. The raison d\'etre of this
 construction is to actually delegate responsibility into smaller
 generators, and chain them.
 
-``` python3
+```python
 >>> def internal(name, limit):
 ...:     for i in range(limit):
 ...:         got = yield i
@@ -459,7 +453,7 @@ The following two coroutines `step` and `coro` are a simple example, of
 how `await` works similar to `yield from` delegating the values to the
 internal generator.
 
-``` python3
+```python
 >>>  @types.coroutine
 ...: def step():
 ...:     s = 0
@@ -497,7 +491,7 @@ what we would write, while `step` would be an external function we call.
 
 The following two coroutines are different ways of defining coroutines.
 
-``` python3
+```python
 # py 3.4
 @asyncio.coroutine
 def coroutine():
@@ -574,7 +568,7 @@ one element at the time, etc.), while iterating.
 Consider this simple example on which we want to iterate while calling
 some I/O code that we don\'t want to block upon.
 
-``` python3
+```python
 async def recv(no, size) -> str:
     """Simulate reading <size> bytes from a remote source, asynchronously.
     It takes a time proportional to the bytes requested to read.
@@ -615,7 +609,7 @@ example `asyncio.sleep`).
 With asynchronous generators, the same could be rewritten in a more
 compact way.
 
-``` python3
+```python
 async def async_data_streamer():
     LIMIT = 10
     CHUNK_SIZE = 1024

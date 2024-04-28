@@ -2,8 +2,7 @@
 title = "Notes on PySS18"
 slug = "notes-on-pyss18"
 date = 2018-10-15T22:31:01+02:00
-tags = ['confs', ' python']
-
+tags = ['confs', 'python']
 +++
 
 Last weekend an amazing edition of Python San Sebastián took place. Here
@@ -43,7 +42,7 @@ wrong (or plain wrong in some cases(, but valid with small tweaks).
 
 See what I mean:
 
-``` python3
+```python
 In [1]: 1.  # float
 Out[1]: 1.0
 
