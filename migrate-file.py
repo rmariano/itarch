@@ -33,7 +33,7 @@ def _convert_post_metadata(raw_metadata: list[str]) -> str:
         else:
             print(line)
 
-    metadata["tags"] = metadata["tags"].split(",")
+    metadata["tags"] = list(map(str.strip, metadata["tags"].split(",")))
     metadata["date"] = parse_date(metadata["date"]).isoformat()
     extra = []
     for key in ("link", "description"):
