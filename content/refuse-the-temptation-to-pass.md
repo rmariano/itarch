@@ -26,7 +26,7 @@ better opportunities.
 
 For example, when defining exceptions:
 
-``` python
+```python
 class DataValidationError(Exception):
     pass
 ```
@@ -34,7 +34,7 @@ class DataValidationError(Exception):
 It\'s better to place a *docstring* explaining its raison d\'etre, which
 eliminates the necessity for the *pass* and the empty body:
 
-``` python
+```python
 class DataValidationError(Exception):
     """A client error (400) when wrong data was provided."""
 ```
@@ -50,7 +50,7 @@ How about when dealing with exceptions?
 Sometimes, the occurrence of an exception is a controlled scenario, and
 again *pass* looks really tempting:
 
-``` python
+```python
 try:
     custom_parsing(data)
 except AttributeError:
@@ -62,7 +62,7 @@ comments represent our failure to express our ideas into code, and they
 are therefore, bad. We can cheat a little bit here, but (on the bright
 side), do something more useful: How about logging the message?
 
-``` python
+```python
 try:
     custom_parsing(data)
 except AttributeError:
@@ -73,7 +73,7 @@ If all of this seems unnecessary, we can
 [suppress](https://docs.python.org/3/library/contextlib.html#contextlib.suppress)
 the exception:
 
-``` python
+```python
 with contextlib.suppress(AttributeError):
     custom_parsing(data)
 ```

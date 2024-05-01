@@ -13,7 +13,7 @@ reach.
 
 So, for example, we all know that the following sentence:
 
-``` python
+```python
 @decorator
 def function():
     pass
@@ -21,7 +21,7 @@ def function():
 
 It\'s actually syntax sugar for:
 
-``` python
+```python
 def function():
     pass
 
@@ -32,7 +32,7 @@ So, if for some reason, we need to work both with the original and
 decorated functions, we required tricks such as different names,
 something like:
 
-``` python
+```python
 def _function():
     pass
 

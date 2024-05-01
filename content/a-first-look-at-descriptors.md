@@ -16,10 +16,12 @@ or `__delete__`.
 
 As of `Python 3.6+`[^2] the *descriptor protocol* entails these methods:
 
+```python
     __get__(self, instance, owner)
     __set__(self, instance, value)
     __delete__(self, instance)
     __set_name__(self, instance, name)
+```
 
 We\'ll understand better what the parameters mean, once we\'ve seen some
 examples of descriptors and how they\'re used.
@@ -40,9 +42,8 @@ use a default one, specified on the class definition.
 
 A possible implementation could look like this.
 
-::: {#Getter basic example .listing number-lines=""}
-descriptors0_get0.py python
-:::
+{{ gist(owner="rmariano" id="d11bed8469950795b2cc9c36159bb1a9" filename="descriptors0_get0.py") }}
+
 
 In this case resolution is a descriptor that implements only
 `__get__()`. If an instance of the display manager, has a resolution
@@ -73,7 +74,7 @@ flexibility).
 For this reason, is common to handle this case, and return the
 descriptor itself, which is the rationale behind the line:
 
-``` python
+```python
 if instance is None:
     return self
 ```
@@ -109,9 +110,7 @@ method, things might get overcomplicated.
 
 These two options seem rather convoluted. Descriptors it is, then.
 
-::: {#Setter basic example .listing number-lines=""}
-descriptors0_set0.py python
-:::
+{{ gist(owner="rmariano" id="d11bed8469950795b2cc9c36159bb1a9" filename="descriptors0_set0.py") }}
 
 The `docstring` on the `Traveller` class, pretty much explains its
 intended use. The important thing about this, is the public interface:
@@ -128,14 +127,14 @@ the descriptor.
 
 Under this schema, Python will translate a call like:
 
-``` python
+```python
 traveller = Traveller()
 traveller.city = 'Stockholm'
 ```
 
 To the one using the `__set__` method in the descriptor, like:
 
-``` python
+```python
 Traveller.city.__set__(traveller, 'Stockholm')
 ```
 
@@ -145,13 +144,13 @@ and then the value that is being assigned.
 
 More generally we could say that something like:
 
-``` python
+```python
 obj.<descriptor> = <value>
 ```
 
 Translates to:
 
-``` python
+```python
 type(obj).__set__(obj, <value>)
 ```
 
@@ -180,9 +179,7 @@ The `__delete__()` method is going to be called when an instruction of
 the type `del <instance>.<descriptor>` is executed. See the following
 example.
 
-::: {#Deleter basic example .listing number-lines=""}
-descriptors0_delete0.py python
-:::
+{{ gist(owner="rmariano" id="d11bed8469950795b2cc9c36159bb1a9" filename="descriptors0_delete0.py" )}}
 
 In this example, we just want a property in the object, that cannot be
 deleted, and descriptors, again, provide one of the multiple possible

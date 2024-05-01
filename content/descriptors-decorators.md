@@ -3,7 +3,6 @@ title = "Descriptors & Decorators"
 slug = "descriptors-decorators"
 date = 2017-05-21T17:22:05-02:00
 tags = ['python', 'descriptors', 'featured', 'decorators']
-
 +++
 
 Descriptors are an amazing tool to have in our toolbox, as they come in
@@ -18,7 +17,7 @@ descriptors.
 Imagine we have a very simple decorator, that does nothing but returning
 a text, with what the original function returns:
 
-``` python
+```python
 class decorator:
     def __init__(self, func):
         self.func = func
@@ -51,23 +50,21 @@ run?
 The fact is that, this is true, class methods are indeed not callable
 objects, but we rarely notice this, because when we access a class
 method, it\'s usually in the form of
-[\<class\>.\<class_method\>]{.title-ref} (or maybe also from an instance
+`<class>.<class_method>` (or maybe also from an instance
 doing `self.<class_method>`). For both cases the answer is the same: by
 calling the method like this, the *descriptor mechanism* is triggered,
 and will call the `__get__` inside the class method. As we already know
-from the analysis of the `types-of-descriptors`{.interpreted-text
-role="doc"}, `@classmethod` is actually a descriptor, and the definition
+from the analysis of the `types-of-descriptors`, `@classmethod` is actually a descriptor, and the definition
 of its `__get__` method is the one that returns a callable[^1], but
 `@classmethod` is not itself a callable.
 
-:::: hint
-::: title
-Hint
-:::
+---
+**HINT**
 
 `@classmethod` is not a callable object. It\'s a descriptor whose
 `__get__` method returns a callable.
-::::
+
+---
 
 Now, when the decorator is applied to the class method, this is
 equivalent of doing:
@@ -85,7 +82,7 @@ By now, it becomes clear that if the reason why it fails is because
 related to descriptors. And indeed, this can be fixed by just
 implementing `__get__`.
 
-``` python
+```python
 class decorator:
     ...
     def __get__(self, instance, owner):
@@ -108,19 +105,18 @@ it the last one being applied. True, but the fix is rather simple, and
 more importantly, it makes the decorator more generic and applicable, as
 it\'s shown on the next section.
 
-:::: note
-::: title
-Note
-:::
+---
+**NOTE**
 
 Keep in mind the order of the decorators, and make sure `@classmethod`
 is the last one being used, in order to avoid issues. Even despite this
 consideration, is better to have decorators that will work in many
 possible scenarios, regardless of their order.
-::::
+
+---
 
 The complete code for this example can be found
-[here](link://listing_source/descriptors2_classmethod0.py)
+[here](https://gist.github.com/rmariano/0c401b79add51bca844429ca5a303e06#file-descriptors2_args0-py)
 
 # Decorators that change the signature
 
@@ -133,7 +129,7 @@ For example, we have a function that resolves some attributes based on
 its parameters, but it does so, by using a helper object, created from
 the parameters, like this:
 
-``` python
+```python
 def resolver_function(root, args, context, info):
     helper = DomainObject(root, args, context, info)
     ...
@@ -147,7 +143,7 @@ If there are more functions with this signature doing the same as in the
 first lines, it\'ll be better to abstract this away, and simply receive
 the helper object directly. A decorator like this one should work:
 
-``` python
+```python
 class DomainArgs:
     def __init__(self, func):
         self.func = func
@@ -165,7 +161,7 @@ receiving the same old four arguments, maintaining compatibility. By
 applying the decorator, we could happily assume that the required object
 will be passed by:
 
-``` python
+```python
 @DomainArgs
 def resolver_function2(helper):
     helper.task1()
@@ -177,7 +173,7 @@ def resolver_function2(helper):
 However, there are also objects whose methods have this logic, and we
 want to apply the same decorator to them:
 
-``` python
+```python
 class ViewResolver:
     @DomainArgs
     def resolve_method(self, helper):
@@ -187,6 +183,8 @@ class ViewResolver:
 
 But with this implementation, it won\'t work:
 
+```python
+
     >>> vr = ViewResolver()
     >>> vr.resolve_method('root', 'args', 'context', 'info')
     Traceback (most recent call last)
@@ -195,6 +193,7 @@ But with this implementation, it won\'t work:
          40         helper = DomainObject(root, args, context, info)
     ---> 41         return self.func(helper)
     TypeError: resolve_method() missing 1 required positional argument: 'helper'
+```
 
 The problem is that instance methods are functions, that take an extra
 first parameter, namely *self*, which is the instance itself. In this
@@ -208,7 +207,7 @@ In order to fix this, we need to distinguish when the wrapped function
 is being called from an instance or a class. And descriptors do just
 that, so the fix is rather simple as in the previous case:
 
-``` python
+```python
 def __get__(self, instance, owner):
     mapped = self.func.__get__(instance, owner)
     return self.__class__(mapped)
@@ -220,16 +219,16 @@ it, doesn\'t affect the decorator. Whereas, when is called from a class,
 the `__get__` method is enabled, returning a bound instance, which will
 pass *self* as the first parameter (what Python does internally).
 
-:::: hint
-::: title
-Hint
-:::
+
+---
+**HINT**
 
 Descriptors can help writing better decorators, by fixing common
 problems in a very elegant fashion.
-::::
 
-[Here is](link://listing_source/descriptors2_args0.py) the listing for
+----
+
+[Here is](https://gist.github.com/rmariano/0c401b79add51bca844429ca5a303e06#file-descriptors2_classmethod0-py) the listing for
 this example.
 
 [^1]: An equivalent Python implementation of classmethod and others can

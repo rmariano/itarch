@@ -29,7 +29,7 @@ The descriptor needs to somehow know which attribute will be modifying,
 and for this, the most common solution is to store the attribute name
 internally. For example in:
 
-``` python
+```python
 class LoggedAttr:
     def __init__(self, name=None):
         self.name = name
@@ -61,7 +61,7 @@ as well.
 
 Something like this:
 
-``` python
+```python
 class configure_descriptors:
     def __init__(self, **kwargs):
         self.descs = {dname: dcls(dname) for dname, dcls in kwargs.items()}
@@ -107,7 +107,7 @@ it, in order to hint the meta-class that this is going to be one of the
 attributes that need its name changed. Then the meta-class would look
 something like:
 
-``` python
+```python
 class MetaDescriptor(type):
     def __new__(cls, clsname, bases, cls_kwargs):
         for attrname, cls_attr in cls_kwargs.items():
@@ -149,7 +149,7 @@ class.
 
 With this, the problem is reduced to just simply:
 
-``` python
+```python
 class LoggedAttr:
     ...
     def __set_name__(self, owner, name):

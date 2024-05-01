@@ -28,7 +28,7 @@ has no attribute called \"items\" (which is true).
 Therefore, the developer should catch the exception or avoid the corner
 case, by doing something like the following:
 
-``` python
+```python
 content = yaml.load() or {}
 ```
 

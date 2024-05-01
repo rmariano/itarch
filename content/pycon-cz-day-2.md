@@ -8,7 +8,7 @@ tags = ['python', 'confs']
 Summary of the second day of Pycon CZ 2017.
 
 At 10:00 it was time for the first talk: a keynote titled *What lies
-ahead? Python\'s future strenghts and main challenges*. It was a great
+ahead? Python\'s future strengths and main challenges*. It was a great
 talk, I really enjoyed the remarks of a Pythonista remembering thins
 from early Python conferences. The main conclusion that I took from the
 presentation was that, even in the early days there were some really

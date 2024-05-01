@@ -37,8 +37,7 @@ immutable objects, but that\'s usually not the case.
 Consider the following code (spoiler: there is something really wrong
 with it).
 
-{{ gist(owner="rmariano" id="b6587a30203674da35d2239e50a969db") }}
-
+{{ gist(owner="rmariano" id="b6587a30203674da35d2239e50a969db" filename="subtleties0.py") }}
 
 When trying to use dictionaries to pass keyword arguments, it might be
 tempting to mutate them in order to adapt it to the signature of the

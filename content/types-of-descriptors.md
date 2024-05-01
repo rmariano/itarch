@@ -61,7 +61,7 @@ when the object was first created it didn\'t have any values for their
 properties. If we inspect the object, and its class, we\'ll see that it
 doesn\'t have any keys set for `'tv'`, but the class does:
 
-``` python
+```python
 >>> media.__dict__
 {}
 
@@ -108,7 +108,7 @@ If we have a class like this and inspect its dictionary we\'ll see that
 whatever we defined as methods, are actually functions stored internally
 in the dictionary of the class.
 
-``` python
+```python
 class Person:
     def __init__(self, name):
         self.name = name
@@ -120,7 +120,7 @@ class Person:
 We can see that among all the things defined in the class, it\'s
 dictionary contains an entry for \'greet\', whose value is a function.
 
-``` python
+```python
 >>> type(Person.greet)
 <class 'function'>
 
@@ -148,7 +148,7 @@ failures for an object that collects metrics on systems that monitors.
 Then we have a class called `SystemMonitor`, that represents all sort of
 objects that collect metrics on monitored systems.
 
-``` python
+```python
 def mtbf(system_monitor):
     """Mean Time Between Failures
     https://en.wikipedia.org/wiki/Mean_time_between_failures
@@ -184,7 +184,7 @@ For now we just test the function, but soon we\'ll want this as a method
 of the class. We can easily apply the function to work with a
 `SystemMonitor` instance:
 
-``` python
+```python
 >>> monitor = SystemMonitor('prod')
 >>> monitor.uptimes = [0,7, 12]
 >>> monitor.downtimes = [5, 12]
@@ -197,7 +197,7 @@ But now we want it to be part of the class, so that I can use it as a
 instance method. If we try to assign the function as a method, it will
 just fail, because it\'s not bound:
 
-``` python
+```python
 >>> monitor.mtbf = mtbf
 >>> monitor.mtbf()
 ---------------------------------------------------------------------------
@@ -214,7 +214,7 @@ the instance, which in methods is referred to as *self*.
 Now, if the function is bound to the object, the scenario changes. We
 can do that the same way Python does: `__get__`.
 
-``` python
+```python
 >>> monitor.mtbf = mtbf.__get__(monitor)
 >>> monitor.mtbf()
 5.0
@@ -239,7 +239,7 @@ In the body of the callable, we can just reuse the original function,
 for simplicity. What\'s really interesting is the `__get__` method, on
 which we return the callable object, exposed as a method.
 
-``` python
+```python
 class MTBF:
     """Compute Mean Time Between Failures"""
     def __call__(self, instance):
@@ -284,7 +284,7 @@ On the previous examples, if after running the descriptor, the
 `__dict__` on the instance was modified, it was because the code
 explicitly did so, but it could have had a different logic.
 
-``` python
+```python
 class DataDescriptor:
     """This descriptor holds the same values for all instances."""
     def __get__(self, instance, owner):
@@ -300,7 +300,7 @@ class Managed:
 If we run it, we can see, that since this descriptor holds the data
 internally, `__dict__` is never modified on the instance[^4]:
 
-``` python
+```python
 >>> managed = Managed()
 >>> vars(managed)
 {}
