@@ -2,8 +2,8 @@
 title = "Checking Python files with Vim"
 slug = "checking-python-files-with-vim"
 date = 2015-03-07T16:21:49+03:00
+[taxonomies]
 tags = ['python', 'vim', 'linux', 'productivity']
-
 +++
 
 Vim is an excellent editor, and mastering it leads to more productivity.

@@ -2,8 +2,8 @@
 title = "Deleting commented out code"
 slug = "deleting-commented-out-code"
 date = 2016-02-17T22:06:50+03:00
+[taxonomies]
 tags = ['best-practices', 'clean-code']
-
 +++
 
 This is a rule I always encourage in software development. Moreover, I

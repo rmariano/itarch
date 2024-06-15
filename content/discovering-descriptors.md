@@ -2,8 +2,8 @@
 title = "Discovering Descriptors"
 slug = "discovering-descriptors"
 date = 2017-06-09T20:21:27-02:00
+[taxonomies]
 tags = ['talks', 'python', 'descriptors']
-
 +++
 
 This talk was presented at [PyCon CZ 2017](https://cz.pycon.org/2017/)

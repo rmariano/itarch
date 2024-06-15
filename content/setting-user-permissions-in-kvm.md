@@ -2,8 +2,8 @@
 title = "Setting user permissions in KVM"
 slug = "setting-user-permissions-in-kvm"
 date = 2015-06-20T20:46:58+03:00
+[taxonomies]
 tags = ['linux', 'virtualization', 'infrastructure']
-
 +++
 
 In a [previous article](link://slug/libvirt-networking-libraries) I

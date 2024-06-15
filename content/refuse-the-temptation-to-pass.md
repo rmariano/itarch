@@ -2,8 +2,8 @@
 title = "Refuse the temptation to pass"
 slug = "refuse-the-temptation-to-pass"
 date = 2017-10-30T23:13:26-01:00
+[taxonomies]
 tags = ['python', 'best-practices', 'clean-code']
-
 +++
 
 This is an opinion I sometimes remember when seeing some code. Don\'t

@@ -2,8 +2,8 @@
 title = "2017 in Review"
 slug = "2017-in-review"
 date = 2017-12-31T18:41:09-01:00
-tags = ['']
-
+[taxonomies]
+tags = ['review']
 +++
 
 A recap of the main events and posts throughout the year that is ending.

@@ -2,8 +2,8 @@
 title = "Book Review: Release It!"
 slug = "book-review-release-it"
 date = 2020-08-01T15:09:10+02:00
+[taxonomies]
 tags = ['architecture', 'book']
-
 +++
 
 I\'ve been meaning to read this book for a long time, and finally got

@@ -2,8 +2,8 @@
 title = "Glimpses of a Vim configuration"
 slug = "glimpses-of-a-vim-configuration"
 date = 2016-02-27T13:06:53+03:00
+[taxonomies]
 tags = ['vim', 'tools', 'development']
-
 +++
 
 It\'s been a while since I started tracking versions of my custom Vim

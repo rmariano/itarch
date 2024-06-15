@@ -2,8 +2,9 @@
 title = "Presentations with reveal.js"
 slug = "presentations-with-revealjs"
 date = 2014-08-08T23:48:05+03:00
-tags = ['tools', 'presentations', 'web', 'javascript']
 description = "Composing nice slides for presentations with reveal.sj"
+[taxonomies]
+tags = ['tools', 'presentations', 'web', 'javascript']
 +++
 
 Old-fashioned PPT\'s presentations are from the 90\'s, and let\'s face

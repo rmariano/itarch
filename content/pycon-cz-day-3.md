@@ -2,6 +2,7 @@
 title = "PyCon CZ - Day 3"
 slug = "pycon-cz-day-3"
 date = 2017-06-11T22:09:19-02:00
+[taxonomies]
 tags = ['python', 'confs', 'k8s', 'elasticsearch', 'openshift']
 +++
 

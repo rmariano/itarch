@@ -2,8 +2,9 @@
 title = "2016 in review"
 slug = "2016-in-review"
 date = 2016-12-25T18:02:53-01:00
-tags = ['software-engineering']
 description = "A review of the events occurred in 2016"
+[taxonomies]
+tags = ['software-engineering', 'review']
 +++
 
 A review of the events that took place this year, related to software

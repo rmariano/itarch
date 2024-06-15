@@ -2,6 +2,7 @@
 title = "PyCon CZ - Day 1"
 slug = "pycon-cz-day-1"
 date = 2017-06-08T14:05:41-02:00
+[taxonomies]
 tags = ['confs', 'python']
 +++
 

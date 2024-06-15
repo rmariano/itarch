@@ -2,8 +2,9 @@
 title = "__wrapped__ in Python decorators"
 slug = "wrapped-in-python-decorators"
 date = 2017-03-03T21:41:21-01:00
-tags = ['python', 'decorators', 'code']
 description = "Available dunder when decorating functions"
+[taxonomies]
+tags = ['python', 'decorators', 'code']
 +++
 
 This is another of the new interesting things that Python 3 has. Time

@@ -2,6 +2,7 @@
 title = "Types of Descriptors"
 slug = "types-of-descriptors"
 date = 2017-05-14T12:55:31-02:00
+[taxonomies]
 tags = ['python', 'descriptors', 'featured']
 +++
 

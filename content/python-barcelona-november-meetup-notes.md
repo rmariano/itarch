@@ -2,8 +2,8 @@
 title = "Python Barcelona November meetup notes"
 slug = "python-barcelona-november-meetup-notes"
 date = 2016-11-19T18:42:18-01:00
+[taxonomies]
 tags = ['python']
-
 +++
 
 Last Thursday November 17, 2016, there was a Python meetup in

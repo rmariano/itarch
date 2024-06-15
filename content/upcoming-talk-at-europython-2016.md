@@ -2,8 +2,9 @@
 title = "Upcoming talk at EuroPython 2016"
 slug = "upcoming-talk-at-europython-2016"
 date = 2016-03-27T16:37:11+03:00
-tags = ['best-practices', 'clean-code', 'python', 'talks']
 description = "Talk accepted for EuroPython 2016"
+[taxonomies]
+tags = ['best-practices', 'clean-code', 'python', 'talks']
 +++
 
 I am glad to inform that I will be speaking at EuroPython 2016

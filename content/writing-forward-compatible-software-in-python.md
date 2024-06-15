@@ -2,8 +2,8 @@
 title = "Writing forward-compatible software in Python"
 slug = "writing-forward-compatible-software-in-python"
 date = 2014-08-28T21:14:43+03:00
+[taxonomies]
 tags = ['python']
-
 +++
 
 Python 3 is the future of Python. However there might be a problem in

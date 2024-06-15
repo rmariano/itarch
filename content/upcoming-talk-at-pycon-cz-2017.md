@@ -2,6 +2,7 @@
 title = "Upcoming talk at PyCon CZ 2017"
 slug = "upcoming-talk-at-pycon-cz-2017"
 date = 2017-04-29T12:29:35-02:00
+[taxonomies]
 tags = ['python', 'talks']
 +++
 

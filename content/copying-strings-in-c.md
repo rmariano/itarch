@@ -2,8 +2,8 @@
 title = "strncpy and strncat for copying strings in C"
 slug = "copying-strings-in-c"
 date = 2015-09-27T18:34:44+03:00
+[taxonomies]
 tags = ['linux', 'C', 'security', 'best-practices']
-
 +++
 
 Recently, I\'ve read an interesting article[^1], explaining why the

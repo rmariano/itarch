@@ -2,8 +2,8 @@
 title = "Vim commands for improved productivity"
 slug = "vim-commands-for-improved-productivity"
 date = 2014-07-20T20:59:56+03:00
+[taxonomies]
 tags = ['vim', 'linux']
-
 +++
 
 ---

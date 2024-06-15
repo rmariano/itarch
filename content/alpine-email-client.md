@@ -2,8 +2,8 @@
 title = "Alpine email client"
 slug = "alpine-email-client"
 date = 2015-02-05T21:10:45+03:00
+[taxonomies]
 tags = ['email', 'tools', 'productivity']
-
 +++
 
 Alpine is a software I definitely recommend for those who like

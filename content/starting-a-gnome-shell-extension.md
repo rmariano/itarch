@@ -2,8 +2,8 @@
 title = "Starting a gnome-shell extension"
 slug = "starting-a-gnome-shell-extension"
 date = 2014-06-21T21:15:50+03:00
+[taxonomies]
 tags = ['linux', 'gnome-shell', 'javascript']
-
 +++
 
 Since I moved from Ubuntu to Fedora early this year, I changed my

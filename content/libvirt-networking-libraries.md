@@ -2,8 +2,8 @@
 title = "Libvirt networking libraries"
 slug = "libvirt-networking-libraries"
 date = 2015-01-14T21:06:57+03:00
+[taxonomies]
 tags = ['networking', 'linux', 'virtualization', 'infrastructure']
-
 +++
 
 Fedora 21 workstation seems to come with a lot of virtualization

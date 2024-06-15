@@ -2,8 +2,8 @@
 title = "Notas sobre la ArqConf 2015"
 slug = "notas-sobre-la-arqconf-2015"
 date = 2015-05-01T17:45:37+03:00
+[taxonomies]
 tags = ['software', 'architecture', 'BigData']
-
 +++
 
 Este es mi resumen sobre la ArqConf 2015, la conferencia sobre
