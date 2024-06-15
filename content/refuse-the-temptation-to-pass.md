@@ -40,7 +40,7 @@ class DataValidationError(Exception):
 ```
 
 This also complies with the general good practice of *\"use docstrings
-in eveery function, class, and module defined\"*. In my opinion, it\'s a
+in every function, class, and module defined\"*. In my opinion, it\'s a
 much better choice.
 
 The same criteria applies for empty base classes.

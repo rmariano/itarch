@@ -44,16 +44,12 @@ on the code, so when placing a pull request, it\'s good for the author
 to keep in mind that reviewers are actually helping him or her, to
 improve the quality of the work. And it\'s also a learning experience.
 
-::: media
-<https://twitter.com/marklit82/status/737939325334237184>
-:::
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">0% thankfully. Coders act like they&#39;ve painted a masterpiece and tend to debate every piece of feedback.</p>&mdash; Mark Litwintschik (@marklit82) <a href="https://twitter.com/marklit82/status/737939325334237184?ref_src=twsrc%5Etfw">June 1, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Another important point, is that for code reviews to be effective, pull
 requests have to be small.
 
-::: media
-<https://twitter.com/iamdevloper/status/397664295875805184>
-:::
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">10 lines of code = 10 issues.<br><br>500 lines of code = &quot;looks fine.&quot;<br><br>Code reviews.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/397664295875805184?ref_src=twsrc%5Etfw">November 5, 2013</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 This increases not only the quality of the review, but also the
 [likelihood of it being

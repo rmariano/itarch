@@ -99,13 +99,9 @@ the key point: not just to settle for a high coverage, but for having a
 battery of meaningful tests that cover relevant scenarios, instead of
 lines of code.
 
-:::: tip
-::: title
-Tip
-:::
-
+{% callout(class="warning") %}
 Cover scenarios, not lines of code.
-::::
+{% end %}
 
 The truth is that software is complex. Really complex. There are a lot
 of things that can go wrong. Therefore, tests are a fundamental tool to
@@ -145,13 +141,10 @@ covered, they should stop once all possible scenarios have been properly
 verified. It also becomes evident that is expected to have many more
 times testing lines than main ones.
 
-:::: tip
-::: title
-Tip
-:::
 
-Don\'t rely on coverage. Rely on thoughful testing.
-::::
+{% callout(class="info") %}
+Don't rely on coverage. Rely on thorough testing.
+{% end %}
 
 # Slides
 
@@ -159,9 +152,7 @@ This idea was presented in a lightning talk at [EuroPython
 2017](https://ep2017.europython.eu/en/), on Monday 10 of July. Here are
 the slides.
 
-```{=html}
 <script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-```
 
 [^1]: <https://martinfowler.com/bliki/TestCoverage.html>
 

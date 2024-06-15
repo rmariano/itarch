@@ -26,7 +26,7 @@ string, leaving an invalid array of characters[^4].
 
 This is an example.
 
-``` {.c .numberLines}
+```c
 #include <stdio.h>  /* stdout, fprintf */
 #include <string.h>  /* strncpy, strlen */
 
@@ -68,7 +68,7 @@ passing it an empty string as the first parameter, and then the actual
 string we need to copy. This call will render the same result, but
 without the previous side effect. Let\'s see an example:
 
-``` {.c .numberLines}
+```c
 #include <stdio.h>  /* stdout, fprintf */
 #include <string.h>  /* strncat, strlen */
 
