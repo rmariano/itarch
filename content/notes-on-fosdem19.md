@@ -40,9 +40,8 @@ important changes and bug-fixes!). It also briefly covered the last new
 features that have been added to the database, and what can be expected
 for the next release, 12.
 
-```{=html}
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">About to start!<a href="https://twitter.com/hashtag/PostgreSQL?src=hash&amp;ref_src=twsrc%5Etfw">#PostgreSQL</a> <a href="https://twitter.com/hashtag/FOSDEM2019?src=hash&amp;ref_src=twsrc%5Etfw">#FOSDEM2019</a> <a href="https://t.co/MrbMhWrEsb">pic.twitter.com/MrbMhWrEsb</a></p>&mdash; Mariano (@rmarianoa) <a href="https://twitter.com/rmarianoa/status/1091694740029014016?ref_src=twsrc%5Etfw">February 2, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-```
+
 After that it was time for a talk about how [Netflix uses
 FreeBSD](https://fosdem.org/2019/schedule/event/netflix_freebsd/) for
 its streaming platform. It started with a great introduction to their
@@ -111,9 +110,8 @@ which was quite interesting
 After that one I presented my talk about coroutines and asynchronous
 programming:
 
-```{=html}
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Full house for <a href="https://twitter.com/rmarianoa?ref_src=twsrc%5Etfw">@rmarianoa</a> telling us about coroutines <a href="https://twitter.com/PythonFOSDEM?ref_src=twsrc%5Etfw">@PythonFOSDEM</a> <a href="https://twitter.com/hashtag/Python?src=hash&amp;ref_src=twsrc%5Etfw">#Python</a> <a href="https://twitter.com/hashtag/FOSDEM?src=hash&amp;ref_src=twsrc%5Etfw">#FOSDEM</a> <a href="https://t.co/bIq1bNQNjI">pic.twitter.com/bIq1bNQNjI</a></p>&mdash; Eric Gazoni (@ericgazoni) <a href="https://twitter.com/ericgazoni/status/1092001096321691648?ref_src=twsrc%5Etfw">February 3, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-```
+
 Then, more talks, more networking, and the last talk was [Breaking
 PostgreSQL at
 scale](https://fosdem.org/2019/schedule/event/breaking_postgresql_on_scale/).

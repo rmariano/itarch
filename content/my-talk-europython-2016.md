@@ -20,17 +20,14 @@ while doing a code review.
 
 Here is the video on YouTube:
 
-::: {.youtube align="center"}
-7ADbOHW1dTA
-:::
+{{ youtube(id="7ADbOHW1dTA") }}
 
 And the slides (which I also made available along with the source code,
 [shortly after the presentation
 finished](https://twitter.com/rmarianoa/status/755808691996200960)).
 
-```{=html}
 <script async class="speakerdeck-embed" data-id="8e5af9b4d3a14204a700458cebfda1d7" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-```
+
 The presentation was well received: some attendees told me they liked it
 (even asked for the slides and code), and I got good advices. The
 following days of the conference, more people told me that they liked

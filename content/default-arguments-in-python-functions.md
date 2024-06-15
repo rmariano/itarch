@@ -15,9 +15,7 @@ While the gist is explained through an example that uses lists, the
 principle is applicable to all sorts of objects (dictionaries, sets,
 etc.).
 
-::: gist
-7593536
-:::
+{{ gist(owner="rmariano" id="7593536" filename="function_parameters.md" )}}
 
 If you are an experienced python developer, you probably knew this
 caveat, nevertheless is something interesting to show to new python

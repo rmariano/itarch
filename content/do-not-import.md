@@ -16,49 +16,38 @@ effects. However, without losing pragmatism, in case there are some odd
 reasons why this might be acceptable, I will also mention them, if any.
 Let\'s see where we get.
 
-1.  
+1.  You do not know what you get
 
-    You do not know what you get
+    An arbitrary Python script may contain any code, and most of it
+    will be executed when performing the `import *` part (you cannot rely on
+    how `__name__` is handled). The interface is totally unclear: you do not
+    know what computations performs, what objects will import, etc. In
+    general is more efficient to import as few definitions as possible.
 
-    :   An arbitrary Python script may contain any code, and most of it
-        will be executed when performing the `import *` part (you cannot
-        rely on how `__name__` is handled). The interface is totally
-        unclear: you do not know what computations performs, what
-        objects will import, etc. In general is more efficient to import
-        as few definitions as possible.
+2.  Identifiers appear magically
 
-2.  
+    In any decently readable Python script, the programmer must be able to
+    locate every definition, which means to identify where does every identifier
+    come from. For example, a variable named `x` can either be a parameter of
+    the function in the current scope, a variable already defined (assigned), or
+    a name already imported (`from mod import x`), etc. By performing the
+    incorrect import, this variable might appear out of the blue, meaning that I
+    will have an `x` that will not be neither a parameter, nor a definition nor
+    a declared import. This means, I cannot track the origin or `x`. The
+    situation gets worse if there are not one, but many `import *` statements.
+    Debugging becomes a nightmare.
 
-    Identifiers appear magically
+3.  Namespaces are one honking great idea \-- let\'s do more of those!
 
-    :   In any decently readable Python script, the programmer must be
-        able to locate every definition, which means to identify where
-        does every identifier come from. For example, a variable named
-        `x` can either be a parameter of the function in the current
-        scope, a variable already defined (assigned), or a name already
-        imported (`from mod import x`), etc. By performing the incorrect
-        import, this variable might appear out of the blue, meaning that
-        I will have an `x` that will not be neither a parameter, nor a
-        definition nor a declared import. This means, I cannot track the
-        origin or `x`. The situation gets worse if there are not one,
-        but many `import *` statements. Debugging becomes a nightmare.
+    Straight from the Python zen[^1]. By importing everything from a module, the
+    benefits of the namespaces are somehow lost.  Instead, everything (or a lot
+    of things), might get to be called the same, messing with the current scope.
+    Moreover, new import definitions might override previous ones.
 
-3.  
+4.  Explicit is better than implicit
 
-    Namespaces are one honking great idea \-- let\'s do more of those!
-
-    :   Straight from the Python zen[^1]. By importing everything from a
-        module, the benefits of the namespaces are somehow lost.
-        Instead, everything (or a lot of things), might get to be called
-        the same, messing with the current scope. Moreover, new import
-        definitions might override previous ones.
-
-4.  
-
-    Explicit is better than implicit
-
-    :   Again, every identifier that we want imported should be done
-        explicitly (the `*` is not very declarative).
+    Again, every identifier that we want imported should be done explicitly (the
+    `*` is not very declarative).
 
 Now, so far these might be some of the main reasons about why importing
 everything from a Python module is usually not a good idea. However, in
