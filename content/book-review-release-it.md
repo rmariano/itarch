@@ -13,7 +13,6 @@ the main important topics of modern software architecture.
 Following the DRY principle, I won\'t repeat myself, so here\'s the
 review I left on good reads.
 
-```{=html}
 <a href="https://www.goodreads.com/book/show/1069827.Release_It_" style="float: left; padding-right: 20px"><img
 border="0" alt="Release It!: Design and Deploy Production-Ready Software (Pragmatic Programmers)"
 src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1328765022l/1069827._SX98_.jpg" /></a><a
@@ -36,4 +35,3 @@ me to read the case studies presented, as their analysis and conclusions were de
 all, a fantastic read, which gave me a lot of food for tought, and lots of materials and references to follow up on!
 <br/><br/>
 <a href="https://www.goodreads.com/review/list/26607142-mariano">View all my reviews</a>
-```
