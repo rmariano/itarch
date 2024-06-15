@@ -128,7 +128,7 @@ The original blog post[^1] by Alistair Cockburn is a great source of
 information.
 
 In addition, this is a concept I mention in the latest edition of my
-[book (Clean Cdode in Python)](link://slug/second-edition-is-here), in
+[book (Clean Code in Python)](link://slug/second-edition-is-here), in
 the chapter about clean architecture.
 
 [^1]: <https://alistair.cockburn.us/hexagonal-architecture/>
