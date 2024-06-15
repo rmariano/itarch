@@ -39,10 +39,12 @@ If we apply the decorator to a simple function, it\'ll work, as
 expected. However, when it\'s applied to a class method, we can see an
 error:
 
+```python
     >>> Object.class_method()
     Traceback (most recent call last):
     ...
     TypeError: 'classmethod' object is not callable
+```
 
 The exception is telling us that we tried to call something that is not
 actually a callable. But if that\'s the case then, how do class methods
@@ -70,9 +72,11 @@ of its `__get__` method is the one that returns a callable[^1], but
 Now, when the decorator is applied to the class method, this is
 equivalent of doing:
 
-    class Object:
-        ...
-        class_method = decorator(class_method)
+```python
+class Object:
+    ...
+    class_method = decorator(class_method)
+```
 
 Which doesn\'t trigger the *descriptor protocol*, so the `__get__` in
 `@classmethod` is never called, therefore what the decorator receives,

@@ -47,7 +47,9 @@ class Managed:
 What we require is to check that the name is passed to the descriptor
 properly, basically:
 
+```python
     assert Managed.descriptor.name == 'descriptor'
+```
 
 But we don\'t want to pass the string `'descriptor'` as a parameter when
 constructing it, because it\'s repetitive. Instead, we want this to be

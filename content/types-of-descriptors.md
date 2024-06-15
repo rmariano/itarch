@@ -7,7 +7,7 @@ tags = ['python', 'descriptors', 'featured']
 +++
 
 Resuming from where we left off, on the previous post, on which we took
-`a-first-look-at-descriptors`{.interpreted-text role="doc"}, it\'s time
+`a-first-look-at-descriptors`{.interpreted-text role="doc"}, it's time
 to explore their different types and how they work internally.
 
 In Python, almost everything is represented with a dictionary. Objects
@@ -19,15 +19,11 @@ There are two types of descriptors: data descriptors and non-data ones.
 If a descriptor implements both[^1] `__get__()` and `__set__()`, it\'s
 called a *data descriptor*; otherwise is a *non-data descriptor*.
 
-:::: note
-::: title
-Note
-:::
-
-Data descriptors take precedence over the instance\'s dictionary of
+{% callout(class="info" title="Tip") %}
+Data descriptors take precedence over the instance's dictionary of
 attributes, whereas in the case of a non-data descriptor, the
-instance\'s internal dictionary may be looked up first.
-::::
+instance's internal dictionary may be looked up first.
+{% end %}
 
 The difference between them, lies on how the properties in the object
 are accessed, meaning which path will the `MRO` (Method Resolution
@@ -225,12 +221,14 @@ Now, we want to be able to define this function inside the class, the
 same way we do with methods, like `def mtbf(self):...`. In this case,
 for simplicity, I\'ll just use a callable object, that represents the
 actual object function (the body of `__call__` would represent what we
-put on the body of the function after it\'s definition). And we\'ll
+put on the body of the function after it's definition). And we\'ll
 declare it as an attribute of the class, much like all methods:
 
-    class SystemMonitor:
-        ...
-        mtbf = MTBF()
+```python
+class SystemMonitor:
+    ...
+    mtbf = MTBF()
+``` 
 
 Provided that `MTBF` is a callable object (again, representing our
 \"function\"), is equivalent to doing `def mtbf(self): ...` inside the
@@ -322,16 +320,13 @@ internally, `__dict__` is never modified on the instance[^4]:
 
 The descriptors machinery is triggered by `__getattribute__`, so we have
 to be careful if we are overriding this method (better not), because if
-it\'s not done properly, we might prevent the descriptor calls[^5]
+it's not done properly, we might prevent the descriptor calls[^5]
 
-:::: warning
-::: title
-Warning
-:::
-
+{% callout(class="warning" title="WARNING") %}
 Classes might turn off the descriptor protocol by overriding
 `__getattribute__`.
-::::
+{% end %}
+
 
 [^1]: <https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol>
 

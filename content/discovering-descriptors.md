@@ -17,17 +17,14 @@ and contains some explanations along with the examples.
 
 # Slides
 
-```{=html}
 <script async class="speakerdeck-embed" data-id="ef1b8b0b00b04c019c5592d9d91d7753" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-```
+
 # Video
 
 This is the recording of the talk presented at [EuroPython
 2017](https://ep2017.europython.eu/conference/talks/discovering-descriptors).
 
-::: youtube
-TAuC086NNmo
-:::
+{{ youtube(id="TAuC086NNmo") }}
 
 # References
 
