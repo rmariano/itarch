@@ -2,8 +2,8 @@
 title = "EuroPython 2016 remarks"
 slug = "europython-2016-remarks"
 date = 2016-07-31T12:06:56+03:00
+[taxonomies]
 tags = ['confs', 'EuroPython', 'python']
-
 +++
 
 Last week, EuroPython 2016 finished, and it was an amazing conference I
@@ -25,12 +25,7 @@ actually). I had a great time helping other developers, exchanging ideas
 and experiences during lunch, solving problems, and getting a first
 glimpse on what the conference was going to be like.
 
-<figure>
-<img src="../ep2016-beginners-mentor-oath.png" class="align-center"
-alt="../ep2016-beginners-mentor-oath.png" />
-<figcaption>The moment of the oath for becoming a mentor, and earning
-the badge.</figcaption>
-</figure>
+{{ resize_image(path="ep2016-beginners-mentor-oath.jpeg", width=987, height=987, op="fit_width", format="jpeg") }}
 
 After the workshop finished, I walked to the main venue, and gave a hand
 packing the bags of the conference. After that, time to see around
@@ -98,9 +93,7 @@ to sprint on aiohttp, and actually submitted a [pull
 request](https://github.com/KeepSafe/aiohttp/pull/991), that was merged,
 whereas on Sunday I wanted to check on a pytest issue.
 
-::: media
-<https://twitter.com/acpyss/status/756825866617950209>
-:::
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Sprints <a href="https://twitter.com/europython?ref_src=twsrc%5Etfw">@europython</a>! <a href="https://t.co/PVQZw9rSvV">pic.twitter.com/PVQZw9rSvV</a></p>&mdash; PySS Society (@acpyss) <a href="https://twitter.com/acpyss/status/756825866617950209?ref_src=twsrc%5Etfw">July 23, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 # My talk
 

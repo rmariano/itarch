@@ -652,12 +652,12 @@ programming possible.
 
 # Slides
 
-```{=html}
-<script async class="speakerdeck-embed" data-id="9d8c57392f9a4a248f9f27203ca289ee" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
-```
+<script defer class="speakerdeck-embed" data-id="9d8c57392f9a4a248f9f27203ca289ee" data-ratio="1.7777777777777777" src="//speakerdeck.com/assets/embed.js"></script>
+
+
 # References
 
--   \`Fluent Python - Luciano Ramalho\`: Chapters 14 & 16
+-   `Fluent Python - Luciano Ramalho`: Chapters 14 & 16
 -   <https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/>
 
 # Notes

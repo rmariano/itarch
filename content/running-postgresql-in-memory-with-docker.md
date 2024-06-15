@@ -34,14 +34,14 @@ example:
 
 Then, I could create a `tmpfs`, for the data and mount it
 
-``` bash
+```bash
 sudo mkdir /mnt/dbtempdisk
 sudo mount -t tmpfs -o size=50m tmpfs /mnt/dbtempdisk
 ```
 
 Now we could run the database container using this directory:
 
-``` {.bash .numberLines}
+```bash
 docker run --name mempostgres \
     -v "/mnt/dbtempdisk:/var/lib/pgsql/data:Z" \
     -e POSTGRES_USER=<username-for-the-db> \
@@ -78,7 +78,7 @@ inside a container :-), so we can connect with any client (even a
 For example, if we want to use the `psql` client with the container, the
 command would be:
 
-``` {.bash .numberLines}
+```bash
 docker run -it --rm \
 --link mempostgres:postgres \
 fedora/postgresql \

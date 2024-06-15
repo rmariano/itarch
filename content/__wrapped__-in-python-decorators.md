@@ -20,7 +20,7 @@ def function():
     pass
 ```
 
-It\'s actually syntax sugar for:
+It's actually syntax sugar for:
 
 ```python
 def function():
@@ -54,7 +54,7 @@ Let\'s consider this example. Validating parameter types like this is
 far from a real implementation, but rather something for the sake of
 illustration.
 
-``` {.python .numberLines}
+```python
 from functools import wraps
 
 

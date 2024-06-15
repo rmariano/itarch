@@ -20,22 +20,16 @@ colour scheme I made.
 
 Here are some glimpses of it:
 
-<figure>
-<img src="../vim-capture1.png" class="align-center"
-alt="../vim-capture1.png" />
+<img src="https://camo.githubusercontent.com/c0e8564fa03d54052ab02f6b2fd2a730182f2bce532a8fc13a9f3d4babb55e64/68747470733a2f2f726d617269616e6f2e6769746875622e696f2f6974617263682f76696d2d63617074757265312e706e67" class="align-center"
+alt="Vim capture 1" />
 <figcaption>First capture of colours, and layout</figcaption>
-</figure>
 
 The colour scheme is general for the syntax highlighting of all types
 recognized by Vim. Please note this might also depend on the
 configuration of your terminal.
 
-<figure>
-<img src="../vim-capture2.png" class="align-center"
-alt="../vim-capture2.png" />
-<figcaption>The tabs are also themed according to the
-menus.</figcaption>
-</figure>
+<img src="https://camo.githubusercontent.com/9136909e69a53a3134e73c5c537bc75316dc2146ae73e636b1c02dd858c6ba71/68747470733a2f2f726d617269616e6f2e6769746875622e696f2f6974617263682f76696d2d63617074757265322e706e67" class="align-center"
+alt="Vim capture 2" />
 
 Any suggestions or improvements to the code and configuration can be
 made on the [Github](https://github.com/rmariano/vim-config) project.
