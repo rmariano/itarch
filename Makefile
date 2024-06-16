@@ -1,32 +1,22 @@
 .PHONY: all
 all: clean build serve
 
-.PHONY: setup
-setup:
-	$(VIRTUAL_ENV)/bin/pip install --upgrade -r requirements.txt
-
 .PHONY: clean
 clean:
-	rm -fr cache
-	find . -type d -name __pycache__ | xargs rm -fr
-	nikola clean
+	rm -fr cache __pycache__
 
 .PHONY: build
 build:
-	nikola build
+	zola build
 
 .PHONY: serve
 serve:
-	nikola serve --browser
+	zola serve --open
 
 .PHONY: test
 test:
 	@echo "Testing Python files..."
 	@python listings/*.py
-
-.PHONY: publish
-publish:
-	nikola github_deploy
 
 .PHONY: public
 public: publish
