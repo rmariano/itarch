@@ -10,14 +10,13 @@ tags = ['book', 'clean-code', 'python']
 edition](https://www.amazon.com/Clean-Code-Python-maintainable-efficient/dp/1800560214)
 has been published, and here are the main highlights!
 
-![Cover](https://media.githubusercontent.com/media/rmariano/Clean-code-in-Python/main/book/cover.png){width="400px"}
+![Cover](https://media.githubusercontent.com/media/rmariano/Clean-code-in-Python/main/book/cover.png)
 
 # What\'s new from the previous edition?
 
-The main change is that the book has been updated to [Python
-3.9]{.title-ref}. The previous edition was started when [Python
-3.6]{.title-ref} was new, and by the time it got published, [Python
-3.7]{.title-ref} was just recently released. Since then, a lot has
+The main change is that the book has been updated to `Python 3.9`. The previous
+edition was started when `Python 3.6` was new, and by the time it got published,
+`Python 3.7` was just recently released. Since then, a lot has
 changed in Python and the book addresses the new features.
 
 In particular, there\'s been a lot of improvements in the area of
@@ -29,7 +28,7 @@ write more succinct code in this model.
 
 All chapters have been revisited, and the examples updated to take
 advantage of the latest developments in Python. One example is the new
-assignment expression, introduced in [Python 3.8]{.title-ref}. This new
+assignment expression, introduced in `Python 3.8`. This new
 edition shows how to take advantage of those features in order to write
 more compact code that\'s easier to read and maintain.
 

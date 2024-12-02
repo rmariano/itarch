@@ -1,9 +1,5 @@
 .PHONY: all
-all: clean build serve
-
-.PHONY: clean
-clean:
-	rm -fr cache __pycache__
+all: build serve
 
 .PHONY: build
 build:
@@ -17,6 +13,3 @@ serve:
 test:
 	@echo "Testing Python files..."
 	@python listings/*.py
-
-.PHONY: public
-public: publish

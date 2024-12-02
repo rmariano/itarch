@@ -2,7 +2,7 @@
 title = "About"
 template = "about.html"
 paginate_by = 0
-slug = "about-this-blog"
+[extra]
 date = 2014-06-07T15:34:48+03:00
 tags = ['software engineering', 'architecture']
 +++
