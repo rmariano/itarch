@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • The __set_name__ method for descriptors</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;the-set-name-method-for-descriptors&#x2F;">The __set_name__ method for descriptors</a></h1>
+  
+  <div class="post-content"><p>Descriptors generally have to interact with attributes of the managed
+object, and this is done by inspecting <code>__dict__</code> on that object (or
+calling <code>getattr/setattr</code>, but the problem is the same), and finding the
+key under the specific name.</p>
+<p>For this reason, the descriptor will have to know the name of the key to
+look for, which is related to the name of the attribute is managing.</p>
+<p>On previous versions of Python this had to be done explicitly. If we
+wanted to work around it, there were some more advanced ways to do so.
+Luckily, after <a href="https://www.python.org/dev/peps/pep-0487/">PEP-487</a>
+(added in Python 3.6), there are some enhancements regarding class
+creation, which also affects descriptors.</p>
+<p>Let's review the problem, the previous approaches to tackle it, and the
+modern way of solving it.</p>
+<h1 id="configure-the-name-of-the-descriptor">Configure the name of the descriptor</h1>
+<p>The descriptor needs to somehow know which attribute will be modifying,
+and for this, the most common solution is to store the attribute name
+internally. For example in:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">LoggedAttr</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">name</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.name = name
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__get__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">instance</span><span>, </span><span style="color:#bf616a;">owner</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span>instance is </span><span style="color:#d08770;">None</span><span>:
+</span><span>            </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self
+</span><span>        </span><span style="color:#b48ead;">return </span><span>instance.__dict__[</span><span style="color:#bf616a;">self</span><span>.name]
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Managed</span><span style="color:#eff1f5;">:
+</span><span>    descriptor = </span><span style="color:#bf616a;">LoggedAttr</span><span>(&#39;</span><span style="color:#a3be8c;">descriptor</span><span>&#39;)
+</span></code></pre>
+<p>What we require is to check that the name is passed to the descriptor
+properly, basically:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>    </span><span style="color:#b48ead;">assert </span><span>Managed.descriptor.name == &#39;</span><span style="color:#a3be8c;">descriptor</span><span>&#39;
+</span></code></pre>
+<p>But we don't want to pass the string <code>'descriptor'</code> as a parameter when
+constructing it, because it's repetitive. Instead, we want this to be
+configured automatically. Let's see some options.</p>
+<h1 id="a-class-decorator">A class decorator</h1>
+<p>With a class decorator, we could define all decorators for the class as
+parameters of the decorator, and make the assignment of the name in it
+as well.</p>
+<p>Something like this:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">configure_descriptors</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>, **</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.descs = {dname: </span><span style="color:#bf616a;">dcls</span><span>(dname) </span><span style="color:#b48ead;">for </span><span>dname, dcls </span><span style="color:#b48ead;">in </span><span>kwargs.</span><span style="color:#bf616a;">items</span><span>()}
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__call__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">class_</span><span>):
+</span><span>        </span><span style="color:#b48ead;">for </span><span>dname, descriptor </span><span style="color:#b48ead;">in </span><span style="color:#bf616a;">self</span><span>.descs.</span><span style="color:#bf616a;">items</span><span>():
+</span><span>            </span><span style="color:#96b5b4;">setattr</span><span>(class_, dname, descriptor)
+</span><span>        </span><span style="color:#b48ead;">return </span><span>class_
+</span><span>
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">configure_descriptors</span><span>(
+</span><span>    </span><span style="color:#bf616a;">descriptor</span><span>=LoggedAttr
+</span><span>)
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">DecoratedManaged</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;The descriptor is provided by the decorator&quot;&quot;&quot;
+</span></code></pre>
+<p>The condition is preserved:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>assert DecoratedManaged.descriptor.name == &#39;descriptor&#39;
+</span></code></pre>
+<p>In this decorator, we provide the name and the class of the descriptor
+to be created, and the decorator instantiates the class with this name.
+We could also have created the instance directly in the descriptor, and
+then update the value with <code>setattr(descriptor, 'name', dname)</code>, which
+is more general, in case you want to create descriptors that take
+multiple arguments on their <code>__init__</code> method, but for this case it's
+just fine.</p>
+<p>Then we set the new descriptor (the one that has the name already
+updated on it), to the wrapped class.</p>
+<p>However, it still seems a bit unfamiliar or counter-intuitive that
+we're defining the descriptor not in the body of the class, but as a
+parameter of a decorator.</p>
+<p>There must be another way.</p>
+<h1 id="a-meta-class">A meta-class</h1>
+<p>Imagine we flag the class by adding a <code>__set_name = True</code> attribute on
+it, in order to hint the meta-class that this is going to be one of the
+attributes that need its name changed. Then the meta-class would look
+something like:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">MetaDescriptor</span><span style="color:#eff1f5;">(</span><span style="color:#a3be8c;">type</span><span style="color:#eff1f5;">):
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__new__</span><span>(</span><span style="color:#bf616a;">cls</span><span>, </span><span style="color:#bf616a;">clsname</span><span>, </span><span style="color:#bf616a;">bases</span><span>, </span><span style="color:#bf616a;">cls_kwargs</span><span>):
+</span><span>        </span><span style="color:#b48ead;">for </span><span>attrname, cls_attr </span><span style="color:#b48ead;">in </span><span>cls_kwargs.</span><span style="color:#bf616a;">items</span><span>():
+</span><span>            mangled_attr = &quot;</span><span style="color:#a3be8c;">_</span><span style="color:#d08770;">{0}</span><span style="color:#a3be8c;">__set_name</span><span>&quot;.</span><span style="color:#bf616a;">format</span><span>(cls_attr.__class__.__name__)
+</span><span>            </span><span style="color:#b48ead;">if </span><span style="color:#96b5b4;">hasattr</span><span>(cls_attr, mangled_attr):
+</span><span>                </span><span style="color:#96b5b4;">setattr</span><span>(cls_attr, &#39;</span><span style="color:#a3be8c;">name</span><span>&#39;, attrname)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#96b5b4;">super</span><span>().</span><span style="color:#96b5b4;">__new__</span><span>(</span><span style="color:#bf616a;">cls</span><span>, clsname, bases, cls_kwargs)
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">MetaManaged</span><span style="color:#eff1f5;">(</span><span style="color:#bf616a;">metaclass</span><span>=</span><span style="color:#a3be8c;">MetaDescriptor</span><span style="color:#eff1f5;">):
+</span><span>    descriptor = </span><span style="color:#bf616a;">LoggedAttr</span><span>()
+</span></code></pre>
+<p>And again:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>assert MetaManaged.descriptor.name == &#39;descriptor&#39;
+</span></code></pre>
+<p>One detail is that the <code>__init__</code> of the descriptor accepts the name to
+be nullable so this works. Another option would have been defining only
+the descriptor assigned to the class, and then, re-mapping the attribute
+with the instance, passing the name when it's being constructed on the
+meta-class. Both options are the same, and the example was made with
+simplicity in mind.</p>
+<p>This works but it has a couple of issues. First we have to somehow
+identify when the class attribute needs to be updated (in this case, a
+flag was added to it, but other alternatives are no better at all). The
+second problem should be rather obvious: it's not a good use of
+meta-classes, and this is overkill (to say the least) for what should be
+a simple task.</p>
+<p>There must be a better way.</p>
+<p>^^^^^^^^^^^^^ And there is. At least for Python 3.6 and
+higher. The <code>__set_name__</code> method was included, which is automatically
+called when the class is being created, and it receives two parameters:
+the class and the name of the attribute as it appears defined in the
+class.</p>
+<p>With this, the problem is reduced to just simply:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">LoggedAttr</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#d08770;">...
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__set_name__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">owner</span><span>, </span><span style="color:#bf616a;">name</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.name = name
+</span></code></pre>
+<p>And that's it, no other code is needed. The solution is much simpler,
+and it entails less problems.</p>
+<p>Actually, I deliberately named the flag <code>__set_name</code>, to get an idea of
+what's coming, and to hint that with <code>__set_name__</code>, Python must be
+doing something similar to the example, but in this case we shouldn't
+worry about it.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Even though it's fine to just know about the last method, and we could
+simply use that, it's still important to have followed this path,
+thinking about how things were done previously, because it's not fair
+to just assume things were always good, and take that for granted.
+Otherwise, we would miss the evolution of the language, and assume there
+were never issues, problems or things that needed revision.</p>
+<p>And more importantly, there still are. Python still has lots of other
+areas for improvement. Just as in this example <code>__set_name__</code> seems to
+solve a small, yet annoying problem, there are many other scenarios on
+which things are not crystal clear in Python, so the language still
+needs to evolve.</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sat Jun 03, 2017 15:29:50 -0200</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/descriptors">&nbsp;descriptors</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/metaprogramming">&nbsp;metaprogramming</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/decorators">&nbsp;decorators</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=The __set_name__ method for descriptors&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;the-set-name-method-for-descriptors&#x2F;&hashtags=python,descriptors,metaprogramming,decorators"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

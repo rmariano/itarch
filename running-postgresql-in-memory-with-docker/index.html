@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Running PostgreSQL in memory with docker</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;running-postgresql-in-memory-with-docker&#x2F;">Running PostgreSQL in memory with docker</a></h1>
+  
+  <div class="post-content"><h1 id="introduction">Introduction</h1>
+<p>Interacting with a database, can be a regular task of a developer, and
+for that we would like to ensure that we are developing and testing in
+situations close to a real implementation; therefore, using the same
+database as in production can help detecting issues early.</p>
+<p>However, setting up an entire database server for development, can be
+cumbersome. Hopefully nowadays, modern operating systems like <code>Linux</code>
+have great tools and features that we could take advantage of.</p>
+<p>In particular, I would like to setup a simple database locally using
+<a href="https://www.docker.com/what-docker">docker</a>, and storing the data in
+memory.</p>
+<p>The idea is simple: run a docker container with the image for
+<code>PostgresSQL</code>, using a <code>tmpfs</code><sup class="footnote-reference"><a href="#1">1</a></sup><sup class="footnote-reference"><a href="#2">2</a></sup> as storage for the database (a
+<code>ramfs</code> could also be used).</p>
+<h1 id="procedure">Procedure</h1>
+<p>First, we get the image of <code>PostgresSQL</code> according to the platform, for
+example:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>docker pull fedora/postgresql
+</span></code></pre>
+<p>Then, I could create a <code>tmpfs</code>, for the data and mount it</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> mkdir /mnt/dbtempdisk
+</span><span style="color:#bf616a;">sudo</span><span> mount</span><span style="color:#bf616a;"> -t</span><span> tmpfs</span><span style="color:#bf616a;"> -o</span><span> size=50m tmpfs /mnt/dbtempdisk
+</span></code></pre>
+<p>Now we could run the database container using this directory:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> --name</span><span> mempostgres \
+</span><span style="color:#bf616a;">    -v </span><span>&quot;</span><span style="color:#a3be8c;">/mnt/dbtempdisk:/var/lib/pgsql/data:Z</span><span>&quot; \
+</span><span style="color:#bf616a;">    -e</span><span> POSTGRES_USER=&lt;username-for-the-db&gt; \
+</span><span style="color:#bf616a;">    -e</span><span> POSTGRES_PASSWORD=&lt;password-for-the-user&gt; \
+</span><span style="color:#bf616a;">    -e</span><span> POSTGRES_DB=&lt;name-of-the-db&gt; \
+</span><span style="color:#bf616a;">    -p</span><span> 5432:5432 \
+</span><span>    fedora/postgresql
+</span></code></pre>
+<p>The first line indicates the name for the container we are running (if
+is not specified, docker will put a default one); the second line is the
+important one, since it is what makes the mapping of directories,
+meaning that will map the directory for the <code>tmpfs</code> on the host, mounted
+as <code>/var/lib/pgsql/data</code> inside the container (the target). The later
+directory is the one <code>PostgreSQL</code> uses by default for initializing and
+storing the data of the database. The <code>Z</code> at the end of the mapping is
+an internal detail for flagging that directory in case <code>SELinux</code> is
+enabled, so it will not fail due to a permissions errors (because
+containers run as another user, and we are mounting something that might
+be out of that scope)<sup class="footnote-reference"><a href="#3">3</a></sup>.</p>
+<p>The rest of the three lines, are environment variables that docker will
+use for the initialization of the database (they are optional, and
+defaults will be used, in case they are not provided). Then follows the
+port mapping, which in this case indicates to map the port <code>5432</code> inside
+the container to the same one on the host. And finally, the name of the
+<code>docker</code> image we will run.</p>
+<p>Once this is running, it would look like we have an actual instance of
+<code>PostgreSQL</code> up and running on our machine (actually we do, but it is
+inside a container :-), so we can connect with any client (even a
+<code>Python</code> application, etc.).</p>
+<p>For example, if we want to use the <code>psql</code> client with the container, the
+command would be:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> run</span><span style="color:#bf616a;"> -it --rm </span><span>\
+</span><span style="color:#bf616a;">--link</span><span> mempostgres:postgres \
+</span><span>fedora/postgresql \
+</span><span>psql</span><span style="color:#bf616a;"> -h</span><span> mempostgres</span><span style="color:#bf616a;"> -U </span><span>&lt;username-in-db&gt; &lt;db-name&gt;
+</span></code></pre>
+<h1 id="applications">Applications</h1>
+<p>If we have <code>PostgreSQL</code> installed, we could simply start a new instance
+as our user with the command (<code>postgres ...</code>) and pass the <code>-D</code>
+parameter with the desired path where the database is going to store the
+data (which will be the <code>tmpfs</code>/<code>ramdisk</code>). This would be another way of
+achieving the same.</p>
+<p>Regardless the implementations, here are some potential applications:</p>
+<ol>
+<li>Local development without requiring disk storage, and running faster
+at the same time.</li>
+<li>Unit testing: unit tests should be fast, granted. Sometimes, it
+makes perfect sense to run the tests against an actual database
+(practicality beats purity), even if this makes them
+&quot;integration/functional&quot; tests. In this regard, having a
+lightweight database container running locally could achieve the
+goal without compromising performance.</li>
+<li>Isolation: (this only applies for the container approach), running
+<code>PostgreSQL</code> in a <code>docker</code> container, encapsulates the libraries,
+tools, packages, etc. in <code>docker</code>, so the rest of the system does
+not have to maintain much other packages installed. Think of if as a
+sort of &quot;virtual environment&quot; for packages.</li>
+</ol>
+<p>All in all, I think it's an interesting approach, worth considering, at
+least to have alternatives when working in projects that require intense
+interaction with the database.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>: <a href="https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt">https://www.kernel.org/doc/Documentation/filesystems/tmpfs.txt</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>: <a href="https://en.wikipedia.org/wiki/Tmpfs">https://en.wikipedia.org/wiki/Tmpfs</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>:
+<a href="http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/">http://www.projectatomic.io/blog/2015/06/using-volumes-with-docker-can-cause-problems-with-selinux/</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun Jan 22, 2017 17:09:59 -0100</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/postgres">&nbsp;postgres</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/linux">&nbsp;linux</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/docker">&nbsp;docker</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Running PostgreSQL in memory with docker&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;running-postgresql-in-memory-with-docker&#x2F;&hashtags=postgres,linux,docker"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

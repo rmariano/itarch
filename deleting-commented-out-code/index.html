@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Deleting commented out code</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;deleting-commented-out-code&#x2F;">Deleting commented out code</a></h1>
+  
+  <div class="post-content"><p>This is a rule I always encourage in software development. Moreover, I
+consider it to be something that has to be included in every coding
+guideline of a good project.</p>
+<p>There are several reasons for this, but probably the best explanation
+can be found in the book &quot;Clean Code&quot;<sup class="footnote-reference"><a href="#1">1</a></sup> by uncle Bob, on which
+explains that the code, gets outdated (rotten) with the rest of the
+surrounding code, and hence it makes a place for confusion, leading to
+an error-prone spot.</p>
+<p>There are, however, people that seem to find some arguments for
+commenting out code, or leaving it. Some common arguments/reasons
+usually are:</p>
+<blockquote>
+<ul>
+<li>&quot;I might need this functionality later..&quot;</li>
+</ul>
+<p>We have source control systems (for example git) for this. In git,
+anything can be restored from a previous point. If the software is
+properly under version control, there is no reason to fear data loss.
+Trust git, code fearlessly.</p>
+<ul>
+<li>&quot;This is temporary disabled... It will be restored later&quot;.</li>
+</ul>
+<p>Again, same principle, rely on the version control system. Save a
+patch, and then restore later, or stash the changes, revert the
+commit, etc. As you see, there are plenty of better options for
+solving this scenario.</p>
+<ul>
+<li>Code that was left from the fist version</li>
+</ul>
+<p>Probably debugging leftovers. No doubt here: seek, locate, destroy.</p>
+</blockquote>
+<p>There is, a clear problem with code that is under comment, which is that
+it is &quot;frozen&quot; in time: it was good at some point, but then it was
+left there while the rest of the code around it, evolved, so this old
+code might not certainly work (hence it is &quot;rotten&quot;), so un-commenting
+it is a bad idea because it will probably crash.</p>
+<p>Another problem is that it can be a source of bias for some other
+developer, who wants to maintain that code at a future point in time.
+The one who left the rotten code, might have thought that it was a
+source of inspiration for when this functionality was going to be
+applied, but instead, it is just biasing the new developer with this
+skeleton, preventing from a brand new, fresh idea for that code.</p>
+<p>Therefore, for these main reasons (an probably much more), having code
+that is commented in a code base, is a poor practice, (not to mention a
+code smell). If you are a seasoned developer, who cares about code
+quality, and best practices, you must not doubt when deleting it. Delete
+commented out code mercilessly: seek, locate and destroy.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>A book I highly recommend:
+<a href="https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882">https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Wed Feb 17, 2016 22:06:50 +0300</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/best-practices">&nbsp;best-practices</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/clean-code">&nbsp;clean-code</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Deleting commented out code&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;deleting-commented-out-code&#x2F;&hashtags=best-practices,clean-code"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

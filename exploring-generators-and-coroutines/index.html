@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Exploring Generators and Coroutines</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;exploring-generators-and-coroutines&#x2F;">Exploring Generators and Coroutines</a></h1>
+  
+  <div class="post-content"><p>Let's revisit the idea of generators in Python, in order to understand
+how the support for coroutines was achieved in latest versions of Python
+(3.6, at the time of this writing).</p>
+<p>By reviewing the milestones on generators, chronologically, we can get a
+better idea of the evolution that lead to asynchronous programming in
+Python.</p>
+<p>We will review the main changes in Python that relate to generators and
+asynchronous programming, starting with
+<a href="https://www.python.org/dev/peps/pep-0255/">PEP-255</a> (Simple
+Generators), <a href="https://www.python.org/dev/peps/pep-0342/">PEP-342</a>
+(Coroutines via Enhanced Generators),
+<a href="https://www.python.org/dev/peps/pep-0380/">PEP-380</a> (Syntax for
+delegating to a Sub-Generator), and finishing with
+<a href="https://www.python.org/dev/peps/pep-0525/">PEP-525</a> (Asynchronous
+Generators).</p>
+<h1 id="simple-generators">Simple Generators</h1>
+<p>PEP-255 introduced generators to Python. The idea is that when we
+process some data, we don't actually need all of that to be in memory
+at once. Most of the times, having one value at the time is enough. Lazy
+evaluation is a good trait to have in software, because in this case it
+means that less memory is used. It's also a key concept in other
+programming languages, and one of the main ideas behind functional
+programming.</p>
+<p>The new <code>yield</code> keyword was added to Python, with the meaning of
+producing an element that will be consumed by another caller function.</p>
+<p>The mere presence of the <code>yield</code> keyword on any part of the function,
+automatically makes that a <em>generator function</em>. When called, this
+function will create a <em>generator object</em>, which can be advanced,
+producing its elements, one at the time. By calling the generator
+successive times with the <code>next()</code> function, the generator advances to
+the next <code>yield</code> statement, producing values. After the generator
+produced a value, the generator is <em>suspended</em>, waiting to be called
+again.</p>
+<p>Take the [range]{.title-ref} built-in function, for example. In Python
+2, this function returns a list with all the numbers on the interval.
+Imagine we want to come up with a similar implementation of it, in order
+to get the sum of all numbers up to a certain limit.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#bf616a;">LIMIT </span><span>= </span><span style="color:#d08770;">1_000_000
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">old_range</span><span>(</span><span style="color:#bf616a;">n</span><span>):
+</span><span>    numbers = []
+</span><span>    i = </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">while </span><span>i &lt; n:
+</span><span>        numbers.</span><span style="color:#bf616a;">append</span><span>(i)
+</span><span>        i += </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">return </span><span>numbers
+</span><span>
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#96b5b4;">sum</span><span>(</span><span style="color:#bf616a;">old_range</span><span>(</span><span style="color:#bf616a;">LIMIT</span><span>)))
+</span></code></pre>
+<p>Now let's see how much memory is used:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>$ /usr/bin/time -f %M python rangesum.py
+</span><span>499999500000
+</span><span>48628
+</span></code></pre>
+<p>The first number is the result of the print, whilst the second one is
+the output of the [time]{.title-ref} command, printing out the memory
+used by the program (~48 MiB).</p>
+<p>Now, what if this is implemented with a generator instead?</p>
+<p>We just have to get rid of the list, and place the [yield]{.title-ref}
+statement instead, indicating that we want to produce the value on the
+expression that follows the keyword.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#bf616a;">LIMIT </span><span>= </span><span style="color:#d08770;">1_000_000
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">new_range</span><span>(</span><span style="color:#bf616a;">n</span><span>):
+</span><span>    i = </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">while </span><span>i &lt; n:
+</span><span>        </span><span style="color:#b48ead;">yield </span><span>i
+</span><span>        i += </span><span style="color:#d08770;">1
+</span><span>
+</span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#96b5b4;">sum</span><span>(</span><span style="color:#bf616a;">new_range</span><span>(</span><span style="color:#bf616a;">LIMIT</span><span>)))
+</span></code></pre>
+<p>This time, the result is:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>$ /usr/bin/time -f %M python rangesum.py
+</span><span>499999500000
+</span><span>8992
+</span></code></pre>
+<p>We see a huge difference: the implementation that holds all numbers in a
+list in memory, uses ~48MiB, whereas the implementation that just uses
+one number at the time, uses much less memory (&lt; 9 MiB)<sup class="footnote-reference"><a href="#1">1</a></sup>.</p>
+<p>We see the idea: when the [yield &lt;expression&gt;]{.title-ref} is reached,
+the result of the expression will be passed to the caller code, and the
+generator will remain <em>suspended</em> at that line in the meanwhile.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="color:#b48ead;">import </span><span>inspect
+</span><span>&gt;&gt;&gt; r = </span><span style="color:#bf616a;">new_range</span><span>(</span><span style="color:#d08770;">1_000_000</span><span>)
+</span><span>&gt;&gt;&gt; inspect.</span><span style="color:#bf616a;">getgeneratorstate</span><span>(r)
+</span><span>&#39;</span><span style="color:#a3be8c;">GEN_CREATED</span><span>&#39;
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(r)
+</span><span style="color:#d08770;">0
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(r)
+</span><span style="color:#d08770;">1
+</span><span>&gt;&gt;&gt; inspect.</span><span style="color:#bf616a;">getgeneratorstate</span><span>(r)
+</span><span>&#39;</span><span style="color:#a3be8c;">GEN_SUSPENDED</span><span>&#39;
+</span></code></pre>
+<p>Generators are <em>iterable</em> objects. An <em>iterable</em> is an object whose
+<code>__iter__</code> method, constructs a new <em>iterator</em>, every time is called
+(with <code>iter(it)</code>, for instance). An <em>iterator</em> is an object whose
+<code>__iter__</code> returns itself, and its <code>__next__</code> method contains the logic
+to produce new values each time is called, and how to signal the stop
+(by raising <code>StopIteration</code>).</p>
+<p>The idea of <em>iterables</em> is that they advance through values, by calling
+the built-in <code>next()</code> function on it, and this will produce values until
+the <code>StopIteration</code> exception is raised, signalling the end of the
+iteration.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">f</span><span>():
+</span><span style="color:#d08770;">...     </span><span style="color:#b48ead;">yield </span><span style="color:#d08770;">1
+</span><span style="color:#d08770;">...     </span><span style="color:#b48ead;">yield </span><span style="color:#d08770;">2
+</span><span>
+</span><span>&gt;&gt;&gt; g = </span><span style="color:#bf616a;">f</span><span>()
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(g)
+</span><span style="color:#d08770;">1
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(g)
+</span><span style="color:#d08770;">2
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(g)
+</span><span>StopIteration:
+</span><span>
+</span><span>&gt;&gt;&gt; </span><span style="color:#bf616a;">list</span><span>(</span><span style="color:#bf616a;">f</span><span>())
+</span><span>[</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#d08770;">2</span><span>]
+</span></code></pre>
+<p>In the first case, when calling <code>f()</code>, this creates a new generator. The
+first two calls to <code>next()</code>, will advance until the next <code>yield</code>
+statement, producing the values they have set. When there is nothing
+else to produce, the <code>StopIteration</code> exception is raised. Something
+similar to this, is actually run, when we iterate over this object in
+the form of [for x in iterable: ...]{.title-ref}. Only that Python
+internally handles the exception that determines when the for loop
+stops.</p>
+<p>Before wrapping up the introduction to generators, I want to make a
+quick comment, and highlight something important about the role of
+generators in the language, and why they're such a neat abstraction to
+have.</p>
+<p>Instead of using the eager version (the one that stores everything in a
+list), you might consider avoiding that by just using a loop and
+counting inside it. It's like saying &quot;all I need is just the count, so I
+might as well just accumulate the value in a loop, and that's it&quot;.
+Something slightly similar to:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>total = </span><span style="color:#d08770;">0
+</span><span>i = </span><span style="color:#d08770;">0
+</span><span style="color:#b48ead;">while </span><span>i &lt; </span><span style="color:#bf616a;">LIMIT</span><span>:
+</span><span>    total += i
+</span><span>    i += </span><span style="color:#d08770;">1
+</span></code></pre>
+<p>This is something I might consider doing in a language that doesn't
+have generators. Don't do this. Generators are the right way to go. By
+using a generator, we're doing more than just wrapping the code of an
+iteration; we're creating a sequence (which could even be infinite), and
+naming it. This sequence we have, is an object we can use in the rest of
+the code. It's an abstraction. As such, we can combine it with the rest
+of the code (for example to filter on it), reuse it, pass it along to
+other objects, and more.</p>
+<p>For example, let's say we have the sequence created with <code>new_range()</code>,
+and then we realize that we need the first 10 even numbers of it. This
+is as simple as doing.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="color:#b48ead;">import </span><span>itertools
+</span><span>&gt;&gt;&gt; rg = </span><span style="color:#bf616a;">new_range</span><span>(</span><span style="color:#d08770;">1_000_000</span><span>)
+</span><span>&gt;&gt;&gt; itertools.</span><span style="color:#bf616a;">islice</span><span>(</span><span style="color:#96b5b4;">filter</span><span>(</span><span style="color:#b48ead;">lambda </span><span style="color:#bf616a;">n</span><span>: n % </span><span style="color:#d08770;">2 </span><span>== </span><span style="color:#d08770;">0</span><span>, rg), </span><span style="color:#d08770;">10</span><span>)
+</span></code></pre>
+<p>And this is something we could not so easily accomplish, had we chosen
+to ignore generators.</p>
+<p>For years, this has been all pretty much about generators in Python.
+Generators were introduced with the idea of iteration and lazy
+computation in mind.</p>
+<p>Later on, there was another enhancement, by PEP-342, adding more methods
+to them, with the goal of supporting coroutines.</p>
+<h1 id="coroutines">Coroutines</h1>
+<p>Roughly speaking, the idea of coroutines is to pause the execution of a
+function at a given point, from where it can be later resumed. The idea
+is that while a coroutine is <em>suspended</em>, the program can switch to run
+another part of the code. Basically, we need functions that can be
+paused.</p>
+<p>As we have seen from the previous example, generators have this feature:
+when the <code>yield &lt;expresson&gt;</code>, is reached, a value is produced to the
+caller object, and in the meantime the generator object is suspended.
+This suggested that generators can be used to support coroutines in
+Python, hence the name of the PEP being &quot;Coroutines via Enhanced
+Generators&quot;.</p>
+<p>There is more, though. Coroutines have to support to be resumed from
+multiple entry points to continue their execution. Therefore, more
+changes are required. We need to be able to pass data back to them, and
+handle exceptions. For this, more methods were added to their interface.</p>
+<ul>
+<li><code>send(&lt;value&gt;)</code></li>
+<li><code>throw(ex_type[, ex_value[, ex_traceback]])</code></li>
+<li><code>close()</code></li>
+</ul>
+<p>These methods allow sending a value to a generator, throwing an
+exception inside it, and closing it, respectively.</p>
+<p>The <code>send()</code> method implies that [yield]{.title-ref} becomes an
+<em>expression</em>, rather than a <em>statement</em> (as it was before). With this,
+is possible to assign the result of a [yield]{.title-ref} to a variable,
+and the value will be whatever it was sent to it.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">gen</span><span>(</span><span style="color:#bf616a;">start</span><span>=</span><span style="color:#d08770;">0</span><span>):
+</span><span style="color:#d08770;">...     </span><span>step = start
+</span><span style="color:#d08770;">...     </span><span style="color:#b48ead;">while </span><span style="color:#d08770;">True</span><span>:
+</span><span style="color:#d08770;">...         </span><span>value = </span><span style="color:#b48ead;">yield </span><span>step
+</span><span style="color:#d08770;">...         </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Got </span><span>{value}&quot;)
+</span><span style="color:#d08770;">...         </span><span>step += </span><span style="color:#d08770;">1
+</span><span style="color:#d08770;">...
+</span><span>&gt;&gt;&gt; g =  </span><span style="color:#bf616a;">gen</span><span>(</span><span style="color:#d08770;">1</span><span>)
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(g)
+</span><span style="color:#d08770;">1
+</span><span>&gt;&gt;&gt; g.</span><span style="color:#bf616a;">send</span><span>(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;)
+</span><span>Got hello
+</span><span style="color:#d08770;">2
+</span><span>&gt;&gt;&gt; g.</span><span style="color:#bf616a;">send</span><span>(</span><span style="color:#d08770;">42</span><span>)
+</span><span>Got </span><span style="color:#d08770;">42
+</span><span style="color:#d08770;">3
+</span></code></pre>
+<p>As we can see from this previous code, the value sent by <code>yield</code> is
+going to be the result of the <code>send</code>, (in this case, the consecutive
+numbers of the sequence), while the value passed in the <code>send()</code>, the
+parameter, is the result that is assigned to <code>value</code> as returned by the
+<code>yield</code>, and printed out on the next line.</p>
+<p>Before sending any values to the generator, this has to be advanced to
+the next <code>yield</code>. In fact, advancing is the only allowed operation on a
+newly-created generator. This can be done by calling <code>next(g)</code> or
+<code>g.send(None)</code>, which are equivalent.</p>
+<blockquote>
+<p>[!WARNING]<br />
+Remember to always advance a generator that was just created, or you
+will get a TypeError</p>
+</blockquote>
+<p>With the <code>.throw()</code> method the caller can make the generator raise an
+exception at the point where is suspended. If this exception is handled
+internally in the generator, it will continue normally and the return
+value will be the one of the next <code>yield</code> line that reached. If it's
+not handled by the generator, it will fail, and the exception will
+propagate to the caller.</p>
+<p>The <code>.close()</code> method is used to terminate the generator. It will raise
+the <code>GeneratorExit</code> exception inside the generator. If we wish to run
+some clean up code, this is the exception to handle. When handling this
+exception, the only allowed action is to return a value.</p>
+<p>With these additions, generators have now evolved into coroutines. This
+means our code can now support <em>concurrent programming</em>, suspend the
+execution of tasks, compute non-blocking I/O, and such.</p>
+<p>While this works, handling many coroutines, refactor generators, and
+organizing the code became a bit cumbersome. More work had to be done,
+if we wanted to keep a Pythonic way of doing concurrent programming.</p>
+<h1 id="more-coroutines">More Coroutines</h1>
+<p>PEP-380 added more changes to coroutines, this time with the goal of
+supporting delegation to sub-generators. Two main things changed in
+generators to make them more useful as coroutines:</p>
+<ul>
+<li>Generators can now return values.</li>
+<li>The <code>yield from</code> syntax.</li>
+</ul>
+<h2 id="return-values-in-generators">Return Values in Generators</h2>
+<p>The keyword <code>def</code>, defines a function, which returns values (with the
+<code>return</code> keyword). However, as stated on the first section, if that
+<code>def</code> contains a <code>yield</code>, is a <em>generator function</em>. Before this PEP it
+would have been a syntax error to have a <code>return</code> in a generator
+function (a function that also has a <code>yield</code>. However, this is no longer
+the case.</p>
+<p>Remember how generators stop by raising <code>StopIteration</code>. What does it
+mean that a generator returns a value? It means that it stops. And where
+does that value do? It's contained inside the exception, as an
+attribute in <code>StopIteration.value</code>.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">gen</span><span>():
+</span><span>    </span><span style="color:#b48ead;">yield </span><span style="color:#d08770;">1
+</span><span>    </span><span style="color:#b48ead;">yield </span><span style="color:#d08770;">2
+</span><span>    </span><span style="color:#b48ead;">return </span><span>&quot;</span><span style="color:#a3be8c;">returned value</span><span>&quot;
+</span><span>
+</span><span>&gt;&gt;&gt; g = </span><span style="color:#bf616a;">gen</span><span>()
+</span><span>&gt;&gt;&gt; </span><span style="color:#b48ead;">try</span><span>:
+</span><span style="color:#d08770;">...     </span><span style="color:#b48ead;">while </span><span style="color:#d08770;">True</span><span>:
+</span><span style="color:#d08770;">...         </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#96b5b4;">next</span><span>(g))
+</span><span style="color:#d08770;">... </span><span style="color:#b48ead;">except </span><span>StopIteration </span><span style="color:#b48ead;">as </span><span>e:
+</span><span style="color:#d08770;">...     </span><span style="color:#96b5b4;">print</span><span>(e.value)
+</span><span style="color:#d08770;">...
+</span><span style="color:#d08770;">1
+</span><span style="color:#d08770;">2
+</span><span>returned value
+</span></code></pre>
+<p>Notice that the value returned by the generator is stored inside the
+exception, in [StopIteration.value]{.title-ref}. This might sound like
+is not the most elegant solution, but doing so, preserves the original
+interface, and the protocol remains unchanged. It's still the same kind
+of exception signalling the end of the iteration.</p>
+<h2 id="yield-from">yield from</h2>
+<p>Another syntax change to the language.</p>
+<p>In its most basic form, the construction <code>yield from &lt;iterable&gt;</code>, can be
+thought of as:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>for e in iterable:
+</span><span>    yield e
+</span></code></pre>
+<p>Basically this means that it extends an <em>iterable</em>, yielding all
+elements that this internal <em>iterable</em> can produce.</p>
+<p>For example, this way we could create a clone of the <code>itertools.chain</code>
+function from the standard library.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">chain2</span><span>(*iterables):
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">for </span><span>it </span><span style="color:#b48ead;">in </span><span>iterables:
+</span><span style="color:#d08770;">...</span><span>:         </span><span style="color:#b48ead;">yield from </span><span>it
+</span><span>
+</span><span>&gt;&gt;&gt; </span><span style="color:#bf616a;">list</span><span>(</span><span style="color:#bf616a;">chain2</span><span>(&quot;</span><span style="color:#a3be8c;">hello</span><span>&quot;, &quot; &quot;, &quot;</span><span style="color:#a3be8c;">world</span><span>&quot;))
+</span><span>[&#39;</span><span style="color:#a3be8c;">h</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">e</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">l</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">l</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">o</span><span>&#39;, &#39; &#39;, &#39;</span><span style="color:#a3be8c;">w</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">o</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">r</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">l</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">d</span><span>&#39;]
+</span></code></pre>
+<p>However, saving two lines of code is not the reason why this
+construction was added to the language. The raison d'etre of this
+construction is to actually delegate responsibility into smaller
+generators, and chain them.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">internal</span><span>(name, limit):
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">for </span><span>i </span><span style="color:#b48ead;">in </span><span style="color:#96b5b4;">range</span><span>(limit):
+</span><span style="color:#d08770;">...</span><span>:         got = </span><span style="color:#b48ead;">yield </span><span>i
+</span><span style="color:#d08770;">...</span><span>:         </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;{name}</span><span style="color:#a3be8c;"> got: </span><span>{got}&quot;)
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">return f</span><span>&quot;{name}</span><span style="color:#a3be8c;"> finished</span><span>&quot;
+</span><span>
+</span><span>&gt;&gt;&gt; </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">gen</span><span>():
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">yield from </span><span style="color:#bf616a;">internal</span><span>(&quot;</span><span style="color:#a3be8c;">A</span><span>&quot;, </span><span style="color:#d08770;">3</span><span>)
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">return </span><span>(</span><span style="color:#b48ead;">yield from </span><span style="color:#bf616a;">internal</span><span>(&quot;</span><span style="color:#a3be8c;">B</span><span>&quot;, </span><span style="color:#d08770;">2</span><span>))
+</span><span>
+</span><span>&gt;&gt;&gt; g = </span><span style="color:#bf616a;">gen</span><span>()
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">next</span><span>(g)
+</span><span style="color:#d08770;">0
+</span><span>&gt;&gt;&gt; g.</span><span style="color:#bf616a;">send</span><span>(</span><span style="color:#d08770;">1</span><span>)
+</span><span>A got: </span><span style="color:#d08770;">1
+</span><span style="color:#d08770;">1
+</span><span>
+</span><span>&gt;&gt;&gt; g.</span><span style="color:#bf616a;">send</span><span>(</span><span style="color:#d08770;">1</span><span>)   </span><span style="color:#65737e;"># a few more calls until the generator ends
+</span><span>B got: </span><span style="color:#d08770;">1
+</span><span>------------------------------------------------------
+</span><span>StopIteration        </span><span style="color:#bf616a;">Traceback </span><span>(most recent call last)
+</span><span style="color:#d08770;">... </span><span>in &lt;module&gt;()
+</span><span>----&gt; </span><span style="color:#d08770;">1 </span><span>g.</span><span style="color:#bf616a;">send</span><span>(</span><span style="color:#d08770;">1</span><span>)
+</span><span>StopIteration: B finished
+</span></code></pre>
+<p>Here we see how <code>yield from</code> handles proper delegation to an internal
+generator. Notice that we never send values directly to <code>internal</code>, but
+to <code>gen</code>, instead, and these values end up on the nested generator. What
+<code>yield from</code> is actually doing is creating a generator that has a
+channel to all nested generators. Values produced by these will be
+provided to the caller of <code>gen</code>. Values sent to it, will be passed along
+to the internal generators (the same for exceptions). Even the return
+value is handled, and becomes the return value of the top-level
+generator (in this case the string that states the name of the last
+generator becomes the resulting <code>StopIteration.value</code>).</p>
+<p>We see now the real value of this construction. With this, it's easier
+to refactor generators into smaller pieces, compose them and chain them
+together while preserving the behaviour of coroutines.</p>
+<p>The new <code>yield from</code> syntax is a great step towards supporting better
+concurrency. We can now think generators as being &quot;lightweight
+threads&quot;, that delegate functionality to an internal generator, pause
+the execution, so that other things can be computed in that time.</p>
+<p>Because syntactically generators are like coroutines, it was possible to
+accidentally confuse them, and end up placing a generator where a
+coroutine would have been expected (the <code>yield from</code> would accept it,
+after all). For this reason, the next step is to actually define the
+concept of coroutine as a proper type. With this change, it also
+followed that <code>yield from</code> evolved into <code>await</code>, and a new syntax for
+defining coroutines was introduced: <code>async</code>.</p>
+<h2 id="async-def-await">async def / await</h2>
+<p>A quick note on how this relates to asynchronous programming in Python.</p>
+<p>On <code>asyncio</code>, or any other event loop, the idea is that we define
+coroutines, and make them part of the event loop. Broadly speaking the
+event loop will keep a list of the tasks (which wrap our coroutines)
+that have to run, and will schedule them to.</p>
+<p>On our coroutines we delegate the I/O functionality we want to achieve,
+to some other coroutine or <em>awaitable</em> object, by calling <code>yield from</code>
+or <code>await</code> on it.</p>
+<p>Then the event loop will call our coroutine, which will reach this line,
+delegating to the internal coroutine, and pausing the execution, which
+gives the control back to the scheduler (so it can run another
+coroutine). The event loop will monitor the future object that wraps our
+coroutine until is finished, and when it's needed, it will update it by
+calling the <code>.send()</code> method on it. Which in turn, will pass along to
+the internal coroutine, and so on.</p>
+<p>Before the new syntax for <code>async</code> and <code>await</code> was introduced, coroutines
+were defined as generators decorated with <code>asyncio.coroutine</code>
+(<code>types.coroutine</code> was added in Python 3.5, when the coroutine type
+itself was created). Nowadays, <code>async def</code> creates a native coroutine,
+and inside it, only the <code>await</code> expression is accepted (not
+<code>yield from</code>).</p>
+<p>The following two coroutines <code>step</code> and <code>coro</code> are a simple example, of
+how <code>await</code> works similar to <code>yield from</code> delegating the values to the
+internal generator.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt;  @types.coroutine
+</span><span style="color:#d08770;">...</span><span>: </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">step</span><span>():
+</span><span style="color:#d08770;">...</span><span>:     s = </span><span style="color:#d08770;">0
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">while </span><span style="color:#d08770;">True</span><span>:
+</span><span style="color:#d08770;">...</span><span>:         value = </span><span style="color:#b48ead;">yield </span><span>s
+</span><span style="color:#d08770;">...</span><span>:         </span><span style="color:#96b5b4;">print</span><span>(&quot;</span><span style="color:#a3be8c;">Step got value </span><span>&quot;, value)
+</span><span style="color:#d08770;">...</span><span>:         s += </span><span style="color:#d08770;">1
+</span><span>
+</span><span>&gt;&gt;&gt;  async </span><span style="background-color:#bf616a;color:#2b303b;">def</span><span> </span><span style="color:#bf616a;">coro</span><span>():
+</span><span style="color:#d08770;">...</span><span>:     </span><span style="color:#b48ead;">while </span><span style="color:#d08770;">True</span><span>:
+</span><span style="color:#d08770;">...</span><span>:         got = </span><span style="color:#b48ead;">await </span><span style="color:#bf616a;">step</span><span>()
+</span><span style="color:#d08770;">...</span><span>:         </span><span style="color:#96b5b4;">print</span><span>(got)
+</span><span>
+</span><span>
+</span><span>&gt;&gt;&gt; c = </span><span style="color:#bf616a;">coro</span><span>()
+</span><span>&gt;&gt;&gt; c.</span><span style="color:#bf616a;">send</span><span>(</span><span style="color:#d08770;">None</span><span>)
+</span><span style="color:#d08770;">0
+</span><span>&gt;&gt;&gt; c.</span><span style="color:#bf616a;">send</span><span>(&quot;</span><span style="color:#a3be8c;">first</span><span>&quot;)
+</span><span>Step got value  first
+</span><span style="color:#d08770;">1
+</span><span>
+</span><span>&gt;&gt;&gt; c.</span><span style="color:#bf616a;">send</span><span>(&quot;</span><span style="color:#a3be8c;">second</span><span>&quot;)
+</span><span>Step got value  second
+</span><span style="color:#d08770;">2
+</span><span>
+</span><span>&gt;&gt;&gt; c.</span><span style="color:#bf616a;">send</span><span>(&quot;</span><span style="color:#a3be8c;">third</span><span>&quot;)
+</span><span>Step got value  third
+</span><span style="color:#d08770;">3
+</span></code></pre>
+<p>Once again, like in the <code>yield from</code> example, when we send a value to
+<code>coro</code>, this reaches the <code>await</code> instruction, which means that will pass
+to the <code>step</code> coroutine. In this simple example <code>coro</code> is something like
+what we would write, while <code>step</code> would be an external function we call.</p>
+<p>The following two coroutines are different ways of defining coroutines.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#65737e;"># py 3.4
+</span><span>@asyncio.</span><span style="color:#bf616a;">coroutine
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">coroutine</span><span>():
+</span><span>    </span><span style="color:#b48ead;">yield from </span><span>asyncio.</span><span style="color:#bf616a;">sleep</span><span>(</span><span style="color:#d08770;">1</span><span>)
+</span><span>
+</span><span style="color:#65737e;"># py 3.5+
+</span><span style="color:#b48ead;">async def </span><span style="color:#8fa1b3;">coroutine</span><span>():
+</span><span>    </span><span style="color:#b48ead;">await </span><span>asyncio.</span><span style="color:#bf616a;">sleep</span><span>(</span><span style="color:#d08770;">1</span><span>)
+</span></code></pre>
+<p>Basically this means that this asynchronous way of programming is kind
+of like an API, for working with event loops. It doesn't really relate
+to <code>asyncio</code>, we could use any event loop (<code>curio</code>, <code>uvloop</code>, etc.), for
+this. The important part is to understand, that an event loop will call
+our coroutine, which will eventually reach the line where we defined the
+<code>await</code>, and this will delegate the function to an external function (in
+this case <code>asyncio.sleep</code>). When the event loop calls <code>send()</code>, this is
+also passed, and the <code>await</code> gives back control to the event loop, so a
+different coroutine can run.</p>
+<p>The coroutines we define are therefore in between the event loop, and
+3rd-party functions that know how to handle the I/O in a non-blocking
+fashion.</p>
+<p>The event loop works then by a chain of <code>await</code> calls. Ultimately, at
+the end of that chain there is a generator, that pauses the execution of
+the function, and handles the I/O.</p>
+<p>In fact if we check the type of <code>asyncio.sleep</code>, we'll see that is
+indeed a generator:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&gt;&gt;&gt; asyncio.sleep(1)
+</span><span>&lt;generator object sleep at 0x...&gt;
+</span></code></pre>
+<p>So with this new syntax, does this mean that <code>await</code> is like
+<code>yield from</code>?</p>
+<p>Only with respect to coroutines. It's correct to write
+<code>await &lt;coroutine&gt;</code>, as well as <code>yield from &lt;coroutine&gt;</code>, the former
+won't work with other <em>iterables</em> (for example generators that aren't
+coroutines, sequences, etc.). Conversely, the latter won't work with
+<em>awaitable</em> objects.</p>
+<p>The reason for this syntax change is for correctness. Actually it's not
+just a syntax change, the new coroutine type is properly defined.:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&gt;&gt;&gt; from collections import abc
+</span><span>&gt;&gt;&gt; issubclass(abc.Coroutine, abc.Awaitable)
+</span><span>True
+</span></code></pre>
+<p>Given that coroutines are <em>syntactically</em> like generators, it would be
+possible to mix them, and place a generator in an asynchronous code
+where in fact we expected a coroutine. By using <code>await</code>, the type of the
+object in the expression is checked by Python, and if it doesn't
+comply, it will raise an exception.</p>
+<h1 id="asynchronous-generators">Asynchronous Generators</h1>
+<p>In Python 3.5 not only the proper syntax for coroutines was added
+(<code>async def / await</code>), but also the concept of asynchronous iterators.
+The idea of having an asynchronous <em>iterable</em> is to iterate while
+running asynchronous code. For this new methods such as <code>__aiter__</code> and
+<code>__anext__</code> where added under the concept of asynchronous iterators.</p>
+<p>However there was no support for asynchronous generators. That is
+analogous to saying that for asynchronous code we had to use <em>iterables</em>
+(like <code>__iter__ / __next__</code> on regular code), but we couldn't use
+generators (having a <code>yield</code> in an <code>async def</code> function was an error).</p>
+<p>This changed in Python 3.6, and now this syntax is supported, with the
+semantics of a regular generator (lazy evaluation, suspend and produce
+one element at the time, etc.), while iterating.</p>
+<p>Consider this simple example on which we want to iterate while calling
+some I/O code that we don't want to block upon.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">async def </span><span style="color:#8fa1b3;">recv</span><span>(</span><span style="color:#bf616a;">no</span><span>, </span><span style="color:#bf616a;">size</span><span>) -&gt; str:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Simulate reading &lt;size&gt; bytes from a remote source, asynchronously.
+</span><span style="color:#65737e;">    It takes a time proportional to the bytes requested to read.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">await </span><span>asyncio.</span><span style="color:#bf616a;">sleep</span><span>((size // </span><span style="color:#d08770;">512</span><span>) * </span><span style="color:#d08770;">0.4</span><span>)
+</span><span>    chunk = </span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">[chunk </span><span>{no}</span><span style="color:#a3be8c;"> (</span><span>{size}</span><span style="color:#a3be8c;">)]</span><span>&quot;
+</span><span>    </span><span style="color:#b48ead;">return </span><span>chunk
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">AsyncDataStreamer</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Read 10 times into data&quot;&quot;&quot;
+</span><span>    </span><span style="color:#bf616a;">LIMIT </span><span>= </span><span style="color:#d08770;">10
+</span><span>    </span><span style="color:#bf616a;">CHUNK_SIZE </span><span>= </span><span style="color:#d08770;">1024
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.lecture = </span><span style="color:#d08770;">0
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__aiter__</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">async def </span><span style="color:#96b5b4;">__anext__</span><span>(</span><span style="color:#bf616a;">self</span><span>):
+</span><span>        </span><span style="color:#b48ead;">if </span><span style="color:#bf616a;">self</span><span>.lecture &gt;= </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">LIMIT</span><span>:
+</span><span>            </span><span style="color:#b48ead;">raise </span><span>StopAsyncIteration
+</span><span>
+</span><span>        result = </span><span style="color:#b48ead;">await </span><span style="color:#bf616a;">recv</span><span>(</span><span style="color:#bf616a;">self</span><span>.lecture, </span><span style="color:#bf616a;">self</span><span>.</span><span style="color:#bf616a;">CHUNK_SIZE</span><span>)
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.lecture += </span><span style="color:#d08770;">1
+</span><span>        </span><span style="color:#b48ead;">return </span><span>result
+</span><span>
+</span><span style="color:#b48ead;">async def </span><span style="color:#8fa1b3;">test</span><span>():
+</span><span>    </span><span style="color:#b48ead;">async for </span><span>read </span><span style="color:#b48ead;">in </span><span style="color:#bf616a;">AsyncDataStreamer</span><span>():
+</span><span>        logger.</span><span style="color:#bf616a;">info</span><span>(&quot;</span><span style="color:#a3be8c;">collector on read </span><span style="color:#d08770;">%s</span><span>&quot;, read)
+</span></code></pre>
+<p>The test function will simply exercise the iterator, on which elements
+are produced, one at the time, while calling an I/O task (in this
+example <code>asyncio.sleep</code>).</p>
+<p>With asynchronous generators, the same could be rewritten in a more
+compact way.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">async def </span><span style="color:#8fa1b3;">async_data_streamer</span><span>():
+</span><span>    </span><span style="color:#bf616a;">LIMIT </span><span>= </span><span style="color:#d08770;">10
+</span><span>    </span><span style="color:#bf616a;">CHUNK_SIZE </span><span>= </span><span style="color:#d08770;">1024
+</span><span>    lecture = </span><span style="color:#d08770;">0
+</span><span>    </span><span style="color:#b48ead;">while </span><span>lecture &lt; </span><span style="color:#bf616a;">LIMIT</span><span>:
+</span><span>        lecture += </span><span style="color:#d08770;">1
+</span><span>        </span><span style="color:#b48ead;">yield await </span><span style="color:#bf616a;">recv</span><span>(lecture, </span><span style="color:#bf616a;">CHUNK_SIZE</span><span>)
+</span></code></pre>
+<h1 id="summary">Summary</h1>
+<p>It all started with generators. It was a simple way of having lazy
+computation in Python, and running more efficient programs, that use
+less memory.</p>
+<p>This evolved into coroutines, taking advantage of the fact that
+generators can suspend their execution. By extending the interface of
+generators, coroutines provided more powerful features to Python.</p>
+<p>Coroutines were also improved to support better patterns, and the
+addition of <code>yield from</code> was a game changer, that allows to have better
+generators, refactor into smaller pieces, and reorganize the logic
+better.</p>
+<p>The addition of an event loop to the standard library, helps to provide
+a referential way of doing asynchronous programming. However, the logic
+of the coroutines and the <code>await</code> syntax it not bound to any particular
+event loop. It's an API<sup class="footnote-reference"><a href="#2">2</a></sup> for doing asynchronous programming.</p>
+<p>Asynchronous generator was the latest addition to Python that relates to
+generators, and they help build more compact (and efficient!) code for
+asynchronous iteration.</p>
+<p>In the end, behind all the logic of <code>async / await</code>, everything is a
+generator. Coroutines are in fact (technically), generators.
+Conceptually they are different, and have different purposes, but in
+terms of implementation generators are what make all this asynchronous
+programming possible.</p>
+<h1 id="slides">Slides</h1>
+<script defer class="speakerdeck-embed" data-id="9d8c57392f9a4a248f9f27203ca289ee" data-ratio="1.7777777777777777" src="//speakerdeck.com/assets/embed.js"></script>
+<h1 id="references">References</h1>
+<ul>
+<li><code>Fluent Python - Luciano Ramalho</code>: Chapters 14 &amp; 16</li>
+<li><a href="https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/">https://snarky.ca/how-the-heck-does-async-await-work-in-python-3-5/</a></li>
+</ul>
+<h1 id="notes">Notes</h1>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>Needless to say, the results will vary from system to system, but
+we get an idea of the difference between both implementations.</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>This is an idea by David Beazley, that you can see at
+<a href="https://youtu.be/ZzfHjytDceU">https://youtu.be/ZzfHjytDceU</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun Jan 14, 2018 12:03:50 -0100</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/generators">&nbsp;generators</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/coroutines">&nbsp;coroutines</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/async">&nbsp;async</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/asyncio">&nbsp;asyncio</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/concurrency">&nbsp;concurrency</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Exploring Generators and Coroutines&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;exploring-generators-and-coroutines&#x2F;&hashtags=python,generators,coroutines,async,asyncio,concurrency"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

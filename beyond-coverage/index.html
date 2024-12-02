@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Beyond coverage</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;beyond-coverage&#x2F;">Beyond coverage</a></h1>
+  
+  <div class="post-content"><p>It looks like there are a lot of opinions or assumptions about unit
+tests and code coverage, most of them confusing of biased in several
+ways. For example, I've heard or read things like &quot;this is fine, it
+has X% coverage&quot;, or &quot;checking for coverage on pull requests doesn't
+help&quot;, or &quot;dropping the coverage level is not an issue&quot;, and many
+more of the like.</p>
+<p>This article aims to shed some light on the issue of unit testing with
+and code coverage. Hopefully by the end of it, we'll get an idea of
+which of the previous statements are right and which are wrong (spoiler
+alert: they're all wrong, but for different reasons).</p>
+<h1 id="it-s-not-a-metric">It's not a metric</h1>
+<p>I pretty much agree with Martin Fowler here<sup class="footnote-reference"><a href="#1">1</a></sup>, about the fact that
+test coverage is not a metric that indicates how good we are doing in
+terms of testing, but just a reference in order to identify parts of the
+code that need to be tested.</p>
+<p>This leads me to the idea that coverage is not a goal, or and ending
+point, but just the starting point.</p>
+<p>What I mean by this is that imagine that you find in the coverage
+report, that some lines are not being exercised, for example there are
+two functions that lack testing. Good head start, now we can write tests
+for them. Now you go on and write a test for the first one. After that,
+you run the tests again, and the coverage increased: the first function
+is now covered, so those lines no longer appear as missing in the
+report. Now you might be thinking on moving on to writing tests for the
+second function. That's the trap. Testing should not stop there. What
+about the rest of the tests scenarios for that first function? What
+about testing with more input, different combinations of parameters,
+side effects, and more? That's why it's not a goal: we shouldn't stop
+testing once we've satisfied the missing lines on the report.</p>
+<p>Another reason why reaching 100% coverage it's not a valid goal, is
+because sometimes is unachievable. There are parts of the code that
+respond to <em>defensive programming</em><sup class="footnote-reference"><a href="#2">2</a></sup>, and have some statements like
+<code>assert(0)</code> for unreachable conditions, which logically, if the code
+works correctly, will never run (actually, the fact that it doesn't
+fail by reaching those lines when tests are run, works as a way of
+making the code to &quot;self-testable&quot;, so to speak).</p>
+<h1 id="necessity-and-sufficiency">Necessity and sufficiency</h1>
+<p>And even if we reach that unrealistic goal: what does it mean to have
+100% code coverage on unit tests? Can we rely on that to say that the
+code is fully tested, and there are no bugs? Absolutely not.</p>
+<p>Here I am not even talking about path coverage (sometimes referred to as
+<em>multiple condition coverage</em>). To clarify, it's known that covering
+all branches does not mean the program will run just fine. Even with
+functional (manual or automated) testing. Suppose that we're completely
+sure all paths are covered, and the testing team has checked everything,
+therefore we're sure all the logic is sound. It still doesn't mean the
+program is correct. There are runtime considerations to be taken into
+account: what if there is a race condition? (something hard to
+reproduce). What if the server is under heavy load? (with a high load
+average), what if <code>malloc()</code> at some point returns <code>NULL</code>? What if the
+disk is full? Or if there is latency? What about security? You get the
+point, the list of possible failure scenarios, is infinite.</p>
+<p>Putting those considerations aside, the crux question is: can unit tests
+prove the logic (again, not behaviour in runtime, just the logic), to be
+correct? No, because, even with all statements analysed, there is still
+the possibility that things are left out.</p>
+<p>To put it in another way: if the coverage is lower than total, then
+assume there are things that will go south (the famous &quot;code without
+tests is broken by design&quot;). If everything is covered, then for
+interpreted languages (like Python), it means something like &quot;<em>it
+compiles</em>&quot;. It's <em>syntactically</em> correct, which doesn't mean it's
+<em>semantically</em> correct. For compiled languages, here I see little gain,
+except for the mere fact that checks at a very basic level that the code
+will run.</p>
+<h1 id="a-high-coverage-is-not-enough">A high coverage is not enough</h1>
+<p>There is another interesting idea about coverage, nicely illustrated in
+the paper &quot;how to misuse tests coverage&quot;<sup class="footnote-reference"><a href="#3">3</a></sup>, which is that <em>code
+coverage can only tell about the code that is there</em>. Therefore, it
+can't tell anything about potential bugs that due to <em>missing code</em>. It
+can't detect <em>faults of omission</em>.</p>
+<p>On the other hand, if instead of being just guided by the test coverage,
+we actually think about the test scenarios that are relevant for a unit
+of code, we'll start thinking on new possibilities, inputs, and
+combinations that will logically lead to these faults being discovered,
+and as a result of that, the corrective code will be included. This is
+the key point: not just to settle for a high coverage, but for having a
+battery of meaningful tests that cover relevant scenarios, instead of
+lines of code.</p>
+
+
+    
+
+
+<div style="background-color: rgb(186, 217, 174); font-weight: bold; padding: 2px">
+     Note 
+    <div style="color: white; font-weight: bold; padding: 20px;
+                background-color: rgba(216, 132, 102, 0.763)">
+        Cover scenarios, not lines of code.
+    </div>
+</div>
+<p>The truth is that software is complex. Really complex. There are a lot
+of things that can go wrong. Therefore, tests are a fundamental tool to
+at least ensure a degree of quality. It is logical to think that for
+each line of code there should be many more of tests. This applies for
+all projects, in all programming languages. Now, if for each function we
+should have at least many more of them just testing it, you'll quickly
+get the picture that the relation between productive code and testing
+code should be in the ratio <code>1:N</code>. Now, having 100% coverage (to say the
+best), can only mean an <code>1:1</code> ratio. It could be the case of a single
+test, covering the function, but not will sufficient cases.</p>
+<h1 id="relation-between-tests-and-main-code">Relation between tests and main code</h1>
+<p>Let's take a look at <code>SQLite</code>, which is a project that seems to have a
+reasonable level of testing<sup class="footnote-reference"><a href="#4">4</a></sup>. According to the document that explains
+it's testing strategy, we can see that it has many more lines of tests
+code than main code in the library.</p>
+<p>To quote the document itself: the library contains roughly 122
+<code>KLOC</code><sup class="footnote-reference"><a href="#5">5</a></sup>, whereas the tests are about 91,596.1 <code>KLOC</code> (~90M <code>LOC</code>).
+The ratio is an impressive 745x.</p>
+<p>In my opinion, this relation does not only apply to <code>C</code> projects, it's
+something general to all programming languages. It's just the reality
+of software. This is what it takes to build reliable software.</p>
+<p>Now, with this idea in mind, knowing that we must have many more lines
+of testing code than productive code, because each possible function can
+have multiple outcomes, and has to be exercised under multiple scenarios
+(validation of input, combination of its internal conditions, and more),
+it becomes clear, that coverage does not mean that the code is
+thoughtfully tested at all. It then becomes evident that coverage is not
+the end, but the beginning of testing: once we've identified the lines
+that need to be checked, the tests won't stop once they've been
+covered, they should stop once all possible scenarios have been properly
+verified. It also becomes evident that is expected to have many more
+times testing lines than main ones.</p>
+
+
+
+<div style="background-color: rgb(186, 217, 174); font-weight: bold; padding: 2px">
+     Note 
+    <div style="color: white; font-weight: bold; padding: 20px;
+                background-color: rgb(138, 192, 219)">
+        Don&#x27;t rely on coverage. Rely on thorough testing.
+    </div>
+</div>
+<h1 id="slides">Slides</h1>
+<p>This idea was presented in a lightning talk at <a href="https://ep2017.europython.eu/en/">EuroPython
+2017</a>, on Monday 10 of July. Here are
+the slides.</p>
+<script async class="speakerdeck-embed" data-id="fdafb2dc629e43c0b901f8333c9cb16b" data-ratio="1.77777777777778" src="//speakerdeck.com/assets/embed.js"></script>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://martinfowler.com/bliki/TestCoverage.html">https://martinfowler.com/bliki/TestCoverage.html</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://en.wikipedia.org/wiki/Defensive_programming">https://en.wikipedia.org/wiki/Defensive_programming</a></p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>&quot;How to misuse test coverage&quot; - Brian Marick
+<a href="http://www.exampler.com/testing-com/writings/coverage.pdf">http://www.exampler.com/testing-com/writings/coverage.pdf</a> This is
+an excellent paper, that discusses some important points about test
+coverage.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p><a href="https://sqlite.org/testing.html">https://sqlite.org/testing.html</a></p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p>1 KLOC means 1000 lines of code</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun Jul 02, 2017 17:20:19 -0200</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/best-practices">&nbsp;best-practices</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/clean-code">&nbsp;clean-code</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/quality">&nbsp;quality</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Beyond coverage&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;beyond-coverage&#x2F;&hashtags=best-practices,clean-code,quality"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
