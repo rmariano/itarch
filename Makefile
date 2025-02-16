@@ -13,3 +13,7 @@ serve:
 test:
 	@echo "Testing Python files..."
 	@python listings/*.py
+
+.PHONY: new-post
+new-post:
+	python3 new-post.py
