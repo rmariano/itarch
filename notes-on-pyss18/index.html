@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Notes on PySS18</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;notes-on-pyss18&#x2F;">Notes on PySS18</a></h1>
+  
+  <div class="post-content"><p>Last weekend an amazing edition of Python San Sebastián took place. Here
+are the main highlights of what the conference looked like to me.</p>
+<p>Friday starting with a workshop on the morning that took place in the
+university of informatics of Basque Country. It was a workshop about
+machine learning, with Python.</p>
+<p>The content was great, and enlightening. It's a very interesting topic,
+and presented with the main tools to work in Python: Jupyter, numpy,
+pandas, etc. Promising start.</p>
+<p>Saturday was the first day for talks, and it started with a nice keynote
+about the Python community, followed by a nice presentation about web
+scraping with Python tools, that also covered some tricks to do with
+PostgreSQL, such as efficiently computing the distance between strings
+with a special operator available through an extension.</p>
+<p>After that, I presented my talk titled <em>Demystifying coroutines and
+asynchronous programming in Python</em>, on which I covered the basics
+behind modern asynchronous programming.</p>
+<p>It followed a presentation with an introduction about Django REST
+framework, with a good explanation of not just the technical stack but
+also web concepts, and the ideas behind REST. After the presentation it
+was time for lunch.</p>
+<p>After lunch we enjoyed a talk about the challenges from the Plone
+community on evolving their Python code base. I always learn and get
+inspired when I listen to a Plone talk. It followed a keynote on deep
+learning, and after that it was time for lightning talks.</p>
+<p>From all the good lightning talks, there was one that kind of reminded
+me of the &quot;WATs&quot; of Pythons, showing code snippets that were seemingly
+wrong (or plain wrong in some cases(, but valid with small tweaks).</p>
+<p>See what I mean:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>In [</span><span style="color:#d08770;">1</span><span>]: </span><span style="color:#d08770;">1.  </span><span style="color:#65737e;"># float
+</span><span>Out[</span><span style="color:#d08770;">1</span><span>]: </span><span style="color:#d08770;">1.0
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">2</span><span>]: </span><span style="color:#d08770;">1.</span><span>.__class__
+</span><span>Out[</span><span style="color:#d08770;">2</span><span>]: float
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">3</span><span>]: </span><span style="color:#d08770;">1.</span><span>__class__  </span><span style="color:#65737e;"># error trying to get the class of the object 1
+</span><span>   </span><span style="color:#d08770;">1.</span><span>__class__  </span><span style="color:#65737e;"># error trying to get the class of the object 1
+</span><span>            ^
+</span><span>SyntaxError: invalid syntax
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">4</span><span>]: </span><span style="color:#d08770;">1</span><span>   .__class__  </span><span style="color:#65737e;"># it works with a space though
+</span><span>Out[</span><span style="color:#d08770;">4</span><span>]: int
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">5</span><span>]: -</span><span style="color:#d08770;">0  </span><span style="color:#65737e;"># negative zero?
+</span><span>Out[</span><span style="color:#d08770;">5</span><span>]: </span><span style="color:#d08770;">0
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">6</span><span>]: -</span><span style="color:#d08770;">0.0  </span><span style="color:#65737e;"># negative zero!
+</span><span>Out[</span><span style="color:#d08770;">6</span><span>]: -</span><span style="color:#d08770;">0.0
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">7</span><span>]: </span><span style="color:#d08770;">...  </span><span style="color:#65737e;"># Ellipsis
+</span><span>Out[</span><span style="color:#d08770;">7</span><span>]: </span><span style="color:#d08770;">Ellipsis
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">8</span><span>]: </span><span style="color:#d08770;">...</span><span>. </span><span style="color:#65737e;"># 4 dots? nothing
+</span><span>   </span><span style="color:#d08770;">...</span><span>. </span><span style="color:#65737e;"># 4 dots? nothing
+</span><span>                        ^
+</span><span>SyntaxError: invalid syntax
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">9</span><span>]: </span><span style="color:#d08770;">...</span><span>.</span><span style="color:#96b5b4;">__eq__</span><span>(</span><span style="color:#d08770;">...</span><span>)  </span><span style="color:#65737e;"># ... or as an operator to call methods from Ellipsis
+</span><span>Out[</span><span style="color:#d08770;">9</span><span>]: </span><span style="color:#d08770;">True
+</span><span>
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">10</span><span>]: N = </span><span style="color:#d08770;">1000000000
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">11</span><span>]: </span><span style="color:#b48ead;">f</span><span>&quot;{N</span><span style="color:#d08770;">:_</span><span>}&quot;  </span><span style="color:#65737e;"># formatting numbers à la Python 3.6
+</span><span>Out[</span><span style="color:#d08770;">11</span><span>]: &#39;</span><span style="color:#a3be8c;">1_000_000_000</span><span>&#39;
+</span><span>
+</span><span>In [</span><span style="color:#d08770;">12</span><span>]: </span><span style="color:#b48ead;">f</span><span>&quot;{N</span><span style="color:#d08770;">:,</span><span>}&quot;  </span><span style="color:#65737e;"># oldie but goodie
+</span><span>Out[</span><span style="color:#d08770;">12</span><span>]: &#39;</span><span style="color:#a3be8c;">1,000,000,000</span><span>&#39;
+</span></code></pre>
+<p>Sunday started with another great keynote about processing music with
+Python. After the coffee break, there was a talk by Stephane Wirtel
+telling us what's new in Python 3.7, followed by a talk about the hug
+framework and how to build REST APIs with it, and then the last talk of
+the morning was about optimization algorithms (in the sort of dynamic
+programming, etc.), to solve real-world problems for a real platform.
+It's one of my favourite topics, so I enjoyed that talk a lot.</p>
+<p>After lunch, the last talks were about building a bot for Telegram, and
+a keynote about machine learning, and the tools that Python provides for
+it (scikit learn, and similar to those covered at the workshop the first
+day).</p>
+<p>Then the lightning talks, and the closure of the conference, which was
+amazing and I enjoyed very much.</p>
+<p>All in all: a great conference on which I've met awesome professionals,
+I learnt new things and got a refresher on topics I was already familiar
+with, and got inspired to keep learning. Looking forward to the next
+edition already! Kudos to the organizers :-).</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Mon Oct 15, 2018 22:31:01 +0200</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/confs">&nbsp;confs</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Notes on PySS18&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;notes-on-pyss18&#x2F;&hashtags=confs,python"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

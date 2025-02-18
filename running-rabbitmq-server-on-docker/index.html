@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Running RabbitMQ server on Docker</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;running-rabbitmq-server-on-docker&#x2F;">Running RabbitMQ server on Docker</a></h1>
+  
+  <div class="post-content"><p>If you use RabbitMQ for development frequently, sometimes you might have
+found it uses too much resources (it's normal while programming to have
+a lot of queues or tasks being queued and that makes the CPU usage to
+spike).</p>
+<p>Having RabbitMQ installed on the OS seems the perfect approach for
+production, but on development I'd rather do something different, in
+order to isolate the process. I know I could bound it (for example order
+it not to start automatically as a dæmon), by means of <code>systemd</code> but a
+few weeks ago I decided to try <code>docker</code> and see how it results.</p>
+<p>It turned out to be just the tool for the work, and so far with a little
+simple configuration it can run as expected.</p>
+<p>There is already a docker image for RabbitMQ, which can be automatically
+pulled, and then run, for example:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">sudo</span><span> docker pull rabbitmq
+</span><span style="color:#bf616a;">sudo</span><span> docker run</span><span style="color:#bf616a;"> -d -e</span><span> RABBITMQ_NODENAME=my-rabbit</span><span style="color:#bf616a;"> --cpuset</span><span>=&quot;</span><span style="color:#a3be8c;">1</span><span>&quot;</span><span style="color:#bf616a;"> --name</span><span> docker.rabbitmq</span><span style="color:#bf616a;"> -p</span><span> 5672:5672 rabbitmq:3
+</span></code></pre>
+<p>The <code>-d</code> option indicates the process to start <em>detached</em>, then by
+passing <code>-e</code> we pass some environment variables (in this case, the
+<code>RABBITMQ_NODENAME</code> is a particular variable for rabbit indicating how
+to set the name of the node it is starting). Optionally, we can limit
+the CPU usage with the <code>--cpuset</code>, as in this case which sets the
+process to use the second core of the machine (it starts at
+[0]{.title-ref}). Then the <code>--name</code> is a name for the docker being
+created.</p>
+<p>The most important part in this case is the port mapping, made by the
+<code>-p</code> option which in this case maps the port used by RabbitMQ directly
+(1:1) with the host machine. This makes the docker process to run
+transparently, as the other applications that try to communicate with a
+RabbitMQ won't notice any difference, making it look like is executing
+an actual RabbitMQ service. Finally there is the name of the docker
+image to run.</p>
+<p>What I usually do is to manage the docker image by its
+[instance_id]{.title-ref} (a number that is displayed after listing the
+docker images, by doing <code>sudo docker ps -a</code>). Then we can manage it by
+<code>sudo docker [start|stop] &lt;instance_id&gt;</code>.</p>
+<p>There is another command to see the output being generated by the
+process which is <code>docker logs rabbitmq.docker</code>. Notice in this case the
+name designated to the image was used instead of the <em>instance_id</em>. In
+addition we can see internal data for the process by running the
+<code>inspect</code> command (again we can use the [instance_id]{.title-ref} or the
+name we assigned).</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">docker</span><span> inspect rabbitmq.docker
+</span><span style="color:#bf616a;">sudo</span><span> docker logs docker.rabbitmq
+</span></code></pre>
+<p>It's important to notice that docker is actually <em>not a virtualization
+platform</em>, but a mechanism that runs processes in containers, meaning
+that in this case the entire RabbitMQ is running as a single process
+within a container, with some other limitations and bounds constrained
+by <code>docker</code>.</p>
+<p>I found this approach to be very versatile for a development
+environment, and with RabbitMQ being the first pilot, I think I can
+migrate more applications to docker instead of having them installed on
+the system (as long as possible).</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun Apr 26, 2015 13:58:46 +0300</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/docker">&nbsp;docker</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/linux">&nbsp;linux</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/rabbitmq">&nbsp;rabbitmq</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Running RabbitMQ server on Docker&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;running-rabbitmq-server-on-docker&#x2F;&hashtags=docker,linux,rabbitmq"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

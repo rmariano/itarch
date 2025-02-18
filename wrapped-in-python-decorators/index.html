@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • __wrapped__ in Python decorators</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;wrapped-in-python-decorators&#x2F;">__wrapped__ in Python decorators</a></h1>
+  
+  <div class="post-content"><p>This is another of the new interesting things that Python 3 has. Time
+ago, it was somehow tricky to work with decorated functions, because the
+decorator replaced the original object, and its behaviour became hard to
+reach.</p>
+<p>So, for example, we all know that the following sentence:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>@</span><span style="color:#bf616a;">decorator
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">function</span><span>():
+</span><span>    </span><span style="color:#b48ead;">pass
+</span></code></pre>
+<p>It's actually syntax sugar for:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">function</span><span>():
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span>function = </span><span style="color:#bf616a;">decorator</span><span>(function)
+</span></code></pre>
+<p>So, if for some reason, we need to work both with the original and
+decorated functions, we required tricks such as different names,
+something like:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">_function</span><span>():
+</span><span>    </span><span style="color:#b48ead;">pass
+</span><span>
+</span><span>function = </span><span style="color:#bf616a;">decorator</span><span>(_function)
+</span></code></pre>
+<p>But in current Python, this should be no longer the case. As we can see
+from the code of the <code>functools</code> module<sup class="footnote-reference"><a href="#1">1</a></sup>, when decorating an object,
+there is an attribute named <code>__wrapped__</code> that holds the reference to
+the original one.</p>
+<p>So now if we use this, we can access it directly without having to
+resort to the old quirks.</p>
+<h1 id="example">Example</h1>
+<p>Let's consider this example. Validating parameter types like this is
+far from a real implementation, but rather something for the sake of
+illustration.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">from </span><span>functools </span><span style="color:#b48ead;">import </span><span>wraps
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">validate_parameters</span><span>(</span><span style="color:#bf616a;">kwargs</span><span>, </span><span style="color:#bf616a;">annotations</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;For a dictionary of kwargs, and another dictionary of annotations,
+</span><span style="color:#65737e;">    mapping each argument name with its type, validate if all types on the
+</span><span style="color:#65737e;">    keyword arguments match those described by the annotations.
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">for </span><span>arg, value </span><span style="color:#b48ead;">in </span><span>kwargs.</span><span style="color:#bf616a;">items</span><span>():
+</span><span>        expected_type = annotations[arg]
+</span><span>        </span><span style="color:#b48ead;">if </span><span>not </span><span style="color:#96b5b4;">isinstance</span><span>(value, expected_type):
+</span><span>            </span><span style="color:#b48ead;">raise </span><span style="color:#bf616a;">TypeError</span><span>(
+</span><span>                &quot;</span><span style="color:#d08770;">{0}</span><span style="color:#a3be8c;">=</span><span style="color:#d08770;">{1</span><span style="color:#b48ead;">!r</span><span style="color:#d08770;">}</span><span style="color:#a3be8c;"> is not of type </span><span style="color:#d08770;">{2</span><span style="color:#b48ead;">!r</span><span style="color:#d08770;">}</span><span>&quot;.</span><span style="color:#bf616a;">format</span><span>(
+</span><span>                    arg, value, expected_type)
+</span><span>                )
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">validate_function_parameters</span><span>(</span><span style="color:#bf616a;">function</span><span>):
+</span><span>    @</span><span style="color:#bf616a;">wraps</span><span>(function)
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">inner</span><span>(**</span><span style="color:#bf616a;">kwargs</span><span>):
+</span><span>        annotations = function.__annotations__
+</span><span>        </span><span style="color:#bf616a;">validate_parameters</span><span>(kwargs, annotations)
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">function</span><span>(**kwargs)
+</span><span>    </span><span style="color:#b48ead;">return </span><span>inner
+</span><span>
+</span><span>
+</span><span>
+</span><span>@</span><span style="color:#bf616a;">validate_function_parameters
+</span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">test_function</span><span>(</span><span style="color:#bf616a;">x</span><span>: int, </span><span style="color:#bf616a;">y</span><span>:float):
+</span><span>    </span><span style="color:#b48ead;">return </span><span>x * y
+</span><span>
+</span><span>
+</span><span>test_function.</span><span style="color:#bf616a;">__wrapped__</span><span>(</span><span style="color:#bf616a;">x</span><span>=</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#bf616a;">y</span><span>=</span><span style="color:#d08770;">3</span><span>)  </span><span style="color:#65737e;"># does not validate
+</span><span style="color:#bf616a;">test_function</span><span>(</span><span style="color:#bf616a;">x</span><span>=</span><span style="color:#d08770;">1</span><span>, </span><span style="color:#bf616a;">y</span><span>=</span><span style="color:#d08770;">3</span><span>)  </span><span style="color:#65737e;"># validates and raises
+</span></code></pre>
+<p>The statement in the penultimate line works because it's actually
+invoking the original function, without the decorator applied, whereas
+the last one fails because it's calling the function already decorated.</p>
+<h1 id="potential-use-cases">Potential use cases</h1>
+<p>In general this a nice feature, for the reason that in a way enables
+accessing both objects, (it could be argued that decorating a function
+causes some sort of temporal coupling).</p>
+<p>Most importantly, it can be used in <em>unit tests</em>, whether is to test the
+original function, or that the decorator itself is acting as it is
+supposed to do.</p>
+<p>Moreover, we could tests our own code, before being decorated by other
+libraries being used in the project (for example the function of a tasks
+without the <code>@celery.task</code> decorator applied, or an event of the
+database of <code>SQLAlchemy</code> before it was changed by the listener event
+decorator, etc.).</p>
+<p>Just another trick to keep in the toolbox.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>This attribute is documented, but I first found about it while
+reading at the code of CPython at
+<a href="https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70">https://github.com/python/cpython/blob/3405792b024e9c6b70c0d2355c55a23ac84e1e67/Lib/functools.py#L70</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Fri Mar 03, 2017 21:41:21 -0100</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/decorators">&nbsp;decorators</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/code">&nbsp;code</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=__wrapped__ in Python decorators&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;wrapped-in-python-decorators&#x2F;&hashtags=python,decorators,code"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

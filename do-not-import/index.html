@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Do not import *</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;do-not-import&#x2F;">Do not import *</a></h1>
+  
+  <div class="post-content"><p>It is well-known among Python developers (or at least, it should be),
+that is a bad idea to import everything from a module, for example by
+doing <code>from &lt;module&gt; import *</code>.</p>
+<p>The idea on this post, is to highlight and gather the reasons why this
+is a bad practice, in order to collectively identify many undesired
+effects. However, without losing pragmatism, in case there are some odd
+reasons why this might be acceptable, I will also mention them, if any.
+Let's see where we get.</p>
+<ol>
+<li>
+<p>You do not know what you get</p>
+<p>An arbitrary Python script may contain any code, and most of it
+will be executed when performing the <code>import *</code> part (you cannot rely on
+how <code>__name__</code> is handled). The interface is totally unclear: you do not
+know what computations performs, what objects will import, etc. In
+general is more efficient to import as few definitions as possible.</p>
+</li>
+<li>
+<p>Identifiers appear magically</p>
+<p>In any decently readable Python script, the programmer must be able to
+locate every definition, which means to identify where does every identifier
+come from. For example, a variable named <code>x</code> can either be a parameter of
+the function in the current scope, a variable already defined (assigned), or
+a name already imported (<code>from mod import x</code>), etc. By performing the
+incorrect import, this variable might appear out of the blue, meaning that I
+will have an <code>x</code> that will not be neither a parameter, nor a definition nor
+a declared import. This means, I cannot track the origin or <code>x</code>. The
+situation gets worse if there are not one, but many <code>import *</code> statements.
+Debugging becomes a nightmare.</p>
+</li>
+<li>
+<p>Namespaces are one honking great idea -- let's do more of those!</p>
+<p>Straight from the Python zen<sup class="footnote-reference"><a href="#1">1</a></sup>. By importing everything from a module, the
+benefits of the namespaces are somehow lost.  Instead, everything (or a lot
+of things), might get to be called the same, messing with the current scope.
+Moreover, new import definitions might override previous ones.</p>
+</li>
+<li>
+<p>Explicit is better than implicit</p>
+<p>Again, every identifier that we want imported should be done explicitly (the
+<code>*</code> is not very declarative).</p>
+</li>
+</ol>
+<p>Now, so far these might be some of the main reasons about why importing
+everything from a Python module is usually not a good idea. However, in
+case the code at stake is just a simple testing script, or an in-line
+sentence on ipython, there could be nothing wrong about it.</p>
+<p>In addition, although I am not a big fan of import statements inside
+functions (sometimes they are necessary, though), importing everything
+from a package within a function is not a big problem, because the scope
+is already narrowed.</p>
+<p>Just to be clear, this is by no means an absolute statement, but an idea
+presented in order to write better code. One of the things I like the
+most about Python is that encourages good practices. Therefore, if I
+read an import statement like this, unless there are some very good
+reasons to do so, I will think that line as a code-smell<sup class="footnote-reference"><a href="#2">2</a></sup>.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>import this</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><a href="https://c2.com/cgi/wiki?CodeSmell">https://c2.com/cgi/wiki?CodeSmell</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Mon Jan 05, 2015 20:10:10 +0300</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/best-practices">&nbsp;best-practices</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Do not import *&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;do-not-import&#x2F;&hashtags=python,best-practices"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

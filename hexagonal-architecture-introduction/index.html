@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Hexagonal Architecture - Introduction</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;hexagonal-architecture-introduction&#x2F;">Hexagonal Architecture - Introduction</a></h1>
+  
+  <div class="post-content"><p>An overview of the concept of Hexagonal architecture, also known as
+ports an adapters. It's a well-known good practice of software
+engineering to keep the business logic separated from external,
+uncontrolled dependencies (implementation details), yet something that
+keeps on happening repeatedly. A design with an hexagonal architecture
+aims to solve this problem, helping to achieve a clean architecture.</p>
+<h1 id="the-main-idea">The main idea</h1>
+<p>The main idea behind the hexagonal architecture is to design our
+software in a way that external dependencies, or implementation details
+don't pollute the main purpose of the software we're building: the
+business logic. Put in a different way: an information system is a
+solution to a particular problem. We build software because we want
+something done. In that process, of course we'll have to deal with
+accidental complexity (the technical nuances of the technology involved
+in what we're building), after all, software doesn't run in the
+vacuum. But we don't build a software solution just to tinker with
+technology, we do it because we want something done. And those technical
+nuances do tend to change over time. This hinders the maintainability of
+our software, making it more fragile over time. That's why both aspects
+need to be as isolated as possible.</p>
+<p>For example, if we're building a service to present data to customers,
+we can choose among several technologies like gRPC, HTTP (a REST API),
+GraphQL, and more. But none of those, whilst necessary for practical
+reasons, should matter to our business logic. Hence, interacting with
+external objects like [HttpServletRequest]{.title-ref}, or an ORM entity
+in the domain layer is a bad practice that accrues technical debt.</p>
+<p>Instead, ports and adapters ought to be used. Our domain layer will
+interact with <em>ports</em>, and these <em>ports</em> will in turn, use <em>adapters</em>.
+That way, changes in external dependencies don't affect the business
+logic at all.</p>
+<p>What would be an example of a bad design? Imagine a web application. In
+the domain layer, one of the objects needs to do some processing, so it
+takes as one of its parameters the raw HTTP object provided by the web
+framework, then gets some parameters, then writes a SQL query, fetches
+the data and returns a response.</p>
+<p>And how could we make that better? The same application, now in the
+domain logic has an object that receives another object <em>controlled by
+us</em> (this is important, it should be one of our ports, not something
+coming from an external library, framework, nor anything that entails
+technical details). This object has specific methods, tailored to the
+needs of the application to retrieve only that abstractions and entities
+that are needed, and then interacts with another <em>port</em> that will fetch
+the required data from the <em>repository</em>, and return a specific entity as
+needed. No HTTP details in the business logic, no SQL either.</p>
+<h1 id="some-concepts">Some concepts</h1>
+<ul>
+<li><em>Domain logic</em>: also called business logic is where the main
+entities are located. This is where the purpose of the software is
+written, irrespective of any other technical details. The business
+rules live here isolated from any other external components.</li>
+<li><em>Ports</em>: are ways for the domain logic layer to communicate with the
+external world. For example, in order to receive data from a
+<em>primary actor</em> (a client that's using the application), this data
+will pass through a port, because the integration isn't done
+directly. In the same fashion, in order to interact with a
+<em>secondary actor</em> (like a repository, a place where data is stored),
+another port will be used.</li>
+<li><em>Adapters</em>: An adapter will connect the interface of a port with one
+specific implementation of another interface. This usually follows
+the idea behind the adapter design pattern.</li>
+</ul>
+<p>For example if our web application needs to interact with a DynamoDB
+table, our domain logic will have its own layer, with no implementation
+details revealed, and will interact with something called
+[StoragePort]{.title-ref} for example, which will have a simple
+interface to fetch and update data. But this port won't have any of
+DynamoDB's implementation details either. In between, there will be an
+adapter, to precisely adapt the interface from the specific driver or
+client needed for DynamoDB into the interface declared by
+[StoragePort]{.title-ref}.</p>
+<h1 id="related-concepts">Related Concepts</h1>
+<p>This design is based on other concepts from software engineering.</p>
+<p>As the attentive reader might have suspected, the concept of adapter, is
+in fact closely related with the adapter design pattern. The idea of an
+adapter is to precisely match the interface of an external dependency (a
+concrete and specific technology) with the interface defined by the
+port, according to the requirements of the domain logic.</p>
+<p>And speaking of declaring an interface to make external dependencies to
+comply with: this is the [dependency inversion]{.title-ref} principle in
+action. The &quot;D&quot; of the SOLID principles.</p>
+<h1 id="a-small-example">A small example</h1>
+<p>Here's a simple class diagram with a class/interface defined for each
+of the main three components of the architecture.</p>
+<p><img src="https://www.plantuml.com/plantuml/png/ZL2zJiCm4DxlAMxaHnbO8uPIkY1r0Fe4XtD9B3c-O9z14VJTIK9Q2OUXa-MxxxwVRnELWgREOSiDDUB90LYl76eoZ3jIUgF83nNrumo_017nGso5gQz8-J55bOx31Bmoo-UfkeOZG7vy_rqKk1iyTRBRBiF_GSyIjGbyUDcVOB0QONcH3o_A66pJAagz9YxBzVsSyT2piRKrE6BnFN4OK0NdbP6kTmD-McrHMyPpNS2-maaGm3YASQxlbNk9LYKCItjvOlfzvztj9Pbc2NHSwsJk3eudkMsArdECUsciMTJ2MRxCx4ntcS6ReiZjmL_I4P7JRCRKgNC_" alt="" /></p>
+<p>Note how we define a port (in this case the [DataRepository]{.title-ref}
+with the interface we need for our application, and make the business
+logic objects to interact solely with this one. If at some point we need
+a PostgreSQL database, we create an adapter class that complies with the
+[DatabaseAdapter]{.title-ref} interface by implementing the required
+method. All details about configuring the driver, and writing the SQL
+queries are abstracted in this adapter class. If later on we decide we
+need a different database, another adapter can be created to this end.</p>
+<p>This is not only useful for long-term maintainability of the project,
+but also as a tactic to speed development up. Structuring the code this
+way, you could start your application with a very simple storage
+solution (a text file, or SQLite). If later on, you really need a
+powerful database, then you can <em>defer that decision</em>, invest the cost
+of setting up that piece of infrastructure, and then easily plug it into
+the code by just writing a different adapter object.</p>
+<h1 id="where-to-learn-more">Where to learn more</h1>
+<p>The original blog post<sup class="footnote-reference"><a href="#1">1</a></sup> by Alistair Cockburn is a great source of
+information.</p>
+<p>In addition, this is a concept I mention in the latest edition of my
+<a href="link://slug/second-edition-is-here">book (Clean Code in Python)</a>, in
+the chapter about clean architecture.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://alistair.cockburn.us/hexagonal-architecture/">https://alistair.cockburn.us/hexagonal-architecture/</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sat Nov 27, 2021 17:25:14 +0100</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/architecture">&nbsp;architecture</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Hexagonal Architecture - Introduction&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;hexagonal-architecture-introduction&#x2F;&hashtags=architecture"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

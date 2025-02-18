@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • A few ideas on code review</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;a-few-ideas-on-code-review&#x2F;">A few ideas on code review</a></h1>
+  
+  <div class="post-content"><p>After watching a talk about code review<sup class="footnote-reference"><a href="#1">1</a></sup>, from the last EuroPython, I
+got some ideas that I'd like to summarise.</p>
+<p>The first one is a point I made on <a href="link://slug/my-talk-europython-2016">my talk about clean code in
+Python</a>, about running style checks
+(PEP-8, for example), automatically as part of the CI. This has several
+rationales, the first one being that it's the sort of thing machines
+should do, and not humans. Having software engineers reviewing the tabs,
+spacing, and such, is just a wasted effort (not to mention, wasted
+money). As I mentioned on the conclusions during my talk, we should
+focus on the readability of the code in terms of the logic, by asking
+ourselves things like &quot;<em>does this code make sense?</em>&quot;, rather than
+&quot;<em>is the space before the comma correct?</em>&quot;. Remember, code is for
+humans, not machines, it's a means of communication with the
+development team.</p>
+<p>By automating these checks in the CI build<sup class="footnote-reference"><a href="#2">2</a></sup>, we leave these details
+out of the scope, to focus on more important things, because in the end,
+the ultimate goal of the code review is actually to find defects on the
+code, and point them out for early correction.</p>
+<p>In addition, separating the style checks, gives them a sense of
+&quot;objective metric&quot;, because the author has to argue with an script,
+instead of another developer. This also enforces the style guide for the
+project, closer to the code.</p>
+<p>Then followed lots of more tips aimed at making code review more
+effective. For example, that it's important to also highlight positive
+things found whilst looking at the code, and (arguably the most
+important one) that authors have to be receptive about feedback when
+placing a pull request. This is perhaps the most difficult point,
+because most of the times we hear things like &quot;<em>would you merge this
+code?</em>&quot;, rather than &quot;<em>would you give me feedback about this?</em>&quot;. Once
+again, the goal of code review is not to challenge, but to find defects
+on the code, so when placing a pull request, it's good for the author
+to keep in mind that reviewers are actually helping him or her, to
+improve the quality of the work. And it's also a learning experience.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">0% thankfully. Coders act like they&#39;ve painted a masterpiece and tend to debate every piece of feedback.</p>&mdash; Mark Litwintschik (@marklit82) <a href="https://twitter.com/marklit82/status/737939325334237184?ref_src=twsrc%5Etfw">June 1, 2016</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>Another important point, is that for code reviews to be effective, pull
+requests have to be small.</p>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">10 lines of code = 10 issues.<br><br>500 lines of code = &quot;looks fine.&quot;<br><br>Code reviews.</p>&mdash; I Am Devloper (@iamdevloper) <a href="https://twitter.com/iamdevloper/status/397664295875805184?ref_src=twsrc%5Etfw">November 5, 2013</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>This increases not only the quality of the review, but also the
+<a href="https://blog.jessfraz.com/post/analyzing-github-pull-request-data-with-big-query/">likelihood of it being
+merged</a>.</p>
+<p>Code review is a very extensive topic, so there are a lot of more things
+that can be analysed, but these are some of the main ideas that I
+consider to be of most importance.</p>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://youtu.be/uIwl01Nazdg">https://youtu.be/uIwl01Nazdg</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>I'll mention the sort of checks that can be configured in the CI,
+in a future entry.</p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Fri Apr 14, 2017 16:51:46 -0200</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/best-practices">&nbsp;best-practices</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/clean-code">&nbsp;clean-code</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/code review">&nbsp;code review</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/development">&nbsp;development</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=A few ideas on code review&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;a-few-ideas-on-code-review&#x2F;&hashtags=best-practices,clean-code,code review,development"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

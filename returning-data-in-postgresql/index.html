@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Returning data in PostgreSQL</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;returning-data-in-postgresql&#x2F;">Returning data in PostgreSQL</a></h1>
+  
+  <div class="post-content"><p>In order to get the best performance from our database engine, most of
+the times, we have to take advantage of its exclusive features. This has
+the disadvantage of getting farther away from standard, ANSI code, and
+in the case of RDBM engines, this also means, most of the ORMs will not
+work.</p>
+<p>Besides that, it could sometimes be worth exploring what we can gain by
+adapting to the engine.</p>
+<p>This is something learnt from the feedback of <a href="link://slug/my-talk-europython-2016">my talk given at
+EuroPython 2016</a>. After the talk,
+an attendee told me that he liked it, and asked me about the code
+portrayed in one of the slides, the one about decorators with the
+example of moving some records from one table to another. He asked me if
+I ran code like that one in production, to which I answered no: the code
+is entirely fictional, and it was done for the mere purposes of the
+examples, so I just needed an excuse for a task that could be done in
+two SQL statements, so the example with the decorator can be shown.</p>
+<p>The code of the example follows:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">INSERT INTO</span><span> archive_orders
+</span><span style="color:#b48ead;">SELECT </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">from</span><span> orders
+</span><span style="color:#b48ead;">WHERE</span><span> order_date &lt; &#39;</span><span style="color:#a3be8c;">2016-01-01</span><span>&#39;;
+</span><span>
+</span><span style="color:#b48ead;">DELETE from</span><span> orders </span><span style="color:#b48ead;">WHERE</span><span> order_date &lt; &#39;</span><span style="color:#a3be8c;">2016-01-01</span><span>&#39;;
+</span></code></pre>
+<p>Then I learnt that there is another way of writing that sort of
+statements, with the &quot;returning&quot; sentence of PostgreSQL.</p>
+<p>It would be re-written like:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">WITH</span><span> deleted as (
+</span><span>    </span><span style="color:#b48ead;">DELETE FROM</span><span> orders </span><span style="color:#b48ead;">WHERE</span><span> order_date &lt; &#39;</span><span style="color:#a3be8c;">2016-01-01</span><span>&#39;
+</span><span>    RETURNING </span><span style="color:#bf616a;">*
+</span><span>)
+</span><span style="color:#b48ead;">INSERT INTO</span><span> archive_orders </span><span style="color:#b48ead;">select </span><span style="color:#bf616a;">* </span><span style="color:#b48ead;">from</span><span> deleted;
+</span></code></pre>
+<p>Or... the other way around:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">WITH</span><span> to_delete as(
+</span><span>    </span><span style="color:#b48ead;">INSERT INTO</span><span> archive_orders
+</span><span>    </span><span style="color:#b48ead;">SELECT</span><span> id, description, order_date </span><span style="color:#b48ead;">FROM</span><span> orders </span><span style="color:#b48ead;">WHERE</span><span> order_date &lt; &#39;</span><span style="color:#a3be8c;">2016-01-01</span><span>&#39;
+</span><span>    RETURNING id
+</span><span>)
+</span><span style="color:#b48ead;">DELETE FROM</span><span> orders </span><span style="color:#b48ead;">where</span><span> id in (</span><span style="color:#b48ead;">select</span><span> id </span><span style="color:#b48ead;">from</span><span> to_delete);
+</span></code></pre>
+<p>The interesting point here, is that it entails a single command, instead
+of two. So this can be done with a single call to the database, saving
+an extra round trip.</p>
+<p>The point here is that the <a href="https://www.postgresql.org/docs/9.5/static/sql-delete.html">delete statement of
+PostgreSQL</a>
+(as well as the rest of the statements, INSERT, UPDATE, for instance),
+can be specified to return the data they affect, and this can be used in
+an intermediate table to pipe it to another statement.</p>
+<p>By default, if you run the delete statement, it should return the number
+of affected rows, like:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">delete from</span><span> orders </span><span style="color:#b48ead;">where</span><span> id &gt; </span><span style="color:#d08770;">3</span><span>;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>DELETE 4
+</span></code></pre>
+<p>But, we can make it to return the rows themselves:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">delete from</span><span> orders </span><span style="color:#b48ead;">where</span><span> id &gt; </span><span style="color:#d08770;">3</span><span> returning \</span><span style="color:#bf616a;">*</span><span>;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>id|   description    |     order_date
+</span><span>----+------------------+---------------------
+</span><span>4 | to be archived   | 2014-12-09 00:00:00
+</span><span>5 | First sale order | 2016-07-17 00:00:00
+</span><span>6 | First sale order | 2016-07-20 00:00:00
+</span><span>7 | First sale order | 2016-07-24 00:00:00
+</span><span>(4 rows)
+</span><span>
+</span><span>DELETE 4
+</span></code></pre>
+<p>Or, specific columns if we select them:</p>
+<pre data-lang="SQL" style="background-color:#2b303b;color:#c0c5ce;" class="language-SQL "><code class="language-SQL" data-lang="SQL"><span style="color:#b48ead;">delete from</span><span> orders </span><span style="color:#b48ead;">where</span><span> id &gt; </span><span style="color:#d08770;">3</span><span> returning id, description;
+</span></code></pre>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>id |   description
+</span><span>----+------------------
+</span><span>4 | to be archived
+</span><span>5 | First sale order
+</span><span>6 | First sale order
+</span><span>7 | First sale order
+</span><span>(4 rows)
+</span><span>
+</span><span>DELETE 4
+</span></code></pre>
+<p>So, we can use the &quot;returning&quot; feature of PostgreSQL, to do in a
+single command what we usually would do in two or more, and in some
+cases, it might be something worth exploring. It was great learning
+things like this one, and getting tips as a result from the feedback of
+the talk (it does not change the meaning, and the example could remain
+the same for the aforementioned reasons; it is just an example :-).</p>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun Aug 14, 2016 18:41:30 +0300</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/data">&nbsp;data</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/database">&nbsp;database</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/postgres">&nbsp;postgres</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Returning data in PostgreSQL&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;returning-data-in-postgresql&#x2F;&hashtags=data,database,postgres"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme--light" >
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://rmariano.eu/images/apple-touch-icon-144x144.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="https://rmariano.eu/images/apple-touch-icon-120x120.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://rmariano.eu/images/apple-touch-icon-72x72.png" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="https://rmariano.eu/images/apple-touch-icon-57x57.png" />
+  <link rel="short icon" href="https://rmariano.eu/images/favicon.png" type="image/x-icon" />
+  <link rel="stylesheet" href="https://rmariano.eu/style.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
+  <title>IT Arch • Types of Descriptors</title>
+  
+  
+  
+</head>
+
+<body>
+  <div id="sidebar" class="animated fadeInDown">
+    <div class="logo-title">
+      <div class="title">
+        <img src=https://rmariano.eu/images/logo@2x.png style="width:127px;" alt="logo" />
+        <h3><a href="https://rmariano.eu/">IT Arch</a></h3>
+        <div class="description">
+          <p>A blog about software engineering.</p>
+        </div>
+      </div>
+    </div>
+    <ul class="social-links"><li><a href="https://github.com/rmariano" aria-label="Go to Github profile page"><i class="fab fa-github"></i></a></li><li><a href="https://gitlab.com/rmariano" aria-label="Go to Gitlab profile page"><i class="fab fa-gitlab"></i></a></li><li><a href="https://twitter.com/rmarianoa" aria-label="Go to Twitter profile page"><i class="fab fa-twitter"></i></a></li>
+      
+    </ul>
+  </div>
+  <div id="main">
+    <div class="page-top animated fadeInDown">
+      <div class="nav">
+        
+        
+        
+        
+        <li><a  href="https://rmariano.eu/">Home</a></li>
+        <li><a  href="https://rmariano.eu/about/">About</a></li><li><a  href="https://rmariano.eu/tags">Tags</a></li><li><a 
+            href="https://rmariano.eu/archive/">Archive</a></li></div>
+      <div class="information">
+        <div class="back_btn">
+          <a onclick="window.history.go(-1)" ><i
+              class="fas fa-chevron-left"></i></a>
+        </div>
+        
+        
+        
+        <div class="avatar"><img src="https://rmariano.eu/images/avatar.jpg"></div>
+      </div>
+    </div>
+    <div class="autopagerize_page_element">
+      <div class="content">
+        
+<article class="post animated fadeInDown">
+  <h1><a href="https:&#x2F;&#x2F;rmariano.eu&#x2F;types-of-descriptors&#x2F;">Types of Descriptors</a></h1>
+  
+  <div class="post-content"><p>Resuming from where we left off, on the previous post, on which we took
+<code>a-first-look-at-descriptors</code>{.interpreted-text role=&quot;doc&quot;}, it's time
+to explore their different types and how they work internally.</p>
+<p>In Python, almost everything is represented with a dictionary. Objects
+are dictionaries. Classes are objects, hence they also are contained
+into a dictionary. This is denoted by the <code>__dict__</code> attribute that
+objects have.</p>
+<p>There are two types of descriptors: data descriptors and non-data ones.
+If a descriptor implements both<sup class="footnote-reference"><a href="#1">1</a></sup> <code>__get__()</code> and <code>__set__()</code>, it's
+called a <em>data descriptor</em>; otherwise is a <em>non-data descriptor</em>.</p>
+
+
+
+<div style="background-color: rgb(186, 217, 174); font-weight: bold; padding: 2px">
+     Tip 
+    <div style="color: white; font-weight: bold; padding: 20px;
+                background-color: rgb(138, 192, 219)">
+        Data descriptors take precedence over the instance&#x27;s dictionary of
+attributes, whereas in the case of a non-data descriptor, the
+instance&#x27;s internal dictionary may be looked up first.
+    </div>
+</div>
+<p>The difference between them, lies on how the properties in the object
+are accessed, meaning which path will the <code>MRO</code> (Method Resolution
+Order) of Python follow, in order to comply with our instruction.</p>
+<p>For a non-data descriptor, when we have an statement like:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;instance&gt;.&lt;attribute&gt; = &lt;value&gt;
+</span></code></pre>
+<p>Python will update the instance's internal dictionary under the key for
+the name of the attribute, and store the value in it. This follows the
+default behaviour of setting an attribute in an instance because there
+is no <code>__set__</code> defined to override it.</p>
+<p>On the other hand, if we have a <em>data descriptor</em> (also called
+<em>overriding</em> descriptor), for the same instruction the <code>__set__</code> method
+will be ran because it's defined. And analogously, when we access the
+property like:</p>
+<pre style="background-color:#2b303b;color:#c0c5ce;"><code><span>&lt;instance&gt;.&lt;descriptor&gt;
+</span></code></pre>
+<p>The <code>__get__</code> on descriptor is what's going to be called.</p>
+<p>So, again, data (overriding) descriptors take precedence over the
+internal dictionary of an object, whereas non data (non-overriding) ones
+do not.</p>
+<h1 id="lookup-on-non-data-descriptors">Lookup on Non-data Descriptors</h1>
+<p>On the <a href="link://listing_source/descriptors0_get0.py">previous example</a>,
+when the object was first created it didn't have any values for their
+properties. If we inspect the object, and its class, we'll see that it
+doesn't have any keys set for <code>'tv'</code>, but the class does:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; media.__dict__
+</span><span>{}
+</span><span>
+</span><span>&gt;&gt;&gt; media.__class__.__dict__
+</span><span style="color:#bf616a;">mappingproxy</span><span>({&#39;</span><span style="color:#a3be8c;">__dict__</span><span>&#39;: &lt;attribute &#39;</span><span style="color:#a3be8c;">__dict__</span><span>&#39; of &#39;</span><span style="color:#a3be8c;">VideoDriver</span><span>&#39; objects&gt;,
+</span><span>              &#39;</span><span style="color:#a3be8c;">__doc__</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">...</span><span>&#39;,
+</span><span>              &#39;</span><span style="color:#a3be8c;">__module__</span><span>&#39;: &#39;</span><span style="color:#a3be8c;">...</span><span>&#39;,
+</span><span>              &#39;</span><span style="color:#a3be8c;">__weakref__</span><span>&#39;: </span><span style="color:#d08770;">...
+</span><span>              &#39;</span><span style="color:#a3be8c;">screen</span><span>&#39;: &lt;Resolution at 0x</span><span style="color:#d08770;">...</span><span>&gt;,
+</span><span>              &#39;</span><span style="color:#a3be8c;">tv</span><span>&#39;: &lt;Resolution at 0x</span><span style="color:#d08770;">...</span><span>&gt;})
+</span></code></pre>
+<p>When we run <code>media.tv</code> the first time, there is no key <code>'tv'</code> on
+<code>media.__dict__</code>, so Python tries to search in the class, and founds
+one, it gets the object, sees that the object has a <code>__get__</code>, and
+returns whatever that method returns.</p>
+<p>However when we set the value like <code>media.tv = (4096, 2160)</code>, there is
+no <code>__set__</code> defined for the descriptor, so Python runs with the default
+behaviour in this case, which is updating <code>media.__dict__</code>. Therefore,
+next time we ask for this attribute, it's going to be found in the
+instance's dictionary and returned. By analogy we can see that it
+doesn't have a <code>__delete__</code> method either, so when the instruction
+<code>del media.tv</code> runs, this attribute will be deleted from
+<code>media.__dict__</code>, which leaves us back in the original scenario, where
+the descriptor takes place, acting as a default value holder.</p>
+<h2 id="functions-are-non-data-descriptors">Functions are non-data descriptors</h2>
+<p>This is how methods work in Python: function objects, are non-data
+descriptors that implement <code>__get__()</code>.</p>
+<p>If we think about it, according to object-oriented software theory, an
+object is a computational abstraction that represents an entity of the
+domain problem. An object has a set of methods that can work with, which
+determines its interface (what the object is and can do)<sup class="footnote-reference"><a href="#2">2</a></sup>.</p>
+<p>However, in more technical terms, objects are just implemented with a
+data structure (that in Python are dictionaries), and it's behaviour,
+determined by their methods, are just functions. Again, methods are just
+functions. Let's prove it<sup class="footnote-reference"><a href="#3">3</a></sup>.</p>
+<p>If we have a class like this and inspect its dictionary we'll see that
+whatever we defined as methods, are actually functions stored internally
+in the dictionary of the class.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Person</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">name</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.name = name
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">greet</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">other_person</span><span>):
+</span><span>        </span><span style="color:#96b5b4;">print</span><span>(</span><span style="color:#b48ead;">f</span><span>&quot;</span><span style="color:#a3be8c;">Hi </span><span>{other_person.name}</span><span style="color:#a3be8c;">, I&#39;m </span><span>{</span><span style="color:#bf616a;">self</span><span>.name}</span><span style="color:#a3be8c;">!</span><span>&quot;)
+</span></code></pre>
+<p>We can see that among all the things defined in the class, it's
+dictionary contains an entry for 'greet', whose value is a function.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">type</span><span>(Person.greet)
+</span><span>&lt;</span><span style="background-color:#bf616a;color:#2b303b;">class</span><span> &#39;</span><span style="color:#a3be8c;">function</span><span>&#39;&gt;
+</span><span>
+</span><span>&gt;&gt;&gt; Person.__dict__
+</span><span style="color:#bf616a;">mappingproxy</span><span>({&#39;</span><span style="color:#a3be8c;">__dict__</span><span>&#39;: </span><span style="color:#d08770;">...
+</span><span>              &#39;</span><span style="color:#a3be8c;">greet</span><span>&#39;: &lt;function ...Person.greet&gt;})
+</span></code></pre>
+<p>This means that in fact, it's the same as having a function defined
+outside the class, that knows how to work with an instance of that same
+class, which by convention in Python is called <em>self</em>. Therefore inside
+the class, we're just creating functions that know how to work with an
+instance of that class, and Python will provide this object, as a first
+parameter, under the name that we usually call <em>self</em>. This is basically
+what the <code>__get__</code> method does for functions: it returns a bound
+instance of the function to that object.</p>
+<p>In <code>CPython</code>, this logic is implemented in <code>C</code>, but let's see if we can
+create an equivalent example, just to get a clear picture. Imagine we
+have a custom function, and we want to apply it to a class, as an
+instance method.</p>
+<p>First we have an isolated function, that computes the mean time between
+failures for an object that collects metrics on systems that monitors.
+Then we have a class called <code>SystemMonitor</code>, that represents all sort of
+objects that collect metrics on monitored systems.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">mtbf</span><span>(</span><span style="color:#bf616a;">system_monitor</span><span>):
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Mean Time Between Failures
+</span><span style="color:#65737e;">    https://en.wikipedia.org/wiki/Mean_time_between_failures
+</span><span style="color:#65737e;">    &quot;&quot;&quot;
+</span><span>    operational_intervals = </span><span style="color:#96b5b4;">zip</span><span>(
+</span><span>        system_monitor.downtimes,
+</span><span>        system_monitor.uptimes)
+</span><span>
+</span><span>    operational_time = </span><span style="color:#96b5b4;">sum</span><span>(
+</span><span>        (start_downtime - start_uptime)
+</span><span>        </span><span style="color:#b48ead;">for </span><span>start_downtime, start_uptime </span><span style="color:#b48ead;">in </span><span>operational_intervals)
+</span><span>    </span><span style="color:#b48ead;">try</span><span>:
+</span><span>        </span><span style="color:#b48ead;">return </span><span>operational_time / </span><span style="color:#96b5b4;">len</span><span>(system_monitor.downtimes)
+</span><span>    </span><span style="color:#b48ead;">except </span><span>ZeroDivisionError:
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">0
+</span><span>
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">SystemMonitor</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Collect metrics on software &amp; hardware components.&quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__init__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">name</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.name = name
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.uptimes = []
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.downtimes = []
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">up</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">when</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.uptimes.</span><span style="color:#bf616a;">append</span><span>(when)
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#8fa1b3;">down</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">when</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.downtimes.</span><span style="color:#bf616a;">append</span><span>(when)
+</span></code></pre>
+<p>For now we just test the function, but soon we'll want this as a method
+of the class. We can easily apply the function to work with a
+<code>SystemMonitor</code> instance:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; monitor = </span><span style="color:#bf616a;">SystemMonitor</span><span>(&#39;</span><span style="color:#a3be8c;">prod</span><span>&#39;)
+</span><span>&gt;&gt;&gt; monitor.uptimes = [</span><span style="color:#d08770;">0</span><span>,</span><span style="color:#d08770;">7</span><span>, </span><span style="color:#d08770;">12</span><span>]
+</span><span>&gt;&gt;&gt; monitor.downtimes = [</span><span style="color:#d08770;">5</span><span>, </span><span style="color:#d08770;">12</span><span>]
+</span><span>
+</span><span>&gt;&gt;&gt; </span><span style="color:#bf616a;">mtbf</span><span>(monitor)
+</span><span>&gt;&gt;&gt; </span><span style="color:#d08770;">5.0
+</span></code></pre>
+<p>But now we want it to be part of the class, so that I can use it as a
+instance method. If we try to assign the function as a method, it will
+just fail, because it's not bound:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; monitor.mtbf = mtbf
+</span><span>&gt;&gt;&gt; monitor.</span><span style="color:#bf616a;">mtbf</span><span>()
+</span><span>---------------------------------------------------------------------------
+</span><span>TypeError                                 </span><span style="color:#bf616a;">Traceback </span><span>(most recent call last)
+</span><span>&lt;ipython-</span><span style="color:#96b5b4;">input</span><span>-</span><span style="color:#d08770;">7</span><span>-</span><span style="color:#d08770;">...</span><span>&gt; in &lt;module&gt;()
+</span><span>----&gt; </span><span style="color:#d08770;">1 </span><span>monitor.</span><span style="color:#bf616a;">mtbf</span><span>()
+</span><span>
+</span><span>TypeError: </span><span style="color:#bf616a;">mtbf</span><span>() missing </span><span style="color:#d08770;">1 </span><span>required positional argument: &#39;</span><span style="color:#a3be8c;">system_monitor</span><span>&#39;
+</span></code></pre>
+<p>In this case the <code>system_monitor</code> positional argument that requires, is
+the instance, which in methods is referred to as <em>self</em>.</p>
+<p>Now, if the function is bound to the object, the scenario changes. We
+can do that the same way Python does: <code>__get__</code>.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; monitor.mtbf = mtbf.</span><span style="color:#96b5b4;">__get__</span><span>(monitor)
+</span><span>&gt;&gt;&gt; monitor.</span><span style="color:#bf616a;">mtbf</span><span>()
+</span><span style="color:#d08770;">5.0
+</span></code></pre>
+<p>Now, we want to be able to define this function inside the class, the
+same way we do with methods, like <code>def mtbf(self):...</code>. In this case,
+for simplicity, I'll just use a callable object, that represents the
+actual object function (the body of <code>__call__</code> would represent what we
+put on the body of the function after it's definition). And we'll
+declare it as an attribute of the class, much like all methods:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">SystemMonitor</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#d08770;">...
+</span><span>    mtbf = </span><span style="color:#bf616a;">MTBF</span><span>()
+</span></code></pre>
+<p>Provided that <code>MTBF</code> is a callable object (again, representing our
+&quot;function&quot;), is equivalent to doing <code>def mtbf(self): ...</code> inside the
+class.</p>
+<p>In the body of the callable, we can just reuse the original function,
+for simplicity. What's really interesting is the <code>__get__</code> method, on
+which we return the callable object, exposed as a method.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">MTBF</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;Compute Mean Time Between Failures&quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__call__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">instance</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">mtbf</span><span>(instance)
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__get__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">instance</span><span>, </span><span style="color:#bf616a;">owner</span><span>=</span><span style="color:#d08770;">None</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span>types.</span><span style="color:#bf616a;">MethodType</span><span>(</span><span style="color:#bf616a;">self</span><span>, instance)
+</span></code></pre>
+<p>To explain: the attribute <code>mtbf</code> is a &quot;function&quot; (callable actually),
+defined in the class. When we call it as a method, Python will see it
+has a <code>__get__</code>, and when this is called, it will return another object
+which is the function bound to the instance, passing <em>self</em> as first
+parameter, which in turn is what's going to be executed.</p>
+<p>This does the trick of making functions work as methods, which is a very
+elegant solution of <code>CPython</code>.</p>
+<p>We can now appreciate the elegance of the design behind methods: instead
+of creating a whole new object, reuse functions under the assumption
+that the first parameter will be an instance of that class, that is
+going to be used internally, and by convention called <em>self</em> (although,
+it can be called otherwise).</p>
+<p>Following a similar logic, <code>classmethod</code>, and <code>staticmethod</code> decorators,
+are also descriptors. The former, passes the class as the first argument
+(which is why class methods start with <code>cls</code> as a first argument), and
+the latter, simply returns the function as it is.</p>
+<h1 id="lookup-on-data-descriptors">Lookup on Data Descriptors</h1>
+<p>On the previous example, when we assigned a value to the property of the
+descriptor, the instance dictionary was modified because there was no
+<code>__set__</code> method on the descriptor.</p>
+<p>For data descriptors, unlike on the previous example, the methods on the
+descriptor object take precedence, meaning that the lookup starts by the
+class, and doesn't affect the instance's dictionary. This is an
+asymmetry, that characterises data descriptors.</p>
+<p>On the previous examples, if after running the descriptor, the
+<code>__dict__</code> on the instance was modified, it was because the code
+explicitly did so, but it could have had a different logic.</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">DataDescriptor</span><span style="color:#eff1f5;">:
+</span><span>    </span><span style="color:#65737e;">&quot;&quot;&quot;This descriptor holds the same values for all instances.&quot;&quot;&quot;
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__get__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">instance</span><span>, </span><span style="color:#bf616a;">owner</span><span>):
+</span><span>        </span><span style="color:#b48ead;">return </span><span style="color:#bf616a;">self</span><span>.value
+</span><span>
+</span><span>    </span><span style="color:#b48ead;">def </span><span style="color:#96b5b4;">__set__</span><span>(</span><span style="color:#bf616a;">self</span><span>, </span><span style="color:#bf616a;">instance</span><span>, </span><span style="color:#bf616a;">value</span><span>):
+</span><span>        </span><span style="color:#bf616a;">self</span><span>.value = value
+</span><span>
+</span><span style="color:#b48ead;">class </span><span style="color:#ebcb8b;">Managed</span><span style="color:#eff1f5;">:
+</span><span>    descriptor = </span><span style="color:#bf616a;">DataDescriptor</span><span>()
+</span></code></pre>
+<p>If we run it, we can see, that since this descriptor holds the data
+internally, <code>__dict__</code> is never modified on the instance<sup class="footnote-reference"><a href="#4">4</a></sup>:</p>
+<pre data-lang="python" style="background-color:#2b303b;color:#c0c5ce;" class="language-python "><code class="language-python" data-lang="python"><span>&gt;&gt;&gt; managed = </span><span style="color:#bf616a;">Managed</span><span>()
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">vars</span><span>(managed)
+</span><span>{}
+</span><span>&gt;&gt;&gt; managed.descriptor = &#39;</span><span style="color:#a3be8c;">foo</span><span>&#39;
+</span><span>&gt;&gt;&gt; managed.descriptor
+</span><span>&#39;</span><span style="color:#a3be8c;">foo</span><span>&#39;
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">vars</span><span>(managed)
+</span><span>{}
+</span><span>
+</span><span>&gt;&gt;&gt; managed_2 = </span><span style="color:#bf616a;">Managed</span><span>()
+</span><span>&gt;&gt;&gt; </span><span style="color:#96b5b4;">vars</span><span>(managed_2)
+</span><span>{}
+</span><span>&gt;&gt;&gt; managed_2.descriptor
+</span><span>&#39;</span><span style="color:#a3be8c;">foo</span><span>&#39;
+</span></code></pre>
+<h1 id="method-lookup">Method Lookup</h1>
+<p>The descriptors machinery is triggered by <code>__getattribute__</code>, so we have
+to be careful if we are overriding this method (better not), because if
+it's not done properly, we might prevent the descriptor calls<sup class="footnote-reference"><a href="#5">5</a></sup></p>
+
+
+    
+
+
+<div style="background-color: rgb(186, 217, 174); font-weight: bold; padding: 2px">
+     WARNING 
+    <div style="color: white; font-weight: bold; padding: 20px;
+                background-color: rgba(216, 132, 102, 0.763)">
+        Classes might turn off the descriptor protocol by overriding
+`__getattribute__`.
+    </div>
+</div>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><a href="https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol">https://docs.python.org/3.6/howto/descriptor.html#descriptor-protocol</a></p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p>Duck typing</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>This means that in reality, objects are just data structures with
+functions on it, much like ADT (Abstract Data Types) in C, or the
+structs defined in Go with the functions that work over them. A more
+detailed analysis and explanation of this, deserves a separate post.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">4</sup>
+<p>This is not a good practice, (except for very particular scenarios
+that might require it, of course), but it's shown only to support
+the idea.</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">5</sup>
+<p><a href="https://docs.python.org/3/howto/descriptor.html#invoking-descriptors">https://docs.python.org/3/howto/descriptor.html#invoking-descriptors</a></p>
+</div>
+</div>
+  <div class="post-footer">
+    <div class="meta">
+      <div class="info">
+        
+        <i class="far fa-sun"></i><span class="date">Sun May 14, 2017 12:55:31 -0200</span>
+        
+        
+        <i class="fas fa-tags"></i>
+        
+        <a class="tag" href="https://rmariano.eu/tags/python">&nbsp;python</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/descriptors">&nbsp;descriptors</a>
+        
+        <a class="tag" href="https://rmariano.eu/tags/featured">&nbsp;featured</a>
+        
+        
+      </div>
+    </div>
+  </div>
+</article>
+<div class="share">
+  <div class="twitter">
+    <a class="fab fa-twitter"
+      href="http://twitter.com/share?text=Types of Descriptors&url=https:&#x2F;&#x2F;rmariano.eu&#x2F;types-of-descriptors&#x2F;&hashtags=python,descriptors,featured"></a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showLanguages() {
+      let currentDisplay = document.getElementById("languages").style.display;
+      if (currentDisplay == 'none') {
+        document.getElementById("languages").style.display = 'block';
+      } else {
+        document.getElementById("languages").style.display = 'none';
+      }
+    }
+  </script>
+</body>
+
+</html>
