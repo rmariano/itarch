@@ -34,4 +34,5 @@ think what to do about it.<br /><br />As an experienced software engineering pra
 me to read the case studies presented, as their analysis and conclusions were deeply enlightening.<br /><br />All in
 all, a fantastic read, which gave me a lot of food for tought, and lots of materials and references to follow up on!
 <br/><br/>
+
 <a href="https://www.goodreads.com/review/list/26607142-mariano">View all my reviews</a>
