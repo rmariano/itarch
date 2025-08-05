@@ -2,7 +2,6 @@
 title = "Beyond coverage"
 slug = "beyond-coverage"
 date = 2017-07-02T17:20:19-02:00
-[taxonomies]
 tags = ['best-practices', 'clean-code', 'quality']
 +++
 

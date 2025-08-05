@@ -2,7 +2,6 @@
 title = "Descriptors & Decorators"
 slug = "descriptors-decorators"
 date = 2017-05-21T17:22:05-02:00
-[taxonomies]
 tags = ['python', 'descriptors', 'featured', 'decorators']
 +++
 

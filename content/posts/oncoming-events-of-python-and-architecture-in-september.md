@@ -2,7 +2,6 @@
 title = "Oncoming events of Python and Architecture in September"
 slug = "oncoming-events-of-python-and-architecture-in-september"
 date = 2016-09-03T16:20:47+03:00
-[taxonomies]
 tags = ['talks', 'python', 'architecture']
 +++
 

@@ -2,7 +2,6 @@
 title = "Find Options"
 slug = "find-options"
 date = 2015-03-24T11:29:58+03:00
-[taxonomies]
 tags = ['bash', 'linux', 'shell']
 +++
 

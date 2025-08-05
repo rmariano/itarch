@@ -2,7 +2,6 @@
 title = "Topics I've changed my mind about"
 slug = "topics-ive-changed-my-mind-about"
 date = 2025-02-13T20:24:34.621213+01:00
-[taxonomies]
 tags = ['clean', 'software', 'architecture'] 
 +++
 

@@ -2,7 +2,6 @@
 title = "Subtleties of Python"
 slug = "subtleties-of-python"
 date = 2018-10-18T23:03:39+02:00
-[taxonomies]
 tags = ['python', 'clean-code']
 +++
 

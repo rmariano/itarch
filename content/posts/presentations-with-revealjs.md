@@ -3,7 +3,6 @@ title = "Presentations with reveal.js"
 slug = "presentations-with-revealjs"
 date = 2014-08-08T23:48:05+03:00
 description = "Composing nice slides for presentations with reveal.sj"
-[taxonomies]
 tags = ['tools', 'presentations', 'web', 'javascript']
 +++
 

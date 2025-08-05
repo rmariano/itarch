@@ -2,7 +2,6 @@
 title = "Exploring Generators and Coroutines"
 slug = "exploring-generators-and-coroutines"
 date = 2018-01-14T12:03:50-01:00
-[taxonomies]
 tags = ['python', 'generators', 'coroutines', 'async', 'asyncio', 'concurrency']
 +++
 

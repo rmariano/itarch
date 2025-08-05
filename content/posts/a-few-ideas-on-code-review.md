@@ -2,7 +2,6 @@
 title = "A few ideas on code review"
 slug = "a-few-ideas-on-code-review"
 date = 2017-04-14T16:51:46-02:00
-[taxonomies]
 tags = ['best-practices', 'clean-code', 'code review', 'development']
 +++
 

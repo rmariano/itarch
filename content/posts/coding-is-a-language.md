@@ -2,7 +2,6 @@
 title = "Coding is a Language"
 slug = "coding-is-a-language"
 date = 2022-02-12T20:24:48+01:00
-[taxonomies]
 tags = ['opinion']
 +++
 

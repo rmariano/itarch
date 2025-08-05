@@ -2,7 +2,6 @@
 title = "Second edition is here!"
 slug = "second-edition-is-here"
 date = 2021-01-24T15:43:16+01:00
-[taxonomies]
 tags = ['book', 'clean-code', 'python']
 +++
 

@@ -3,7 +3,6 @@ title = "Default arguments in Python functions"
 slug = "default-arguments-in-python-functions"
 date = 2014-06-28T16:59:41+03:00
 description = "A post that shows one of the many errors that many Python developers fall into."
-[taxonomies]
 tags = ['python', 'best-practices', 'development']
 +++
 

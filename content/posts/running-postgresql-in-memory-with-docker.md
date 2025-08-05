@@ -2,7 +2,6 @@
 title = "Running PostgreSQL in memory with docker"
 slug = "running-postgresql-in-memory-with-docker"
 date = 2017-01-22T17:09:59-01:00
-[taxonomies]
 tags = ['postgres', 'linux', 'docker']
 +++
 

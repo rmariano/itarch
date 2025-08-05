@@ -2,7 +2,6 @@
 title = "Notes on the Kafka Summit London 2018"
 slug = "notes-on-the-kafka-summit-london-2018"
 date = 2018-04-25T20:45:20-02:00
-[taxonomies]
 tags = ['distributed-systems', 'confs', 'kafka']
 +++
 

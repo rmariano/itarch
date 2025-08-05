@@ -2,7 +2,6 @@
 title = "Running RabbitMQ server on Docker"
 slug = "running-rabbitmq-server-on-docker"
 date = 2015-04-26T13:58:46+03:00
-[taxonomies]
 tags = ['docker', 'linux', 'rabbitmq']
 +++
 

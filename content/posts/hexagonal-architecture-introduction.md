@@ -2,7 +2,6 @@
 title = "Hexagonal Architecture - Introduction"
 slug = "hexagonal-architecture-introduction"
 date = 2021-11-27T17:25:14+01:00
-[taxonomies]
 tags = ['architecture']
 +++
 

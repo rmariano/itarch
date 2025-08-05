@@ -2,7 +2,6 @@
 title = "Writing forward-compatible software in Python"
 slug = "writing-forward-compatible-software-in-python"
 date = 2014-08-28T21:14:43+03:00
-[taxonomies]
 tags = ['python']
 +++
 

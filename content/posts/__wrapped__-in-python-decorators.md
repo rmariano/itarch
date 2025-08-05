@@ -3,7 +3,6 @@ title = "__wrapped__ in Python decorators"
 slug = "wrapped-in-python-decorators"
 date = 2017-03-03T21:41:21-01:00
 description = "Available dunder when decorating functions"
-[taxonomies]
 tags = ['python', 'decorators', 'code']
 +++
 

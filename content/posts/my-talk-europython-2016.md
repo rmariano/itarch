@@ -2,7 +2,6 @@
 title = "My talk @ EuroPython 2016"
 slug = "my-talk-europython-2016"
 date = 2016-08-02T21:22:53+03:00
-[taxonomies]
 tags = ['confs', 'talks', 'EuroPython', 'python']
 +++
 

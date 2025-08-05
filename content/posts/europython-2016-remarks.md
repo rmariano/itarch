@@ -2,7 +2,6 @@
 title = "EuroPython 2016 remarks"
 slug = "europython-2016-remarks"
 date = 2016-07-31T12:06:56+03:00
-[taxonomies]
 tags = ['confs', 'EuroPython', 'python']
 +++
 

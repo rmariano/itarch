@@ -2,7 +2,6 @@
 title = "Returning data in PostgreSQL"
 slug = "returning-data-in-postgresql"
 date = 2016-08-14T18:41:30+03:00
-[taxonomies]
 tags = ['data', 'database', 'postgres']
 +++
 

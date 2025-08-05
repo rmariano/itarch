@@ -2,7 +2,6 @@
 title = "On returning consistent data types"
 slug = "python-functions-return-values-consistency"
 date = 2014-06-08T15:46:09+03:00
-[taxonomies]
 tags = ['best-practices', 'python', 'development', 'yaml']
 +++
 

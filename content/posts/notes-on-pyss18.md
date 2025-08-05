@@ -2,7 +2,6 @@
 title = "Notes on PySS18"
 slug = "notes-on-pyss18"
 date = 2018-10-15T22:31:01+02:00
-[taxonomies]
 tags = ['confs', 'python']
 +++
 

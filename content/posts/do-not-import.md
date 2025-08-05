@@ -2,7 +2,6 @@
 title = "Do not import *"
 slug = "do-not-import"
 date = 2015-01-05T20:10:10+03:00
-[taxonomies]
 tags = ['python', 'best-practices']
 +++
 
