@@ -30,7 +30,7 @@ Python](https://www.amazon.com/Clean-Code-Python-maintainable-efficient/dp/18005
 
 # Contact
 
--   Twitter: [\@rmarianoa](https://twitter.com/rmarianoa)
--   GitHub, GitLab: [rmariano](https://github.com/rmariano),
+- Twitter: [\@rmarianoa](https://twitter.com/rmarianoa)
+- GitHub, GitLab: [rmariano](https://github.com/rmariano),
     [rmariano](https://gitlab.com/rmariano)
--   Speaker deck: [rmariano](https://speakerdeck.com/rmariano)
+- Speaker deck: [rmariano](https://speakerdeck.com/rmariano)
